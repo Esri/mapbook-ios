@@ -1,5 +1,5 @@
 # mapbook-ios
-Offline Mapbook example app built with ArcGIS .iOS Runtime SDK
+Offline Mapbook example app built with ArcGIS iOS Runtime SDK
 
 ## Contributing
 Anyone and everyone is welcome to [contribute](https://github.com/Esri/maps-app-android/blob/master/CONTRIBUTING.md). We do accept pull requests.
