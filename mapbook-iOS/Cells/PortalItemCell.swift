@@ -117,9 +117,8 @@ class PortalItemCell: UITableViewCell {
                 self?.isDownloading = false
             }
             
-            guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
-                return
+            if let error = error as NSError?, error.code != NSUserCancelledError {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
         }
     }

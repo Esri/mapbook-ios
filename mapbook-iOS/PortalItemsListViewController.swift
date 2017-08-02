@@ -41,7 +41,9 @@ class PortalItemsListViewController: UIViewController {
             self?.isLoading = false
             
             guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                if let error = error as NSError?, error.code != NSUserCancelledError {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                }
                 return
             }
             
@@ -60,7 +62,9 @@ class PortalItemsListViewController: UIViewController {
             self?.isLoading = false
             
             guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                if let error = error as NSError?, error.code != NSUserCancelledError {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                }
                 return
             }
             

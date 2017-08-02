@@ -235,13 +235,13 @@ class AppContext {
                 self?.currentlyDownloadingItemIDs.remove(at: index)
             }
             
-            guard let data = data else {
-                let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Fetch data returned nil as data"])
+            guard error == nil else {
                 completion?(error)
                 return
             }
             
-            guard error == nil else {
+            guard let data = data else {
+                let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Fetch data returned nil as data"])
                 completion?(error)
                 return
             }
