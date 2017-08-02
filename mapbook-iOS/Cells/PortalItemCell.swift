@@ -60,6 +60,8 @@ class PortalItemCell: UITableViewCell {
                 guard let portalItem = self?.portalItem, portalItem.itemID == portalItemID else {
                     return
                 }
+
+                self?.titleLabel.text = portalItem.title
                 
                 if let created = portalItem.created {
                     
@@ -71,20 +73,16 @@ class PortalItemCell: UITableViewCell {
                 let bytes = ByteCountFormatter().string(fromByteCount: portalItem.size)
                 self?.sizeLabel.text = "\(bytes)"
                 
-                self?.titleLabel.text = portalItem.title
-                
                 self?.descriptionLabel.text = portalItem.snippet
                 
-                self?.portalItem?.thumbnail?.load(completion: { (error) in
+                self?.portalItem?.thumbnail?.load { (error) in
                     
                     guard let portalItem = self?.portalItem, portalItem.itemID == portalItemID else {
                         return
                     }
                     
                     self?.thumbnailImageView.image = self?.portalItem?.thumbnail?.image
-                    
-                    self?.contentView.setNeedsLayout()
-                })
+                }
             }
         }
     }

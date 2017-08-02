@@ -213,10 +213,6 @@ class AppContext {
     
     func download(portalItem: AGSPortalItem, completion: ((_ error:Error?) -> Void)?) {
         
-        //if self.isDownloading { return }
-        
-        //self.isDownloading = true
-        
         //check if already downloading
         if self.isCurrentlyDownloading(portalItem: portalItem) {
             let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Already downloading"])
@@ -301,13 +297,13 @@ class AppContext {
     
     func checkForUpdates() {
         
-        print(self.localPackages[0].item?.modified)
+        //print(self.localPackages[0].item?.modified)
         if let itemID = self.localPackages[0].item?.itemID {
             print(itemID)
             let portalItem = AGSPortalItem(portal: self.portal!, itemID: itemID)
             
             portalItem.load { (error) in
-                print(portalItem.modified)
+                //print(portalItem.modified)
             }
         }
     }

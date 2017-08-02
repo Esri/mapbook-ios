@@ -26,7 +26,7 @@ class PortalItemsListViewController: UIViewController {
         super.viewDidLoad()
 
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 60
+        self.tableView.estimatedRowHeight = 80
         
         if AppContext.shared.portalItems.count == 0 {
             self.fetchPortalItems()
@@ -50,6 +50,9 @@ class PortalItemsListViewController: UIViewController {
     }
     
     fileprivate func fetchMorePortalItems() {
+        
+        if self.isLoading { return }
+        
         self.isLoading = true
         
         AppContext.shared.fetchMorePortalItems { [weak self] (error) in
