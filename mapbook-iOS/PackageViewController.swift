@@ -44,7 +44,7 @@ class PackageViewController: UIViewController {
         self.mobileMapPackage?.load { [weak self] (error) in
             
             guard error == nil else {
-                print(error!)
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
             
@@ -56,12 +56,14 @@ class PackageViewController: UIViewController {
     private func updateUI() {
         
         guard let mobileMapPackage = self.mobileMapPackage, mobileMapPackage.loadStatus == .loaded else {
-            print("Either mobile map package is nil or not loaded")
+            
+            SVProgressHUD.showError(withStatus: "Either mobile map package is nil or not loaded", maskType: .gradient)
             return
         }
         
         guard let item = mobileMapPackage.item else {
-            print("Item not found on mobile map package")
+
+            SVProgressHUD.showError(withStatus: "Item not found on mobile map package", maskType: .gradient)
             return
         }
         
@@ -73,7 +75,7 @@ class PackageViewController: UIViewController {
         self.sizeLabel.text = "Size"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
         self.lastDownloadedLabel.text = "Last downloaded"
-        self.descriptionLabel.text = item.itemDescription
+        self.descriptionLabel.text = item.snippet
         
         self.thumbnailImageView.image = item.thumbnail?.image
         

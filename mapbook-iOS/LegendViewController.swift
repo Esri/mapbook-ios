@@ -38,7 +38,7 @@ class LegendViewController: UIViewController {
                 layer.fetchLegendInfos { [weak self] (legendInfos, error) -> Void in
                     
                     guard error == nil else {
-                        print(error!)
+                        SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                         return
                     }
                     

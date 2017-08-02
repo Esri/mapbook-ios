@@ -46,6 +46,8 @@ class MapViewController: UIViewController {
                 }
             })
         }
+        
+        self.toggleOverlay(on: false, animated: false)
     }
     
     fileprivate func clearSelection() {
@@ -148,12 +150,12 @@ extension MapViewController:AGSGeoViewTouchDelegate {
         self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { (identifyLayerResults, error) in
             
             guard error == nil else {
-                print(error!)
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
             
             guard let results = identifyLayerResults else {
-                print("No features at the tapped location")
+                SVProgressHUD.showError(withStatus: "No features at the tapped location", maskType: .gradient)
                 return
             }
             

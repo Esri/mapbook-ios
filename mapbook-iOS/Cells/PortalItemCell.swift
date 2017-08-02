@@ -9,8 +9,6 @@
 import UIKit
 import ArcGIS
 
-let DownloadedPackagesDirectoryName = "Downloaded packages"
-
 protocol PortalItemCellDelegate:class {
     
     func portalItemCell(_ portalItemCell:PortalItemCell, didStartDownloadingPortalItem itemID:String)
@@ -42,7 +40,7 @@ class PortalItemCell: UITableViewCell {
     
     var isAlreadyDownloaded = false {
         didSet {
-            self.downloadButton.isEnabled = false
+            self.downloadButton.isEnabled = !isAlreadyDownloaded
         }
     }
     
@@ -77,8 +75,6 @@ class PortalItemCell: UITableViewCell {
                 
                 self?.descriptionLabel.text = portalItem.snippet
                 
-                self?.thumbnailImageView.image = portalItem.thumbnail?.image
-                
                 self?.portalItem?.thumbnail?.load(completion: { (error) in
                     
                     guard let portalItem = self?.portalItem, portalItem.itemID == portalItemID else {
@@ -87,11 +83,8 @@ class PortalItemCell: UITableViewCell {
                     
                     self?.thumbnailImageView.image = self?.portalItem?.thumbnail?.image
                     
+                    self?.contentView.setNeedsLayout()
                 })
-                
-                self?.contentView.setNeedsLayout()
-                self?.contentView.layoutIfNeeded()
-                
             }
         }
     }
@@ -102,88 +95,34 @@ class PortalItemCell: UITableViewCell {
         self.titleLabel.text = "Title"
         self.createdLabel.text = "Created"
         self.sizeLabel.text = "Size"
-        self.sizeLabel.text = "Description"
+        self.descriptionLabel.text = "Description"
         self.thumbnailImageView.image = nil
         self.isDownloading = false
-    }
-    
-    
-    fileprivate func downloadPortalItem() {
-        
-        if self.isDownloading { return }
-        
-        self.isDownloading = true
-        
-        let portalItemID = self.portalItem?.itemID ?? ""
-        
-        //notify delegate
-        self.delegate?.portalItemCell(self, didStartDownloadingPortalItem: portalItemID)
-        
-        self.portalItem?.fetchData { [weak self] (data, error) in
-            
-            guard let strongSelf = self, let data = data, let portalItem = self?.portalItem else {
-                return
-            }
-            
-            //notify delegate
-            self?.delegate?.portalItemCell(strongSelf, didStopDownloadingPortalItem: portalItemID)
-            
-            guard error == nil else {
-                print("Error while fetching data!!")
-                print(error!)
-                return
-            }
-            
-            guard let downloadedDirectoryURL = self?.downloadDirectoryURL() else {
-                print("Unable to create directory for downloaded packages")
-                return
-            }
-            
-            //TODO: Handle title empty case
-            let fileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItemID).mmpk")
-            
-            print("Starting data write for portalID: \(portalItemID)")
-            //TODO: do this on background thread
-            try? data.write(to: fileURL, options: Data.WritingOptions.atomic)
-            
-            print("Finished data write for portalID: \(portalItemID)")
-            
-            //if the cell is still representing the same portal item
-            if portalItem.itemID == portalItemID {
-                self?.isDownloading = false
-            }
-            else {
-                print("Cell showing different portal item")
-            }
-        }
-    }
-    
-    private func downloadDirectoryURL() -> URL? {
-        
-        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let downloadedDirectoryURL = documentDirectory.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
-        
-        var isDirectory:ObjCBool = false
-        if FileManager.default.fileExists(atPath: downloadedDirectoryURL.path, isDirectory: &isDirectory) {
-            if isDirectory.boolValue {
-                return downloadedDirectoryURL
-            }
-        }
-        
-        do {
-            try FileManager.default.createDirectory(at: downloadedDirectoryURL, withIntermediateDirectories: false, attributes: nil)
-        }
-        catch {
-            return nil
-        }
-        
-        return downloadedDirectoryURL
     }
     
     //MARK: -  Actions
     
     @IBAction private func download(_ sender:UIButton) {
         
-        self.downloadPortalItem()
+        guard let portalItem = self.portalItem else {
+            return
+        }
+        
+        self.isDownloading = true
+        
+        let portalItemID = portalItem.itemID
+        
+        AppContext.shared.download(portalItem: portalItem) { [weak self] (error) in
+            
+            //if the cell is still representing the same portal item
+            if portalItem.itemID == portalItemID {
+                self?.isDownloading = false
+            }
+            
+            guard error == nil else {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                return
+            }
+        }
     }
 }

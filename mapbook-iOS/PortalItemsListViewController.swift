@@ -11,16 +11,10 @@ import ArcGIS
 
 class PortalItemsListViewController: UIViewController {
 
-    @IBOutlet private var tableView:UITableView!
+    @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet private var footerView:UIView!
     
-    private var portal = AGSPortal(url: URL(string: "https://www.arcgis.com")!, loginRequired: false)
-    fileprivate var downloadingItemIDs:[String] = []
-    
-    //private var portalItem = AGSPortalItem(url: URL(string: "http://runtime.maps.arcgis.com/home/item.html?id=5ca1aba9eb05490f84b66bf9bbe4cc10")!)
-    
-    fileprivate var portalItems:[AGSPortalItem] = []
-    private var nextQueryParameters:AGSPortalQueryParameters?
+    //fileprivate var downloadingItemIDs:[String] = []
     
     private var isLoading = false {
         didSet {
@@ -31,69 +25,52 @@ class PortalItemsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 60
         
-        self.fetchPortalItems(more: false)
-        
+        if AppContext.shared.portalItems.count == 0 {
+            self.fetchPortalItems()
+        }
     }
     
-    fileprivate func fetchPortalItems(more: Bool) {
-        
-        if self.isLoading { return }
-        
-        var parameters:AGSPortalQueryParameters
-        
-        if more {
-            guard let nextQueryParameters = self.nextQueryParameters else {
-                return
-            }
-            
-            parameters = nextQueryParameters
-        }
-        else {
-            
-            self.portalItems = []
-            
-            parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: nil)
-            parameters.limit = 20
-        }
-        
+    private func fetchPortalItems() {
         self.isLoading = true
         
-        self.portal.findItems(with: parameters) { [weak self] (resultSet, error) in
+        AppContext.shared.fetchPortalItems { [weak self] (error) in
             
             self?.isLoading = false
             
             guard error == nil else {
-                print(error!)
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
-            }
-            
-            guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
-                print("No portal items found")
-                return
-            }
-            
-            self?.nextQueryParameters = resultSet?.nextQueryParameters
-            
-            if more {
-                self?.portalItems.append(contentsOf: portalItems)
-            }
-            else {
-                self?.portalItems = portalItems
             }
             
             self?.tableView.reloadData()
         }
     }
+    
+    fileprivate func fetchMorePortalItems() {
+        self.isLoading = true
+        
+        AppContext.shared.fetchMorePortalItems { [weak self] (error) in
+            
+            self?.isLoading = false
+            
+            guard error == nil else {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                return
+            }
+            
+            self?.tableView.reloadData()
+        }
+    }
+    
 }
 
 extension PortalItemsListViewController:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.portalItems.count
+        return AppContext.shared.portalItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,19 +79,15 @@ extension PortalItemsListViewController:UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let portalItem = self.portalItems[indexPath.row]
-        
-        cell.isDownloading = self.downloadingItemIDs.contains(portalItem.itemID)
+        let portalItem = AppContext.shared.portalItems[indexPath.row]
         
         cell.portalItem = portalItem
-        cell.delegate = self
+        
+        cell.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
+        cell.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
         
         return cell
     }
-}
-
-extension PortalItemsListViewController:UITableViewDelegate {
-    
 }
 
 extension PortalItemsListViewController:UIScrollViewDelegate {
@@ -132,25 +105,7 @@ extension PortalItemsListViewController:UIScrollViewDelegate {
         
         if h - y < reloadDistance {
             
-            self.fetchPortalItems(more: true)
-        }
-    }
-}
-
-extension PortalItemsListViewController: PortalItemCellDelegate {
-    
-    func portalItemCell(_ portalItemCell: PortalItemCell, didStartDownloadingPortalItem itemID: String) {
-        
-        if !self.downloadingItemIDs.contains(itemID) {
-            
-            self.downloadingItemIDs.append(itemID)
-        }
-    }
-    
-    func portalItemCell(_ portalItemCell: PortalItemCell, didStopDownloadingPortalItem itemID: String) {
-        
-        if let index = self.downloadingItemIDs.index(of: itemID) {
-            self.downloadingItemIDs.remove(at: index)
+            self.fetchMorePortalItems()
         }
     }
 }

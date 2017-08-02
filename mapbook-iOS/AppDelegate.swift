@@ -7,14 +7,23 @@
 //
 
 import UIKit
+import ArcGIS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if url.absoluteString.range(of: "auth", options: [], range: nil, locale: nil) != nil {
+            AGSApplicationDelegate.shared().application(app, open: url, options: options)
+        }
+        return true
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        _ = AppContext.shared
         
         self.modifyAppearance()
         

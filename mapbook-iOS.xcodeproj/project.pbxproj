@@ -8,10 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */; };
-		3E1D6E8A1F26B24400FB119A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E891F26B24400FB119A /* DownloadManager.swift */; };
 		3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */; };
 		3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */; };
 		3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */; };
+		3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */; };
+		3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */; };
+		3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */; };
+		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
+		3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */; };
 		3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */; };
 		3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */; };
 		3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */; };
@@ -31,10 +35,18 @@
 
 /* Begin PBXFileReference section */
 		3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemsListViewController.swift; sourceTree = "<group>"; };
-		3E1D6E891F26B24400FB119A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackagesListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortalItemCell.swift; path = Cells/PortalItemCell.swift; sourceTree = "<group>"; };
 		3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalPackageCell.swift; path = Cells/LocalPackageCell.swift; sourceTree = "<group>"; };
+		3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalURLViewController.swift; sourceTree = "<group>"; };
+		3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		3E6E06BE1F3237FA00921439 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mapbook-iOSBridgingHeader.h"; sourceTree = "<group>"; };
+		3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapbook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3EDC844E1F1E8B94002DBCF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -65,6 +77,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E6E06B81F3237B300921439 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				3E6E06B91F3237FA00921439 /* SVProgressHUD */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		3E6E06B91F3237FA00921439 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */,
+				3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */,
+				3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */,
+				3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */,
+				3E6E06BE1F3237FA00921439 /* SVProgressHUD.h */,
+				3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHUD;
+			path = Libraries/SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		3EDC843D1F1E8B94002DBCF2 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +118,7 @@
 		3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3E6E06B81F3237B300921439 /* Libraries */,
 				3EDC846B1F1FD5C0002DBCF2 /* Cells */,
 				3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */,
 				3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */,
@@ -99,8 +134,10 @@
 				3EDC84701F200A1D002DBCF2 /* OverlayTestViewController.swift */,
 				3EDC84741F210962002DBCF2 /* TabBarViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
-				3E1D6E891F26B24400FB119A /* DownloadManager.swift */,
 				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
+				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
+				3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */,
+				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
 			);
 			path = "mapbook-iOS";
 			sourceTree = "<group>";
@@ -185,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */,
 				3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */,
 				3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */,
 				3EDC845D1F1E8BE9002DBCF2 /* OfflineMapbookTest.mmpk in Resources */,
@@ -201,7 +239,8 @@
 			files = (
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
-				3E1D6E8A1F26B24400FB119A /* DownloadManager.swift in Sources */,
+				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
+				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
 				3EDC84751F210962002DBCF2 /* TabBarViewController.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */,
@@ -214,6 +253,8 @@
 				3EDC84711F200A1D002DBCF2 /* OverlayTestViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,
+				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
+				3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +386,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
 				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -355,6 +397,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.mapbook-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -369,6 +412,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
 				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -379,6 +423,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.mapbook-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

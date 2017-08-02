@@ -50,7 +50,7 @@ class SearchViewController: UIViewController {
         self.suggestCancelable = locatorTask.suggest(withSearchText: text) { [weak self] (suggestResults, error) in
             
             guard error == nil else {
-                print(error!)
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
             
@@ -77,7 +77,7 @@ class SearchViewController: UIViewController {
         self.geocodeCancelable = locatorTask.geocode(with: suggestResult) { (geocodeResults, error) in
             
             guard error == nil else {
-                print(error!)
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
             

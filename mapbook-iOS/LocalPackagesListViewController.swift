@@ -11,68 +11,39 @@ import ArcGIS
 
 class LocalPackagesListViewController: UIViewController {
 
-    @IBOutlet private var tableView:UITableView!
-    
-    fileprivate var localPackages:[AGSMobileMapPackage] = []
-    fileprivate var urls:[URL] = []
+    @IBOutlet fileprivate var tableView:UITableView!
+    @IBOutlet private var addBBI:UIBarButtonItem!
+    @IBOutlet private var logoutBBI:UIBarButtonItem!
+    @IBOutlet private var portalBBI:UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Checking for updates")
+        tableView.refreshControl?.addTarget(self, action: #selector(LocalPackagesListViewController.refreshControlValueChanged(_:)), for: .valueChanged)
+        
+        self.updateBarButtonItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.fetchLocalMMPKs()
+        AppContext.shared.fetchLocalPackages()
+        self.tableView.reloadData()
     }
     
-    private func fetchLocalMMPKs() {
+    fileprivate func updateBarButtonItems() {
         
-        self.localPackages = []
-        
-        self.urls = []
-        
-        //documents directory url
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let downloadedDirectoryURL = documentsDirectory.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
-        
-        //filter mmpk urls from documents directory
-        if let enumerator = FileManager.default.enumerator(at: downloadedDirectoryURL, includingPropertiesForKeys: nil) {
-            
-            while let url = enumerator.nextObject() as? URL {
-                self.urls.append(url)
-            }
+        if AppContext.shared.isUserLoggedIn() {
+            self.navigationItem.rightBarButtonItems = [self.addBBI, self.portalBBI, self.logoutBBI]
         }
-        
-        //create AGSMobileMapPackage for each url
-        for url in urls {
-            let package = AGSMobileMapPackage(fileURL: url)
-            self.localPackages.append(package)
+        else {
+            self.navigationItem.rightBarButtonItems = [self.addBBI]
         }
-        
-        //reload only if view controller is visible
-        if self.isViewLoaded && self.view.window != nil {
-            self.tableView.reloadData()
-        }
-    }
-    
-    fileprivate func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
-        for url in urls {
-            
-        }
-        
-        return true
-    }
-    
-    fileprivate func delete(at url:URL) {
-        
-        //if FileManager.default.fileExists(atPath: url.absoluteString) {
-            try? FileManager.default.removeItem(at: url)
-        
-        //}
     }
     
     //MARK: Navigation
@@ -80,17 +51,70 @@ class LocalPackagesListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController, let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
             
-            let package = self.localPackages[selectedIndexPath.row]
+            let package = AppContext.shared.localPackages[selectedIndexPath.row]
             controller.mobileMapPackage = package
+        }
+        else if segue.identifier == "PortalURLSegue", let controller = segue.destination as? PortalURLViewController {
+            controller.delegate = self
+            controller.preferredContentSize = CGSize(width: 400, height: 300)
+        }
+    }
+    
+    //MARK: - Actions
+    
+    @IBAction func add(_ sender:UIBarButtonItem) {
+        
+        if AppContext.shared.isUserLoggedIn() {
+            //show portal items list view controller
+            self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+        }
+        else {
+            //show portal URL page
+            self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
     }
 
+    @IBAction func logout() {
+        
+        let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+            
+            AppContext.shared.logoutUser()
+            
+            self?.tableView.reloadData()
+            
+            self?.updateBarButtonItems()
+        }
+        
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func portalBBIAction() {
+        
+        self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
+    }
+    
+    @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
+        
+        //AppContext.shared.checkForUpdates()
+        
+        AppContext.shared.fetchLocalPackages()
+        self.tableView.reloadData()
+
+        refreshControl.endRefreshing()
+    }
 }
 
 extension LocalPackagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.localPackages.count
+        return AppContext.shared.localPackages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,8 +123,7 @@ extension LocalPackagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.mobileMapPackage = self.localPackages[indexPath.row]
-        
+        cell.mobileMapPackage = AppContext.shared.localPackages[indexPath.row]
         return cell
     }
 }
@@ -112,11 +135,7 @@ extension LocalPackagesListViewController: UITableViewDelegate {
         
         if editingStyle == .delete {
             
-            //delete package
-            let url = self.urls[indexPath.row]
-            self.delete(at: url)
-            self.urls.remove(at: indexPath.row)
-            self.localPackages.remove(at: indexPath.row)
+            AppContext.shared.deleteLocalPackage(at: indexPath.row)
             
             tableView.reloadData()
         }
@@ -125,5 +144,17 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         self.performSegue(withIdentifier: "PackageVCSegue", sender: self)
+    }
+}
+
+extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
+    
+    func portalURLViewControllerDidLoadPortal(_ portalURLViewController: PortalURLViewController) {
+        
+        self.updateBarButtonItems()
+        
+        self.tableView.reloadData()
+        
+        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
     }
 }
