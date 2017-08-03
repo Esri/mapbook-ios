@@ -26,13 +26,13 @@ class PackageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //self.mobileMapPackage = AGSMobileMapPackage(name: "OfflineMapbookTest")
         
-        //self.loadMapPackage()
+        if self.mobileMapPackage == nil {
+            SVProgressHUD.showError(withStatus: "Mobile map package is nil", maskType: .gradient)
+            return
+        }
         
-        self.updateUI()
-        self.collectionView.reloadData()
+        self.loadMapPackage()
         
         self.thumbnailImageView.layer.borderWidth = 1
         self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue().cgColor

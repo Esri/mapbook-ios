@@ -28,7 +28,6 @@
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
 		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
-		3EDC84711F200A1D002DBCF2 /* OverlayTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84701F200A1D002DBCF2 /* OverlayTestViewController.swift */; };
 		3EDC84751F210962002DBCF2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84741F210962002DBCF2 /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +59,6 @@
 		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LayerCell.swift; path = Cells/LayerCell.swift; sourceTree = "<group>"; };
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		3EDC84701F200A1D002DBCF2 /* OverlayTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayTestViewController.swift; sourceTree = "<group>"; };
 		3EDC84741F210962002DBCF2 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,7 +127,6 @@
 				3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */,
 				3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */,
 				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
-				3EDC84701F200A1D002DBCF2 /* OverlayTestViewController.swift */,
 				3EDC84741F210962002DBCF2 /* TabBarViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
 				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
@@ -246,7 +243,6 @@
 				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
-				3EDC84711F200A1D002DBCF2 /* OverlayTestViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
