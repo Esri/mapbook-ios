@@ -115,6 +115,10 @@ class PortalItemCell: UITableViewCell {
             //if the cell is still representing the same portal item
             if portalItem.itemID == portalItemID {
                 self?.isDownloading = false
+                
+                if error == nil {
+                    self?.isAlreadyDownloaded = true
+                }
             }
             
             if let error = error as NSError?, error.code != NSUserCancelledError {
