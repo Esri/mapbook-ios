@@ -11,8 +11,7 @@ import ArcGIS
 
 protocol PortalItemCellDelegate:class {
     
-    func portalItemCell(_ portalItemCell:PortalItemCell, didStartDownloadingPortalItem itemID:String)
-    func portalItemCell(_ portalItemCell:PortalItemCell, didStopDownloadingPortalItem itemID:String)
+    func portalItemCell(_ portalItemCell:PortalItemCell, wantsToDownload portalItem:AGSPortalItem)
 }
 
 class PortalItemCell: UITableViewCell {
@@ -108,22 +107,8 @@ class PortalItemCell: UITableViewCell {
         
         self.isDownloading = true
         
-        let portalItemID = portalItem.itemID
+        self.delegate?.portalItemCell(self, wantsToDownload: portalItem)
         
-        AppContext.shared.download(portalItem: portalItem) { [weak self] (error) in
-            
-            //if the cell is still representing the same portal item
-            if portalItem.itemID == portalItemID {
-                self?.isDownloading = false
-                
-                if error == nil {
-                    self?.isAlreadyDownloaded = true
-                }
-            }
-            
-            if let error = error as NSError?, error.code != NSUserCancelledError {
-                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-            }
-        }
+        
     }
 }
