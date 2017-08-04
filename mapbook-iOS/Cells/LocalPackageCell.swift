@@ -37,8 +37,7 @@ class LocalPackageCell: UITableViewCell {
                     self?.createdLabel.text = "Created \(dateFormatter.string(from: created))"
                 }
                 
-//                let bytes = ByteCountFormatter().string(fromByteCount: item.size)
-//                self?.sizeLabel.text = "\(bytes)"
+                self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
                 
                 self?.titleLabel.text = item.title
                 

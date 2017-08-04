@@ -72,22 +72,12 @@ class PackageViewController: UIViewController {
         
         self.titleLabel.text = item.title
         self.createdLabel.text = "Created \(dateFormatter.string(from: item.created!))"
-        self.sizeLabel.text = "Size"
+        self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
-        self.lastDownloadedLabel.text = "Last downloaded"
+        self.lastDownloadedLabel.text = "Last downloaded \(AppContext.shared.downloadDate(of: mobileMapPackage) ?? "--")"
         self.descriptionLabel.text = item.snippet
         
         self.thumbnailImageView.image = item.thumbnail?.image
-        
-        //size
-        if let mmpkPath = Bundle.main.path(forResource: "OfflineMapbookTest", ofType: "mmpk") {
-            if let attributes = try? FileManager.default.attributesOfItem(atPath: mmpkPath) {
-                if let size = attributes[FileAttributeKey.size] as? NSNumber {
-                    let bytes = ByteCountFormatter().string(fromByteCount: size.int64Value)
-                    self.sizeLabel.text = "Size \(bytes)"
-                }
-            }
-        }
         
     }
     

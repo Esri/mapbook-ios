@@ -40,8 +40,10 @@ class AppContext {
     
     private var fetchPortalItemsCancelable:AGSCancelable?
     private var fetchDataCancelables:[AGSCancelable] = []
-    private(set) var isFetchingPortalItems = false
+    private var isFetchingPortalItems = false
     private var nextQueryParameters:AGSPortalQueryParameters?
+    
+    private var dateFormatter:DateFormatter
     
     fileprivate var currentlyDownloadingItemIDs:[String] = []
     
@@ -54,6 +56,9 @@ class AppContext {
         if let portalURL = UserDefaults.standard.url(forKey: "PORTALURL") {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
         }
+        
+        self.dateFormatter = DateFormatter()
+        self.dateFormatter.dateStyle = .short
     }
     
     func isUserLoggedIn() -> Bool {
@@ -310,5 +315,37 @@ class AppContext {
     
     func isCurrentlyDownloading(portalItem: AGSPortalItem) -> Bool {
         return self.currentlyDownloadingItemIDs.contains(portalItem.itemID)
+    }
+    
+    func size(of package:AGSMobileMapPackage) -> String? {
+        
+        if let index = self.localPackages.index(of: package) {
+            
+            let fileURL = self.localPackageURLs[index]
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path) {
+                if let size = attributes[FileAttributeKey.size] as? NSNumber {
+                    let bytes = ByteCountFormatter().string(fromByteCount: size.int64Value)
+                    return bytes
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    func downloadDate(of package:AGSMobileMapPackage) -> String? {
+        
+        if let index = self.localPackages.index(of: package) {
+            
+            let fileURL = self.localPackageURLs[index]
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path) {
+                if let date = attributes[FileAttributeKey.creationDate] as? Date {
+                    let dateString = self.dateFormatter.string(from: date)
+                    return dateString
+                }
+            }
+        }
+        
+        return nil
     }
 }
