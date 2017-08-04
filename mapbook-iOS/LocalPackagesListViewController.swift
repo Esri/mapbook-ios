@@ -1,9 +1,25 @@
 //
-//  LocalPackagesListViewController.swift
-//  mapbook-iOS
+// Copyright 2017 Esri.
 //
-//  Created by Gagandeep Singh on 7/25/17.
-//  Copyright © 2017 Gagandeep Singh. All rights reserved.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// For additional information, contact:
+// Environmental Systems Research Institute, Inc.
+// Attn: Contracts Dept
+// 380 New York Street
+// Redlands, California, USA 92373
+//
+// email: contracts@esri.com
 //
 
 import UIKit
@@ -16,6 +32,8 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var logoutBBI:UIBarButtonItem!
     @IBOutlet private var portalBBI:UIBarButtonItem!
     
+    private var portalItemsListVC:PortalItemsListViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +43,8 @@ class LocalPackagesListViewController: UIViewController {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Checking for updates")
         tableView.refreshControl?.addTarget(self, action: #selector(LocalPackagesListViewController.refreshControlValueChanged(_:)), for: .valueChanged)
+        
+        self.portalItemsListVC = self.storyboard?.instantiateViewController(withIdentifier: "PortalItemsListViewController") as? PortalItemsListViewController
         
         self.updateBarButtonItems()
     }
@@ -46,7 +66,16 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
-    //MARK: Navigation
+    fileprivate func showPortalItemsListVC() {
+        if let portalItemsListVC = self.portalItemsListVC {
+            self.show(portalItemsListVC, sender: self)
+        }
+        else {
+            SVProgressHUD.showError(withStatus: "PortalItemsVC is nil. Not possible!", maskType: .gradient)
+        }
+    }
+    
+    //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController, let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
@@ -66,7 +95,7 @@ class LocalPackagesListViewController: UIViewController {
         
         if AppContext.shared.isUserLoggedIn() {
             //show portal items list view controller
-            self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+            self.showPortalItemsListVC()
         }
         else {
             //show portal URL page
@@ -155,6 +184,6 @@ extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
         
         self.tableView.reloadData()
         
-        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+        self.showPortalItemsListVC()
     }
 }
