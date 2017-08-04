@@ -89,7 +89,7 @@ extension PortalItemsListViewController:UITableViewDataSource {
         let portalItem = AppContext.shared.portalItems[indexPath.row]
         
         cell.portalItem = portalItem
-        
+        cell.delegate = self
         cell.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
         cell.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
         
@@ -113,6 +113,31 @@ extension PortalItemsListViewController:UIScrollViewDelegate {
         if h - y < reloadDistance {
             
             self.fetchMorePortalItems()
+        }
+    }
+}
+
+extension PortalItemsListViewController: PortalItemCellDelegate {
+    
+    func portalItemCell(_ portalItemCell: PortalItemCell, wantsToDownload portalItem: AGSPortalItem) {
+        
+        AppContext.shared.download(portalItem: portalItem) { [weak self, item = portalItem] (error) in
+            
+            //show error
+            if let error = error as NSError?, error.code != NSUserCancelledError {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            }
+            
+            //even if error, update the state of the cell
+            if let index = AppContext.shared.portalItems.index(of: item),
+                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
+                
+                cell.isDownloading = false
+                
+                if error == nil {
+                    cell.isAlreadyDownloaded = true
+                }
+            }
         }
     }
 }
