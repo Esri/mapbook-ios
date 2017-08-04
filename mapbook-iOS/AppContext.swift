@@ -56,6 +56,13 @@ class AppContext {
         if let portalURL = UserDefaults.standard.url(forKey: "PORTALURL") {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
         }
+        else {
+            //remove credential - special case
+            //when app is deleted, the credential is not removed from the keychain
+            //and portal load works on re-install w/o the need of OAuth
+            //For new install or logged out, PORTALURL wont be there, so clear the credential
+            AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
+        }
         
         self.dateFormatter = DateFormatter()
         self.dateFormatter.dateStyle = .short
