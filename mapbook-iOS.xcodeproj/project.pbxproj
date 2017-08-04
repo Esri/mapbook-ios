@@ -28,7 +28,6 @@
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
 		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
-		3EDC84751F210962002DBCF2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84741F210962002DBCF2 /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +58,6 @@
 		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LayerCell.swift; path = Cells/LayerCell.swift; sourceTree = "<group>"; };
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		3EDC84741F210962002DBCF2 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +125,6 @@
 				3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */,
 				3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */,
 				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
-				3EDC84741F210962002DBCF2 /* TabBarViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
 				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
 				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
@@ -234,7 +231,6 @@
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
-				3EDC84751F210962002DBCF2 /* TabBarViewController.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,

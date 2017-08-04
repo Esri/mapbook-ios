@@ -63,6 +63,7 @@ class MapViewController: UIViewController {
             })
         }
         
+        //hide side panel by default
         self.toggleOverlay(on: false, animated: false)
     }
     
@@ -150,6 +151,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     private func showPopupsVC(for popups:[AGSPopup], at screenPoint:CGPoint) {
         
         if popups.count > 0 {
+            
             let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: AGSPopupsViewControllerContainerStyle.navigationController)
             popupsVC.delegate = self
             popupsVC.modalPresentationStyle = .popover
@@ -162,8 +164,12 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     }
     
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
+     
+        //clear existing graphics
+        self.searchGraphicsOverlay.graphics.removeAllObjects()
         
-        self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { (identifyLayerResults, error) in
+        //identify
+        self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
             
             guard error == nil else {
                 SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
@@ -184,7 +190,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
                 }
             }
             
-            self.showPopupsVC(for: popups, at: screenPoint)
+            self?.showPopupsVC(for: popups, at: screenPoint)
         }
     }
 }

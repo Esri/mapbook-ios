@@ -38,8 +38,6 @@ class PackageViewController: UIViewController {
     
     var mobileMapPackage:AGSMobileMapPackage?
     
-    fileprivate var selectedMap:AGSMap?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,18 +81,24 @@ class PackageViewController: UIViewController {
             return
         }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        
         self.titleLabel.text = item.title
-        self.createdLabel.text = "Created \(dateFormatter.string(from: item.created!))"
+        self.createdLabel.text = "Created \(AppContext.shared.createdDate(of: item) ?? "--")"
         self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
         self.lastDownloadedLabel.text = "Last downloaded \(AppContext.shared.downloadDate(of: mobileMapPackage) ?? "--")"
         self.descriptionLabel.text = item.snippet
-        
         self.thumbnailImageView.image = item.thumbnail?.image
+    }
+    
+    private func selectedMap() -> AGSMap? {
         
+        if let selectedIndexPath = self.collectionView.indexPathsForSelectedItems?[0] {
+            if let map = self.mobileMapPackage?.maps[selectedIndexPath.item] {
+                return map
+            }
+        }
+        
+        return nil
     }
     
     //MARK: - Navigation
@@ -103,7 +107,7 @@ class PackageViewController: UIViewController {
         
         if segue.identifier == "MapVCSegue", let controller = segue.destination as? MapViewController {
             
-            controller.map = self.selectedMap
+            controller.map = self.selectedMap()
             controller.locatorTask = mobileMapPackage?.locatorTask
         }
     }
@@ -129,7 +133,6 @@ extension PackageViewController: UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
    
-        self.selectedMap = self.mobileMapPackage?.maps[indexPath.row]
         self.performSegue(withIdentifier: "MapVCSegue", sender: self)
     }
 }

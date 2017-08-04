@@ -28,10 +28,11 @@ import ArcGIS
 class LegendViewController: UIViewController {
 
     @IBOutlet private var tableView:UITableView!
+    @IBOutlet private var footerView:UIView!
     
     weak var map:AGSMap?
     
-    fileprivate var content = [AGSObject]()
+    fileprivate var content:[AGSObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,15 +59,17 @@ class LegendViewController: UIViewController {
                         return
                     }
                     
-                    if let legendInfos = legendInfos {
-                        if let index = self?.content.index(of: layer) {
-                            self?.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
-                            self?.tableView.reloadData()
-                        }
+                    if let legendInfos = legendInfos, let index = self?.content.index(of: layer) {
+                        self?.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
+                        self?.tableView.reloadData()
                     }
-                    
                 }
             }
+        }
+        
+        if content.count == 0 {
+            //show footer view with "No legends" label
+            self.footerView.isHidden = false
         }
     }
 }
@@ -79,14 +82,16 @@ extension LegendViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let temp = self.content[indexPath.row]
-        if let operationalLayer = temp as? AGSLayer, let cell = tableView.dequeueReusableCell(withIdentifier: "LayerCell") as? LayerCell {
+        let anyObject = self.content[indexPath.row]
+        if let operationalLayer = anyObject as? AGSLayer,
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LayerCell") as? LayerCell {
             
             cell.operationalLayer = operationalLayer
             
             return cell
         }
-        else if let legendInfo = temp as? AGSLegendInfo, let cell = tableView.dequeueReusableCell(withIdentifier: "LegendInfoCell") as? LegendInfoCell {
+        else if let legendInfo = anyObject as? AGSLegendInfo,
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LegendInfoCell") as? LegendInfoCell {
             
             cell.legendInfo = legendInfo
             
@@ -101,9 +106,9 @@ extension LegendViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let temp = self.content[indexPath.row]
+        let anyObject = self.content[indexPath.row]
         
-        if temp is AGSLayer {
+        if anyObject is AGSLayer {
             return 44
         }
         else {

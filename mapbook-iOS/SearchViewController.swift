@@ -41,18 +41,6 @@ class SearchViewController: UIViewController {
     
     private var suggestCancelable:AGSCancelable?
     private var geocodeCancelable:AGSCancelable?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        self.delegate?.searchViewController?(self, didFindGeocodeResults: [])
-    }
 
     fileprivate func suggestions(for text:String) {
         
@@ -66,7 +54,9 @@ class SearchViewController: UIViewController {
         self.suggestCancelable = locatorTask.suggest(withSearchText: text) { [weak self] (suggestResults, error) in
             
             guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                if let error = error as NSError?, error.code != NSUserCancelledError {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                }
                 return
             }
             
@@ -74,8 +64,6 @@ class SearchViewController: UIViewController {
                 print("No suggestions")
                 return
             }
-            
-            //TODO: see if we need to clear the graphics in graphics overlay
             
             self?.suggestResults = suggestResults
             self?.tableView.reloadData()
@@ -105,7 +93,6 @@ class SearchViewController: UIViewController {
             }
             
             self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults)
-            
         }
     }
 }

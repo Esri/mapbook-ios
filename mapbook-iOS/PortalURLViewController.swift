@@ -25,9 +25,9 @@
 import UIKit
 import ArcGIS
 
-@objc protocol PortalURLViewControllerDelegate {
+protocol PortalURLViewControllerDelegate:class {
     
-    @objc optional func portalURLViewControllerDidLoadPortal(_ portalURLViewController:PortalURLViewController)
+    func portalURLViewControllerDidLoadPortal(_ portalURLViewController:PortalURLViewController)
 }
 
 class PortalURLViewController: UIViewController {
@@ -39,10 +39,11 @@ class PortalURLViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let portal = AppContext.shared.portal, let urlString = portal.url?.absoluteString {
+        if let portal = AppContext.shared.portal,
+            let urlString = portal.url?.absoluteString {
+            
             self.urlTextField.text = urlString
         }
-        
     }
     
     private func initializeAndLoadPortal(urlString: String) {
@@ -67,7 +68,7 @@ class PortalURLViewController: UIViewController {
                         return
                     }
                     
-                    strongSelf.delegate?.portalURLViewControllerDidLoadPortal?(strongSelf)
+                    strongSelf.delegate?.portalURLViewControllerDidLoadPortal(strongSelf)
                 }
             }
         }
@@ -108,8 +109,6 @@ class PortalURLViewController: UIViewController {
             
             self.showAlert(newPortalURLString: text)
         }
-        
-        
     }
     
     @IBAction private func cancel(_ sender:UIButton) {

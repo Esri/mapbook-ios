@@ -36,11 +36,6 @@ class BookmarksViewController: UIViewController {
     
     weak var map:AGSMap?
     weak var delegate:BookmarksViewControllerDelegate?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
 
 }
 
@@ -52,7 +47,8 @@ extension BookmarksViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkCell"), let bookmark = self.map?.bookmarks[indexPath.row] as? AGSBookmark else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkCell"),
+            let bookmark = self.map?.bookmarks[indexPath.row] as? AGSBookmark else {
             
             return UITableViewCell()
         }

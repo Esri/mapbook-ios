@@ -42,43 +42,17 @@ class LocalPackageCell: UITableViewCell {
                     return
                 }
                 
-                guard let mobileMapPackage = self?.mobileMapPackage, let item = mobileMapPackage.item else {
+                guard let mobileMapPackage = self?.mobileMapPackage,
+                    let item = mobileMapPackage.item else {
                     return
                 }
                 
-                if let created = item.created {
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateStyle = .short
-                    self?.createdLabel.text = "Created \(dateFormatter.string(from: created))"
-                }
-                
+                self?.createdLabel.text = "Created \(AppContext.shared.createdDate(of: item) ?? "--")"
                 self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
-                
                 self?.titleLabel.text = item.title
-                
                 self?.descriptionLabel.text = item.itemDescription
                 self?.thumbnailImageView.image = item.thumbnail?.image
-                
-                item.thumbnail?.load(completion: { (error) in
-                    self?.thumbnailImageView.image = item.thumbnail?.image
-                    
-                    self?.contentView.setNeedsLayout()
-                    self?.contentView.layoutIfNeeded()
-                })
             }
         }
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

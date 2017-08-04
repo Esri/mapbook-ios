@@ -37,7 +37,7 @@ class LocalPackagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         
         tableView.refreshControl = UIRefreshControl()
@@ -67,6 +67,7 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     fileprivate func showPortalItemsListVC() {
+        
         if let portalItemsListVC = self.portalItemsListVC {
             self.show(portalItemsListVC, sender: self)
         }
@@ -78,12 +79,16 @@ class LocalPackagesListViewController: UIViewController {
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController, let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
+        
+        if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController,
+            let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
             
             let package = AppContext.shared.localPackages[selectedIndexPath.row]
             controller.mobileMapPackage = package
         }
-        else if segue.identifier == "PortalURLSegue", let controller = segue.destination as? PortalURLViewController {
+        else if segue.identifier == "PortalURLSegue",
+            let controller = segue.destination as? PortalURLViewController {
+            
             controller.delegate = self
             controller.preferredContentSize = CGSize(width: 400, height: 300)
         }
@@ -130,8 +135,6 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
-        
-        //AppContext.shared.checkForUpdates()
         
         AppContext.shared.fetchLocalPackages()
         self.tableView.reloadData()

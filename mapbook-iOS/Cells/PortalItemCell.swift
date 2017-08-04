@@ -77,17 +77,8 @@ class PortalItemCell: UITableViewCell {
                 }
 
                 self?.titleLabel.text = portalItem.title
-                
-                if let created = portalItem.created {
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateStyle = .short
-                    self?.createdLabel.text = "Created \(dateFormatter.string(from: created))"
-                }
-                
-                let bytes = ByteCountFormatter().string(fromByteCount: portalItem.size)
-                self?.sizeLabel.text = "\(bytes)"
-                
+                self?.createdLabel.text = "Created \(AppContext.shared.createdDate(of: portalItem) ?? "--")"
+                self?.sizeLabel.text = "\(ByteCountFormatter().string(fromByteCount: portalItem.size))"
                 self?.descriptionLabel.text = portalItem.snippet
                 
                 self?.portalItem?.thumbnail?.load { (error) in
@@ -124,7 +115,5 @@ class PortalItemCell: UITableViewCell {
         self.isDownloading = true
         
         self.delegate?.portalItemCell(self, wantsToDownload: portalItem)
-        
-        
     }
 }

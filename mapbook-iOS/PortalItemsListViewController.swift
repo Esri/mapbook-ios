@@ -30,8 +30,6 @@ class PortalItemsListViewController: UIViewController {
     @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet private var footerView:UIView!
     
-    //fileprivate var downloadingItemIDs:[String] = []
-    
     private var isLoading = false {
         didSet {
             self.footerView?.isHidden = !isLoading
@@ -44,9 +42,7 @@ class PortalItemsListViewController: UIViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 80
         
-        if AppContext.shared.portalItems.count == 0 {
-            self.fetchPortalItems()
-        }
+        self.fetchPortalItems()
     }
     
     private func fetchPortalItems() {

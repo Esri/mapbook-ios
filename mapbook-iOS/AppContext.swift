@@ -84,6 +84,8 @@ class AppContext {
         self.dateFormatter.dateStyle = .short
     }
     
+    //MARK: - Login related
+    
     func isUserLoggedIn() -> Bool {
         return (self.portal != nil)
     }
@@ -95,6 +97,8 @@ class AppContext {
         AppContext.shared.deleteAllLocalPackages()
         AppContext.shared.portal = nil
     }
+    
+    //MARK: - Local packages related
     
     func fetchLocalPackageURLs() {
         
@@ -156,17 +160,7 @@ class AppContext {
         self.localPackageURLs.removeAll()
     }
     
-    func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
-        
-        guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
-            return false
-        }
-        
-        //check if a mmpk file with itemID as file name exists in the download folder
-        let fileURL = downloadDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
-        
-        return FileManager.default.fileExists(atPath: fileURL.path)
-    }
+    //MARK: - Portal items related
     
     func fetchPortalItems(completion: ((_ error:Error?) -> Void)?) {
         
@@ -323,17 +317,18 @@ class AppContext {
         return downloadedDirectoryURL
     }
     
-    func checkForUpdates() {
+    //MARK: - Helper methods
+    
+    func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
         
-        //print(self.localPackages[0].item?.modified)
-        if let itemID = self.localPackages[0].item?.itemID {
-            print(itemID)
-            let portalItem = AGSPortalItem(portal: self.portal!, itemID: itemID)
-            
-            portalItem.load { (error) in
-                //print(portalItem.modified)
-            }
+        guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
+            return false
         }
+        
+        //check if a mmpk file with itemID as file name exists in the download folder
+        let fileURL = downloadDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
+        
+        return FileManager.default.fileExists(atPath: fileURL.path)
     }
     
     func isCurrentlyDownloading(portalItem: AGSPortalItem) -> Bool {
@@ -345,11 +340,11 @@ class AppContext {
         if let index = self.localPackages.index(of: package) {
             
             let fileURL = self.localPackageURLs[index]
-            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path) {
-                if let size = attributes[FileAttributeKey.size] as? NSNumber {
-                    let bytes = ByteCountFormatter().string(fromByteCount: size.int64Value)
-                    return bytes
-                }
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path),
+                let size = attributes[FileAttributeKey.size] as? NSNumber {
+                
+                let bytes = ByteCountFormatter().string(fromByteCount: size.int64Value)
+                return bytes
             }
         }
         
@@ -361,14 +356,36 @@ class AppContext {
         if let index = self.localPackages.index(of: package) {
             
             let fileURL = self.localPackageURLs[index]
-            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path) {
-                if let date = attributes[FileAttributeKey.creationDate] as? Date {
-                    let dateString = self.dateFormatter.string(from: date)
-                    return dateString
-                }
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: fileURL.path),
+                let date = attributes[FileAttributeKey.creationDate] as? Date {
+                
+                let dateString = self.dateFormatter.string(from: date)
+                return dateString
             }
         }
         
         return nil
     }
+    
+    func createdDate(of item:AGSItem) -> String? {
+        
+        if let created = item.created {
+            let dateString = "\(self.dateFormatter.string(from: created))"
+            return dateString
+        }
+        
+        return nil
+    }    
+    
+//    func checkForUpdates() {
+//    
+//        if let itemID = self.localPackages[0].item?.itemID {
+//            print(itemID)
+//            let portalItem = AGSPortalItem(portal: self.portal!, itemID: itemID)
+//            
+//            portalItem.load { (error) in
+//                //print(portalItem.modified)
+//            }
+//        }
+//    }
 }

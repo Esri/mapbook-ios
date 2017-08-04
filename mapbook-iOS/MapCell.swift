@@ -34,7 +34,8 @@ class MapCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            self.backgroundColor = self.isSelected ? UIColor.primaryBlue().withAlphaComponent(0.1) : UIColor.white
+            self.layer.borderColor = self.isSelected ? UIColor.yellow.cgColor : UIColor.clear.cgColor
+            self.layer.borderWidth = self.isSelected ? 1 : 0
         }
     }
     
@@ -48,7 +49,6 @@ class MapCell: UICollectionViewCell {
             self.dateLabel?.text = "date"
             self.descriptionLabel?.text = item.itemDescription
             self.thumbnailImageView.image = item.thumbnail?.image
-            
         }
     }
     
@@ -57,12 +57,4 @@ class MapCell: UICollectionViewCell {
         
         self.layer.cornerRadius = 10
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        
-//        self.thumbnailImageView.layer.cornerRadius = 10
-//        self.thumbnailImageView.layer.masksToBounds = true
-//    }
-
 }

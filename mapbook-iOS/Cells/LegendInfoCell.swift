@@ -32,18 +32,35 @@ class LegendInfoCell: UITableViewCell {
     
     var legendInfo:AGSLegendInfo? {
         didSet {
+            
             guard let legendInfo = self.legendInfo else {
                 return
             }
             
+            //legend name
             self.titleLabel.text = legendInfo.name
             
-            legendInfo.symbol?.createSwatch { (image, error) in
-                guard error == nil else {
-                    return
-                }
-                
-                self.thumbnailImageView.image = image
+            //thumbnail
+            self.showSwatch(for: legendInfo)
+        }
+    }
+    
+    private func showSwatch(for legendInfo:AGSLegendInfo) {
+        
+        legendInfo.symbol?.createSwatch { [weak self, legendName = legendInfo.name] (image, error) in
+            
+            guard error == nil else {
+                print("Error while creating swatch :: \(error!.localizedDescription)")
+                return
+            }
+            
+            guard let legendInfo = self?.legendInfo else {
+                return
+            }
+            
+            //if the cell is still representing the same legendInfo
+            if legendInfo.name == legendName {
+                self?.thumbnailImageView.image = image
             }
         }
     }
