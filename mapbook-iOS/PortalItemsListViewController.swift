@@ -44,22 +44,15 @@ class PortalItemsListViewController: UIViewController {
         self.tableView.estimatedRowHeight = 80
         
         self.observeDownloadCompletedNotification()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        if AppContext.shared.portalItems.count == 0 {
+        var keyword:String?
+        
+        if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
+            keyword = "Offline mapbook"
             
-            var keyword:String?
-            
-            if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
-                keyword = "Offline mapbook"
-                
-                self.searchBar.text = "Offline mapbook"
-            }
-            self.fetchPortalItems(using: keyword)
+            self.searchBar.text = "Offline mapbook"
         }
+        self.fetchPortalItems(using: keyword)
     }
     
     fileprivate func fetchPortalItems(using keyword:String?) {
