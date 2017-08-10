@@ -35,8 +35,6 @@ class PortalItemCell: UITableViewCell {
     @IBOutlet private var downloadButton:UIButton!
     @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
     
-    weak var delegate:PortalItemCellDelegate?
-    
     var isDownloading = false {
         didSet {
             self.downloadButton.isHidden = isDownloading
