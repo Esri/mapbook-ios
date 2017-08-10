@@ -15,6 +15,8 @@
 		3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */; };
 		3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */; };
 		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
+		3EA6873F1F3A81DC004B8430 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA6873E1F3A81DC004B8430 /* InitialViewController.swift */; };
+		3EA687411F3BBAAA004B8430 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA687401F3BBAAA004B8430 /* UserProfileViewController.swift */; };
 		3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */; };
 		3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */; };
 		3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 		3E6E06BE1F3237FA00921439 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mapbook-iOSBridgingHeader.h"; sourceTree = "<group>"; };
+		3EA6873E1F3A81DC004B8430 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		3EA687401F3BBAAA004B8430 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapbook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
 				3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */,
 				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
+				3EA6873E1F3A81DC004B8430 /* InitialViewController.swift */,
+				3EA687401F3BBAAA004B8430 /* UserProfileViewController.swift */,
 			);
 			path = "mapbook-iOS";
 			sourceTree = "<group>";
@@ -229,7 +235,9 @@
 			files = (
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
+				3EA687411F3BBAAA004B8430 /* UserProfileViewController.swift in Sources */,
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
+				3EA6873F1F3A81DC004B8430 /* InitialViewController.swift in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */,
@@ -374,7 +382,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
 				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -400,7 +408,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
 				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",

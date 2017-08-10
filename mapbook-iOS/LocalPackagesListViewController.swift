@@ -29,10 +29,12 @@ class LocalPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet private var addBBI:UIBarButtonItem!
-    @IBOutlet private var logoutBBI:UIBarButtonItem!
+    @IBOutlet private var userProfileBBI:UIBarButtonItem!
+    @IBOutlet private var settingsBBI:UIBarButtonItem!
+    @IBOutlet private var deviceBBI:UIBarButtonItem!
     @IBOutlet private var portalBBI:UIBarButtonItem!
     
-    private var portalItemsListVC:PortalItemsListViewController?
+    //private var portalItemsListVC:PortalItemsListViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,40 +42,90 @@ class LocalPackagesListViewController: UIViewController {
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Checking for updates")
-        tableView.refreshControl?.addTarget(self, action: #selector(LocalPackagesListViewController.refreshControlValueChanged(_:)), for: .valueChanged)
+        self.addRefreshControl()
         
-        self.portalItemsListVC = self.storyboard?.instantiateViewController(withIdentifier: "PortalItemsListViewController") as? PortalItemsListViewController
+        //self.portalItemsListVC = self.storyboard?.instantiateViewController(withIdentifier: "PortalItemsListViewController") as? PortalItemsListViewController
         
         self.updateBarButtonItems()
+        
+        //never show back button
+        self.navigationItem.hidesBackButton = true
+        
+        if AppContext.shared.appMode == .portal && !AppContext.shared.isUserLoggedIn() {
+            //show portal URL page
+            self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.fetchLocalPackages()
+    }
+    
+    private func fetchLocalPackages() {
+        
         AppContext.shared.fetchLocalPackages()
         self.tableView.reloadData()
+        
+        if AppContext.shared.localPackages.count > 0 {
+            self.tableView.backgroundView = nil
+            self.tableView.separatorStyle = .singleLine
+        }
+        else {
+            
+            //set background label
+            self.tableView.backgroundView = labelForTableViewBackground()
+            self.tableView.separatorStyle = .none
+        }
+    }
+    
+    private func labelForTableViewBackground() -> UILabel {
+        
+        let label = UILabel()
+        label.text = AppContext.shared.appMode == .device ? "Add the mobile map package via iTunes and pull to refresh the table view" : "Tap on the plus button on the right to download mobile map packages from portal. If done downloading pull to refresh the table view"
+        label.textColor = UIColor.lightGray
+        label.sizeToFit()
+        label.numberOfLines = 0
+        label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        label.frame = CGRect(x: label.frame.origin.x, y: label.frame.origin.y, width: 240, height: label.frame.height)
+        label.textAlignment = .center
+        
+        return label
+    }
+    
+    private func addRefreshControl() {
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Checking for updates")
+        refreshControl.addTarget(self, action: #selector(LocalPackagesListViewController.refreshControlValueChanged(_:)), for: .valueChanged)
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.backgroundView = refreshControl
+        }
     }
     
     fileprivate func updateBarButtonItems() {
         
-        if AppContext.shared.isUserLoggedIn() {
-            self.navigationItem.rightBarButtonItems = [self.addBBI, self.portalBBI, self.logoutBBI]
+        if AppContext.shared.appMode == .device {
+            self.navigationItem.rightBarButtonItems = [self.portalBBI]
         }
         else {
-            self.navigationItem.rightBarButtonItems = [self.addBBI]
+            if AppContext.shared.isUserLoggedIn() {
+                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI, self.settingsBBI, self.userProfileBBI]
+            }
+            else {
+                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI]
+            }
         }
     }
     
     fileprivate func showPortalItemsListVC() {
         
-        if let portalItemsListVC = self.portalItemsListVC {
-            self.show(portalItemsListVC, sender: self)
-        }
-        else {
-            SVProgressHUD.showError(withStatus: "PortalItemsVC is nil. Not possible!", maskType: .gradient)
-        }
+        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
     }
     
     //MARK: - Navigation
@@ -92,6 +144,11 @@ class LocalPackagesListViewController: UIViewController {
             controller.delegate = self
             controller.preferredContentSize = CGSize(width: 400, height: 300)
         }
+        else if segue.identifier == "UserProfileSegue",
+            let controller = segue.destination as? UserProfileViewController {
+            
+            controller.delegate = self
+        }
     }
     
     //MARK: - Actions
@@ -107,18 +164,20 @@ class LocalPackagesListViewController: UIViewController {
             self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
     }
-
-    @IBAction func logout() {
+    
+    @IBAction func switchToDeviceMode() {
         
-        let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all the packages you have already downloaded and log you out", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
             
             AppContext.shared.logoutUser()
+            AppContext.shared.appMode = .device
             
             self?.tableView.reloadData()
-            
             self?.updateBarButtonItems()
+            
+            self?.fetchLocalPackages()
         }
         
         let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
@@ -129,15 +188,54 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func portalBBIAction() {
+    @IBAction func switchToPortalMode() {
+        
+        let alertController = UIAlertController(title: "Switch to Portal mode?", message: "This will delete all the packages you have on device", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+            
+            AppContext.shared.appMode = .portal
+            
+            self?.tableView.reloadData()
+            self?.updateBarButtonItems()
+            
+            self?.fetchLocalPackages()
+        }
+        
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    fileprivate func logout() {
+        
+        let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+            
+            AppContext.shared.logoutUser()
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func settings() {
         
         self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
     }
     
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
         
-        AppContext.shared.fetchLocalPackages()
-        self.tableView.reloadData()
+        self.fetchLocalPackages()
 
         refreshControl.endRefreshing()
     }
@@ -188,5 +286,13 @@ extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
         self.tableView.reloadData()
         
         self.showPortalItemsListVC()
+    }
+}
+
+extension LocalPackagesListViewController: UserProfileViewControllerDelegate {
+    
+    func userProfileViewControllerWantsToSignOut(_ userProfileViewController: UserProfileViewController) {
+        
+        self.logout()
     }
 }

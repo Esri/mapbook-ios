@@ -28,6 +28,7 @@ import ArcGIS
 class PortalItemsListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
+    @IBOutlet fileprivate var searchBar:UISearchBar!
     @IBOutlet private var footerView:UIView!
     
     private var isLoading = false {
@@ -41,14 +42,28 @@ class PortalItemsListViewController: UIViewController {
 
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 80
-        
-        self.fetchPortalItems()
     }
     
-    private func fetchPortalItems() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if AppContext.shared.portalItems.count == 0 {
+            
+            var keyword:String?
+            
+            if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
+                keyword = "Offline mapbook"
+                
+                self.searchBar.text = "Offline mapbook"
+            }
+            self.fetchPortalItems(using: keyword)
+        }
+    }
+    
+    fileprivate func fetchPortalItems(using keyword:String?) {
         self.isLoading = true
         
-        AppContext.shared.fetchPortalItems { [weak self] (error) in
+        AppContext.shared.fetchPortalItems(using: keyword) { [weak self] (error, portalItems) in
             
             self?.isLoading = false
             
@@ -59,17 +74,21 @@ class PortalItemsListViewController: UIViewController {
                 return
             }
             
+            guard portalItems != nil else {
+                return
+            }
+            
             self?.tableView.reloadData()
         }
     }
     
     fileprivate func fetchMorePortalItems() {
         
-        if self.isLoading { return }
+        if self.isLoading || !AppContext.shared.hasMorePortalItems() { return }
         
         self.isLoading = true
         
-        AppContext.shared.fetchMorePortalItems { [weak self] (error) in
+        AppContext.shared.fetchMorePortalItems { [weak self] (error, newPortalItems) in
             
             self?.isLoading = false
             
@@ -77,6 +96,10 @@ class PortalItemsListViewController: UIViewController {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
                     SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
                 }
+                return
+            }
+            
+            guard newPortalItems != nil else {
                 return
             }
             
@@ -112,6 +135,11 @@ extension PortalItemsListViewController:UITableViewDataSource {
 extension PortalItemsListViewController:UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        //End editing to hide keyboard
+        if self.searchBar.isFirstResponder {
+            self.searchBar.resignFirstResponder()
+        }
         
         let offset = scrollView.contentOffset
         let bounds = scrollView.bounds
@@ -150,6 +178,19 @@ extension PortalItemsListViewController: PortalItemCellDelegate {
                     cell.isAlreadyDownloaded = true
                 }
             }
+        }
+    }
+}
+
+extension PortalItemsListViewController:UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.fetchPortalItems(using: searchBar.text)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            self.fetchPortalItems(using: nil)
         }
     }
 }

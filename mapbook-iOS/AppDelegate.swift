@@ -39,7 +39,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        _ = AppContext.shared
+        switch AppContext.shared.appMode {
+        case .device, .portal:
+            if let navigationController = self.window?.rootViewController as? UINavigationController {
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let localPackagesListViewController = storyboard.instantiateViewController(withIdentifier: "LocalPackagesListViewController")
+                navigationController.pushViewController(localPackagesListViewController, animated: false)
+            }
+        case .notSet:
+            break
+        }
         
         self.modifyAppearance()
         
@@ -72,9 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Appearance modification
     
     func modifyAppearance() {
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.yellow]
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
-        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().tintColor = UIColor.yellow
         
         UITabBar.appearance().tintColor = UIColor.white
         UITabBar.appearance().barTintColor = UIColor.primaryBlue()

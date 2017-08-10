@@ -25,12 +25,19 @@
 import UIKit
 import ArcGIS
 
+enum AppMode:String {
+    case notSet = "NotSet"
+    case device = "Device"
+    case portal = "Portal"
+}
+
 class AppContext {
 
     static let shared = AppContext()
     
     let DownloadedPackagesDirectoryName = "Downloaded packages"
     
+    var appMode:AppMode = .notSet
     var localPackageURLs:[URL] = []
     var localPackages:[AGSMobileMapPackage] = []
     
@@ -64,13 +71,14 @@ class AppContext {
     fileprivate var currentlyDownloadingItemIDs:[String] = []
     
     private init() {
-    
+        
         let config = AGSOAuthConfiguration(portalURL: nil, clientID: "xHx4Nj7q1g19Wh6P", redirectURL: "iOSSamples://auth")
         AGSAuthenticationManager.shared().oAuthConfigurations.add(config)
         AGSAuthenticationManager.shared().credentialCache.enableAutoSyncToKeychain(withIdentifier: "com.mapbook", accessGroup: nil, acrossDevices: false)
         
         if let portalURL = UserDefaults.standard.url(forKey: "PORTALURL") {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
+            self.portal?.load(completion: nil)
         }
         else {
             //remove credential - special case
@@ -82,6 +90,33 @@ class AppContext {
         
         self.dateFormatter = DateFormatter()
         self.dateFormatter.dateStyle = .short
+        
+        self.appMode = self.determineMode()
+    }
+    
+    //MARK: - Mode related
+    
+    private func determineMode() -> AppMode {
+        
+        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        //device mode
+        //check if documents directory root folder has mmpks
+        if let urls = try? FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
+            
+            let mmpkURLs = urls.filter({ return $0.pathExtension == "mmpk" })
+            if mmpkURLs.count > 0 {
+                return .device
+            }
+        }
+        
+        //portal mode
+        //if user is logged in
+        if self.isUserLoggedIn() {
+            return .portal
+        }
+        
+        return AppMode.notSet
     }
     
     //MARK: - Login related
@@ -104,16 +139,26 @@ class AppContext {
         
         self.localPackageURLs = []
         
-        //documents directory url
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let downloadedDirectoryURL = documentsDirectory.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
+        if self.appMode == .notSet {
+            return
+        }
         
-        //filter mmpk urls from documents directory
-        if let enumerator = FileManager.default.enumerator(at: downloadedDirectoryURL, includingPropertiesForKeys: nil) {
+        //documents directory url
+        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        var directoryURL:URL
+        
+        if self.appMode == .device {
+            directoryURL = documentsDirectoryURL
+        }
+        else {
+            directoryURL = documentsDirectoryURL.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
+        }
+        
+        if let urls = try? FileManager.default.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
             
-            while let url = enumerator.nextObject() as? URL {
-                self.localPackageURLs.append(url)
-            }
+            self.localPackageURLs = urls.filter({ return $0.pathExtension == "mmpk" })
+            
         }
     }
     
@@ -137,6 +182,7 @@ class AppContext {
         }
         catch let error {
             SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            return
         }
         
         self.localPackageURLs.remove(at: index)
@@ -145,24 +191,32 @@ class AppContext {
     
     func deleteAllLocalPackages() {
         
-        guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
-            return
+        if self.appMode == .portal {
+            guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
+                return
+            }
+            
+            do {
+                try FileManager.default.removeItem(at: downloadDirectoryURL)
+            }
+            catch let error {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                return
+            }
+            
+            self.localPackages.removeAll()
+            self.localPackageURLs.removeAll()
         }
-        
-        do {
-            try FileManager.default.removeItem(at: downloadDirectoryURL)
+        else {
+            for i in (0..<self.localPackageURLs.count).reversed() {
+                self.deleteLocalPackage(at: i)
+            }
         }
-        catch let error {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-        }
-        
-        self.localPackages.removeAll()
-        self.localPackageURLs.removeAll()
     }
     
     //MARK: - Portal items related
     
-    func fetchPortalItems(completion: ((_ error:Error?) -> Void)?) {
+    func fetchPortalItems(using keyword:String?, completion: ((_ error:Error?, _ portalItems:[AGSPortalItem]?) -> Void)?) {
         
         //if self.isFetchingPortalItems { return }
         
@@ -171,7 +225,7 @@ class AppContext {
             
         self.portalItems = []
         
-        let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: nil)
+        let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: keyword)
         parameters.limit = 20
         
         self.isFetchingPortalItems = true
@@ -181,12 +235,13 @@ class AppContext {
             self?.isFetchingPortalItems = false
             
             guard error == nil else {
-                completion?(error)
+                completion?(error, nil)
                 return
             }
             
             guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
-                SVProgressHUD.showError(withStatus: "No portal items found", maskType: .gradient)
+                print("No portal items found")
+                completion?(nil, nil)
                 return
             }
             
@@ -194,15 +249,23 @@ class AppContext {
             
             self?.portalItems = portalItems
             
-            completion?(nil)
+            completion?(nil, portalItems)
         }
     }
     
-    func fetchMorePortalItems(completion: ((_ error:Error?) -> Void)?) {
+    func hasMorePortalItems() -> Bool {
+        return self.nextQueryParameters != nil
+    }
+    
+    func fetchMorePortalItems(completion: ((_ error:Error?, _ morePortalItems: [AGSPortalItem]?) -> Void)?) {
         
-        if self.isFetchingPortalItems { return }
+        if self.isFetchingPortalItems {
+            completion?(nil, nil)
+            return
+        }
         
         guard let nextQueryParameters = self.nextQueryParameters else {
+            completion?(nil, nil)
             return
         }
         
@@ -216,12 +279,13 @@ class AppContext {
             self?.isFetchingPortalItems = false
             
             guard error == nil else {
-                completion?(error)
+                completion?(error, nil)
                 return
             }
             
             guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
-                SVProgressHUD.showError(withStatus: "No portal items found", maskType: .gradient)
+                print("No portalItems found")
+                completion?(nil, nil)
                 return
             }
             
@@ -229,7 +293,7 @@ class AppContext {
             
             self?.portalItems.append(contentsOf: portalItems)
             
-            completion?(nil)
+            completion?(nil, portalItems)
         }
     }
     
