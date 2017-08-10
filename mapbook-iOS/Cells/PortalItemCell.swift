@@ -25,11 +25,6 @@
 import UIKit
 import ArcGIS
 
-protocol PortalItemCellDelegate:class {
-    
-    func portalItemCell(_ portalItemCell:PortalItemCell, wantsToDownload portalItem:AGSPortalItem)
-}
-
 class PortalItemCell: UITableViewCell {
 
     @IBOutlet private var titleLabel:UILabel!
@@ -114,6 +109,6 @@ class PortalItemCell: UITableViewCell {
         
         self.isDownloading = true
         
-        self.delegate?.portalItemCell(self, wantsToDownload: portalItem)
+        AppContext.shared.download(portalItem: portalItem)
     }
 }

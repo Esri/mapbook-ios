@@ -42,6 +42,8 @@ class PortalItemsListViewController: UIViewController {
 
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 80
+        
+        self.observeDownloadCompletedNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +109,32 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    private func observeDownloadCompletedNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
+            
+            let error = notification.userInfo?["error"] as? Error
+                        
+            if error != nil {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+            }
+            
+            if let itemID = notification.userInfo?["itemID"] as? String,
+                let index = AppContext.shared.indexOfPortalItem(with: itemID),
+                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
+                
+                cell.isDownloading = false
+                
+                if error == nil {
+                    cell.isAlreadyDownloaded = true
+                }
+            }
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension PortalItemsListViewController:UITableViewDataSource {
@@ -124,7 +152,6 @@ extension PortalItemsListViewController:UITableViewDataSource {
         let portalItem = AppContext.shared.portalItems[indexPath.row]
         
         cell.portalItem = portalItem
-        cell.delegate = self
         cell.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
         cell.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
         
@@ -153,31 +180,6 @@ extension PortalItemsListViewController:UIScrollViewDelegate {
         if h - y < reloadDistance {
             
             self.fetchMorePortalItems()
-        }
-    }
-}
-
-extension PortalItemsListViewController: PortalItemCellDelegate {
-    
-    func portalItemCell(_ portalItemCell: PortalItemCell, wantsToDownload portalItem: AGSPortalItem) {
-        
-        AppContext.shared.download(portalItem: portalItem) { [weak self, item = portalItem] (error) in
-            
-            //show error
-            if let error = error as NSError?, error.code != NSUserCancelledError {
-                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-            }
-            
-            //even if error, update the state of the cell
-            if let index = AppContext.shared.portalItems.index(of: item),
-                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
-                
-                cell.isDownloading = false
-                
-                if error == nil {
-                    cell.isAlreadyDownloaded = true
-                }
-            }
         }
     }
 }

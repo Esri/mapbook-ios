@@ -25,6 +25,11 @@
 import UIKit
 import ArcGIS
 
+extension Notification.Name {
+    
+    static let DownloadCompleted = Notification.Name("DownloadCompleted")
+}
+
 enum AppMode:String {
     case notSet = "NotSet"
     case device = "Device"
@@ -297,12 +302,12 @@ class AppContext {
         }
     }
     
-    func download(portalItem: AGSPortalItem, completion: ((_ error:Error?) -> Void)?) {
+    func download(portalItem: AGSPortalItem) {
         
         //check if already downloading
         if self.isCurrentlyDownloading(portalItem: portalItem) {
             let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Already downloading"])
-            completion?(error)
+            self.postDownloadCompletedNotification(userInfo: ["error": error])
             return
         }
         
@@ -322,21 +327,21 @@ class AppContext {
             }
             
             guard error == nil else {
-                completion?(error)
+                self?.postDownloadCompletedNotification(userInfo: ["error": error!])
                 return
             }
             
             guard let data = data else {
                 let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Fetch data returned nil as data"])
-                completion?(error)
+                self?.postDownloadCompletedNotification(userInfo: ["error": error])
                 return
             }
             
             guard let downloadedDirectoryURL = self?.downloadDirectoryURL() else {
                 let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Unable to create directory for downloaded packages"])
-                completion?(error)
+                self?.postDownloadCompletedNotification(userInfo: ["error": error])
                 return
-            }
+            }            
             
             let fileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
             
@@ -344,11 +349,11 @@ class AppContext {
                 try data.write(to: fileURL, options: Data.WritingOptions.atomic)
             }
             catch let error {
-                completion?(error)
+                self?.postDownloadCompletedNotification(userInfo: ["error": error])
             }
             
             //success
-            completion?(nil)
+            self?.postDownloadCompletedNotification(userInfo: ["itemID": portalItem.itemID])
         }
         
         if let cancelable = cancelable {
@@ -381,6 +386,11 @@ class AppContext {
         return downloadedDirectoryURL
     }
     
+    private func postDownloadCompletedNotification(userInfo: [AnyHashable : Any]) {
+        
+        NotificationCenter.default.post(name: .DownloadCompleted, object: self, userInfo: userInfo)
+    }
+    
     //MARK: - Helper methods
     
     func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
@@ -397,6 +407,18 @@ class AppContext {
     
     func isCurrentlyDownloading(portalItem: AGSPortalItem) -> Bool {
         return self.currentlyDownloadingItemIDs.contains(portalItem.itemID)
+    }
+    
+    func indexOfPortalItem(with itemID:String) -> Int? {
+        
+        let filtered = self.portalItems.filter({ return $0.itemID == itemID })
+        
+        if filtered.count > 0, let index = self.portalItems.index(of: filtered[0]) {
+            return index
+        }
+        else {
+            return nil
+        }
     }
     
     func size(of package:AGSMobileMapPackage) -> String? {
