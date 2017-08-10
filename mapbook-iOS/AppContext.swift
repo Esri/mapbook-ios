@@ -307,7 +307,7 @@ class AppContext {
         //check if already downloading
         if self.isCurrentlyDownloading(portalItem: portalItem) {
             let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Already downloading"])
-            self.postDownloadCompletedNotification(userInfo: ["error": error])
+            self.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
             return
         }
         
@@ -327,19 +327,19 @@ class AppContext {
             }
             
             guard error == nil else {
-                self?.postDownloadCompletedNotification(userInfo: ["error": error!])
+                self?.postDownloadCompletedNotification(userInfo: ["error": error!, "itemID": portalItem.itemID])
                 return
             }
             
             guard let data = data else {
                 let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Fetch data returned nil as data"])
-                self?.postDownloadCompletedNotification(userInfo: ["error": error])
+                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
                 return
             }
             
             guard let downloadedDirectoryURL = self?.downloadDirectoryURL() else {
                 let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Unable to create directory for downloaded packages"])
-                self?.postDownloadCompletedNotification(userInfo: ["error": error])
+                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
                 return
             }            
             
@@ -349,7 +349,7 @@ class AppContext {
                 try data.write(to: fileURL, options: Data.WritingOptions.atomic)
             }
             catch let error {
-                self?.postDownloadCompletedNotification(userInfo: ["error": error])
+                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
             }
             
             //success
