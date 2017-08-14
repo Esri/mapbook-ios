@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E062F601F424C350061D84F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E062F5F1F424C350061D84F /* AppSettings.swift */; };
 		3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */; };
 		3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */; };
 		3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E062F5F1F424C350061D84F /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemsListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackagesListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
 				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
+				3E062F5F1F424C350061D84F /* AppSettings.swift */,
 			);
 			path = "mapbook-iOS";
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
 				3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */,
 				3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */,
+				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

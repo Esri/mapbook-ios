@@ -71,10 +71,6 @@ class AppContext {
     
     private init() {
         
-        let config = AGSOAuthConfiguration(portalURL: nil, clientID: "xHx4Nj7q1g19Wh6P", redirectURL: "iOSSamples://auth")
-        AGSAuthenticationManager.shared().oAuthConfigurations.add(config)
-        AGSAuthenticationManager.shared().credentialCache.enableAutoSyncToKeychain(withIdentifier: "com.mapbook", accessGroup: nil, acrossDevices: false)
-        
         if let portalURL = UserDefaults.standard.url(forKey: "PORTALURL") {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
             self.portal?.load(completion: nil)

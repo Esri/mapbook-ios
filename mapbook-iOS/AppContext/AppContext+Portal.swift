@@ -37,7 +37,7 @@ extension AppContext {
         self.portalItems = []
         
         let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: keyword)
-        parameters.limit = 20
+        parameters.limit = AppSettings.portalItemQuerySize
         
         self.isFetchingPortalItems = true
         
