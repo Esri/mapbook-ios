@@ -30,13 +30,18 @@
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
 		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
+		3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */; };
+		3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */; };
+		3EEBD3211F42196000DB4AAA /* AppContext+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */; };
+		3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3231F42261300DB4AAA /* AppMode.swift */; };
+		3EEBD3281F423FE300DB4AAA /* AppContext+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemsListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackagesListViewController.swift; sourceTree = "<group>"; };
-		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortalItemCell.swift; path = Cells/PortalItemCell.swift; sourceTree = "<group>"; };
-		3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalPackageCell.swift; path = Cells/LocalPackageCell.swift; sourceTree = "<group>"; };
+		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
+		3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackageCell.swift; sourceTree = "<group>"; };
 		3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalURLViewController.swift; sourceTree = "<group>"; };
 		3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
@@ -58,10 +63,15 @@
 		3EDC84611F1EC0CD002DBCF2 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendViewController.swift; sourceTree = "<group>"; };
-		3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LegendInfoCell.swift; path = Cells/LegendInfoCell.swift; sourceTree = "<group>"; };
-		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LayerCell.swift; path = Cells/LayerCell.swift; sourceTree = "<group>"; };
+		3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendInfoCell.swift; sourceTree = "<group>"; };
+		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCell.swift; sourceTree = "<group>"; };
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Local.swift"; sourceTree = "<group>"; };
+		3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Portal.swift"; sourceTree = "<group>"; };
+		3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Helper.swift"; sourceTree = "<group>"; };
+		3EEBD3231F42261300DB4AAA /* AppMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMode.swift; path = Enums/AppMode.swift; sourceTree = "<group>"; };
+		3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Login.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,26 +126,18 @@
 		3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3E6E06B81F3237B300921439 /* Libraries */,
+				3EEBD3261F423EA800DB4AAA /* View controllers */,
+				3EEBD3251F42264200DB4AAA /* AppContext */,
 				3EDC846B1F1FD5C0002DBCF2 /* Cells */,
+				3EEBD3221F42260000DB4AAA /* Enums */,
+				3E6E06B81F3237B300921439 /* Libraries */,
+				3EDC845B1F1E8BE8002DBCF2 /* Resources */,
 				3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */,
 				3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */,
 				3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */,
-				3EDC845B1F1E8BE8002DBCF2 /* Resources */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
-				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
-				3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */,
-				3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */,
-				3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */,
-				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
-				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
-				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
-				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
-				3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */,
 				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
-				3EA6873E1F3A81DC004B8430 /* InitialViewController.swift */,
-				3EA687401F3BBAAA004B8430 /* UserProfileViewController.swift */,
 			);
 			path = "mapbook-iOS";
 			sourceTree = "<group>";
@@ -156,7 +158,44 @@
 				3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */,
 				3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */,
 			);
-			name = Cells;
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		3EEBD3221F42260000DB4AAA /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				3EEBD3231F42261300DB4AAA /* AppMode.swift */,
+			);
+			name = Enums;
+			sourceTree = "<group>";
+		};
+		3EEBD3251F42264200DB4AAA /* AppContext */ = {
+			isa = PBXGroup;
+			children = (
+				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
+				3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */,
+				3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */,
+				3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */,
+				3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */,
+			);
+			path = AppContext;
+			sourceTree = "<group>";
+		};
+		3EEBD3261F423EA800DB4AAA /* View controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3EA6873E1F3A81DC004B8430 /* InitialViewController.swift */,
+				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
+				3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */,
+				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
+				3EA687401F3BBAAA004B8430 /* UserProfileViewController.swift */,
+				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
+				3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */,
+				3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */,
+				3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */,
+				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
+			);
+			path = "View controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,21 +275,26 @@
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
 				3EA687411F3BBAAA004B8430 /* UserProfileViewController.swift in Sources */,
+				3EEBD3281F423FE300DB4AAA /* AppContext+Login.swift in Sources */,
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
 				3EA6873F1F3A81DC004B8430 /* InitialViewController.swift in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */,
+				3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */,
+				3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
 				3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */,
 				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
+				3EEBD3211F42196000DB4AAA /* AppContext+Helper.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
 				3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */,
+				3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
