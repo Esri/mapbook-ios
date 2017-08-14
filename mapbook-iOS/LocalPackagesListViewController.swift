@@ -34,7 +34,6 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var deviceBBI:UIBarButtonItem!
     @IBOutlet private var portalBBI:UIBarButtonItem!
     
-    //private var portalItemsListVC:PortalItemsListViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +42,6 @@ class LocalPackagesListViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         
         self.addRefreshControl()
-        
-        //self.portalItemsListVC = self.storyboard?.instantiateViewController(withIdentifier: "PortalItemsListViewController") as? PortalItemsListViewController
         
         self.updateBarButtonItems()
         
@@ -55,6 +52,8 @@ class LocalPackagesListViewController: UIViewController {
             //show portal URL page
             self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
+        
+        self.observeDownloadCompletedNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +98,7 @@ class LocalPackagesListViewController: UIViewController {
         
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Checking for updates")
-        refreshControl.addTarget(self, action: #selector(LocalPackagesListViewController.refreshControlValueChanged(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
         
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
@@ -126,6 +125,32 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func showPortalItemsListVC() {
         
         self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+    }
+    
+    private func observeDownloadCompletedNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
+            
+            let error = notification.userInfo?["error"] as? Error
+            
+            if error != nil {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+            }
+            
+            if let itemID = notification.userInfo?["itemID"] as? String,
+                let package = AppContext.shared.localPackage(withItemID: itemID),
+                let index = AppContext.shared.localPackages.index(of: package),
+                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? LocalPackageCell {
+                
+                cell.isUpdating = false
+                
+                if error == nil {
+                    cell.isUpdateAvailable = false
+                    
+                    //TODO: update cell
+                }
+            }
+        }
     }
     
     //MARK: - Navigation
@@ -236,8 +261,11 @@ class LocalPackagesListViewController: UIViewController {
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
         
         self.fetchLocalPackages()
-
         refreshControl.endRefreshing()
+        
+        AppContext.shared.checkForUpdates { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 
@@ -254,6 +282,7 @@ extension LocalPackagesListViewController: UITableViewDataSource {
         }
         
         cell.mobileMapPackage = AppContext.shared.localPackages[indexPath.row]
+        
         return cell
     }
 }

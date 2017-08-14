@@ -69,8 +69,10 @@ class PortalItemCell: UITableViewCell {
                     return
                 }
 
+                self?.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
+                self?.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
                 self?.titleLabel.text = portalItem.title
-                self?.createdLabel.text = "Created \(AppContext.shared.createdDate(of: portalItem) ?? "--")"
+                self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: portalItem) ?? "--")"
                 self?.sizeLabel.text = "\(ByteCountFormatter().string(fromByteCount: portalItem.size))"
                 self?.descriptionLabel.text = portalItem.snippet
                 

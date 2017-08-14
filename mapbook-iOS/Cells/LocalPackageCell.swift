@@ -32,6 +32,26 @@ class LocalPackageCell: UITableViewCell {
     @IBOutlet private var sizeLabel:UILabel!
     @IBOutlet private var descriptionLabel:UILabel!
     @IBOutlet private var thumbnailImageView:UIImageView!
+    @IBOutlet private var downloadedLabel:UILabel!
+    @IBOutlet private var updateButton:UIButton!
+    @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
+    
+    var isUpdateAvailable = false {
+        didSet {
+            self.updateButton.isEnabled = isUpdateAvailable
+        }
+    }
+    
+    var isUpdating = false {
+        didSet {
+            self.updateButton.isHidden = isUpdating
+            self.activityIndicatorView?.isHidden = !isUpdating
+            
+            if !(self.activityIndicatorView?.isHidden ?? true) {
+                self.activityIndicatorView?.startAnimating()
+            }
+        }
+    }
     
     var mobileMapPackage:AGSMobileMapPackage? {
         didSet {
@@ -47,12 +67,25 @@ class LocalPackageCell: UITableViewCell {
                     return
                 }
                 
-                self?.createdLabel.text = "Created \(AppContext.shared.createdDate(of: item) ?? "--")"
+                self?.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
+                self?.isUpdateAvailable = AppContext.shared.isUpdatable(package: mobileMapPackage)
+                self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
                 self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
                 self?.titleLabel.text = item.title
                 self?.descriptionLabel.text = item.itemDescription
                 self?.thumbnailImageView.image = item.thumbnail?.image
+                self?.downloadedLabel.text = AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--"
             }
         }
+    }
+    
+    @IBAction private func update() {
+        
+        guard let package = self.mobileMapPackage else {
+            return
+        }
+        
+        self.isUpdating = true
+        AppContext.shared.update(package: package)
     }
 }

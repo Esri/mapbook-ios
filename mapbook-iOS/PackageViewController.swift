@@ -82,10 +82,10 @@ class PackageViewController: UIViewController {
         }
         
         self.titleLabel.text = item.title
-        self.createdLabel.text = "Created \(AppContext.shared.createdDate(of: item) ?? "--")"
+        self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
         self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
-        self.lastDownloadedLabel.text = "Last downloaded \(AppContext.shared.downloadDate(of: mobileMapPackage) ?? "--")"
+        self.lastDownloadedLabel.text = "Last downloaded \(AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--")"
         self.descriptionLabel.text = item.snippet
         self.thumbnailImageView.image = item.thumbnail?.image
     }

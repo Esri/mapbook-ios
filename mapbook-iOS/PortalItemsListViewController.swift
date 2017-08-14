@@ -113,7 +113,7 @@ class PortalItemsListViewController: UIViewController {
             }
             
             if let itemID = notification.userInfo?["itemID"] as? String,
-                let index = AppContext.shared.indexOfPortalItem(with: itemID),
+                let index = AppContext.shared.indexOfPortalItem(withItemID: itemID),
                 let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
                 
                 cell.isDownloading = false
@@ -143,10 +143,7 @@ extension PortalItemsListViewController:UITableViewDataSource {
         }
         
         let portalItem = AppContext.shared.portalItems[indexPath.row]
-        
         cell.portalItem = portalItem
-        cell.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
-        cell.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
         
         return cell
     }
