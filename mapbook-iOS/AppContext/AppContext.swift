@@ -41,7 +41,7 @@ class AppContext {
     var portal:AGSPortal? {
         didSet {
             
-            UserDefaults.standard.set(self.portal?.url, forKey: "PORTALURL")
+            AppSettings.save(portalUrl: self.portal?.url)
             
             //clean up
             self.portalItems.removeAll()
@@ -71,7 +71,7 @@ class AppContext {
     
     private init() {
         
-        if let portalURL = UserDefaults.standard.url(forKey: "PORTALURL") {
+        if let portalURL = AppSettings.getPortalURL() {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
             self.portal?.load(completion: nil)
         }

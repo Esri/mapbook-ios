@@ -66,4 +66,12 @@ struct AppSettings {
     // MARK: - User Preferences
     // Determine where user preferences are stored
     static let preferencesStore = UserDefaults.standard
+    
+    static func save(portalUrl url:URL?) {
+        UserDefaults.standard.set(url, forKey: "PORTALURL")
+    }
+    
+    static func getPortalURL() -> URL? {
+        return UserDefaults.standard.url(forKey: "PORTALURL")
+    }
 }
