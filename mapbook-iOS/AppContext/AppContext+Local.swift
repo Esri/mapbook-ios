@@ -25,8 +25,17 @@
 import UIKit
 import ArcGIS
 
+/*
+ Part of the AppContext that deals with local packages stored on the device
+*/
 extension AppContext {
     
+    /*
+     The method gets the URL for all the packages on the device. It looks in the documents 
+     directory root folder for .Device mode. And download folder inside documents directory
+     for .Portal mode. Returns an empty array for .NotSet. The method should never be called
+     in .NotSet mode, per current design.
+    */
     private func fetchLocalPackageURLs() -> [URL] {
         
         var localPackageURLs:[URL] = []
@@ -40,6 +49,7 @@ extension AppContext {
         
         var directoryURL:URL
         
+        //determine directory to look for, based on app mode
         if self.appMode == .device {
             directoryURL = documentsDirectoryURL
         }
@@ -47,17 +57,24 @@ extension AppContext {
             directoryURL = documentsDirectoryURL.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
         }
         
+        //get contents of the directory
         if let urls = try? FileManager.default.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
             
+            //filter for packages (.mmpk)
             localPackageURLs = urls.filter({ return $0.pathExtension == "mmpk" })
-            
         }
         
         return localPackageURLs
     }
     
+    /*
+     The method takes the package URLs from 'fetchLocalPackageURLs() -> [URL]', instantiates
+     an AGSMobileMapPackage object for each URL and returns the list of these objects. This
+     is a public method to be called by consuming classes.
+    */
     func fetchLocalPackages() {
         
+        //fetch local package URLs
         let localPackageURLs = self.fetchLocalPackageURLs()
         
         self.localPackages = []
@@ -69,6 +86,9 @@ extension AppContext {
         }
     }
     
+    /*
+     Delete local package at an index. This will delete the package file from the device
+    */
     func deleteLocalPackage(at index:Int) {
         
         do {
@@ -82,6 +102,11 @@ extension AppContext {
         self.localPackages.remove(at: index)
     }
     
+    /*
+     Delete all local packages from the device. Deletes the download folder in case of
+     .Portal mode and deletes each item from documents directory root folder in case of
+     .Device mode.
+    */
     func deleteAllLocalPackages() {
         
         if self.appMode == .portal {

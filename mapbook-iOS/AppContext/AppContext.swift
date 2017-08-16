@@ -25,52 +25,110 @@
 import UIKit
 import ArcGIS
 
+/*
+ Extend Notification.Name to add custom notification name for a package download completion
+ */
 extension Notification.Name {
     
     static let DownloadCompleted = Notification.Name("DownloadCompleted")
 }
 
+/*
+ Singleton class that handles all local and portal requests and provide a bunch of helper methods
+ */
 class AppContext {
     
+    //singleton
     static let shared = AppContext()
     
+    //name of the directory for saving downloaded packages
     let DownloadedPackagesDirectoryName = "Downloaded packages"
+    
+    //current mode of the app
     var appMode:AppMode = .notSet
+    
+    //list of packages available on device
     var localPackages:[AGSMobileMapPackage] = []
     
+    //portal to use for fetching portal items
     var portal:AGSPortal? {
+        
+        //the portal could be set if 
+        //a. user logins first time
+        //b. user switches to a different portal
+        //c. user logs out (set to nil)
+        //d. On app start up, if user was previously logged in
         didSet {
             
+            //save the portal url in UserDefaults to instantiate 
+            //portal if the app is closed and re-opened
             AppSettings.save(portalUrl: self.portal?.url)
             
-            //clean up
+            //clean up previous data, if any
+            
+            //remove all portal items
             self.portalItems.removeAll()
-            self.currentlyDownloadingItemIDs.removeAll()
+            
+            //cancel if previously fetching portal items
+            self.fetchPortalItemsCancelable?.cancel()
+            
+            //new portal is not fetching portal items currently
             self.isFetchingPortalItems = false
-            self.fetchPortalItemsCancelable?.cancel()
+            
+            //next query is not yet available
             self.nextQueryParameters = nil
-            self.fetchPortalItemsCancelable?.cancel()
+            
+            //clear list of updatable items, as there may not be any local packages
             self.updatableItemIDs.removeAll()
             
+            //cancel all downloads in progress
             _ = self.fetchDataCancelables.map( { $0.cancel() } )
             self.fetchDataCancelables.removeAll()
+            
+            //clear list of currently downloading itemIDs
+            self.currentlyDownloadingItemIDs.removeAll()
         }
     }
     
+    //list of portalItems from portal
     var portalItems:[AGSPortalItem] = []
     
+    //cancelable for the fetch call, in case it needs to be cancelled
     var fetchPortalItemsCancelable:AGSCancelable?
+    
+    //list of current fetchData calls, in case they need to be cancelled
     var fetchDataCancelables:[AGSCancelable] = []
+    
+    //flag if fetching is in progress
     var isFetchingPortalItems = false
+    
+    //next query parameters returned in the last query
     var nextQueryParameters:AGSPortalQueryParameters?
     
-    var dateFormatter:DateFormatter
+    //date formatter for Date to String conversions
+    var dateFormatter:DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter
+    }()
     
+    //list of currently dowloading item's IDs, to show UI accordingly
     var currentlyDownloadingItemIDs:[String] = []
+    
+    //list of local package's itemIDs, that have an update available online
     var updatableItemIDs:[String] = []
     
+    
+    /*
+     AppContext's private initializer, called only once, since its a 
+     singleton class. Called from the AppDelegate's didFinishLaunching
+     method the first time. It checks for info on Portal's URL in the
+     UserDefaults and instantiates the portal, if available. And then
+     determines the app mode.
+     */
     private init() {
         
+        //if portalURL is stored then instantiate portal object and load it
         if let portalURL = AppSettings.getPortalURL() {
             self.portal = AGSPortal(url: portalURL, loginRequired: true)
             self.portal?.load(completion: nil)
@@ -83,14 +141,17 @@ class AppContext {
             AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         }
         
-        self.dateFormatter = DateFormatter()
-        self.dateFormatter.dateStyle = .short
-        
+        //determine app mode
         self.appMode = self.determineMode()
     }
     
-    //MARK: - Mode related
-    
+    /*
+     The app can be in either one of the three modes:
+     a. NotSet - used first time; user logged out; there is no local data and user is logged out
+     b. Device - if there are any packages in the documents directory
+     c. Portal - if user is logged in to a portal
+     The determineMode method uses these conditions to find out the app mode
+    */
     private func determineMode() -> AppMode {
         
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]

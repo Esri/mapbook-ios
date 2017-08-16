@@ -25,8 +25,16 @@
 import Foundation
 import ArcGIS
 
+/*
+ Part of the AppContext that contains all the helper methods
+*/
 extension AppContext {
     
+    /*
+     Check if a portal item is already downloaded. Using it
+     in the PortalItemCell to change the state of the download
+     button.
+    */
     func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
         
         guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
@@ -39,12 +47,24 @@ extension AppContext {
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
     
+    /*
+     Check if a portal item is being currently downloaded. Using
+     it in the PortalItemCell to switch between activity indicator
+     and download button.
+    */
     func isCurrentlyDownloading(portalItem: AGSPortalItem) -> Bool {
         return self.currentlyDownloadingItemIDs.contains(portalItem.itemID)
     }
     
+    /*
+     Check if a local package is being updated. Using it in
+     LocalPackageCell to switch between activity indicator
+     and download button.
+    */
     func isUpdating(package: AGSMobileMapPackage) -> Bool {
         
+        //get itemID for package and check if item id is present in 
+        //currently downloading items IDs array
         if let itemID = self.itemID(for: package), self.currentlyDownloadingItemIDs.contains(itemID) {
             return true
         }
@@ -52,18 +72,36 @@ extension AppContext {
         return false
     }
     
-    func indexOfPortalItem(withItemID itemID:String) -> Int? {
+    /*
+     Check if a local package is updatable. If the itemID is 
+     part of the updatable itemIDs array
+     */
+    func isUpdatable(package: AGSMobileMapPackage) -> Bool {
         
-        let filtered = self.portalItems.filter({ return $0.itemID == itemID })
+        if let itemID = self.itemID(for: package) {
+            if self.updatableItemIDs.contains(itemID) {
+                return true
+            }
+        }
         
-        if filtered.count > 0, let index = self.portalItems.index(of: filtered[0]) {
-            return index
-        }
-        else {
-            return nil
-        }
+        return false
     }
     
+    /*
+     Get the index of portal item by using itemID.
+    */
+    func indexOfPortalItem(withItemID itemID:String) -> Int? {
+        
+        if let portalItem = self.portalItemWith(itemID: itemID),
+            let index = self.portalItems.index(of: portalItem) {
+            return index
+        }
+        return nil
+    }
+    
+    /*
+     Get portalItem for itemID.
+    */
     func portalItemWith(itemID:String) -> AGSPortalItem? {
         
         let filtered = self.portalItems.filter({ return $0.itemID == itemID })
@@ -76,6 +114,34 @@ extension AppContext {
         }
     }
     
+    /*
+     Get itemID for a pacakge. The local packages are written to
+     the device with itemID as the filename.
+    */
+    func itemID(for package:AGSMobileMapPackage) -> String? {
+        
+        if package.fileURL.pathExtension == "mmpk" {
+            return package.fileURL.deletingPathExtension().lastPathComponent
+        }
+        
+        return nil
+    }
+    
+    /*
+     Get local package with specified itemID. The local packages are written to
+     the device with itemID as the filename.
+    */
+    func localPackage(withItemID itemID: String) -> AGSMobileMapPackage? {
+        
+        if let index = self.localPackages.index(where: { $0.fileURL.lastPathComponent == "\(itemID).mmpk" }) {
+            return self.localPackages[index]
+        }
+        return nil
+    }
+    
+    /*
+     Get size of local package.
+    */
     func size(of package:AGSMobileMapPackage) -> String? {
         
         if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
@@ -87,6 +153,9 @@ extension AppContext {
         return nil
     }
     
+    /*
+     Get download date of local package.
+     */
     func downloadDate(of package:AGSMobileMapPackage) -> Date? {
         
         if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
@@ -97,6 +166,9 @@ extension AppContext {
         return nil
     }
     
+    /*
+     Get download date of local package as String.
+     */
     func downloadDateAsString(of package:AGSMobileMapPackage) -> String? {
         
         if let date = self.downloadDate(of: package) {
@@ -108,6 +180,9 @@ extension AppContext {
         return nil
     }
     
+    /*
+     Get created date of local package as String.
+     */
     func createdDateAsString(of item:AGSItem) -> String? {
         
         if let created = item.created {
@@ -115,46 +190,6 @@ extension AppContext {
             return dateString
         }
         
-        return nil
-    }
-    
-    func isUpdatable(package: AGSMobileMapPackage) -> Bool {
-        
-        if let itemID = self.itemID(for: package) {
-            if self.updatableItemIDs.contains(itemID) {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
-    func createPortalItem(forPackage package:AGSMobileMapPackage) -> AGSPortalItem? {
-        
-        if let portal = self.portal,
-            let itemID = self.itemID(for: package) {
-            
-            //create portal item
-            let portalItem = AGSPortalItem(portal: portal, itemID: itemID)
-            return portalItem
-        }
-        return nil
-    }
-    
-    func itemID(for package:AGSMobileMapPackage) -> String? {
-        
-        if package.fileURL.pathExtension == "mmpk" {
-            return package.fileURL.deletingPathExtension().lastPathComponent
-        }
-        
-        return nil
-    }
-    
-    func localPackage(withItemID itemID: String) -> AGSMobileMapPackage? {
-        
-        if let index = self.localPackages.index(where: { $0.fileURL.lastPathComponent == "\(itemID).mmpk" }) {
-            return self.localPackages[index]
-        }
         return nil
     }
 }
