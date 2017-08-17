@@ -32,6 +32,7 @@ class MapCell: UICollectionViewCell {
     @IBOutlet private var descriptionLabel:UILabel!
     @IBOutlet private var thumbnailImageView:UIImageView!
     
+    //highlight selection
     override var isSelected: Bool {
         didSet {
             self.layer.borderColor = self.isSelected ? UIColor.yellow.cgColor : UIColor.clear.cgColor
@@ -45,6 +46,7 @@ class MapCell: UICollectionViewCell {
                 return
             }
             
+            //update textfields
             self.titleLabel?.text = item.title
             self.dateLabel?.text = "date"
             self.descriptionLabel?.text = item.itemDescription
@@ -55,6 +57,7 @@ class MapCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        //stylize
         self.layer.cornerRadius = 10
     }
 }
