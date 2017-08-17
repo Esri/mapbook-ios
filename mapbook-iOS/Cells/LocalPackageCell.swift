@@ -72,7 +72,7 @@ class LocalPackageCell: UITableViewCell {
                 self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
                 self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
                 self?.titleLabel.text = item.title
-                self?.descriptionLabel.text = item.itemDescription
+                self?.descriptionLabel.text = item.snippet
                 self?.thumbnailImageView.image = item.thumbnail?.image
                 self?.downloadedLabel.text = AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--"
             }

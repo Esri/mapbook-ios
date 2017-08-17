@@ -49,7 +49,7 @@ class MapCell: UICollectionViewCell {
             //update textfields
             self.titleLabel?.text = item.title
             self.dateLabel?.text = "date"
-            self.descriptionLabel?.text = item.itemDescription
+            self.descriptionLabel?.text = item.snippet
             self.thumbnailImageView.image = item.thumbnail?.image
         }
     }
