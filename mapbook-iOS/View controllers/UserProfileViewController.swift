@@ -26,7 +26,8 @@ import UIKit
 
 protocol UserProfileViewControllerDelegate:class {
     
-    func userProfileViewControllerWantsToSignOut(_ userProfileViewController:UserProfileViewController)
+    //To notify delegate to log out
+    func userProfileViewControllerWantsToLogOut(_ userProfileViewController:UserProfileViewController)
 }
 
 class UserProfileViewController: UIViewController {
@@ -40,24 +41,30 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //preferred content size as pop over
         self.preferredContentSize = CGSize(width: 240, height: 150)
         
+        //stylize image view
         self.profileImageView.layer.cornerRadius = 40
         self.profileImageView.layer.masksToBounds = true
         
+        //Portal should be loaded in order to get the user
         guard let portalUser = AppContext.shared.portal?.user else {
             print("Portal user is nil")
             return
         }
         
+        //update text fields
         self.usernameLabel.text = portalUser.username ?? "<username>"
         self.fullnameLabel.text = portalUser.fullName ?? "<fullname>"
         
+        //load thumbnail on user to get the image
         portalUser.thumbnail?.load { [weak self] (error) in
             guard let image = portalUser.thumbnail?.image, error == nil else {
                 return
             }
             
+            //add image
             self?.profileImageView.image = image
         }
     }
@@ -70,6 +77,6 @@ class UserProfileViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
         
         //notify delegate
-        self.delegate?.userProfileViewControllerWantsToSignOut(self)
+        self.delegate?.userProfileViewControllerWantsToLogOut(self)
     }
 }

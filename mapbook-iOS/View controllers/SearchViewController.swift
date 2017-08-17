@@ -42,6 +42,11 @@ class SearchViewController: UIViewController {
     private var suggestCancelable:AGSCancelable?
     private var geocodeCancelable:AGSCancelable?
 
+    /*
+     Get suggestions for text. The method cancels any previous request.
+     And on successful completion the results are shown in the table
+     view.
+    */
     fileprivate func suggestions(for text:String) {
         
         guard let locatorTask = self.locatorTask else {
@@ -70,6 +75,10 @@ class SearchViewController: UIViewController {
         }
     }
     
+    /*
+     Geocode location for suggest result. Called when the user
+     selects a suggestion. The delegate is notified of the results.
+    */
     fileprivate func geocode(for suggestResult:AGSSuggestResult) {
         
         guard let locatorTask = self.locatorTask else {

@@ -32,6 +32,8 @@ class PortalItemsListViewController: UIViewController {
     @IBOutlet private var footerView:UIView!
     
     private var isLoading = false {
+        //hide or show footer view with activity indicator
+        //based on if loading or not
         didSet {
             self.footerView?.isHidden = !isLoading
         }
@@ -40,13 +42,17 @@ class PortalItemsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //for self sizing cells
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 80
         
+        //observe DownloadCompleted notification to update cell state
         self.observeDownloadCompletedNotification()
         
+        //If the portal url is for ArcGIS Online, highlight the offline
+        //mapbook we created, using 'Offline mapbook' keyword while fetching
+        //portal items.
         var keyword:String?
-        
         if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
             keyword = "Offline mapbook"
             
@@ -55,6 +61,11 @@ class PortalItemsListViewController: UIViewController {
         self.fetchPortalItems(using: keyword)
     }
     
+    /*
+     Fetch portal items using keyword. The method calls AppContext's fetch 
+     method. And simply refreshes the table view on successful completion
+     or displays the error on failure.
+    */
     fileprivate func fetchPortalItems(using keyword:String?) {
         self.isLoading = true
         
@@ -77,6 +88,11 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    /*
+     Fetch next set of portal items. Again AppContext's fetchMorePortalItems
+     method is called. On completion either the error is displayed or table
+     view is refreshed.
+    */
     fileprivate func fetchMorePortalItems() {
         
         if self.isLoading || !AppContext.shared.hasMorePortalItems() { return }
@@ -102,6 +118,11 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    /*
+     Convenience method for observing DownloadCompleted notification. In
+     the closure, the itemID from userInfo is used to get the corresponding
+     cell. The state of the cell is then updated.
+    */
     private func observeDownloadCompletedNotification() {
         
         NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
@@ -126,6 +147,7 @@ class PortalItemsListViewController: UIViewController {
     }
     
     deinit {
+        //remove observer
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -151,6 +173,8 @@ extension PortalItemsListViewController:UITableViewDataSource {
 
 extension PortalItemsListViewController:UIScrollViewDelegate {
     
+    //Fetch next set of portal items when user scolls to the
+    //end of the table view
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         //End editing to hide keyboard
@@ -174,12 +198,15 @@ extension PortalItemsListViewController:UIScrollViewDelegate {
     }
 }
 
+//Search delegate methods
 extension PortalItemsListViewController:UISearchBarDelegate {
     
+    //fetch portal items using keyword on search bar button click
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.fetchPortalItems(using: searchBar.text)
     }
     
+    //If the search bar text is empty, fetch portal items without keyword
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             self.fetchPortalItems(using: nil)

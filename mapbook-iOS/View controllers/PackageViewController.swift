@@ -41,13 +41,16 @@ class PackageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Mobile map package is must
         if self.mobileMapPackage == nil {
             SVProgressHUD.showError(withStatus: "Mobile map package is nil", maskType: .gradient)
             return
         }
         
+        //load package and update UI
         self.loadMapPackage()
         
+        //stylize image view
         self.thumbnailImageView.layer.borderWidth = 1
         self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue().cgColor
     }
@@ -62,25 +65,30 @@ class PackageViewController: UIViewController {
                 return
             }
             
+            //update UI
             self?.updateUI()
+            
+            //reload collection view to show maps in the package
             self?.collectionView.reloadData()
         }
     }
     
     private func updateUI() {
         
+        //make sure package is not nil and is loaded
         guard let mobileMapPackage = self.mobileMapPackage, mobileMapPackage.loadStatus == .loaded else {
             
             SVProgressHUD.showError(withStatus: "Either mobile map package is nil or not loaded", maskType: .gradient)
             return
         }
         
+        //package item is not nil
         guard let item = mobileMapPackage.item else {
-
             SVProgressHUD.showError(withStatus: "Item not found on mobile map package", maskType: .gradient)
             return
         }
         
+        //update textfields
         self.titleLabel.text = item.title
         self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
         self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
@@ -90,6 +98,10 @@ class PackageViewController: UIViewController {
         self.thumbnailImageView.image = item.thumbnail?.image
     }
     
+    /*
+     Returns the current selected map in the collection view. Used 
+     to get and set the map on the MapViewController
+    */
     private func selectedMap() -> AGSMap? {
         
         if let selectedIndexPath = self.collectionView.indexPathsForSelectedItems?[0] {
@@ -107,7 +119,10 @@ class PackageViewController: UIViewController {
         
         if segue.identifier == "MapVCSegue", let controller = segue.destination as? MapViewController {
             
+            //set selected map
             controller.map = self.selectedMap()
+            
+            //set locator task from the package on the controller
             controller.locatorTask = mobileMapPackage?.locatorTask
         }
     }

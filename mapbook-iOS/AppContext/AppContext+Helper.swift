@@ -192,4 +192,33 @@ extension AppContext {
         
         return nil
     }
+    
+    /*
+     Get UILabel to be displayed in the table view background if no packages
+     found. The text of the label varies based on the appMode.
+    */
+    func labelForNoPackages() -> UILabel {
+        
+        var text:String
+        switch self.appMode {
+        case .device:
+            text = "Add the mobile map package via iTunes and pull to refresh the table view"
+        case .portal:
+            text = "Tap on the plus button on the right to download mobile map packages from portal. If done downloading pull to refresh the table view"
+        default:
+            text = ""
+        }
+        
+        let label = UILabel()
+        label.text = text
+        label.textColor = UIColor.lightGray
+        label.sizeToFit()
+        label.numberOfLines = 0
+        label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        label.frame = CGRect(x: label.frame.origin.x, y: label.frame.origin.y, width: 240, height: label.frame.height)
+        label.textAlignment = .center
+        
+        return label
+    }
 }

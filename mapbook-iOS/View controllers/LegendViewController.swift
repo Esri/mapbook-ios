@@ -42,6 +42,9 @@ class LegendViewController: UIViewController {
         }
     }
 
+    /*
+     Populate legend infos recursively, for sublayers.
+    */
     private func populateLegends(with layers:[AGSLayer]) {
         
         for layer in layers {

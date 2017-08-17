@@ -41,19 +41,27 @@ class InitialViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //reset background color to white, could have been
+        //set to yellow on touch down
         self.deviceParentView.backgroundColor = UIColor.white
         self.portalParentView.backgroundColor = UIColor.white
     }
 
-    
     //MARK: - Actions
     
     @IBAction private func buttonTouchDown(_ sender:UIButton) {
+        
+        //higlight the selected view
+        //get selected view
         let selectedView = (sender.tag == 0) ? self.deviceParentView : self.portalParentView
+        
+        //set background color to yellow
         selectedView?.backgroundColor = UIColor.yellow
         
+        //set appMode on AppContext based on selection
         AppContext.shared.appMode = (sender.tag == 0) ? .device : .portal
         
+        //perform segue
         self.performSegue(withIdentifier: "LocalPackagesListVC", sender: self)
     }
 }

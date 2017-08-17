@@ -41,16 +41,23 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //set map from package on map view
         self.mapView.map = self.map
         
+        //assign touch delegate for identify
         self.mapView.touchDelegate = self
         
+        //graphics overlay to show geocoding results
         self.mapView.graphicsOverlays.add(self.searchGraphicsOverlay)
         
+        //set title of the map as the title for the view controller
         self.title = self.map?.item?.title
         
+        //constraint bottom anchor of the overlay view to the top anchor
+        //of the attribution label, so it resizes when the label grows
         self.overlayView.bottomAnchor.constraint(equalTo: self.mapView.attributionTopAnchor, constant: -50).isActive = true
         
+        //stylize overlay view
         self.overlayView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
         self.overlayView.layer.borderWidth = 2
         
@@ -67,6 +74,9 @@ class MapViewController: UIViewController {
         self.toggleOverlay(on: false, animated: false)
     }
     
+    /*
+     Clear selection on each feature layer.
+    */
     fileprivate func clearSelection() {
         
         if let operationalLayers = self.map?.operationalLayers as? [AGSLayer] {
@@ -80,6 +90,9 @@ class MapViewController: UIViewController {
     
     //MARK: - Symbols
     
+    /*
+     Picture Marker Symbol for geocde result.
+    */
     fileprivate func geocodeResultSymbol() -> AGSSymbol {
         
         let image = #imageLiteral(resourceName: "RedMarker")
@@ -91,14 +104,19 @@ class MapViewController: UIViewController {
     
     //MARK: - Show/hide overlay
     
+    /*
+     Show or hide overlay view.
+    */
     func toggleOverlay(on: Bool, animated: Bool) {
         
         if self.isOverlayVisible == on {
             return
         }
         
+        //update bar button item image based on state
         self.toggleBarButtonItem?.image = !isOverlayVisible ? #imageLiteral(resourceName: "BurgerMenuSelected") : #imageLiteral(resourceName: "BurgerMenu")
         
+        //use the width to compute the offset
         let width = self.overlayView.frame.width
         self.overlayTrailingConstraint.constant = on ? 10 : -(width + 10)
         
@@ -127,6 +145,8 @@ class MapViewController: UIViewController {
 
     //MARK: - Navigation
     
+    //provide needed data (map or locatorTask) to the child view 
+    //controllers in the tab bar controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "TabBarEmbedSegue", let controller = segue.destination as? UITabBarController {
@@ -147,21 +167,6 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController:AGSGeoViewTouchDelegate {
-    
-    private func showPopupsVC(for popups:[AGSPopup], at screenPoint:CGPoint) {
-        
-        if popups.count > 0 {
-            
-            let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: AGSPopupsViewControllerContainerStyle.navigationController)
-            popupsVC.delegate = self
-            popupsVC.modalPresentationStyle = .popover
-            popupsVC.popoverPresentationController?.permittedArrowDirections = [.up, .down]
-            popupsVC.popoverPresentationController?.sourceView = self.mapView
-            popupsVC.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
-            self.present(popupsVC, animated: true, completion: nil)
-            popupsVC.popoverPresentationController?.delegate = self
-        }
-    }
     
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
      
@@ -193,10 +198,31 @@ extension MapViewController:AGSGeoViewTouchDelegate {
             self?.showPopupsVC(for: popups, at: screenPoint)
         }
     }
+    
+    /*
+     Show popups for identified features
+    */
+    private func showPopupsVC(for popups:[AGSPopup], at screenPoint:CGPoint) {
+        
+        if popups.count > 0 {
+            
+            let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: AGSPopupsViewControllerContainerStyle.navigationController)
+            popupsVC.delegate = self
+            popupsVC.modalPresentationStyle = .popover
+            popupsVC.popoverPresentationController?.permittedArrowDirections = [.up, .down]
+            popupsVC.popoverPresentationController?.sourceView = self.mapView
+            popupsVC.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
+            self.present(popupsVC, animated: true, completion: nil)
+            popupsVC.popoverPresentationController?.delegate = self
+        }
+    }
 }
 
 extension MapViewController:BookmarksViewControllerDelegate {
     
+    /*
+     Update map view's viewpoint based on the selected bookmark
+    */
     func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelectBookmark bookmark: AGSBookmark) {
         
         guard let viewpoint = bookmark.viewpoint else {
@@ -209,6 +235,9 @@ extension MapViewController:BookmarksViewControllerDelegate {
 
 extension MapViewController:SearchViewControllerDelegate {
     
+    /*
+     Add geocode results as graphics on the graphics overlay.
+    */
     func searchViewController(_ searchViewController: SearchViewController, didFindGeocodeResults geocodeResults: [AGSGeocodeResult]) {
         
         //clear existing graphics
@@ -230,6 +259,9 @@ extension MapViewController:SearchViewControllerDelegate {
 
 extension MapViewController:AGSPopupsViewControllerDelegate {
     
+    /*
+     Update selection on map view to currently viewing popup.
+    */
     func popupsViewController(_ popupsViewController: AGSPopupsViewController, didChangeToCurrentPopup popup: AGSPopup) {
         
         //clear previous selection
@@ -246,6 +278,9 @@ extension MapViewController:AGSPopupsViewControllerDelegate {
 
 extension MapViewController:UIPopoverPresentationControllerDelegate {
     
+    /*
+     Modal presentation as popover even for iPhone
+    */
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         
         self.clearSelection()
