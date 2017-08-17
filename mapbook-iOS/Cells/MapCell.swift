@@ -48,7 +48,7 @@ class MapCell: UICollectionViewCell {
             
             //update UI
             self.titleLabel?.text = item.title
-            self.dateLabel?.text = "date"
+            self.dateLabel?.text = AppContext.shared.createdDateAsString(of: item)
             self.descriptionLabel?.text = item.snippet
             self.thumbnailImageView.image = item.thumbnail?.image
         }
