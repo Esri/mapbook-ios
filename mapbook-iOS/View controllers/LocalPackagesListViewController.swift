@@ -70,12 +70,20 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     /*
-     Fetch local packages using AppContext. Show background label if no packages found.
+     Fetch local packages using AppContext.
     */
     private func fetchLocalPackages() {
         
         AppContext.shared.fetchLocalPackages()
         self.tableView.reloadData()
+        
+        self.showBackgroundLabelIfNeeded()
+    }
+    
+    /*
+     Show background label if no packages found.
+    */
+    fileprivate func showBackgroundLabelIfNeeded() {
         
         if AppContext.shared.localPackages.count > 0 {
             self.tableView.backgroundView = nil
@@ -358,6 +366,9 @@ extension LocalPackagesListViewController: UITableViewDelegate {
         
             //refresh table view
             tableView.reloadData()
+            
+            //if no packages left then show the background label
+            self.showBackgroundLabelIfNeeded()
         }
     }
     
