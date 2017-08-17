@@ -46,7 +46,7 @@ class MapCell: UICollectionViewCell {
                 return
             }
             
-            //update textfields
+            //update UI
             self.titleLabel?.text = item.title
             self.dateLabel?.text = "date"
             self.descriptionLabel?.text = item.snippet

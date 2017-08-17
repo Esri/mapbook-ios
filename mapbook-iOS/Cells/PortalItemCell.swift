@@ -69,7 +69,7 @@ class PortalItemCell: UITableViewCell {
                     return
                 }
 
-                //update textfields
+                //update UI
                 self?.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
                 self?.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
                 self?.titleLabel.text = portalItem.title
