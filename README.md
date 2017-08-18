@@ -1,4 +1,4 @@
-# Mapbook Android
+# Mapbook iOS
 This repo is home to the mobile mapbook app, an example application using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/iOS/). Replace the paper maps you use for field work with offline maps.
 
 ## Features
