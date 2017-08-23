@@ -36,7 +36,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
     // Let iOS know we handled the URL OK
     return true
 }
-``` 
+```
 
 To tell iOS to call back like this, the Maps App configures a `URL Type` in the `Info.plist` file.
 
@@ -52,40 +52,40 @@ Identify lets you recognize features on the map view. To know when the user inte
 ```swift
 
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
-     
+
         //identify
         self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
-            
+
             guard error == nil else {
                 SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
-            
+
             guard let results = identifyLayerResults else {
                 SVProgressHUD.showError(withStatus: "No features at the tapped location", maskType: .gradient)
                 return
             }
-            
+
             //Show results
         }
     }
 ```
 The API provides the ability to identify multiple layer types, with results being stored in `subLayerContent`. Developers should note that if they choose to identify other layer types, like `AGSArcGISMapImageLayer` for example, they would need to add that implementation themselves.
 
-### Displaying Identify Results 
+### Displaying Identify Results
 
 Results of the identify action are displayed using [`PopUp`](https://developers.arcgis.com/ios/latest/swift/guide/essential-vocabulary.htm#GUID-3FD39DD2-FFEF-4010-9B90-09BF1E230E8F). The geo element identified are used to iniatialize popups. And these popups are shown using `AGSPopupsViewController`.
 
 ```swift
 var popups:[AGSPopup] = []
-    
+
 for result in results {
     for geoElement in result.geoElements {
         let popup = AGSPopup(geoElement: geoElement)
         popups.append(popup)
     }
 }
-    
+
 //show using popups view controller
 let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: AGSPopupsViewControllerContainerStyle.navigationController)
 popupsVC.delegate = self
@@ -102,9 +102,9 @@ Layer visibility can be toggled in the table of contents (TOC). In addition to t
  Populate legend infos recursively, for sublayers.
 */
 private func populateLegends(with layers:[AGSLayer]) {
-    
+
     for layer in layers {
-        
+
         if layer.subLayerContents.count > 0 {
             self.populateLegends(with: layer.subLayerContents as! [AGSLayer])
         }
@@ -112,12 +112,12 @@ private func populateLegends(with layers:[AGSLayer]) {
             //else if no sublayers fetch legend info
             self.content.append(layer)
             layer.fetchLegendInfos { [weak self, constLayer = layer] (legendInfos, error) -> Void in
-                
+
                 guard error == nil else {
                     //show error
                     return
                 }
-                
+
                 if let legendInfos = legendInfos, let index = self?.content.index(of: constLayer) {
                     self?.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
                     self?.tableView.reloadData()
@@ -148,32 +148,30 @@ func setBookmark(_ bookmark:AGSBookmark) {
 
 Typing the first few letters of an address into the search bar (e.g. “Str”) shows a number of suggestions. This is using a simple call on the `AGSLocatorTask`.
 
-![Suggestions & Search](/docs/images/suggestions.png)
-
 ```swift
 func suggestions(for text:String) {
-    
+
     guard let locatorTask = self.locatorTask else {
         return
     }
-    
+
     //cancel previous request
     self.suggestCancelable?.cancel()
-    
+
     self.suggestCancelable = locatorTask.suggest(withSearchText: text) { [weak self] (suggestResults, error) in
-        
+
         guard error == nil else {
             if let error = error as NSError?, error.code != NSUserCancelledError {
                 //Show error
             }
             return
         }
-        
+
         guard let suggestResults = suggestResults else {
             print("No suggestions")
             return
         }
-        
+
         //Show results...
     }
 }
@@ -183,35 +181,36 @@ Once a suggestion in the list has been selected by the user, the suggested addre
 
 ```swift
 func geocode(for suggestResult:AGSSuggestResult) {
-    
+
     guard let locatorTask = self.locatorTask else {
         return
     }
-    
+
     self.geocodeCancelable?.cancel()
-    
+
     self.geocodeCancelable = locatorTask.geocode(with: suggestResult) { (geocodeResults, error) in
-        
+
         guard error == nil else {
             if let error = error as NSError?, error.code != NSUserCancelledError {
                 //Show error
             }
             return
         }
-        
+
         guard let geocodeResults = geocodeResults else {
             print("No location found")
             return
         }
-        
+
         //Show results...
     }
 }
 ```
+![Suggestions & Search](/docs/images/suggestion.png)
 
 ### Check For Mobile Map Package Updates
 
-When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates for already downloaded packages. If a newer version of the mobile map pacakge is available, the refresh button is enabled. 
+When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates for already downloaded packages. If a newer version of the mobile map pacakge is available, the refresh button is enabled.
 
 ![Check for Updates](/docs/images/check-for-updates.png)
 
@@ -219,55 +218,53 @@ A portal item for each downloaded package is created and loaded. Then the modifi
 
 ```swift
 func checkForUpdates(completion: (() -> Void)?) {
-    
+
     //if portal is nil. Should not be the case
     if self.portal == nil {
         completion?()
         return
     }
-    
+
     //clear updatable item IDs array
     self.updatableItemIDs = []
-    
+
     //use dispatch group to track multiple async completion calls
     let dispatchGroup = DispatchGroup()
-    
+
     //for each package
     for package in self.localPackages {
-        
+
         dispatchGroup.enter()
-        
+
         //create portal item
         guard let portalItem = self.createPortalItem(forPackage: package) else {
             dispatchGroup.leave()
             continue
         }
-        
+
         //load portal item
         portalItem.load { [weak self] (error) in
-            
+
             dispatchGroup.leave()
-            
+
             guard error == nil else {
                 return
             }
-            
+
             //check if updated
             if let downloadedDate = self?.downloadDate(of: package),
                 let modifiedDate = portalItem.modified,
                 modifiedDate > downloadedDate {
-                
+
                 //add to the list
                 self?.updatableItemIDs.append(portalItem.itemID)
             }
         }
     }
-    
+
     dispatchGroup.notify(queue: .main) {
         //call completion once all async calls are completed
         completion?()
     }
 }
 ```
-
-
