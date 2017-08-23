@@ -1,9 +1,17 @@
 # Offline Mapbook
 
+## App Modes
+
+The app supports both connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. Meaning, the device does not have access to internet/intranet and the packages are added either via iTunes or using a Mobile Device Management (MDM) system. Otherwise, if the device has internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
+
+![App Modes](/docs/images/app-mode.png)
+
+You can switch between the modes anytime in the app but with consequences. Switching from `Device` to `Portal` you will loose any local packages. And for a switch from `Portal` to `Device` in addition to loosing the downloaded packages, you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
+
 ## App Developer Patterns
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
-## Identity
+### Identity
 The Mapbook App leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the routing workflow, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token later consumed by the Portal and routing service. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
