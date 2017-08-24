@@ -2,17 +2,17 @@
 
 ## App Modes
 
-The app supports both connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. Meaning, the device does not have access to internet/intranet and the packages are added either via iTunes or using a Mobile Device Management (MDM) system. Otherwise, if the device has internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
+The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. Meaning, the device does not have access to internet/intranet and the packages are added either via iTunes or using a Mobile Device Management (MDM) system. Otherwise, if the device has internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
 
 ![App Modes](/docs/images/app-mode.png)
 
-You can switch between the modes anytime in the app but with consequences. Switching from `Device` to `Portal` you will loose any local packages. And for a switch from `Portal` to `Device` in addition to loosing the downloaded packages, you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
+You can switch between the modes anytime in the app but with consequences. Switching from `Device` to `Portal` you will lose any local packages. And for a switch from `Portal` to `Device` in addition to losing the downloaded packages, you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
 
 ## App Developer Patterns
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
-### Identity
-The Mapbook App leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the routing workflow, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token later consumed by the Portal and routing service. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+### Authentication
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the routing workflow, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token later consumed by the Portal and routing service. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -279,9 +279,18 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-Learn how to create and share mobile map packages so that you can take your organization's maps offline and view them in this app.
+The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. As explained above, the device can be operated in either of two modes - `Device` or `Portal`. This means that any type of mobile map package can be authored and can then be recognized and opened by the app.
 
-Below we show you the steps for authoring and packaging a mobile map package with the help of an example.
+This example app, however, has been tailored to leverage specific features of the Runtime and as well as to take advantage of specific capabilities of a mobile map package. This was done with consideration of the following capabilities:
+- .mmpks with locator(s)
+- .mmpks with bookmark(s)
+- .mmpks with a TOC and legend
+- .mmpks with multiple maps
+- .mmpks whose maps have useful metadata
+
+While this means that although .mmpks not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any  features, or the bookmarks sidebar may appear blank.
+
+With this in mind, read on below to learn how to create and share a mobile map package with your own data and take advantage of the full suite of capabilities offered in this example app.
 
 ### Data scenario
 In this example, an employee of the fictitious 'Naperville Water Company' requires offline access to the following types of data while out in the field:
