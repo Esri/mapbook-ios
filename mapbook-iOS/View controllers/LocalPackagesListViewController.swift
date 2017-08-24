@@ -259,7 +259,7 @@ class LocalPackagesListViewController: UIViewController {
     @IBAction func switchToPortalMode() {
         
         //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Portal mode?", message: "This will delete all the packages you have on device", preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)
         
         //yes action
         let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in

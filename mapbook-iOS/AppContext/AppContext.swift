@@ -154,22 +154,21 @@ class AppContext {
     */
     private func determineMode() -> AppMode {
         
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        //portal mode
+        //if user is logged in
+        if self.isUserLoggedIn() {
+            return .portal
+        }
         
         //device mode
         //check if documents directory root folder has mmpks
+        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         if let urls = try? FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
             
             let mmpkURLs = urls.filter({ return $0.pathExtension == "mmpk" })
             if mmpkURLs.count > 0 {
                 return .device
             }
-        }
-        
-        //portal mode
-        //if user is logged in
-        if self.isUserLoggedIn() {
-            return .portal
         }
         
         return AppMode.notSet
