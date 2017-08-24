@@ -2,21 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>AGSConfiguration</key>
-    <dict>
-        <key>AppURLScheme</key>
-        <string>mapbook</string>
-        <key>AuthURLPath</key>
-        <string>auth</string>
-        <key>PortalItemsQuerySize</key>
-        <integer>20</integer>
-        <key>ClientID</key>
-        <string>eZ9t1reUTPhT5IXb</string>
-        <key>KeychainIdentifier</key>
-        <string>com.mapbook</string>
-        <key>LicenseKey</key>
-        <string></string>
-    </dict>
+	<key>AGSConfiguration</key>
+	<dict>
+		<key>AppURLScheme</key>
+		<string>mapbook</string>
+		<key>AuthURLPath</key>
+		<string>auth</string>
+		<key>ClientID</key>
+		<string>Your ClientID</string>
+		<key>KeychainIdentifier</key>
+		<string>com.mapbook</string>
+		<key>LicenseKey</key>
+		<string>Your runtime license</string>
+		<key>PortalItemsQuerySize</key>
+		<integer>20</integer>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -83,6 +83,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
