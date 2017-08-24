@@ -863,6 +863,7 @@
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" systemItem="search" id="ILt-FL-Pvu"/>
                     <connections>
+                        <outlet property="searchBar" destination="1h8-EL-WUu" id="Cym-HO-Cbo"/>
                         <outlet property="tableView" destination="SeH-0X-op5" id="AZB-1g-GrW"/>
                     </connections>
                 </viewController>
