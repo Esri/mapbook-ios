@@ -279,16 +279,16 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. As explained above, the device can be operated in either of two modes - `Device` or `Portal`. This means that any mobile map package can be authored and can then be recognized and opened by the app.
+The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. As explained above, the device can be operated in either of two modes - `Device` or `Portal`. These two modes allow a large variety of mobile map packages to be recognized and opened by the app.
 
-This example app, however, has been tailored to leverage specific features of the Runtime and as well as to take advantage of specific capabilities of a mobile map package. This was done with consideration of the following capabilities:
+This example app, however, has been tailored to leverage specific features of the Runtime that require specific information to be saved with a mobile map package. This was done with consideration of the following:
 - .mmpks with locator(s)
 - .mmpks with bookmark(s)
 - .mmpks with a TOC and legend
 - .mmpks with multiple maps
 - .mmpks whose maps have useful metadata
 
-While this means that although .mmpks not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any  features, or the bookmarks sidebar may appear blank.
+Although .mmpks not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any  features, or the bookmarks sidebar may appear blank.
 
 With this in mind, read on below to learn how to create and share a mobile map package with your own data and take advantage of the full suite of capabilities offered in this example app.
 
