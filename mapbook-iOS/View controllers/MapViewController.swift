@@ -216,6 +216,15 @@ extension MapViewController:AGSGeoViewTouchDelegate {
             popupsVC.popoverPresentationController?.delegate = self
         }
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        //hide popover on rotation if visible
+        if let _ = self.presentedViewController {
+            self.clearSelection()
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
 extension MapViewController:BookmarksViewControllerDelegate {
