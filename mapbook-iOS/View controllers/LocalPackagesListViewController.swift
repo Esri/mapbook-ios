@@ -33,7 +33,7 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var settingsBBI:UIBarButtonItem!
     @IBOutlet private var deviceBBI:UIBarButtonItem!
     @IBOutlet private var portalBBI:UIBarButtonItem!
-    
+    @IBOutlet private var noPackagesLabel:UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,12 +86,13 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func showBackgroundLabelIfNeeded() {
         
         if AppContext.shared.localPackages.count > 0 {
-            self.tableView.backgroundView = nil
+            self.noPackagesLabel.isHidden = true
             self.tableView.separatorStyle = .singleLine
         }
         else {
             //set background label
-            self.tableView.backgroundView = AppContext.shared.labelForNoPackages()
+            self.noPackagesLabel.text = AppContext.shared.textForNoPackages()
+            self.noPackagesLabel.isHidden = false
             self.tableView.separatorStyle = .none
         }
     }

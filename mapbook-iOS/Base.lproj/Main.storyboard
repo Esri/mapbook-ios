@@ -409,12 +409,22 @@
                                     <outlet property="delegate" destination="JTQ-Kl-o7Y" id="imp-tr-dVx"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiA-Pb-DUO">
+                                <rect key="frame" x="10" y="405.5" width="1004" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="1tK-qO-q34" secondAttribute="trailing" id="03p-z8-Uuw"/>
                             <constraint firstItem="1tK-qO-q34" firstAttribute="top" secondItem="cTO-nA-56O" secondAttribute="bottom" id="PRX-VU-xC3"/>
+                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="centerY" secondItem="1tK-qO-q34" secondAttribute="centerY" id="RXG-dw-KaJ"/>
+                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="centerX" secondItem="1tK-qO-q34" secondAttribute="centerX" id="lBq-qg-6Lh"/>
                             <constraint firstItem="1tK-qO-q34" firstAttribute="leading" secondItem="v5r-Ih-D7F" secondAttribute="leading" id="p4m-Ew-eYJ"/>
+                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="leading" secondItem="v5r-Ih-D7F" secondAttribute="leading" constant="10" id="rIL-M8-9MN"/>
+                            <constraint firstAttribute="trailing" secondItem="DiA-Pb-DUO" secondAttribute="trailing" constant="10" id="u7q-Je-v57"/>
                             <constraint firstItem="zjv-O0-A6v" firstAttribute="top" secondItem="1tK-qO-q34" secondAttribute="bottom" id="zFm-UX-Hhm"/>
                         </constraints>
                     </view>
@@ -452,6 +462,7 @@
                     <connections>
                         <outlet property="addBBI" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>
                         <outlet property="deviceBBI" destination="PMN-49-Yfa" id="FKU-1b-rL8"/>
+                        <outlet property="noPackagesLabel" destination="DiA-Pb-DUO" id="Cqi-cd-mnk"/>
                         <outlet property="portalBBI" destination="doV-gD-SQY" id="dd4-8k-ZKA"/>
                         <outlet property="settingsBBI" destination="pbW-lZ-4Kd" id="J2v-Iv-r9y"/>
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
