@@ -149,6 +149,10 @@ extension SearchViewController:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if self.searchBar.isFirstResponder {
+            self.searchBar.resignFirstResponder()
+        }
+        
         let suggestResult = self.suggestResults[indexPath.row]
         self.geocode(for: suggestResult)
     }
