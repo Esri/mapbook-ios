@@ -56,7 +56,10 @@ class SearchViewController: UIViewController {
         //cancel previous request
         self.suggestCancelable?.cancel()
         
-        self.suggestCancelable = locatorTask.suggest(withSearchText: text) { [weak self] (suggestResults, error) in
+        let suggestParameters = AGSSuggestParameters()
+        suggestParameters.maxResults = 12
+    
+        self.suggestCancelable = locatorTask.suggest(withSearchText: text, parameters: suggestParameters) { [weak self] (suggestResults, error) in
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
