@@ -279,12 +279,11 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. As explained above, the device can be operated in either of two modes - `Device` or `Portal`. These two modes allow a large variety of mobile map packages to be recognized and opened by the app.
+The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
 
 This example app, however, has been tailored to leverage specific features of the Runtime that require specific information to be saved with a mobile map package. This was done with consideration of the following:
 - .mmpks with locator(s)
 - .mmpks with bookmark(s)
-- .mmpks with a TOC and legend
 - .mmpks with multiple maps
 - .mmpks whose maps have useful metadata
 
