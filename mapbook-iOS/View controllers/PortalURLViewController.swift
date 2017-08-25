@@ -27,8 +27,8 @@ import ArcGIS
 
 protocol PortalURLViewControllerDelegate:class {
     
-    //to notify delegate that portal was loaded successfully
-    func portalURLViewControllerDidLoadPortal(_ portalURLViewController:PortalURLViewController)
+    //to notify delegate that portal was loaded
+    func portalURLViewController(_ portalURLViewController:PortalURLViewController, loadedPortalWithError error:Error?)
 }
 
 class PortalURLViewController: UIViewController {
@@ -67,9 +67,8 @@ class PortalURLViewController: UIViewController {
         //load portal
         portal.load { [weak self] (error) in
             
-            guard error == nil else {
-                
-                print("Try again")
+            if let error = error, let strongSelf = self {
+                strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: error)
                 return
             }
             
@@ -77,12 +76,9 @@ class PortalURLViewController: UIViewController {
             
             //show portal items
             self?.dismiss(animated: true) {
-                
-                guard let strongSelf = self else {
-                    return
+                if let strongSelf = self {
+                    strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: nil)
                 }
-                
-                strongSelf.delegate?.portalURLViewControllerDidLoadPortal(strongSelf)
             }
         }
     }
@@ -99,9 +95,8 @@ class PortalURLViewController: UIViewController {
         //yes action
         let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
             
-            //delete all local packages as they are associated
-            //with the old portal
-            AppContext.shared.deleteAllLocalPackages()
+            //log user out, this will delete existing packages
+            AppContext.shared.logoutUser()
             
             //initialize and load new portal
             self?.initializeAndLoadPortal(urlString: newPortalURLString)
