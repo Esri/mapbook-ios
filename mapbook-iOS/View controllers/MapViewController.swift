@@ -252,8 +252,8 @@ extension MapViewController:SearchViewControllerDelegate {
         //clear existing graphics
         self.searchGraphicsOverlay.graphics.removeAllObjects()
         
-        for geocodeResult in geocodeResults {
-            
+        if geocodeResults.count > 0 {
+            let geocodeResult = geocodeResults[0]
             let graphic = AGSGraphic(geometry: geocodeResult.displayLocation, symbol: self.geocodeResultSymbol(), attributes: geocodeResult.attributes)
             self.searchGraphicsOverlay.graphics.add(graphic)
             
@@ -261,7 +261,9 @@ extension MapViewController:SearchViewControllerDelegate {
             if let extent = geocodeResult.extent {
                 self.mapView.setViewpointGeometry(extent, completion: nil)
             }
-            
+        }
+        else {
+            SVProgressHUD.showError(withStatus: "No results found", maskType: .gradient)
         }
     }
 }

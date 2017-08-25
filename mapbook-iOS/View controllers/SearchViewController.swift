@@ -33,6 +33,7 @@ import ArcGIS
 class SearchViewController: UIViewController {
 
     @IBOutlet private var tableView:UITableView!
+    @IBOutlet fileprivate var searchBar:UISearchBar!
     
     weak var locatorTask:AGSLocatorTask?
     weak var delegate:SearchViewControllerDelegate?
@@ -99,12 +100,31 @@ class SearchViewController: UIViewController {
                 return
             }
             
-            guard let geocodeResults = geocodeResults else {
-                print("No location found")
+            self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults ?? [])
+        }
+    }
+    
+    /*
+     Geocode location for input text. Called when the user
+     hits search in the search bar
+     */
+    fileprivate func geocode(for text:String) {
+        guard let locatorTask = self.locatorTask else {
+            return
+        }
+        
+        self.geocodeCancelable?.cancel()
+        
+        self.geocodeCancelable = locatorTask.geocode(withSearchText: text) { (geocodeResults, error) in
+            
+            guard error == nil else {
+                if let error = error as NSError?, error.code != NSUserCancelledError {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                }
                 return
             }
             
-            self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults)
+            self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults ?? [])
         }
     }
 }
@@ -132,6 +152,10 @@ extension SearchViewController:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if self.searchBar.isFirstResponder {
+            self.searchBar.resignFirstResponder()
+        }
+        
         let suggestResult = self.suggestResults[indexPath.row]
         self.geocode(for: suggestResult)
     }
@@ -143,6 +167,26 @@ extension SearchViewController:UISearchBarDelegate {
         
         if let searchText = searchBar.text {
             self.suggestions(for: searchText)
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchBar.resignFirstResponder()
+        
+        if let text = searchBar.text {
+            self.geocode(for: text)
+        }
+    }
+}
+
+extension SearchViewController:UIScrollViewDelegate {
+    
+    //hide keyboard on scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if self.searchBar.isFirstResponder {
+            self.searchBar.resignFirstResponder()
         }
     }
 }
