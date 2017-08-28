@@ -203,6 +203,11 @@ extension PortalItemsListViewController:UISearchBarDelegate {
     
     //fetch portal items using keyword on search bar button click
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        //End editing to hide keyboard
+        if self.searchBar.isFirstResponder {
+            self.searchBar.resignFirstResponder()
+        }
         self.fetchPortalItems(using: searchBar.text)
     }
     
