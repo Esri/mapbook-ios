@@ -381,17 +381,22 @@ extension LocalPackagesListViewController: UITableViewDelegate {
 
 extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
     
-    func portalURLViewControllerDidLoadPortal(_ portalURLViewController: PortalURLViewController) {
-        
-        //update bar button items as the user could be logged in now
-        self.updateBarButtonItems()
+    func portalURLViewController(_ portalURLViewController: PortalURLViewController, loadedPortalWithError error: Error?) {
         
         //refresh table view as the portal could have been switched and
         //earlier packages might have been deleted
         self.tableView.reloadData()
         
-        //show portal items from portal
-        self.showPortalItemsListVC()
+        //update bar button items as the user could be logged in or out now
+        self.updateBarButtonItems()
+        
+        if let error = error {
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        }
+        else {
+            //show portal items from portal
+            self.showPortalItemsListVC()
+        }
     }
 }
 
