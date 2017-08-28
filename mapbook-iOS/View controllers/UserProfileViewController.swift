@@ -55,8 +55,8 @@ class UserProfileViewController: UIViewController {
         }
         
         //update text fields
-        self.usernameLabel.text = portalUser.username ?? "<username>"
-        self.fullnameLabel.text = portalUser.fullName ?? "<fullname>"
+        self.usernameLabel.text = portalUser.username ?? ""
+        self.fullnameLabel.text = portalUser.fullName ?? ""
         
         //load thumbnail on user to get the image
         portalUser.thumbnail?.load { [weak self] (error) in
