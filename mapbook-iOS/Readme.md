@@ -2,17 +2,17 @@
 
 ## App Modes
 
-The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. Meaning, the device does not have access to internet/intranet and the packages are added either via iTunes or using a Mobile Device Management (MDM) system. Otherwise, if the device has internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
+The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. This means that the device does not have access to the internet/intranet and the packages are added either via iTunes or by using a Mobile Device Management (MDM) system. Otherwise, if the device has an internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
 
 ![App Modes](/docs/images/app-mode.png)
 
-You can switch between the modes anytime in the app but with consequences. Switching from `Device` to `Portal` you will lose any local packages. And for a switch from `Portal` to `Device` in addition to losing the downloaded packages, you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
+You can switch between the modes anytime in the app. But when you switch from `Portal` to `Device`, the downloaded packages will be deleted and you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
 
 ## App Developer Patterns
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
 ### Authentication
-The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the routing workflow, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token later consumed by the Portal and routing service. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the `Portal` mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -22,7 +22,7 @@ The process of accessing token secured services with a challenge handler is illu
 2. The portal responds with an unauthorized access error.
 3. A challenge handler associated with the identity manager is asked to provide a credential for the portal.
 4. A UI displays and the user is prompted to enter a user name and password.
-5. If the user is successfully authenticated, a credential (token) is incuded in requests to the secured service.
+5. If the user is successfully authenticated, a credential (token) is included in requests to the secured service.
 6. The identity manager stores the credential for this portal and all requests for secured content includes the token in the request.
 
 The `AGSOAuthConfiguration` class takes care of steps 1-6 in the diagram above. For an application to use this pattern, follow these [guides](https://developers.arcgis.com/authentication/signing-in-arcgis-online-users/) to register your app.
