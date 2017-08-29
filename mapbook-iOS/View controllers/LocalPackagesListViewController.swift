@@ -165,8 +165,8 @@ class LocalPackagesListViewController: UIViewController {
             let error = notification.userInfo?["error"] as? Error
             
             //show error to user
-            if error != nil {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+            if let error = error as NSError?, error.code != NSUserCancelledError {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
             //get itemID from notification, then get package for that ID.

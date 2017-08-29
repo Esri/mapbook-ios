@@ -44,6 +44,9 @@ class AppContext {
     //name of the directory for saving downloaded packages
     let DownloadedPackagesDirectoryName = "Downloaded packages"
     
+    //name of the directory for downloading packages
+    let DownloadingPackagesDirectoryName = "Downloading packages"
+    
     //current mode of the app
     var appMode:AppMode = .notSet
     
@@ -82,8 +85,7 @@ class AppContext {
             self.updatableItemIDs.removeAll()
             
             //cancel all downloads in progress
-            _ = self.fetchDataCancelables.map( { $0.cancel() } )
-            self.fetchDataCancelables.removeAll()
+            _ = self.downloadOperationQueue.operations.map( { $0.cancel() } )
             
             //clear list of currently downloading itemIDs
             self.currentlyDownloadingItemIDs.removeAll()
@@ -96,8 +98,10 @@ class AppContext {
     //cancelable for the fetch call, in case it needs to be cancelled
     var fetchPortalItemsCancelable:AGSCancelable?
     
-    //list of current fetchData calls, in case they need to be cancelled
-    var fetchDataCancelables:[AGSCancelable] = []
+    //list of current download operations, in case they need to be cancelled
+    //var downloadOperations:[AGSRequestOperation] = []
+    
+    var downloadOperationQueue = AGSOperationQueue()
     
     //flag if fetching is in progress
     var isFetchingPortalItems = false
