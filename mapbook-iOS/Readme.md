@@ -33,7 +33,7 @@ let oauthConfig = AGSOAuthConfiguration(portalURL: portal.url, clientID: clientI
 AGSAuthenticationManager.shared().oAuthConfigurations.add(oauthConfig)
 ```
 
-Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to the Maps App to confirm authentication with the Runtime SDK.
+Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to the Mapbook App to confirm authentication with the Runtime SDK.
 
 iOS knows to call the `UIApplicationDelegate` with this URL, and we pass that directly to an ArcGIS Runtime SDK helper function to retrieve a token:
 
@@ -48,13 +48,13 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 ```
 
-To tell iOS to call back like this, the Maps App configures a `URL Type` in the `Info.plist` file.
+To tell iOS to call back like this, the Mapbook App configures a `URL Type` in the `Info.plist` file.
 
 ![OAuth URL Type](/docs/images/configure-url-type.png)
 
 Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](https://developers.arcgis.com/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/). For more details on the user authorization flow, see the [Authorize REST API](http://resources.arcgis.com/en/help/arcgis-rest-api/#/Authorize/02r300000214000000/).
 
-For more details on configuring the Maps App for OAuth, see [the main README.md](/README.md#2-configuring-the-project)
+For more details on configuring the Mapbook App for OAuth, see [the main README.md](/README.md#2-configuring-the-project)
 
 ### Identify
 Identify lets you recognize features on the map view. To know when the user interacts with the map view you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the idenitfy method on map view.
