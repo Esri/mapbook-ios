@@ -1,5 +1,7 @@
 # Offline Mapbook
 
+Create mobile map packages with ArcGIS Pro and use your maps offline using the ArcGIS Runtime SDK!
+
 ## App Modes
 
 The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. This means that the device does not have access to the internet/intranet and the packages are added either via iTunes or by using a Mobile Device Management (MDM) system. Otherwise, if the device has an internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
@@ -281,7 +283,7 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
 
-This example app, however, has been tailored to leverage specific features of the Runtime that require specific information to be saved with a mobile map package. This was done with consideration of the following:
+This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
 - .mmpks with locator(s)
 - .mmpks with bookmark(s)
 - .mmpks with multiple maps
