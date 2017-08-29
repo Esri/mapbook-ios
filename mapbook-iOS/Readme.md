@@ -38,7 +38,7 @@ Any time a secured service issues an authentication challenge, the `AGSOAuthConf
 iOS knows to call the `UIApplicationDelegate` with this URL, and we pass that directly to an ArcGIS Runtime SDK helper function to retrieve a token:
 
 ``` Swift
-// UIApplicationDelegate function called when "maps-app-ios://auth" is opened.
+// UIApplicationDelegate function called when "mapbook-ios://auth" is opened.
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     // Pass the OAuth callback through to the ArcGIS Runtime helper function
     AGSApplicationDelegate.shared().application(app, open: url, options: options)
