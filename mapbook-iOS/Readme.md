@@ -14,7 +14,7 @@ You can switch between the modes anytime in the app. But when you switch from `P
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
 ### Authentication
-The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the `Portal` mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. When in `Portal` mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -222,9 +222,9 @@ func geocode(for suggestResult:AGSSuggestResult) {
 
 When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates for already downloaded packages. If a newer version of the mobile map pacakge is available, the refresh button is enabled.
 
-![Check for Updates](/docs/images/check-for-updates.png)
+A portal item for each downloaded package is created and loaded. Then the modified date of the portal item is compared with the download date of the local package. Thats how it knows if an update is available.
 
-A portal item for each downloaded package is created and loaded. Then the modified date of the portal item is compared with the download date of the local package. Thats how it know if an update is available.
+![Check for Updates](/docs/images/check-for-updates.png)
 
 ```swift
 func checkForUpdates(completion: (() -> Void)?) {
