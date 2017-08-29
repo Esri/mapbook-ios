@@ -1,6 +1,6 @@
 # Offline Mapbook
 
-Create mobile map packages with ArcGIS Pro and use your maps offline using the ArcGIS Runtime SDK!
+Create mobile map packages with ArcGIS Pro and use your maps offline using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)!
 
 ## App Modes
 
@@ -281,7 +281,7 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-The Offline Mapbook App for iOS is designed to work exclusively with mobile map packages or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
+The Offline Mapbook App for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
 
 This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
 - .mmpks with locator(s)
@@ -346,7 +346,7 @@ In order for this data to be consumed within the Mapbook app, it had to first be
 #### Including multiple maps
 Because multiple maps were authored to be used for the Offline Mapbook app, multiple maps had to be specified when running the Create Mobile Map Package tool. The first parameter of the tool is 'Input Map' and can accommodate for the specification of multiple entries. By default, each dropdown will present a list of maps that exist within the current ArcGIS Pro project. For this mobile-map-packaging, each of the three maps was specified once.
 
-![Multiple Maps](assets/MulitpleMaps_MMPK.png)
+![Multiple Maps](/docs/images/multiple-maps-mmpk.png)
 
 #### Including the locator
 Although a mobile map package supports multiple input locators, we simplified this process by creating a single, composite locator which references the four source locators being used. Given that this is the case, only the composite locator needed to be specified within the tool. Alternatively, the extra step of creating the composite locator and instead specifying the individual locators as inputs to the tool will work as well.
