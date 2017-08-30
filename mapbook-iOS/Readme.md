@@ -292,7 +292,7 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 - The app is designed to be either used in `Device` mode or `Portal` mode at a time.
 - When in `Portal` mode, it supports content from a single portal only. If you want to log in to a different portal, the already downloaded packages from the previous portal will be deleted. This is done to simplify the `Check for updates` workflow. So that while checking for updates the current portal and credential can be used.
-- When switching from `Device` mode to `Portal` mode, the side-loaded packages are not deleted because adding them via iTunes or MDM later, might not be an option.
+- When switching from `Device` mode to `Portal` mode, the side-loaded packages are not deleted because adding them later, via iTunes or MDM, might not be an option.
 - However, when switching from `Portal` mode to `Device` mode, the user is logged out and the packages may have private or sensitive data. So thats why they are deleted from the device.
 
 ## Create Your Own Mobile Map Packages
