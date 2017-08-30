@@ -2,6 +2,17 @@
 
 Create mobile map packages with ArcGIS Pro and use your maps offline using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)!
 
+## Description
+
+Learn how to create and share mobile map packages so that you can take your organization's maps offline and view them in the field with an iOS app. This example demonstrate how to:
+
+- Download the mobile map package from an organization using authenticated access
+- Display a table of contents (TOC) and legend
+- Identify multiple features and display popup data with a Callout
+- Search
+- Show bookmarks
+- Create and share your own mobile map package
+
 ## App Modes
 
 The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. This means that the device does not have access to the internet/intranet and the packages are added either via iTunes or by using a Mobile Device Management (MDM) system. Otherwise, if the device has an internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
@@ -220,9 +231,7 @@ func geocode(for suggestResult:AGSSuggestResult) {
 
 ### Check For Mobile Map Package Updates
 
-When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates for already downloaded packages. If a newer version of the mobile map pacakge is available, the refresh button is enabled.
-
-A portal item for each downloaded package is created and loaded. Then the modified date of the portal item is compared with the download date of the local package. Thats how it knows if an update is available.
+When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates to the downloaded packages by comparing the modified date of the portal item with the download date of the local package. If a newer version of the mobile map package is available, the refresh button is enabled.
 
 ![Check for Updates](/docs/images/check-for-updates.png)
 
@@ -278,6 +287,13 @@ func checkForUpdates(completion: (() -> Void)?) {
     }
 }
 ```
+
+## Design Considerations
+
+- The app is designed to be either used in `Device` mode or `Portal` mode at a time.
+- When in `Portal` mode, it supports content from a single portal only. If you want to log in to a different portal, the already downloaded packages from the previous portal will be deleted. This is done to simplify the `Check for updates` workflow. So that while checking for updates the current portal and credential can be used.
+- When switching from `Device` mode to `Portal` mode, the side-loaded packages are not deleted because adding them via iTunes or MDM later, might not be an option.
+- However, when switching from `Portal` mode to `Device` mode, the user is logged out and the packages may have private or sensitive data. So thats why they are deleted from the device.
 
 ## Create Your Own Mobile Map Packages
 
