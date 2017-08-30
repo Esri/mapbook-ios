@@ -1,18 +1,20 @@
 # Offline Mapbook
 
+Create mobile map packages with ArcGIS Pro and use your maps offline using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)!
+
 ## App Modes
 
-The app supports both connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. Meaning, the device does not have access to internet/intranet and the packages are added either via iTunes or using a Mobile Device Management (MDM) system. Otherwise, if the device has internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
+The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. This means that the device does not have access to the internet/intranet and the packages are added either via iTunes or by using a Mobile Device Management (MDM) system. Otherwise, if the device has an internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
 
 ![App Modes](/docs/images/app-mode.png)
 
-You can switch between the modes anytime in the app but with consequences. Switching from `Device` to `Portal` you will loose any local packages. And for a switch from `Portal` to `Device` in addition to loosing the downloaded packages, you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
+You can switch between the modes anytime in the app. But when you switch from `Portal` to `Device`, the downloaded packages will be deleted and you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
 
 ## App Developer Patterns
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
-### Identity
-The Mapbook App leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. During the routing workflow, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token later consumed by the Portal and routing service. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+### Authentication
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. When in `Portal` mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -22,7 +24,7 @@ The process of accessing token secured services with a challenge handler is illu
 2. The portal responds with an unauthorized access error.
 3. A challenge handler associated with the identity manager is asked to provide a credential for the portal.
 4. A UI displays and the user is prompted to enter a user name and password.
-5. If the user is successfully authenticated, a credential (token) is incuded in requests to the secured service.
+5. If the user is successfully authenticated, a credential (token) is included in requests to the secured service.
 6. The identity manager stores the credential for this portal and all requests for secured content includes the token in the request.
 
 The `AGSOAuthConfiguration` class takes care of steps 1-6 in the diagram above. For an application to use this pattern, follow these [guides](https://developers.arcgis.com/authentication/signing-in-arcgis-online-users/) to register your app.
@@ -31,12 +33,12 @@ let oauthConfig = AGSOAuthConfiguration(portalURL: portal.url, clientID: clientI
 AGSAuthenticationManager.shared().oAuthConfigurations.add(oauthConfig)
 ```
 
-Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to the Maps App to confirm authentication with the Runtime SDK.
+Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to the Mapbook App to confirm authentication with the Runtime SDK.
 
 iOS knows to call the `UIApplicationDelegate` with this URL, and we pass that directly to an ArcGIS Runtime SDK helper function to retrieve a token:
 
 ``` Swift
-// UIApplicationDelegate function called when "maps-app-ios://auth" is opened.
+// UIApplicationDelegate function called when "mapbook-ios://auth" is opened.
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     // Pass the OAuth callback through to the ArcGIS Runtime helper function
     AGSApplicationDelegate.shared().application(app, open: url, options: options)
@@ -46,13 +48,13 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 ```
 
-To tell iOS to call back like this, the Maps App configures a `URL Type` in the `Info.plist` file.
+To tell iOS to call back like this, the Mapbook App configures a `URL Type` in the `Info.plist` file.
 
 ![OAuth URL Type](/docs/images/configure-url-type.png)
 
 Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](https://developers.arcgis.com/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/). For more details on the user authorization flow, see the [Authorize REST API](http://resources.arcgis.com/en/help/arcgis-rest-api/#/Authorize/02r300000214000000/).
 
-For more details on configuring the Maps App for OAuth, see [the main README.md](/README.md#2-configuring-the-project)
+For more details on configuring the Mapbook App for OAuth, see [the main README.md](/README.md#2-configuring-the-project)
 
 ### Identify
 Identify lets you recognize features on the map view. To know when the user interacts with the map view you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the idenitfy method on map view.
@@ -220,9 +222,9 @@ func geocode(for suggestResult:AGSSuggestResult) {
 
 When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates for already downloaded packages. If a newer version of the mobile map pacakge is available, the refresh button is enabled.
 
-![Check for Updates](/docs/images/check-for-updates.png)
+A portal item for each downloaded package is created and loaded. Then the modified date of the portal item is compared with the download date of the local package. Thats how it knows if an update is available.
 
-A portal item for each downloaded package is created and loaded. Then the modified date of the portal item is compared with the download date of the local package. Thats how it know if an update is available.
+![Check for Updates](/docs/images/check-for-updates.png)
 
 ```swift
 func checkForUpdates(completion: (() -> Void)?) {
@@ -279,9 +281,17 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-Learn how to create and share mobile map packages so that you can take your organization's maps offline and view them in this app.
+The Offline Mapbook App for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
 
-Below we show you the steps for authoring and packaging a mobile map package with the help of an example.
+This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
+- .mmpks with locator(s)
+- .mmpks with bookmark(s)
+- .mmpks with multiple maps
+- .mmpks whose maps have useful metadata
+
+Although .mmpks not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any  features, or the bookmarks sidebar may appear blank.
+
+With this in mind, read on below to learn how to create and share a mobile map package with your own data and take advantage of the full suite of capabilities offered in this example app.
 
 ### Data scenario
 In this example, an employee of the fictitious 'Naperville Water Company' requires offline access to the following types of data while out in the field:
@@ -336,7 +346,7 @@ In order for this data to be consumed within the Mapbook app, it had to first be
 #### Including multiple maps
 Because multiple maps were authored to be used for the Offline Mapbook app, multiple maps had to be specified when running the Create Mobile Map Package tool. The first parameter of the tool is 'Input Map' and can accommodate for the specification of multiple entries. By default, each dropdown will present a list of maps that exist within the current ArcGIS Pro project. For this mobile-map-packaging, each of the three maps was specified once.
 
-![Multiple Maps](assets/MulitpleMaps_MMPK.png)
+![Multiple Maps](/docs/images/multiple-maps-mmpk.png)
 
 #### Including the locator
 Although a mobile map package supports multiple input locators, we simplified this process by creating a single, composite locator which references the four source locators being used. Given that this is the case, only the composite locator needed to be specified within the tool. Alternatively, the extra step of creating the composite locator and instead specifying the individual locators as inputs to the tool will work as well.
