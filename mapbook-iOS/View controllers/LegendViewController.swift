@@ -54,7 +54,7 @@ class LegendViewController: UIViewController {
             }
             else {
                 //else if no sublayers fetch legend info
-                self.content.append(layer)
+                self.content.insert(layer, at: 0)
                 layer.fetchLegendInfos { [weak self, constLayer = layer] (legendInfos, error) -> Void in
                     
                     guard error == nil else {
