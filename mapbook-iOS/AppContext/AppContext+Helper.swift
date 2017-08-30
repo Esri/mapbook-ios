@@ -37,12 +37,12 @@ extension AppContext {
     */
     func isAlreadyDownloaded(portalItem: AGSPortalItem) -> Bool {
         
-        guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
+        guard let downloadedDirectoryURL = self.downloadDirectoryURL(directoryType: .downloaded) else {
             return false
         }
         
         //check if a mmpk file with itemID as file name exists in the download folder
-        let fileURL = downloadDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
+        let fileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
         
         return FileManager.default.fileExists(atPath: fileURL.path)
     }

@@ -110,12 +110,12 @@ extension AppContext {
     func deleteAllLocalPackages() {
         
         if self.appMode == .portal {
-            guard let downloadDirectoryURL = self.downloadDirectoryURL() else {
+            guard let downloadedDirectoryURL = self.downloadDirectoryURL(directoryType: .downloaded) else {
                 return
             }
             
             do {
-                try FileManager.default.removeItem(at: downloadDirectoryURL)
+                try FileManager.default.removeItem(at: downloadedDirectoryURL)
             }
             catch let error {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)

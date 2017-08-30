@@ -147,11 +147,12 @@ extension AppContext {
     }
     
     /*
-     Method to download the package from a portal item. The 'fetchData' method returns
-     package in the form of Data. This method then writes the data to file in the download
-     folder inside documents directory on device. It also keeps record of the items being
-     currently downloaded. Once done, a DownloadCompleted notification is posted with the
-     itemID of the downloaded package. The notification can be used to update UI.
+     Method to download the package from a portal item. An AGSRequestOperation is
+     created for download. The packages are first downloaded to the downloading 
+     directory and on successful completion they are moved to the donwloaded 
+     directory. It also keeps record of the items being currently downloaded. Once
+     done, a DownloadCompleted notification is posted with the itemID of the downloaded
+     package. The notification can be used to update UI.
     */
     func download(portalItem: AGSPortalItem) {
         
@@ -165,49 +166,52 @@ extension AppContext {
         //add to the currently downloading itemIDs list
         self.currentlyDownloadingItemIDs.append(portalItem.itemID)
         
-        //fetch data
-        var cancelable:AGSCancelable?
-        cancelable = portalItem.fetchData { [weak self] (data, error) in
-            
-            //remove cancelable from the list
-            if let index = self?.fetchDataCancelables.index(where: { $0 === cancelable })  {
-                self?.fetchDataCancelables.remove(at: index)
-            }
+        guard let absoluteString = self.portal?.url?.absoluteString else {
+            let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "URL not found"])
+            self.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
+            return
+        }
+        
+        // Get the URL of the item data on the server
+        let itemDataURL = String(format: "%@/sharing/rest/content/items/%@/data", absoluteString, portalItem.itemID)
+        
+        //Unable to create download directory inside documents directory
+        guard let downloadingDirectoryURL = self.downloadDirectoryURL(directoryType: .downloading),
+            let downloadedDirectoryURL = self.downloadDirectoryURL(directoryType: .downloaded) else {
+                
+            let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Unable to create directory for downloading packages"])
+            self.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
+            return
+        }
+        
+        //Use itemID as the name of the package on device
+        let downloadingFileURL = downloadingDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
+        let downloadedFileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
+        
+        let requestOperation = AGSRequestOperation(remoteResource: self.portal, url: URL(string: itemDataURL)!, queryParameters: nil, method: .get)
+        
+        requestOperation.outputFileURL = downloadingFileURL
+        requestOperation.sessionID = portalItem.itemID
+        
+//        requestOperation.progressHandler = { (downloaded, total) -> Void in
+//            print("Downloaded: \(downloaded)  Total: \(total)")
+//        }
+        
+        requestOperation.registerListener(self) { [weak self] (result, error) in
             
             //remove from currently downloading list
             if let index = self?.currentlyDownloadingItemIDs.index(of: portalItem.itemID) {
                 self?.currentlyDownloadingItemIDs.remove(at: index)
             }
             
-            //error
             guard error == nil else {
+                //post notification
                 self?.postDownloadCompletedNotification(userInfo: ["error": error!, "itemID": portalItem.itemID])
+                
+                //delete from downloading folder
+                try? FileManager.default.removeItem(at: downloadingFileURL)
+                
                 return
-            }
-            
-            //nil data
-            guard let data = data else {
-                let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Fetch data returned nil as data"])
-                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
-                return
-            }
-            
-            //Unable to create download directory inside documents directory
-            guard let downloadedDirectoryURL = self?.downloadDirectoryURL() else {
-                let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "Unable to create directory for downloaded packages"])
-                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
-                return
-            }
-            
-            //Use itemID as the name of the package on device
-            let fileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
-            
-            //write data to the file
-            do {
-                try data.write(to: fileURL, options: Data.WritingOptions.atomic)
-            }
-            catch let error {
-                self?.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
             }
             
             //clear itemID from updatableItemIDs if it was an update
@@ -215,45 +219,46 @@ extension AppContext {
                 self?.updatableItemIDs.remove(at: index)
             }
             
+            //move item from downloading folder to downloaded folder
+            try? FileManager.default.moveItem(at: downloadingFileURL, to: downloadedFileURL)
+            
             //success
             self?.postDownloadCompletedNotification(userInfo: ["itemID": portalItem.itemID])
         }
         
-        //keep reference to the cancelable to cancel anytime
-        if let cancelable = cancelable {
-            self.fetchDataCancelables.append(cancelable)
-        }
+        self.downloadOperationQueue.addOperation(requestOperation)
     }
     
     /*
-     Get the url to the download directory inside documents directory. The 
-     method returns one if the download directory already exists else creates
-     the directory and then returns its URL. And returns nil, if it fails to
-     create the download directory.
+     Get the url to the download directory inside documents directory. Downloading 
+     directory for currently downloading packages and Downloaded directory for
+     completed downloads. The method returns one if the download directory already
+     exists else creates the directory and then returns its URL. And returns nil,
+     if it fails to create the download directory.
     */
-    func downloadDirectoryURL() -> URL? {
+    func downloadDirectoryURL(directoryType:DirectoryType) -> URL? {
         
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let downloadedDirectoryURL = documentDirectory.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
-        
+        let directoryName = directoryType == .downloaded ? DownloadedPackagesDirectoryName : DownloadingPackagesDirectoryName
+        let directoryURL = documentDirectory.appendingPathComponent(directoryName, isDirectory: true)
         
         //if directory exists then return the url
         var isDirectory:ObjCBool = false
-        if FileManager.default.fileExists(atPath: downloadedDirectoryURL.path, isDirectory: &isDirectory) {
+        if FileManager.default.fileExists(atPath: directoryURL.path, isDirectory: &isDirectory) {
             if isDirectory.boolValue {
-                return downloadedDirectoryURL
+                return directoryURL
             }
         }
         
         //else create the directory and then return the url
         do {
-            try FileManager.default.createDirectory(at: downloadedDirectoryURL, withIntermediateDirectories: false, attributes: nil)
+            try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: false, attributes: nil)
         }
         catch {
             return nil
         }
         
-        return downloadedDirectoryURL
+        return directoryURL
     }
     
     /*
