@@ -191,6 +191,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
             for result in results {
                 for geoElement in result.geoElements {
                     let popup = AGSPopup(geoElement: geoElement)
+                    popup.popupDefinition.title = result.layerContent.name
                     popups.append(popup)
                 }
             }
