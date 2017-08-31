@@ -35,6 +35,7 @@ class LocalPackageCell: UITableViewCell {
     @IBOutlet private var downloadedLabel:UILabel!
     @IBOutlet private var updateButton:UIButton!
     @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
+    @IBOutlet private var updateStackView:UIStackView!
     
     var isUpdateAvailable = false {
         didSet {
@@ -67,6 +68,7 @@ class LocalPackageCell: UITableViewCell {
                     return
                 }
                 
+                self?.updateStackView.isHidden = (AppContext.shared.appMode == .device)
                 self?.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
                 self?.isUpdateAvailable = AppContext.shared.isUpdatable(package: mobileMapPackage)
                 self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
