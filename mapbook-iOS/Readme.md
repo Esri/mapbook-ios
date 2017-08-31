@@ -15,14 +15,14 @@ Learn how to create and share mobile map packages so that you can take your orga
 
 ## Design Considerations
 
-- The app is designed to be used in either `Device` mode or `Portal` mode.  
-- The `Portal` mode supports a connected workflow in which a user browses the contents of a single `Portal`. Browsing a `Portal` requires authentication and while the mobile map packages they download may not themselves require authentication or authorization, in this app we're making the assumption that the content is secured. Thus in `Portal` mode, when a user switches portals in the app, logs out, or switches to `Device` mode, the content is deleted from the app (and device). The app isn't intended to cover all possible `Portal` workflows (e.g. named user workflow).
-- The `Device` mode supports a disconnected workflow the use case in which a user has mobile map packages that they want to add (side load) via iTunes or a Mobile Device Management (MDM) system. If the user has mobile map packages in the app that they've side loaded and they switch to `Portal` mode, the device mobile map packages are not removed from the app. Instead, they are hidden from 'My Maps' view while in `Portal` mode but restored to the view when switched back to `Device` mode.
-- The design does not support back navigation to the starting screen (where a user chooses content source). The only supported workflow back to the starting screen is when a user logs out of a `Portal`. In this case, any `Portal` content on device and in the app is deleted and user returns to starting screen. Back navigation is not supported in the design because it would complicate the app logic and require a more complex design.
-- A search widget is provided to filter mobile map packages in the `Portal`. To ensure the specific 'Offline Mapbook' mobile map package is found at least once by the user, the following default behavior should be in place.
-  - The default URL for the `Portal` is 'http://www.arcgis.com'.  The default URL can easily be changed in the `PortalURLViewController` class to customize this behavior.
-  - The resulting `Portal` view of mobile map packages should be filtered using the search widget to only show mobile map packages matching the title 'Offline Mapbook'. The 'Offline Mapbook' is an mobile map package that was built specifically for this app and it highlights particular features - table of contents, legend, search, bookmarks, and callouts. It's important that the default behavior of the app results in a user downloading this particular mobile map package from arcgis.com since this README assumes this mobile map package is in the app. The developer can change this default behavior. While the app is running, the user can also clear the search filter to see all mobile map package content.
-  - If the user enters a Portal address of their own, then the default behavior described above is not enabled. The user should be able to see any mobile map packages in their `Portal` since the content will not be filtered. 
+- The app is designed to be used in either **Device** mode or **Portal** mode.  
+- The **Portal** mode supports a connected workflow in which a user browses the contents of a single **Portal**. Browsing a **Portal** requires authentication and while the mobile map packages they download may not themselves require authentication or authorization, in this app we're making the assumption that the content is secured. Thus in **Portal** mode, when a user switches portals in the app, logs out, or switches to **Device** mode, the content is deleted from the app (and device). The app isn't intended to cover all possible **Portal** workflows (e.g. named user workflow).
+- The **Device** mode supports a disconnected workflow whereby the use case supports users with mobile map package (*.mmpk) that can be added (sideloaded) via iTunes or a Mobile Device Management (MDM) system. If the user has mobile map packages in the app that they've side loaded and they switch to **Portal** mode, the device mobile map packages are not removed from the app. Instead, they are hidden from 'My Maps' view while in **Portal** mode but restored to the view when switched back to **Device** mode.
+- The app does not support returning to the start screen through back navigation. The only supported workflow back to the starting screen is when a user logs out of a **Portal**. In this case, any **Portal** content on device and in the app is deleted and user returns to starting screen. Back navigation is not supported in the design because it would complicate the app logic and require a more complex design.
+- A search widget is provided to filter mobile map packages in the **Portal**. To ensure the specific **Offline Mapbook** mobile map package is found at least once by the user, the following default behavior should be in place.
+  - The default URL for the **Portal** is 'http://www.arcgis.com'.  The default URL can easily be changed in the `PortalURLViewController` class to customize this behavior.
+  - The resulting **Portal** view of mobile map packages should be filtered using the search widget to only show mobile map packages matching the title **Offline Mapbook**. The **Offline Mapbook** is an mobile map package that was built specifically for this app and it highlights particular features - table of contents, legend, search, bookmarks, and callouts. It's important that the default behavior of the app results in a user downloading this particular mobile map package from arcgis.com since this README assumes this mobile map package is in the app. The developer can change this default behavior. While the app is running, the user can also clear the search filter to see all mobile map package content.
+  - If an app user enters a custom portal url, then the default behavior described above is not enabled. The user should be able to see any mobile map packages in their **Portal** since the content will not be filtered. 
 
 ![App Modes](/docs/images/app-mode.png)
 
@@ -30,7 +30,7 @@ Learn how to create and share mobile map packages so that you can take your orga
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
 
 ### Authentication
-The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. When in `Portal` mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/authentication/#named-user-login) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -236,7 +236,7 @@ func geocode(for suggestResult:AGSSuggestResult) {
 
 ### Check For Mobile Map Package Updates
 
-When in `Portal` mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates to the downloaded packages by comparing the modified date of the portal item with the download date of the local package. If a newer version of the mobile map package is available, the refresh button is enabled.
+When in **Portal** mode, every time you start the app or do a `Pull to Refresh` in the `My Maps` view, the app checks for updates to the downloaded packages by comparing the modified date of the portal item with the download date of the local package. If a newer version of the mobile map package is available, the refresh button is enabled.
 
 ![Check for Updates](/docs/images/check-for-updates.png)
 
@@ -295,7 +295,7 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create Your Own Mobile Map Packages
 
-The Offline Mapbook App for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
+The Offline Mapbook App for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either sideloading it or hosting it on a portal or ArcGIS Online organization.
 
 This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
 - .mmpks with locator(s)
@@ -366,10 +366,10 @@ Because multiple maps were authored to be used for the Offline Mapbook app, mult
 Although a mobile map package supports multiple input locators, we simplified this process by creating a single, composite locator which references the four source locators being used. Given that this is the case, only the composite locator needed to be specified within the tool. Alternatively, the extra step of creating the composite locator and instead specifying the individual locators as inputs to the tool will work as well.
 
 ### Sharing the mobile map package
-Once the .mmpk file has been created, ArcGIS provides two possible mechanisms for making a mobile map package available within a Portal for ArcGIS or on ArcGIS Online.
+Once the .mmpk file has been created, ArcGIS provides two possible mechanisms for making a mobile map package available within a **Portal** for ArcGIS or on ArcGIS Online.
 
 #### Using the ArcGIS Pro 'Share Package' tool
-The first method for getting a locally-saved mobile map package to a Portal for ArcGIS or on ArcGIS Online is to 'push' it using a dedicated geoprocessing tool. This tool, called the [Share Package](http://pro.arcgis.com/en/pro-app/tool-reference/data-management/share-package.htm) tool takes an input .mmpk file (as well as a host of other types of package files created using ArcGIS) and uploads it to the desired destination. In lieu of the tool requesting credentials, these are instead retrieved from ArcGIS Pro itself. Since the credentials passed in to the current session of Pro dictate the destination Portal to which the package will be shared, it's helpful to be aware of with which credentials you're logged in before running the tool!
+The first method for getting a locally-saved mobile map package to a **Portal** for ArcGIS or on ArcGIS Online is to 'push' it using a dedicated geoprocessing tool. This tool, called the [Share Package](http://pro.arcgis.com/en/pro-app/tool-reference/data-management/share-package.htm) tool takes an input .mmpk file (as well as a host of other types of package files created using ArcGIS) and uploads it to the desired destination. In lieu of the tool requesting credentials, these are instead retrieved from ArcGIS Pro itself. Since the credentials passed in to the current session of Pro dictate the destination **Portal** to which the package will be shared, it's helpful to be aware of with which credentials you're logged in before running the tool!
 
 #### Uploading directly from the 'My Content' page
-The second method for getting a locally-saved mobile map package to a Portal for ArcGIS or on ArcGIS Online is to 'pull' it using the [Add Item](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm) tool. This can be found from the 'My Content' page and is as simple as browsing for the local file, providing a title and some tags, and clicking 'ADD ITEM'.
+The second method for getting a locally-saved mobile map package to a **Portal** for ArcGIS or on ArcGIS Online is to 'pull' it using the [Add Item](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm) tool. This can be found from the 'My Content' page and is as simple as browsing for the local file, providing a title and some tags, and clicking 'ADD ITEM'.
