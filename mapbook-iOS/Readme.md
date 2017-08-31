@@ -13,13 +13,18 @@ Learn how to create and share mobile map packages so that you can take your orga
 - Show bookmarks
 - Create and share your own mobile map package
 
-## App Modes
+## Design Considerations
 
-The app supports both a connected and disconnected workflow. You can operate the app in the `Device` mode if the mobile map packages will be side-loaded on to the device. This means that the device does not have access to the internet/intranet and the packages are added either via iTunes or by using a Mobile Device Management (MDM) system. Otherwise, if the device has an internet connection and there are packages available online then you can operate the app in the `Portal` mode. In this mode, you can connect to a portal online and download mobile map packages on to the device. The `Portal` mode also allows you to update downloaded packages if a new version is available online.
+- The app is designed to be used in either `Device` mode or `Portal` mode.  
+- The `Portal` mode supports a connected workflow in which a user browses the contents of a single `Portal`. Browsing a `Portal` requires authentication and while the mobile map packages they download may not themselves require authentication or authorization, in this app we're making the assumption that the content is secured. Thus, when users switch portals in the app, logs out, or switches to side loading, the content is deleted from the app (and device). The app isn't intended to cover all possible `Portal` workflows (e.g. named user workflow).
+- The `Device` mode supports a disconnected workflow the use case in which a user has mobile map packages that they want to add (side load) via iTunes or a Mobile Device Management (MDM) system. If the user has mobile map packages in the app that they've side loaded and they switch to `Portal` mode, the device mobile map packages are not removed from the app. Instead, they are hidden from 'My Maps' view while in `Portal` mode but restored to the view when switched back to `Device` mode.
+- The design does not support back navigation to the starting screen (where a user chooses content source). The only supported workflow back to the starting screen is when a user logs out of a `Portal`. In this case, any `Portal` content on device and in the app is deleted and user returns to starting screen. Back navigation is not supported in the design because it would complicate the app logic and require a more complex design.
+- A search widget is provided to filter mobile map packages in the `Portal`. To ensure the specific 'Offline Mapbook' mobile map package is found at least once by the user, the following default behavior should be in place.
+  - The default URL for the `Portal` is 'http://www.arcgis.com'.  The default URL can easily be changed in the code (which file/class?) to customize this behavior.
+  - The resulting `Portal` view of mobile map packages should be filtered using the search widget to only show mobile map packages matching the title 'Offline Mapbook'. The 'Offline Mapbook' is an mobile map package that was built specifically for this app and it highlights particular features - table of contents, legend, search, bookmarks, and callouts. It's important that the default behavior of the app results in a user downloading this particular mobile map package from arcgis.com since this README assumes this mobile map package is in the app. The developer can change this default behavior. While the app is running, the user can also clear the search filter to see all mobile map package content.
+  - If the user enters a Portal address of their own, then the default behavior described above is not enabled. The user should be able to see any mobile map packages in their `Portal` since the content will not be filtered. 
 
 ![App Modes](/docs/images/app-mode.png)
-
-You can switch between the modes anytime in the app. But when you switch from `Portal` to `Device`, the downloaded packages will be deleted and you will be logged out of your portal account. This is to enforce that the app could be in one and only one mode at a time.
 
 ## App Developer Patterns
 Now that the mobile map package has been created and published, it can be downloaded by the app using an authenticated connection.
@@ -287,13 +292,6 @@ func checkForUpdates(completion: (() -> Void)?) {
     }
 }
 ```
-
-## Design Considerations
-
-- The app is designed to be either used in `Device` mode or `Portal` mode at a time.
-- When in `Portal` mode, it supports content from a single portal only. If you want to log in to a different portal, the already downloaded packages from the previous portal will be deleted. This is done to simplify the `Check for updates` workflow. So that while checking for updates the current portal and credential can be used.
-- When switching from `Device` mode to `Portal` mode, the side-loaded packages are not deleted because adding them later, via iTunes or MDM, might not be an option.
-- However, when switching from `Portal` mode to `Device` mode, the user is logged out and the packages may have private or sensitive data. So thats why they are deleted from the device.
 
 ## Create Your Own Mobile Map Packages
 
