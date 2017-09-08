@@ -149,7 +149,7 @@ extension AppContext {
     /*
      Method to download the package from a portal item. An AGSRequestOperation is
      created for download. The packages are first downloaded to the downloading 
-     directory and on successful completion they are moved to the donwloaded 
+     directory and on successful completion they are moved to the downloaded
      directory. It also keeps record of the items being currently downloaded. Once
      done, a DownloadCompleted notification is posted with the itemID of the downloaded
      package. The notification can be used to update UI.
@@ -192,10 +192,6 @@ extension AppContext {
         
         requestOperation.outputFileURL = downloadingFileURL
         requestOperation.sessionID = portalItem.itemID
-        
-//        requestOperation.progressHandler = { (downloaded, total) -> Void in
-//            print("Downloaded: \(downloaded)  Total: \(total)")
-//        }
         
         requestOperation.registerListener(self) { [weak self] (result, error) in
             
