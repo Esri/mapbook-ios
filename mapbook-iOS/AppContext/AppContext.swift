@@ -98,9 +98,6 @@ class AppContext {
     //cancelable for the fetch call, in case it needs to be cancelled
     var fetchPortalItemsCancelable:AGSCancelable?
     
-    //list of current download operations, in case they need to be cancelled
-    //var downloadOperations:[AGSRequestOperation] = []
-    
     var downloadOperationQueue = AGSOperationQueue()
     
     //flag if fetching is in progress
@@ -175,6 +172,6 @@ class AppContext {
             }
         }
         
-        return AppMode.notSet
+        return .notSet
     }
 }

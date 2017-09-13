@@ -45,7 +45,7 @@ extension AppContext {
         
         AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         
-        AppContext.shared.deleteAllLocalPackages()
-        AppContext.shared.portal = nil
+        self.deleteAllLocalPackages()
+        self.portal = nil
     }
 }
