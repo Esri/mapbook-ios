@@ -61,7 +61,7 @@ Learn more about the App Architecture and usage here.
 * [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)
 
 ## Contributing
-Anyone and everyone is welcome to [contribute](CONTRIBUTING). We do accept pull requests.
+Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
 
 1. Get involved
 2. Report issues
