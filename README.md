@@ -54,14 +54,14 @@ This step is optional during development, but required for deployment.
 To remove the _Licensed for Developer Use Only_ watermark on the map view, set the `LicenseKey` in the `AGSConfiguration` dictionary. Retrieve this value by clicking the `Show my ArcGIS Runtime Lite license key` at the top-right of the [Licensing Your ArcGIS Runtime App](https://developers.arcgis.com/arcgis-runtime/licensing/) page (you must be logged in).
 
 ## Learn More
-Learn more about the App Architecture and usage [here](maps-app-ios/About.md).
+Learn more about the App Architecture and usage here.
 
 ## Requirements
 * [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 * [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)
 
 ## Contributing
-Anyone and everyone is welcome to [contribute](https://github.com/Esri/maps-app-ios/blob/master/CONTRIBUTING.md). We do accept pull requests.
+Anyone and everyone is welcome to [contribute](CONTRIBUTING). We do accept pull requests.
 
 1. Get involved
 2. Report issues
@@ -77,6 +77,6 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-A copy of the license is available in the repository's [license.txt](/license.txt) file.
+A copy of the license is available in the repository's [LICENSE](LICENSE) file.
 
 For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/ios/latest/swift/guide/license-your-app.htm).
