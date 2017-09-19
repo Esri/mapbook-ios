@@ -1,5 +1,5 @@
 # Mapbook iOS
-This repo is home to the mobile mapbook app, an example application using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/iOS/). Replace the paper maps you use for field work with offline maps.
+This repo is home to the mobile mapbook app, an example application using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/). Replace the paper maps you use for field work with offline maps.
 
 ## Features
 - Mobile map packages
@@ -23,10 +23,32 @@ The project also demonstrates some patterns for building real-world apps around 
 ## Get Started
 You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/) (v100.1 or later) installed locally.
 
-Clone the GitHub repository and open `mapbook-iOS.xcodeproj` in Xcode.
+### Fork the repo
+**Fork** the [Maps App iOS](https://github.com/Esri/maps-app-ios/fork) repo
+
+### Clone the repo
+Once you have forked the repo, you can make a clone
+
+#### Command line Git
+1. [Clone the Maps App repo](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
+2. ```cd``` into the ```maps-app-ios``` folder
+3. Make your changes and create a [pull request](https://help.github.com/articles/creating-a-pull-request)
+
+### Configuring a Remote for a Fork
+If you make changes in the fork and would like to [sync](https://help.github.com/articles/syncing-a-fork/) those changes with the upstream repository, you must first [configure the remote](https://help.github.com/articles/configuring-a-remote-for-a-fork/). This will be required when you have created local branches and would like to make a [pull request](https://help.github.com/articles/creating-a-pull-request) to your upstream branch.
+
+1. In the Terminal (for Mac users) or command prompt (fow Windows and Linus users) type ```git remote -v``` to list the current configured remote repo for your fork.
+2. ```git remote add upstream https://github.com/Esri/maps-app-ios.git``` to specify new remote upstream repository that will be synced with the fork. You can type ```git remote -v``` to verify the new upstream.
+
+If there are changes made in the Original repository, you can sync the fork to keep it updated with upstream repository.
+
+1. In the terminal, change the current working directory to your local project
+2. Type ```git fetch upstream``` to fetch the commits from the upstream repository
+3. ```git checkout master``` to checkout your fork's local master branch.
+4. ```git merge upstream/master``` to sync your local `master' branch with `upstream/master`. **Note**: Your local changes will be retained and your fork's master branch will be in sync with the upstream repository.
 
 ### Configure the app
-The app can be run as is, but it's recommended you do some configuration to set up OAuth to be relevant to your users (certainly it should not be deployed without these changes):
+Before running the app, it must be configured with application credentials.  Follow the steps below to obtain application credentials used for browsing and downloading Portal content.
 
 1. Register an ArcGIS Portal Application.
 2. Configure the Mapbook App project to reference that application.
@@ -54,7 +76,7 @@ This step is optional during development, but required for deployment.
 To remove the _Licensed for Developer Use Only_ watermark on the map view, set the `LicenseKey` in the `AGSConfiguration` dictionary. Retrieve this value by clicking the `Show my ArcGIS Runtime Lite license key` at the top-right of the [Licensing Your ArcGIS Runtime App](https://developers.arcgis.com/arcgis-runtime/licensing/) page (you must be logged in).
 
 ## Learn More
-Learn more about the App Architecture and usage [here](maps-app-ios/About.md).
+Learn more about the App Architecture and usage [here](https://github.com/ArcGIS/mapbook-ios/tree/dop/update-readme/mapbook-iOS).
 
 ## Requirements
 * [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
