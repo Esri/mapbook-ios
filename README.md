@@ -21,7 +21,7 @@ The project also demonstrates some patterns for building real-world apps around 
 * Internal application communication patterns
 
 ## Get Started
-You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/) (v100.1 or later) installed locally.
+You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
 
 Clone the GitHub repository and open `mapbook-iOS.xcodeproj` in Xcode.
 
