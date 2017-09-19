@@ -30,7 +30,7 @@ You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) a
 Once you have forked the repo, you can make a clone
 
 #### Command line Git
-1. [Clone the Maps App repo](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
+1. [Clone the Mapbook App](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
 2. ```cd``` into the ```mapbook-ios``` folder
 3. Make your changes and create a [pull request](https://help.github.com/articles/creating-a-pull-request)
 
