@@ -59,16 +59,16 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 
 1. Log in to [https://developers.arcgis.com](https://developers.arcgis.com) with either your ArcGIS Organizational Account or an ArcGIS Developer Account.
 2. Register a new Application. ![Register new application](/docs/images/create-application.png)
-3. In the Authentication tab, note the **Client ID** and add a **Redirect URL**, e.g. `my-mapbook-app://auth`. We will use this URL in the **Configuring the project** section below. ![Configure new application](/docs/images/configure-application.png)
+3. In the Authentication tab, note the **Client ID** and add a **Redirect URL**, e.g. `mapbook://auth`. We will use this URL in the **Configuring the project** section below. ![Configure new application](/docs/images/configure-application.png)
 
 #### 2. Configuring the project
 Open the project in Xcode and browse to the `mapbook-iOS` target's `Info` panel and expand the `AGSConfiguration` dictionary (see steps 1-4 in the screenshot below).
 
 1. Set the `ClientID` value to the application's **Client ID** noted above.
-2. Set the `AppURLScheme` value to match the **Redirect URL** scheme (the part *before* the `://`, e.g. `my-mapbook-app`) configured in "Register an Application" above. Note how the `AppURLScheme` and `AuthURLPath` combine to construct the **Redirect URL**. ![Configure the App URL Scheme](/docs/images/configure-xcode-target.png)
+2. Set the `AppURLScheme` value to match the **Redirect URL** scheme (the part *before* the `://`, e.g. `mapbook`) configured in "Register an Application" above. Note how the `AppURLScheme` and `AuthURLPath` combine to construct the **Redirect URL**. ![Configure the App URL Scheme](/docs/images/configure-xcode-target.png)
 3. Expand the **URL Types** section and modify the existing entry.
-    1. The **Identifier** doesn't matter, but should be unique (e.g. `com.my-org.my-mapbook-app`).
-    2. The **URL Scheme** should match the **Redirect URL** scheme (the part *before* the `://`, e.g. `my-mapbook-app`) configured in "Register an Application" above.
+    1. The **Identifier** doesn't matter, but should be unique (e.g. `com.my-org.mapbook`).
+    2. The **URL Scheme** should match the **Redirect URL** scheme (the part *before* the `://`, e.g. `mapbook`) configured in "Register an Application" above.
 
 #### 3. License the app (Optional)
 This step is optional during development, but required for deployment.
