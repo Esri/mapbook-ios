@@ -234,7 +234,6 @@
 				TargetAttributes = {
 					3EDC84451F1E8B94002DBCF2 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 23PX5GD8E6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -430,7 +429,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23PX5GD8E6;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
@@ -459,7 +458,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23PX5GD8E6;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
