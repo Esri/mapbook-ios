@@ -152,7 +152,7 @@ class PortalItemsListViewController: UIViewController {
     }
 }
 
-extension PortalItemsListViewController:UITableViewDataSource {
+extension PortalItemsListViewController:UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return AppContext.shared.portalItems.count
