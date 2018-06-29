@@ -62,13 +62,21 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 3. In the Authentication tab, note the **Client ID** and add a **Redirect URL**, e.g. `my-mapbook-app://auth`. We will use this URL in the **Configuring the project** section below. ![Configure new application](/docs/images/configure-application.png)
 
 #### 2. Configuring the project
-Open the project in Xcode and browse to the `mapbook-iOS` target's `Info` panel and expand the `AGSConfiguration` dictionary (see steps 1-4 in the screenshot below).
 
-1. Set the `ClientID` value to the application's **Client ID** noted above.
-2. Set the `AppURLScheme` value to match the **Redirect URL** scheme (the part *before* the `://`, e.g. `my-mapbook-app`) configured in "Register an Application" above. Note how the `AppURLScheme` and `AuthURLPath` combine to construct the **Redirect URL**. ![Configure the App URL Scheme](/docs/images/configure-xcode-target.png)
+**Configure Redirect URL**
+
+1. Open the project in Xcode and browse to the `mapbook-iOS` target's `Info` panel and expand the `AGSConfiguration` dictionary (see steps 1-4 in the screenshot below).
+2. Set the `AppURLScheme` value to match the **Redirect URL** scheme (the part *before* the `://`, e.g. `my-mapbook-app`) configured in "Register an Application" above. Note how the `AppURLScheme` and `AuthURLPath` combine to construct the **Redirect URL**. ![Configure the App URL Scheme](/docs/images/configure-xcode-url-scheme.png)
 3. Expand the **URL Types** section and modify the existing entry.
     1. The **Identifier** doesn't matter, but should be unique (e.g. `com.my-org.my-mapbook-app`).
     2. The **URL Scheme** should match the **Redirect URL** scheme (the part *before* the `://`, e.g. `my-mapbook-app`) configured in "Register an Application" above.
+
+![Configure the App URL Scheme](/docs/images/configure-app-settings.png)
+
+**Configure Client ID**
+
+1. In the Navigator pane under the project, find the file named `AppSettings.swift`.
+2. Within `AppSettings.swift` set the value of the static variable `clientID` to the application's **Client ID** noted above.
 
 #### 3. License the app (Optional)
 This step is optional during development, but required for deployment.
