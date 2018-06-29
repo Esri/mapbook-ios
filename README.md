@@ -81,7 +81,9 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 #### 3. License the app (Optional)
 This step is optional during development, but required for deployment.
 
-To remove the _Licensed for Developer Use Only_ watermark on the map view, set the `LicenseKey` in the `AGSConfiguration` dictionary. Retrieve this value by clicking the `Show my ArcGIS Runtime Lite license key` at the top-right of the [Licensing Your ArcGIS Runtime App](https://developers.arcgis.com/arcgis-runtime/licensing/) page (you must be logged in).
+1. Get your Runtime Lite License Key by clicking the `Show my ArcGIS Runtime Lite license key` at the top-right of the [Licensing Your ArcGIS Runtime App](https://developers.arcgis.com/arcgis-runtime/licensing/) page (you must be logged in).
+2. Open the project in Xcode and navigate to `AppSettings.swift`, the same file used to configure your applications client id.
+3. Set the value of the static variable `licenseKey` to the value from step 1.
 
 ## Learn More
 Learn more about the App Architecture and usage [here](https://github.com/ArcGIS/mapbook-ios/tree/dop/update-readme/mapbook-iOS).
