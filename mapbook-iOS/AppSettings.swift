@@ -38,8 +38,12 @@ struct AppSettings {
     
     
     // MARK: - OAuth Logins
-    // when they log in to authorize the app to view their account and use their routing/geocoding tasks.
-    static let clientID = "YOUR-CLIENT-ID"
+
+    /// The App's public client ID.
+    /// - The client ID is used by oAuth to authenticate a user.
+    /// - The client ID can be found in the **Credentials** section of the **Authentication** tab within the [Dashboard of the ArcGIS for Developers site](https://developers.arcgis.com/applications).
+    /// - Note: Change this to reflect your organization's client ID.
+    static let clientID = "rDLRZg8Xd2siXCDA"
     
     // appScheme and authURLPath are used to tell OAuth how to call back to this app.
     // For example, if they're set up as follows:
