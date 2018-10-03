@@ -84,7 +84,7 @@ class AppContext {
             self.updatableItemIDs.removeAll()
             
             //cancel all downloads in progress
-            _ = self.downloadOperationQueue.operations.map( { $0.cancel() } )
+            self.downloadOperationQueue.operations.forEach { $0.cancel() }
             
             //clear list of currently downloading itemIDs
             self.currentlyDownloadingItemIDs.removeAll()

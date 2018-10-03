@@ -450,17 +450,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Maps" id="3ZE-dc-TNx">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="FNo-X8-Zne">
-                                <connections>
-                                    <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="iOS7_Toolbar_Settings22" id="pbW-lZ-4Kd">
-                                <connections>
-                                    <action selector="settings" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
-                                </connections>
-                            </barButtonItem>
+                        <leftBarButtonItems>
                             <barButtonItem image="UserProfile" id="8bt-lN-6x7">
                                 <connections>
                                     <segue destination="LPm-Xz-Nyq" kind="popoverPresentation" identifier="UserProfileSegue" popoverAnchorBarButtonItem="8bt-lN-6x7" id="3ng-51-IYa">
@@ -468,7 +458,17 @@
                                     </segue>
                                 </connections>
                             </barButtonItem>
-                        </rightBarButtonItems>
+                            <barButtonItem image="iOS7_Toolbar_Settings22" id="pbW-lZ-4Kd">
+                                <connections>
+                                    <action selector="settings" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Portal Items" id="FNo-X8-Zne">
+                            <connections>
+                                <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addBBI" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>

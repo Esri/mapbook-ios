@@ -142,13 +142,16 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func updateBarButtonItems() {
         
         if AppContext.shared.appMode == .device {
+            self.navigationItem.leftBarButtonItems = []
             self.navigationItem.rightBarButtonItems = []
         }
         else {
             if AppContext.shared.isUserLoggedIn() {
-                self.navigationItem.rightBarButtonItems = [self.addBBI, self.settingsBBI, self.userProfileBBI]
+                self.navigationItem.leftBarButtonItems = [self.userProfileBBI, self.settingsBBI]
+                self.navigationItem.rightBarButtonItems = [self.addBBI]
             }
             else {
+                self.navigationItem.leftBarButtonItems = []
                 self.navigationItem.rightBarButtonItems = [self.addBBI]
             }
         }
