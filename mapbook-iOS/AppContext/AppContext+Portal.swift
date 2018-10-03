@@ -235,7 +235,7 @@ extension AppContext {
     func downloadDirectoryURL(directoryType:DirectoryType) -> URL? {
         
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let directoryName = directoryType == .downloaded ? DownloadedPackagesDirectoryName : DownloadingPackagesDirectoryName
+        let directoryName = directoryType.directoryName
         let directoryURL = documentDirectory.appendingPathComponent(directoryName, isDirectory: true)
         
         //if directory exists then return the url

@@ -50,7 +50,7 @@ extension AppContext {
             directoryURL = documentsDirectoryURL
         }
         else {
-            directoryURL = documentsDirectoryURL.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
+            directoryURL = documentsDirectoryURL.appendingPathComponent(DirectoryType.downloaded.directoryName, isDirectory: true)
         }
         
         //get contents of the directory

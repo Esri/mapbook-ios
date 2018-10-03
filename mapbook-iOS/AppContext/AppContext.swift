@@ -42,12 +42,6 @@ class AppContext {
     //singleton
     static let shared = AppContext()
     
-    //name of the directory for saving downloaded packages
-    let DownloadedPackagesDirectoryName = "Downloaded packages"
-    
-    //name of the directory for downloading packages
-    let DownloadingPackagesDirectoryName = "Downloading packages"
-    
     //current mode of the app
     var appMode:AppMode = .portal {
         didSet {
