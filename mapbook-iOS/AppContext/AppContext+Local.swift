@@ -40,10 +40,6 @@ extension AppContext {
         
         var localPackageURLs:[URL] = []
         
-        if self.appMode == .notSet {
-            return localPackageURLs
-        }
-        
         //documents directory url
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         

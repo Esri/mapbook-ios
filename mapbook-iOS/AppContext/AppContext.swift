@@ -31,6 +31,7 @@ import ArcGIS
 extension Notification.Name {
     
     static let DownloadCompleted = Notification.Name("DownloadCompleted")
+    static let AppModeChanged = Notification.Name("AppModeChanged")
 }
 
 /*
@@ -48,7 +49,11 @@ class AppContext {
     let DownloadingPackagesDirectoryName = "Downloading packages"
     
     //current mode of the app
-    var appMode:AppMode = .notSet
+    var appMode:AppMode = .portal {
+        didSet {
+            NotificationCenter.default.post(name: .AppModeChanged, object: self, userInfo: nil)
+        }
+    }
     
     //list of packages available on device
     var localPackages:[AGSMobileMapPackage] = []
@@ -155,12 +160,6 @@ class AppContext {
     */
     private func determineMode() -> AppMode {
         
-        //portal mode
-        //if user is logged in
-        if self.isUserLoggedIn() {
-            return .portal
-        }
-        
         //device mode
         //check if documents directory root folder has mmpks
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -172,6 +171,7 @@ class AppContext {
             }
         }
         
-        return .notSet
+        //portal mode
+        return .portal
     }
 }

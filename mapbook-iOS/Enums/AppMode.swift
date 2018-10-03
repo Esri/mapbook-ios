@@ -22,8 +22,6 @@
 // email: contracts@esri.com
 //
 
-enum AppMode:String {
-    case notSet = "NotSet"
-    case device = "Device"
-    case portal = "Portal"
+enum AppMode: Int {
+    case device, portal
 }

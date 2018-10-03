@@ -31,9 +31,8 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var addBBI:UIBarButtonItem!
     @IBOutlet private var userProfileBBI:UIBarButtonItem!
     @IBOutlet private var settingsBBI:UIBarButtonItem!
-    @IBOutlet private var deviceBBI:UIBarButtonItem!
-    @IBOutlet private var portalBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
+    @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,11 +61,22 @@ class LocalPackagesListViewController: UIViewController {
         //state when update completes
         self.observeDownloadCompletedNotification()
         
+        //observe changes to app mode
+        self.observeAppModeChangeNotification()
+        
         //fetch local packages
         self.fetchLocalPackages()
         
         //check for updates
         self.checkForUpdates()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.updateTitleForAppMode()
+        
+        self.updateSegmentedControlForAppMode()
     }
     
     /*
@@ -132,15 +142,28 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func updateBarButtonItems() {
         
         if AppContext.shared.appMode == .device {
-            self.navigationItem.rightBarButtonItems = [self.portalBBI]
+            self.navigationItem.rightBarButtonItems = []
         }
         else {
             if AppContext.shared.isUserLoggedIn() {
-                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI, self.settingsBBI, self.userProfileBBI]
+                self.navigationItem.rightBarButtonItems = [self.addBBI, self.settingsBBI, self.userProfileBBI]
             }
             else {
-                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI]
+                self.navigationItem.rightBarButtonItems = [self.addBBI]
             }
+        }
+    }
+    
+    private func updateSegmentedControlForAppMode() {
+        appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
+    }
+    
+    private func updateTitleForAppMode() {
+        switch AppContext.shared.appMode {
+        case .portal:
+            title = "My Downloaded Portal Maps"
+        case .device:
+            title = "My Device Maps"
         }
     }
     
@@ -186,6 +209,20 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
+    private func observeAppModeChangeNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .AppModeChanged, object: nil, queue: .main) { [weak self] (_) in
+            
+            guard let strongSelf = self else { return }
+            
+            //update the segment control to reflect the current app mode.
+            strongSelf.updateSegmentedControlForAppMode()
+            
+            //update the view controller's title to reflect the current app mode.
+            strongSelf.updateTitleForAppMode()
+        }
+    }
+    
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -225,7 +262,21 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
-    @IBAction func switchToDeviceMode() {
+    @IBAction func appModeSegmentControlValueChanged(_ sender: Any) {
+        
+        guard sender as? UISegmentedControl == appModeSegmentedControl else { return }
+        
+        guard let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
+        
+        switch newMode {
+        case .device:
+            switchToDeviceMode()
+        case .portal:
+            switchToPortalMode()
+        }
+    }
+    
+    private func switchToDeviceMode() {
         
         //show alert controller for confirmation
         let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all the packages you have already downloaded and log you out", preferredStyle: .alert)
@@ -257,7 +308,7 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func switchToPortalMode() {
+    private func switchToPortalMode() {
         
         //show alert controller for confirmation
         let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)

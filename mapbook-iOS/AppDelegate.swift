@@ -45,9 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setLicenseKey()
         
         self.setupOAuthManager()
-        
-        self.navigateBasedOnAppMode()
-        
+                
         self.modifyAppearance()
         
         return true
@@ -73,21 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AGSAuthenticationManager.shared().credentialCache.enableAutoSyncToKeychain(withIdentifier: AppSettings.keychainIdentifier, accessGroup: nil, acrossDevices: false)
     }
     
-    private func navigateBasedOnAppMode() {
-        
-        switch AppContext.shared.appMode {
-        case .device, .portal:
-            if let navigationController = self.window?.rootViewController as? UINavigationController {
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let localPackagesListViewController = storyboard.instantiateViewController(withIdentifier: "LocalPackagesListViewController")
-                navigationController.pushViewController(localPackagesListViewController, animated: false)
-            }
-        case .notSet:
-            break
-        }
-    }
-    
     // MARK: - Appearance modification
     
     func modifyAppearance() {
@@ -100,6 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UISwitch.appearance().onTintColor = UIColor.primaryBlue()
         UISlider.appearance().tintColor = UIColor.primaryBlue()
+        
+        UISegmentedControl.appearance().tintColor = UIColor.primaryBlue()
     }
 }
 
