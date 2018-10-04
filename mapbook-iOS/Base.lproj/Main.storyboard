@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Portal Items-->
+        <!--Portal Mobile Map Packages-->
         <scene sceneID="deu-ma-Ofn">
             <objects>
                 <viewController storyboardIdentifier="PortalItemsListViewController" automaticallyAdjustsScrollViewInsets="NO" id="J2H-Fw-E4O" customClass="PortalItemsListViewController" customModule="mapbook_iOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -24,10 +24,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5kn-MO-dCX">
                                 <rect key="frame" x="0.0" y="70" width="768" height="954"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="SW9-an-8sr">
+                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="prominent" id="SW9-an-8sr">
                                     <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="webSearch" returnKeyType="search"/>
                                     <connections>
                                         <outlet property="delegate" destination="J2H-Fw-E4O" id="RkZ-de-9cp"/>
                                     </connections>
@@ -176,7 +176,7 @@
                             <constraint firstAttribute="trailing" secondItem="5kn-MO-dCX" secondAttribute="trailing" id="v9e-f2-LrX"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Portal Items" id="Hs3-zl-p67"/>
+                    <navigationItem key="navigationItem" title="Portal Mobile Map Packages" id="Hs3-zl-p67"/>
                     <connections>
                         <outlet property="footerView" destination="AnE-e9-64b" id="tXz-AC-1hz"/>
                         <outlet property="searchBar" destination="SW9-an-8sr" id="Cd7-Xt-lJC"/>
@@ -380,7 +380,7 @@
                                 <action selector="settings" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Portal Items" id="FNo-X8-Zne">
+                        <barButtonItem key="rightBarButtonItem" title="Portal MMPKs" id="FNo-X8-Zne">
                             <connections>
                                 <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
                             </connections>

@@ -73,6 +73,8 @@ class LocalPackagesListViewController: UIViewController {
         self.updateTitleForAppMode()
         
         self.updateSegmentedControlForAppMode()
+        
+        self.updateNavigationItemsForAppMode()
     }
     
     /*
@@ -124,6 +126,15 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
+    private func updateNavigationItemsForAppMode() {
+        if AppContext.shared.appMode == .portal {
+            navigationController?.navigationItem.rightBarButtonItems = [addBBI]
+        }
+        else {
+            navigationController?.navigationItem.rightBarButtonItems = []
+        }
+    }
+    
     private func updateSegmentedControlForAppMode() {
         appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
     }
@@ -131,9 +142,9 @@ class LocalPackagesListViewController: UIViewController {
     private func updateTitleForAppMode() {
         switch AppContext.shared.appMode {
         case .portal:
-            title = "Downloaded Portal Maps"
+            title = "Downloaded Portal Mobile Map Packages"
         case .device:
-            title = "Device Maps"
+            title = "Device Mobile Map Packages"
         }
     }
     
@@ -187,6 +198,8 @@ class LocalPackagesListViewController: UIViewController {
             
             //update the segment control to reflect the current app mode.
             strongSelf.updateSegmentedControlForAppMode()
+            
+            strongSelf.updateNavigationItemsForAppMode()
             
             //update the view controller's title to reflect the current app mode.
             strongSelf.updateTitleForAppMode()

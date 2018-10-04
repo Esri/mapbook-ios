@@ -75,8 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func modifyAppearance() {
         
-        UIButton.appearance().tintColor = UIColor.primaryBlue()
-
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
         UINavigationBar.appearance().tintColor = UIColor.yellow
