@@ -79,6 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
         UINavigationBar.appearance().tintColor = UIColor.yellow
         
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.yellow
+        UIButton.appearance().tintColor = UIColor.primaryBlue()
+        
         UITabBar.appearance().tintColor = UIColor.white
         UITabBar.appearance().barTintColor = UIColor.primaryBlue()
 

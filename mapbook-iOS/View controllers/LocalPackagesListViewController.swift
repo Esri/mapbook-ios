@@ -127,12 +127,8 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     private func updateNavigationItemsForAppMode() {
-        if AppContext.shared.appMode == .portal {
-            navigationController?.navigationItem.rightBarButtonItems = [addBBI]
-        }
-        else {
-            navigationController?.navigationItem.rightBarButtonItems = []
-        }
+        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
+        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
     }
     
     private func updateSegmentedControlForAppMode() {
