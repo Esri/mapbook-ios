@@ -29,7 +29,6 @@ class LocalPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet private var addBBI:UIBarButtonItem!
-    @IBOutlet private var userProfileBBI:UIBarButtonItem!
     @IBOutlet private var settingsBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
     @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
@@ -44,9 +43,6 @@ class LocalPackagesListViewController: UIViewController {
         //add refresh control to allow refreshing local packages
         //and check for updates
         self.addRefreshControl()
-        
-        //update right bar button items based on the mode and state of the app
-        self.updateBarButtonItems()
         
         //never show back button
         self.navigationItem.hidesBackButton = true
@@ -134,29 +130,6 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
-    /*
-     Update right bar button items based on the app mode and state. Device 
-     mode will only have a button to switch to Portal mode. Portal mode can
-     have different buttons based on if the user is logged in or not.
-    */
-    fileprivate func updateBarButtonItems() {
-        
-        if AppContext.shared.appMode == .device {
-            self.navigationItem.leftBarButtonItems = []
-            self.navigationItem.rightBarButtonItems = []
-        }
-        else {
-            if AppContext.shared.isUserLoggedIn() {
-                self.navigationItem.leftBarButtonItems = [self.userProfileBBI, self.settingsBBI]
-                self.navigationItem.rightBarButtonItems = [self.addBBI]
-            }
-            else {
-                self.navigationItem.leftBarButtonItems = []
-                self.navigationItem.rightBarButtonItems = [self.addBBI]
-            }
-        }
-    }
-    
     private func updateSegmentedControlForAppMode() {
         appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
     }
@@ -164,9 +137,9 @@ class LocalPackagesListViewController: UIViewController {
     private func updateTitleForAppMode() {
         switch AppContext.shared.appMode {
         case .portal:
-            title = "My Downloaded Portal Maps"
+            title = "Downloaded Portal Maps"
         case .device:
-            title = "My Device Maps"
+            title = "Device Maps"
         }
     }
     
@@ -185,7 +158,7 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(forName: .DownloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
             //get error from notification
             let error = notification.userInfo?["error"] as? Error
@@ -214,7 +187,7 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observeAppModeChangeNotification() {
         
-        NotificationCenter.default.addObserver(forName: .AppModeChanged, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .AppModeDidChange, object: nil, queue: .main) { [weak self] (_) in
             
             guard let strongSelf = self else { return }
             
@@ -240,13 +213,7 @@ class LocalPackagesListViewController: UIViewController {
             let controller = segue.destination as? PortalURLViewController {
             
             controller.delegate = self
-            controller.preferredContentSize = CGSize(width: 400, height: 300)
-            controller.presentationController?.delegate = self
-        }
-        else if segue.identifier == "UserProfileSegue",
-            let controller = segue.destination as? UserProfileViewController {
-            
-            controller.delegate = self
+            controller.preferredContentSize = CGSize(width: 540, height: 620)
             controller.presentationController?.delegate = self
         }
     }
@@ -293,9 +260,6 @@ class LocalPackagesListViewController: UIViewController {
             //update appMode to .device
             AppContext.shared.appMode = .device
             
-            //update bar button items
-            self?.updateBarButtonItems()
-            
             //fetch packages for new mode
             self?.fetchLocalPackages()
         }
@@ -321,9 +285,6 @@ class LocalPackagesListViewController: UIViewController {
             
             //update appMode to .portal
             AppContext.shared.appMode = .portal
-            
-            //update bar button items
-            self?.updateBarButtonItems()
             
             //fetch packages for new mode
             self?.fetchLocalPackages()
@@ -441,9 +402,6 @@ extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
         //earlier packages might have been deleted
         self.tableView.reloadData()
         
-        //update bar button items as the user could be logged in or out now
-        self.updateBarButtonItems()
-        
         if let error = error {
             SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
         }
@@ -451,14 +409,6 @@ extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
             //show portal items from portal
             self.showPortalItemsListVC()
         }
-    }
-}
-
-extension LocalPackagesListViewController: UserProfileViewControllerDelegate {
-    
-    func userProfileViewControllerWantsToLogOut(_ userProfileViewController: UserProfileViewController) {
-        
-        self.logout()
     }
 }
 

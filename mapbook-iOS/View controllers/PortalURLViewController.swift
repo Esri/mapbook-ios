@@ -33,84 +33,76 @@ protocol PortalURLViewControllerDelegate:class {
 
 class PortalURLViewController: UIViewController {
 
+    // MARK: IB User Profile Section
+    @IBOutlet weak var userProfileImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var userFullNameLabel: UILabel!
+    
+    // MARK: IB Portal Section
     @IBOutlet private var urlTextField:UITextField!
+    @IBOutlet weak var actionButton: UIButton!
     
     weak var delegate:PortalURLViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //start observing changes to portal
+        observePortalChangedNotification()
+        
         //populate portal url string for current portal
-        if let portal = AppContext.shared.portal,
-            let urlString = portal.url?.absoluteString {
-            
-            self.urlTextField.text = urlString
+        updateForAppContextPortal()
+    }
+    
+    private func observePortalChangedNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .PortalDidChange, object: nil, queue: .main) { [weak self] (_) in
+            self?.updateForAppContextPortal()
         }
     }
     
-    /*
-     Called either when the user taps on Continue when not logged in
-     or when switching portals. The method initializes a portal object
-     using provided URL and login required. Loads the portal which
-     shows the OAuth page for login. And if login is successful, the
-     portal is set on the AppContext and the delegate is notified.
-    */
-    private func initializeAndLoadPortal(urlString: String) {
+    private func updateForAppContextPortal() {
         
-        guard let portalURL = URL(string: urlString) else {
-            return
-        }
-        
-        //initialize portal
-        let portal = AGSPortal(url: portalURL, loginRequired: true)
-        
-        //load portal
-        portal.load { [weak self] (error) in
+        // Portal is accessed
+        if let portal = AppContext.shared.portal {
             
-            if let error = error, let strongSelf = self {
-                strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: error)
-                return
-            }
-            
-            AppContext.shared.portal = portal
-            
-            //show portal items
-            self?.dismiss(animated: true) {
-                if let strongSelf = self {
-                    strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: nil)
+            if let user = portal.user {
+                
+                usernameLabel.text = user.username ?? ""
+                userFullNameLabel.text = user.fullName ?? ""
+                
+                if let thumbnail = user.thumbnail {
+                    
+                    thumbnail.load { [weak self] (error) in
+                        
+                        guard let strongSelf = self else { return }
+                        
+                        guard error == nil, let image = user.thumbnail?.image else {
+                            print("Could not load user thumbnail image.")
+                            strongSelf.userProfileImageView.image = UIImage(named: "Placeholder")
+                            return
+                        }
+                        
+                        strongSelf.userProfileImageView.image = image
+                    }
+                }
+                else {
+                    userProfileImageView.image = UIImage(named: "Placeholder")
                 }
             }
+
+            urlTextField.text = portal.url?.absoluteString
+            urlTextField.isEnabled = false
+            actionButton.setTitle("Leave Portal", for: .normal)
         }
-    }
-    
-    /*
-     Shows an alert for switch portal confirmation. On positive response,
-     deletes all local packages and initializes and loads the new portal.
-    */
-    private func showAlert(newPortalURLString: String) {
-        
-        //alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch portal?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
-            
-            //log user out, this will delete existing packages
-            AppContext.shared.logoutUser()
-            
-            //initialize and load new portal
-            self?.initializeAndLoadPortal(urlString: newPortalURLString)
+        else {
+            urlTextField.text = "https://www.arcgis.com"
+            urlTextField.isEnabled = true
+            actionButton.setTitle("Access Portal", for: .normal)
+            usernameLabel.text = ""
+            userFullNameLabel.text = ""
+            userProfileImageView.image = UIImage(named: "Placeholder")
         }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
     }
 
     //MARK: - Actions
@@ -121,17 +113,55 @@ class PortalURLViewController: UIViewController {
     */
     @IBAction private func continueAction(_ sender:UIButton) {
         
-        guard let text = self.urlTextField.text else {
-            return
-        }
-        
         if AppContext.shared.portal == nil {
             
-            self.initializeAndLoadPortal(urlString: text)
+            //ensure the portal URL provided is valid
+            guard let text = self.urlTextField.text, let portalURL = URL(string: text) else {
+                return
+            }
+            
+            //initialize portal
+            let portal = AGSPortal(url: portalURL, loginRequired: true)
+            
+            //load portal
+            portal.load { [weak self] (error) in
+                
+                if let error = error, let strongSelf = self {
+                    strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: error)
+                    return
+                }
+                
+                AppContext.shared.portal = portal
+                
+                //show portal items
+                self?.dismiss(animated: true) {
+                    if let strongSelf = self {
+                        strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: nil)
+                    }
+                }
+            }
         }
         else {
             
-            self.showAlert(newPortalURLString: text)
+            //alert controller for confirmation
+            let alertController = UIAlertController(title: "Leave portal?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
+            
+            //yes action
+            let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
+                
+                //log user out, this will delete existing packages
+                AppContext.shared.logoutUser()
+            }
+            
+            //no action
+            let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            
+            //add actions to alert controller
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+            
+            //present alert controller
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
