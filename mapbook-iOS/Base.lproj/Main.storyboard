@@ -604,60 +604,97 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zDR-3P-h1K">
-                                <rect key="frame" x="120" y="160" width="300" height="300"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zDR-3P-h1K">
+                                <rect key="frame" x="120" y="150" width="300" height="320"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="nJn-4q-CsF">
-                                        <rect key="frame" x="110" y="0.0" width="80" height="80"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="40"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE1-8Y-gkd">
-                                        <rect key="frame" x="111" y="92" width="78.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Full Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrH-oP-lYQ">
-                                        <rect key="frame" x="92" y="124" width="116.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Specify the URL to your organization or your ArcGIS portal." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaa-cg-hGN">
-                                        <rect key="frame" x="14" y="156.5" width="272" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="Lha-ul-pX1"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://www.arcgis.com" borderStyle="roundedRect" placeholder="Your Portal URL" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="laD-yo-AUW">
-                                        <rect key="frame" x="8" y="228" width="284" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go" textContentType="url"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nu8-p7-Qf3">
-                                        <rect key="frame" x="8" y="270" width="284" height="30"/>
-                                        <state key="normal" title="Continue"/>
-                                        <connections>
-                                            <action selector="userTappedActionButton:" destination="uCp-tR-RV9" eventType="touchUpInside" id="4RN-8a-H56"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mkh-5Q-sec">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="156"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGH-lZ-nmw">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="80"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="nJn-4q-CsF">
+                                                        <rect key="frame" x="110" y="0.0" width="80" height="80"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="80" id="3UO-gI-CgF"/>
+                                                            <constraint firstAttribute="height" constant="80" id="tbc-Oe-5bo"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="40"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="nJn-4q-CsF" firstAttribute="centerY" secondItem="LGH-lZ-nmw" secondAttribute="centerY" id="BqA-sd-D8a"/>
+                                                    <constraint firstAttribute="height" constant="80" id="OIL-CP-3zf"/>
+                                                    <constraint firstItem="nJn-4q-CsF" firstAttribute="centerX" secondItem="LGH-lZ-nmw" secondAttribute="centerX" id="jlx-0y-XW4"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Full Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrH-oP-lYQ">
+                                                <rect key="frame" x="0.0" y="96" width="300" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="AHZ-kX-lfw"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE1-8Y-gkd">
+                                                <rect key="frame" x="0.0" y="134" width="300" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="aie-Kr-jWw"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="woG-up-7sM">
+                                        <rect key="frame" x="0.0" y="164" width="300" height="156"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hp9-9s-Rku">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="140"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Specify the URL to your organization or your ArcGIS portal." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaa-cg-hGN">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="Lha-ul-pX1"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://www.arcgis.com" borderStyle="roundedRect" placeholder="Your Portal URL" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="laD-yo-AUW">
+                                                        <rect key="frame" x="0.0" y="60" width="300" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go" textContentType="url"/>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nu8-p7-Qf3">
+                                                        <rect key="frame" x="0.0" y="90" width="300" height="50"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="Omk-wN-aJI"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Access"/>
+                                                        <connections>
+                                                            <action selector="userTappedActionButton:" destination="uCp-tR-RV9" eventType="touchUpInside" id="4RN-8a-H56"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="mkh-5Q-sec" firstAttribute="width" secondItem="zDR-3P-h1K" secondAttribute="width" id="E88-Gn-fzG"/>
                                     <constraint firstAttribute="width" constant="300" id="HN5-oi-F4i"/>
-                                    <constraint firstAttribute="trailing" secondItem="nu8-p7-Qf3" secondAttribute="trailing" constant="8" id="NGK-kK-RyQ"/>
-                                    <constraint firstAttribute="height" constant="300" id="RVu-eT-30G"/>
-                                    <constraint firstItem="nu8-p7-Qf3" firstAttribute="leading" secondItem="zDR-3P-h1K" secondAttribute="leading" constant="8" id="gfx-nD-VWh"/>
-                                    <constraint firstItem="laD-yo-AUW" firstAttribute="leading" secondItem="zDR-3P-h1K" secondAttribute="leading" constant="8" id="oQt-EU-kfK"/>
-                                    <constraint firstAttribute="trailing" secondItem="laD-yo-AUW" secondAttribute="trailing" constant="8" id="tRY-eT-G6B"/>
+                                    <constraint firstItem="woG-up-7sM" firstAttribute="width" secondItem="zDR-3P-h1K" secondAttribute="width" id="IWT-LX-CeL"/>
+                                    <constraint firstAttribute="height" constant="320" id="RVu-eT-30G"/>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KB4-Dw-HR9">
@@ -667,17 +704,30 @@
                                     <action selector="cancel:" destination="uCp-tR-RV9" eventType="touchUpInside" id="Y9k-uy-eXb"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64j-Vw-ih1">
+                                <rect key="frame" x="20" y="569.5" width="500" height="30.5"/>
+                                <string key="text">App Version
+SDK Version</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <color key="textColor" red="0.9054436535" green="0.9054436535" blue="0.9054436535" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zDR-3P-h1K" firstAttribute="centerX" secondItem="J0w-uP-akO" secondAttribute="centerX" id="4hG-ra-fpt"/>
+                            <constraint firstItem="hRy-qt-vMr" firstAttribute="top" secondItem="64j-Vw-ih1" secondAttribute="bottom" constant="20" id="NVl-Gd-c70"/>
+                            <constraint firstItem="64j-Vw-ih1" firstAttribute="trailing" secondItem="J0w-uP-akO" secondAttribute="trailingMargin" id="VvY-2y-Xbk"/>
                             <constraint firstItem="KB4-Dw-HR9" firstAttribute="leading" secondItem="J0w-uP-akO" secondAttribute="leadingMargin" id="s0Q-nk-VIy"/>
                             <constraint firstItem="KB4-Dw-HR9" firstAttribute="top" secondItem="btA-Ow-VHo" secondAttribute="bottom" constant="20" id="ss2-fh-MrY"/>
+                            <constraint firstItem="64j-Vw-ih1" firstAttribute="leading" secondItem="J0w-uP-akO" secondAttribute="leadingMargin" id="tL7-pQ-3TB"/>
                             <constraint firstItem="zDR-3P-h1K" firstAttribute="centerY" secondItem="J0w-uP-akO" secondAttribute="centerY" id="xG2-6r-emY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="nu8-p7-Qf3" id="4Jp-jC-nWD"/>
+                        <outlet property="appVersionLabel" destination="64j-Vw-ih1" id="fJa-Ix-ePx"/>
+                        <outlet property="portalInfoLabel" destination="zaa-cg-hGN" id="Ero-d4-lug"/>
                         <outlet property="urlTextField" destination="laD-yo-AUW" id="rl3-dt-kWe"/>
                         <outlet property="userFullNameLabel" destination="CrH-oP-lYQ" id="rxC-2T-Xk2"/>
                         <outlet property="userProfileImageView" destination="nJn-4q-CsF" id="t2z-1P-ZXy"/>

@@ -60,6 +60,9 @@ class LocalPackagesListViewController: UIViewController {
         //observe changes to app mode
         self.observeAppModeChangeNotification()
         
+        //observe changes to portal
+        self.observePortalChangedNotification()
+        
         //fetch local packages
         self.fetchLocalPackages()
         
@@ -74,7 +77,7 @@ class LocalPackagesListViewController: UIViewController {
         
         self.updateSegmentedControlForAppMode()
         
-        self.updateNavigationItemsForAppMode()
+        self.updateNavigationItems()
     }
     
     /*
@@ -126,9 +129,15 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
-    private func updateNavigationItemsForAppMode() {
-        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
-        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+    private func updateNavigationItems() {
+        if AppContext.shared.portal == nil {
+            navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [] : []
+            navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+        }
+        else {
+            navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
+            navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+        }
     }
     
     private func updateSegmentedControlForAppMode() {
@@ -161,6 +170,8 @@ class LocalPackagesListViewController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: .DownloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
+            guard let strongSelf = self else { return }
+            
             //get error from notification
             let error = notification.userInfo?["error"] as? Error
             
@@ -169,20 +180,7 @@ class LocalPackagesListViewController: UIViewController {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
-            //get itemID from notification, then get package for that ID.
-            //And get the index to get the corresponding cell from the
-            //table view. Then update the state of the cell.
-            if let itemID = notification.userInfo?["itemID"] as? String,
-                let package = AppContext.shared.localPackage(withItemID: itemID),
-                let index = AppContext.shared.localPackages.index(of: package),
-                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? LocalPackageCell {
-                
-                cell.isUpdating = false
-                
-                if error == nil {
-                    cell.isUpdateAvailable = false
-                }
-            }
+            strongSelf.refreshLocalPackages()
         }
     }
     
@@ -195,10 +193,18 @@ class LocalPackagesListViewController: UIViewController {
             //update the segment control to reflect the current app mode.
             strongSelf.updateSegmentedControlForAppMode()
             
-            strongSelf.updateNavigationItemsForAppMode()
+            strongSelf.updateNavigationItems()
             
             //update the view controller's title to reflect the current app mode.
             strongSelf.updateTitleForAppMode()
+        }
+    }
+    
+    private func observePortalChangedNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .PortalDidChange, object: nil, queue: .main) { [weak self] (_) in
+            
+            self?.updateNavigationItems()
         }
     }
     
@@ -337,11 +343,17 @@ class LocalPackagesListViewController: UIViewController {
     
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
         
-        //refresh local packages
-        self.fetchLocalPackages()
-        
         //hide control
         refreshControl.endRefreshing()
+
+        //refresh local packages and check for updates
+        refreshLocalPackages()
+    }
+    
+    func refreshLocalPackages() {
+        
+        //refresh local packages
+        self.fetchLocalPackages()
         
         //check for updates
         self.checkForUpdates()

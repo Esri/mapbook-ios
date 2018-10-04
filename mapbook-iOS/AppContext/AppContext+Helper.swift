@@ -202,9 +202,9 @@ extension AppContext {
         var text:String
         switch AppContext.shared.appMode {
         case .device:
-            text = "Add the mobile map package via iTunes and pull to refresh the table view"
+            text = "Add the mobile map package via iTunes.\n\nPull to refresh device loaded mobile map packages."
         default:
-            text = "Tap on the plus button on the right to download mobile map packages from portal. If done downloading pull to refresh the table view"
+            text = "Tap the 'Portal MMPKs' button to download mobile map packages from portal.\n\nPull to refresh downloaded mobile map packages."
         }
         
         return text
