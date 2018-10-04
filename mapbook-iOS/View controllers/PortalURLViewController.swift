@@ -28,7 +28,7 @@ import ArcGIS
 protocol PortalURLViewControllerDelegate:class {
     
     //to notify delegate that portal was loaded
-    func portalURLViewController(_ portalURLViewController:PortalURLViewController, loadedPortalWithError error:Error?)
+    func portalURLViewController(_ portalURLViewController: PortalURLViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool)
 }
 
 class PortalURLViewController: UIViewController {
@@ -68,8 +68,8 @@ class PortalURLViewController: UIViewController {
             
             if let user = portal.user {
                 
-                usernameLabel.text = user.username ?? ""
-                userFullNameLabel.text = user.fullName ?? ""
+                usernameLabel.text = user.username ?? " "
+                userFullNameLabel.text = user.fullName ?? " "
                 
                 if let thumbnail = user.thumbnail {
                     
@@ -99,8 +99,8 @@ class PortalURLViewController: UIViewController {
             urlTextField.text = "https://www.arcgis.com"
             urlTextField.isEnabled = true
             actionButton.setTitle("Access Portal", for: .normal)
-            usernameLabel.text = ""
-            userFullNameLabel.text = ""
+            usernameLabel.text = " "
+            userFullNameLabel.text = " "
             userProfileImageView.image = UIImage(named: "Placeholder")
         }
     }
@@ -111,58 +111,64 @@ class PortalURLViewController: UIViewController {
      If textfield is not empty and user is not already logged in, then
      initialize and load portal else show alert for confirmation.
     */
-    @IBAction private func continueAction(_ sender:UIButton) {
+    @IBAction private func userTappedActionButton(_ sender:UIButton) {
         
         if AppContext.shared.portal == nil {
+            accessPortal()
+        }
+        else {
+            leavePortal()
+        }
+    }
+    
+    private func accessPortal() {
+        
+        //ensure the portal URL provided is valid
+        guard let text = self.urlTextField.text, let portalURL = URL(string: text) else {
+            return
+        }
+        
+        //initialize portal
+        let portal = AGSPortal(url: portalURL, loginRequired: true)
+        
+        //load portal
+        portal.load { [weak self] (error) in
             
-            //ensure the portal URL provided is valid
-            guard let text = self.urlTextField.text, let portalURL = URL(string: text) else {
+            guard let strongSelf = self else { return }
+            
+            if let error = error {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
                 return
             }
             
-            //initialize portal
-            let portal = AGSPortal(url: portalURL, loginRequired: true)
+            AppContext.shared.portal = portal
             
-            //load portal
-            portal.load { [weak self] (error) in
-                
-                if let error = error, let strongSelf = self {
-                    strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: error)
-                    return
-                }
-                
-                AppContext.shared.portal = portal
-                
-                //show portal items
-                self?.dismiss(animated: true) {
-                    if let strongSelf = self {
-                        strongSelf.delegate?.portalURLViewController(strongSelf, loadedPortalWithError: nil)
-                    }
-                }
-            }
+            //request dismissal from parent view controller request to show portal items list
+            strongSelf.delegate?.portalURLViewController(strongSelf, requestsDismissAndShouldShowPortalItemsList: true)
         }
-        else {
+    }
+    
+    private func leavePortal() {
+        
+        //alert controller for confirmation
+        let alertController = UIAlertController(title: "Leave portal?", message: "This will delete all downloaded mobile map packages.", preferredStyle: .alert)
+        
+        //yes action
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
             
-            //alert controller for confirmation
-            let alertController = UIAlertController(title: "Leave portal?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
-            
-            //yes action
-            let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-                
-                //log user out, this will delete existing packages
-                AppContext.shared.logoutUser()
-            }
-            
-            //no action
-            let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-            
-            //add actions to alert controller
-            alertController.addAction(yesAction)
-            alertController.addAction(noAction)
-            
-            //present alert controller
-            self.present(alertController, animated: true, completion: nil)
+            //log user out, this will delete existing packages
+            AppContext.shared.logoutUser()
         }
+        
+        //no action
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        //add actions to alert controller
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        //present alert controller
+        self.present(alertController, animated: true, completion: nil)
     }
     
     /*
@@ -170,6 +176,6 @@ class PortalURLViewController: UIViewController {
     */
     @IBAction private func cancel(_ sender:UIButton) {
         
-        self.dismiss(animated: true, completion: nil)
+        delegate?.portalURLViewController(self, requestsDismissAndShouldShowPortalItemsList: false)
     }
 }

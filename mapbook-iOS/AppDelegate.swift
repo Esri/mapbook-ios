@@ -74,6 +74,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Appearance modification
     
     func modifyAppearance() {
+        
+        UIButton.appearance().tintColor = UIColor.primaryBlue()
+
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
         UINavigationBar.appearance().tintColor = UIColor.yellow
@@ -85,6 +88,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UISlider.appearance().tintColor = UIColor.primaryBlue()
         
         UISegmentedControl.appearance().tintColor = UIColor.primaryBlue()
+        
+        UIRefreshControl.appearance().tintColor = UIColor.yellow
+        
     }
 }
 

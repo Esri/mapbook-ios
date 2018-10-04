@@ -109,14 +109,8 @@ class LocalPackagesListViewController: UIViewController {
     private func addRefreshControl() {
         
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
-        
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = refreshControl
-        } else {
-            tableView.backgroundView = refreshControl
-        }
+        tableView.refreshControl = refreshControl
     }
     
     /*
@@ -213,7 +207,7 @@ class LocalPackagesListViewController: UIViewController {
             let controller = segue.destination as? PortalURLViewController {
             
             controller.delegate = self
-            controller.preferredContentSize = CGSize(width: 540, height: 620)
+            controller.preferredContentSize = CGSize(width: 400, height: 530)
             controller.presentationController?.delegate = self
         }
     }
@@ -249,7 +243,7 @@ class LocalPackagesListViewController: UIViewController {
     private func switchToDeviceMode() {
         
         //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all the packages you have already downloaded and log you out", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and log you out.", preferredStyle: .alert)
         
         //yes action
         let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
@@ -396,18 +390,17 @@ extension LocalPackagesListViewController: UITableViewDelegate {
 
 extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
     
-    func portalURLViewController(_ portalURLViewController: PortalURLViewController, loadedPortalWithError error: Error?) {
+    func portalURLViewController(_ portalURLViewController: PortalURLViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
         
         //refresh table view as the portal could have been switched and
         //earlier packages might have been deleted
         self.tableView.reloadData()
         
-        if let error = error {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-        }
-        else {
-            //show portal items from portal
-            self.showPortalItemsListVC()
+        portalURLViewController.dismiss(animated: true) {
+            
+            if shouldShowItems {
+                self.showPortalItemsListVC()
+            }
         }
     }
 }
