@@ -247,7 +247,7 @@ class LocalPackagesListViewController: UIViewController {
         let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and log you out.", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
             
             //log user out
             AppContext.shared.logoutUser()
@@ -279,7 +279,7 @@ class LocalPackagesListViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
             
             //update appMode to .portal
             AppContext.shared.appMode = .portal
@@ -308,7 +308,7 @@ class LocalPackagesListViewController: UIViewController {
         let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Log out", style: .default) { [weak self] (action) in
             
             //log user out
             AppContext.shared.logoutUser()
@@ -385,14 +385,31 @@ extension LocalPackagesListViewController: UITableViewDelegate {
         
         if editingStyle == .delete {
             
-            //delete package using AppContext
-            AppContext.shared.deleteLocalPackage(at: indexPath.row)
-        
-            //refresh table view
-            tableView.reloadData()
+            //show alert controller for confirmation
+            let alertController = UIAlertController(title: nil, message: "Are you sure you want to delete this mobile map package?", preferredStyle: .alert)
             
-            //if no packages left then show the background label
-            self.showBackgroundLabelIfNeeded()
+            //yes action
+            let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
+                
+                //delete package using AppContext
+                AppContext.shared.deleteLocalPackage(at: indexPath.row)
+                
+                //refresh table view
+                tableView.reloadData()
+                
+                //if no packages left then show the background label
+                self?.showBackgroundLabelIfNeeded()
+            }
+            
+            //no action
+            let noAction = UIAlertAction(title: "No", style: .cancel)
+            
+            //add actions to alert controller
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+            
+            //present alert controller
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
