@@ -32,7 +32,6 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var settingsBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
     @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
-    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +111,7 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func addRefreshControl() {
         
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }
@@ -348,7 +348,7 @@ class LocalPackagesListViewController: UIViewController {
         
         //give pause before end refreshing
         Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
-            self?.refreshControl.endRefreshing()
+            self?.tableView.refreshControl?.endRefreshing()
         }
     }
     
