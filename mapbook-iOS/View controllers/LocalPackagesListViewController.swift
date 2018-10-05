@@ -32,20 +32,18 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var settingsBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
     @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //self sizing table view cells
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = 84
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //add refresh control to allow refreshing local packages
         //and check for updates
         self.addRefreshControl()
-        
-        //never show back button
-        self.navigationItem.hidesBackButton = true
         
         //for .portal mode, show portal url screen by default if user not logged in
         if AppContext.shared.appMode == .portal && !AppContext.shared.isUserLoggedIn() {
@@ -86,6 +84,7 @@ class LocalPackagesListViewController: UIViewController {
     private func fetchLocalPackages() {
         
         AppContext.shared.fetchLocalPackages()
+        
         self.tableView.reloadData()
         
         self.showBackgroundLabelIfNeeded()
@@ -113,7 +112,6 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func addRefreshControl() {
         
-        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }
@@ -125,19 +123,15 @@ class LocalPackagesListViewController: UIViewController {
         if AppContext.shared.appMode == .portal {
             AppContext.shared.checkForUpdates {
                 self.tableView.reloadData()
+                self.showBackgroundLabelIfNeeded()
             }
         }
     }
     
     private func updateNavigationItems() {
-        if AppContext.shared.portal == nil {
-            navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [] : []
-            navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
-        }
-        else {
-            navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
-            navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
-        }
+        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
+        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+        addBBI.isEnabled = AppContext.shared.portal != nil
     }
     
     private func updateSegmentedControlForAppMode() {
@@ -151,14 +145,6 @@ class LocalPackagesListViewController: UIViewController {
         case .device:
             title = "Device Mobile Map Packages"
         }
-    }
-    
-    /*
-     Perform segue to PortalItemsListViewController
-    */
-    fileprivate func showPortalItemsListVC() {
-        
-        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
     }
     
     /*
@@ -233,7 +219,7 @@ class LocalPackagesListViewController: UIViewController {
         
         if AppContext.shared.isUserLoggedIn() {
             //show portal items list view controller
-            self.showPortalItemsListVC()
+            self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
         else {
             //show portal URL page
@@ -274,7 +260,10 @@ class LocalPackagesListViewController: UIViewController {
         }
         
         //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
+            
+            self?.updateSegmentedControlForAppMode()
+        }
         
         //add actions to alert controller
         alertController.addAction(yesAction)
@@ -300,7 +289,10 @@ class LocalPackagesListViewController: UIViewController {
         }
         
         //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
+            
+            self?.updateSegmentedControlForAppMode()
+        }
         
         //add actions to alert controller
         alertController.addAction(yesAction)
@@ -342,12 +334,8 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
-        
-        //hide control
-        refreshControl.endRefreshing()
 
-        //refresh local packages and check for updates
-        refreshLocalPackages()
+        self.refreshLocalPackages()
     }
     
     func refreshLocalPackages() {
@@ -357,6 +345,11 @@ class LocalPackagesListViewController: UIViewController {
         
         //check for updates
         self.checkForUpdates()
+        
+        //give pause before end refreshing
+        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+            self?.refreshControl.endRefreshing()
+        }
     }
     
     deinit {
@@ -420,7 +413,7 @@ extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
         portalURLViewController.dismiss(animated: true) {
             
             if shouldShowItems {
-                self.showPortalItemsListVC()
+                self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
             }
         }
     }

@@ -144,32 +144,5 @@ class AppContext {
             //For new install or logged out, PORTALURL wont be there, so clear the credential
             AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         }
-        
-        //determine app mode
-        self.appMode = self.determineMode()
-    }
-    
-    /*
-     The app can be in either one of the three modes:
-     a. NotSet - used first time; user logged out; there is no local data and user is logged out
-     b. Device - if there are any packages in the documents directory
-     c. Portal - if user is logged in to a portal
-     The determineMode method uses these conditions to find out the app mode
-    */
-    private func determineMode() -> AppMode {
-        
-        //device mode
-        //check if documents directory root folder has mmpks
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        if let urls = try? FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
-            
-            let mmpkURLs = urls.filter({ return $0.pathExtension == "mmpk" })
-            if mmpkURLs.count > 0 {
-                return .device
-            }
-        }
-        
-        //portal mode
-        return .portal
     }
 }
