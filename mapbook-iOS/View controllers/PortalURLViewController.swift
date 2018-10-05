@@ -193,4 +193,9 @@ class PortalURLViewController: UIViewController {
         
         delegate?.portalURLViewController(self, requestsDismissAndShouldShowPortalItemsList: false)
     }
+    
+    deinit {
+        //remove observer
+        NotificationCenter.default.removeObserver(self)
+    }
 }

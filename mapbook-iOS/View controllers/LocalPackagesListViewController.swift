@@ -159,10 +159,7 @@ class LocalPackagesListViewController: UIViewController {
             guard let strongSelf = self else { return }
             
             //get error from notification
-            let error = notification.userInfo?["error"] as? Error
-            
-            //show error to user
-            if let error = error as NSError?, error.code != NSUserCancelledError {
+            if let error = notification.userInfo?["error"] as? NSError, error.code != NSUserCancelledError {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
