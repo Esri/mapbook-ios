@@ -23,7 +23,18 @@
 //
 
 enum AppMode: Int {
-    case device, portal
+    case portal, device
+    
+    private static let userDefaultsKey = "AppMode.UserDefaultsKey"
+    
+    func saveToUserDefaults() {
+        UserDefaults.standard.set(self.rawValue, forKey: AppMode.userDefaultsKey)
+    }
+    
+    static func retrieveFromUserDefaults() -> AppMode {
+        let rawAppMode = UserDefaults.standard.integer(forKey: userDefaultsKey)
+        return AppMode(rawValue: rawAppMode) ?? .portal
+    }
 }
 
 extension AppMode {

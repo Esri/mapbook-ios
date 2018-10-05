@@ -347,8 +347,8 @@
                                             <rect key="frame" x="323.5" y="10" width="121" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="Device"/>
                                                 <segment title="Portal"/>
+                                                <segment title="Device"/>
                                             </segments>
                                             <connections>
                                                 <action selector="appModeSegmentControlValueChanged:" destination="JTQ-Kl-o7Y" eventType="valueChanged" id="i2h-Jr-yxp"/>

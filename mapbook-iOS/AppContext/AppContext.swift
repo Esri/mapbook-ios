@@ -44,9 +44,13 @@ class AppContext {
     static let shared = AppContext()
     
     //current mode of the app
-    var appMode:AppMode = .portal {
+    var appMode: AppMode {
         didSet {
+            //post change to app mode
             NotificationCenter.default.post(name: .AppModeDidChange, object: self, userInfo: nil)
+            
+            //save new mode to defaults
+            appMode.saveToUserDefaults()
         }
     }
     
@@ -144,5 +148,8 @@ class AppContext {
             //For new install or logged out, PORTALURL wont be there, so clear the credential
             AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         }
+        
+        //set initial value from last session, if first session the default is portal
+        appMode = AppMode.retrieveFromUserDefaults()
     }
 }
