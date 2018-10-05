@@ -25,3 +25,25 @@
 enum AppMode: Int {
     case device, portal
 }
+
+extension AppMode {
+    
+    var noPackagesText: String {
+        
+        switch self {
+        case .device:
+            return "Add the mobile map package via iTunes.\n\nPull to refresh device loaded mobile map packages."
+        case .portal:
+            return "Tap the 'Portal MMPKs' button to download mobile map packages from portal.\n\nPull to refresh downloaded mobile map packages."
+        }
+    }
+    
+    var viewControllerTitle: String {
+        switch self {
+        case .portal:
+            return "Downloaded Portal Mobile Map Packages"
+        case .device:
+            return "Device Mobile Map Packages"
+        }
+    }
+}

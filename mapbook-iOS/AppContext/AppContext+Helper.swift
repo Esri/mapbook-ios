@@ -192,21 +192,4 @@ extension AppContext {
         
         return nil
     }
-    
-    /*
-     Get text to be displayed in the table view if no packages
-     found. It varies based on the appMode.
-    */
-    func textForNoPackages() -> String {
-        
-        var text:String
-        switch AppContext.shared.appMode {
-        case .device:
-            text = "Add the mobile map package via iTunes.\n\nPull to refresh device loaded mobile map packages."
-        default:
-            text = "Tap the 'Portal MMPKs' button to download mobile map packages from portal.\n\nPull to refresh downloaded mobile map packages."
-        }
-        
-        return text
-    }
 }

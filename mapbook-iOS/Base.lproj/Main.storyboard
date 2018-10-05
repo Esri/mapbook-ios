@@ -377,7 +377,7 @@
                     <navigationItem key="navigationItem" title="My Maps" id="3ZE-dc-TNx">
                         <barButtonItem key="leftBarButtonItem" image="iOS7_Toolbar_Settings22" id="pbW-lZ-4Kd">
                             <connections>
-                                <action selector="settings" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
+                                <action selector="viewPortalAccessViewController" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Portal MMPKs" id="FNo-X8-Zne">
@@ -584,10 +584,10 @@
             </objects>
             <point key="canvasLocation" x="775" y="40"/>
         </scene>
-        <!--Portal URL View Controller-->
+        <!--Portal Access View Controller-->
         <scene sceneID="dUC-HD-uYu">
             <objects>
-                <viewController id="uCp-tR-RV9" customClass="PortalURLViewController" customModule="mapbook_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uCp-tR-RV9" customClass="PortalAccessViewController" customModule="mapbook_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="btA-Ow-VHo"/>
                         <viewControllerLayoutGuide type="bottom" id="hRy-qt-vMr"/>

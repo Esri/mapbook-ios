@@ -25,13 +25,13 @@
 import UIKit
 import ArcGIS
 
-protocol PortalURLViewControllerDelegate:class {
+protocol PortalAccessViewControllerDelegate:class {
     
     //to notify delegate that portal was loaded
-    func portalURLViewController(_ portalURLViewController: PortalURLViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool)
+    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool)
 }
 
-class PortalURLViewController: UIViewController {
+class PortalAccessViewController: UIViewController {
 
     // MARK: IB User Profile Section
     @IBOutlet weak var userProfileImageView: UIImageView!
@@ -47,7 +47,7 @@ class PortalURLViewController: UIViewController {
     
     private var dismissTimer: Timer?
     
-    weak var delegate:PortalURLViewControllerDelegate?
+    weak var delegate:PortalAccessViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

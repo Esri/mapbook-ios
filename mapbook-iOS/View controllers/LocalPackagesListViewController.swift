@@ -70,10 +70,13 @@ class LocalPackagesListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //the title of the view controller should reflect the app mode
         self.updateTitleForAppMode()
         
+        //the segment control should reflect the app mode
         self.updateSegmentedControlForAppMode()
         
+        //the navigation bar button items should reflect the app mode and portal
         self.updateNavigationItems()
     }
     
@@ -95,12 +98,13 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func showBackgroundLabelIfNeeded() {
         
         if AppContext.shared.localPackages.count > 0 {
+            //remove background label
             self.noPackagesLabel.isHidden = true
             self.tableView.separatorStyle = .singleLine
         }
         else {
             //set background label
-            self.noPackagesLabel.text = AppContext.shared.textForNoPackages()
+            self.noPackagesLabel.text = AppContext.shared.appMode.noPackagesText
             self.noPackagesLabel.isHidden = false
             self.tableView.separatorStyle = .none
         }
@@ -111,6 +115,7 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func addRefreshControl() {
         
+        //add a refresh control to the table view, triggering a refresh of local packages
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -129,22 +134,20 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     private func updateNavigationItems() {
+        //navigation item bar button items should reflect app mode and portal
         navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
         navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
         addBBI.isEnabled = AppContext.shared.portal != nil
     }
     
     private func updateSegmentedControlForAppMode() {
+        //segmented control should reflect app mode
         appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
     }
     
     private func updateTitleForAppMode() {
-        switch AppContext.shared.appMode {
-        case .portal:
-            title = "Downloaded Portal Mobile Map Packages"
-        case .device:
-            title = "Device Mobile Map Packages"
-        }
+        //view controller title should reflect app mode
+        title = AppContext.shared.appMode.viewControllerTitle
     }
     
     /*
@@ -173,20 +176,21 @@ class LocalPackagesListViewController: UIViewController {
             
             guard let strongSelf = self else { return }
             
-            //update the segment control to reflect the current app mode.
+            //the title of the view controller should reflect the app mode
+            strongSelf.updateTitleForAppMode()
+            
+            //the segment control should reflect the app mode
             strongSelf.updateSegmentedControlForAppMode()
             
+            //the navigation bar button items should reflect the app mode and portal
             strongSelf.updateNavigationItems()
-            
-            //update the view controller's title to reflect the current app mode.
-            strongSelf.updateTitleForAppMode()
         }
     }
     
     private func observePortalChangedNotification() {
         
         NotificationCenter.default.addObserver(forName: .PortalDidChange, object: nil, queue: .main) { [weak self] (_) in
-            
+            //the navigation bar button items should reflect the app mode and portal
             self?.updateNavigationItems()
         }
     }
@@ -202,7 +206,7 @@ class LocalPackagesListViewController: UIViewController {
             controller.mobileMapPackage = package
         }
         else if segue.identifier == "PortalURLSegue",
-            let controller = segue.destination as? PortalURLViewController {
+            let controller = segue.destination as? PortalAccessViewController {
             
             controller.delegate = self
             controller.preferredContentSize = CGSize(width: 400, height: 530)
@@ -226,9 +230,7 @@ class LocalPackagesListViewController: UIViewController {
     
     @IBAction func appModeSegmentControlValueChanged(_ sender: Any) {
         
-        guard sender as? UISegmentedControl == appModeSegmentedControl else { return }
-        
-        guard let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
+        guard sender as? UISegmentedControl == appModeSegmentedControl, let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
         
         switch newMode {
         case .device:
@@ -325,7 +327,7 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func settings() {
+    @IBAction func viewPortalAccessViewController() {
         
         self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
     }
@@ -416,9 +418,9 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     }
 }
 
-extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
+extension LocalPackagesListViewController: PortalAccessViewControllerDelegate {
     
-    func portalURLViewController(_ portalURLViewController: PortalURLViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
+    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
         
         //refresh table view as the portal could have been switched and
         //earlier packages might have been deleted

@@ -12,7 +12,7 @@
 		3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */; };
 		3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */; };
 		3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */; };
-		3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */; };
+		3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */; };
 		3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */; };
 		3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */; };
 		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
@@ -45,7 +45,7 @@
 		3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackagesListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
 		3E1D6E8F1F2852D600FB119A /* LocalPackageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPackageCell.swift; sourceTree = "<group>"; };
-		3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalURLViewController.swift; sourceTree = "<group>"; };
+		3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalAccessViewController.swift; sourceTree = "<group>"; };
 		3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
 		3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
-				3E6E06B61F2FCC3900921439 /* PortalURLViewController.swift */,
+				3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
 				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
 				3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */,
@@ -292,7 +292,7 @@
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
-				3E6E06B71F2FCC3900921439 /* PortalURLViewController.swift in Sources */,
+				3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */,
 				3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
