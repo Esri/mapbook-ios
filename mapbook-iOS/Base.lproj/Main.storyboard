@@ -176,7 +176,13 @@
                             <constraint firstAttribute="trailing" secondItem="5kn-MO-dCX" secondAttribute="trailing" id="v9e-f2-LrX"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Portal Mobile Map Packages" id="Hs3-zl-p67"/>
+                    <navigationItem key="navigationItem" title="Portal Mobile Map Packages" id="Hs3-zl-p67">
+                        <barButtonItem key="leftBarButtonItem" title="Dismiss" id="pve-q7-qV4">
+                            <connections>
+                                <action selector="dismissPortalItemsListViewController:" destination="J2H-Fw-E4O" id="qew-id-hhP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="footerView" destination="AnE-e9-64b" id="tXz-AC-1hz"/>
                         <outlet property="searchBar" destination="SW9-an-8sr" id="Cd7-Xt-lJC"/>
@@ -185,7 +191,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mho-4F-uf0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="79.6875" y="800"/>
+            <point key="canvasLocation" x="316" y="790"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="3cg-l4-Diy">
+            <objects>
+                <navigationController id="Vjl-eG-4P2" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" largeTitles="YES" id="8sm-M9-QXz">
+                        <rect key="frame" x="0.0" y="20" width="768" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="J2H-Fw-E4O" kind="relationship" relationship="rootViewController" id="KuD-P1-fcz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AlR-Yr-P3K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-352" y="791"/>
         </scene>
         <!--My Maps-->
         <scene sceneID="Ad8-1r-bep">
@@ -394,7 +416,7 @@
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
                         <segue destination="UsT-YY-adV" kind="show" identifier="PackageVCSegue" id="eTY-oE-PSr"/>
                         <segue destination="uCp-tR-RV9" kind="presentation" identifier="PortalURLSegue" modalPresentationStyle="formSheet" id="tD0-TS-2GU"/>
-                        <segue destination="J2H-Fw-E4O" kind="show" identifier="PortalItemsSegue" id="TS8-RQ-wRg"/>
+                        <segue destination="Vjl-eG-4P2" kind="presentation" identifier="PortalItemsSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4j-Y2-2uf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -724,7 +746,7 @@ SDK Version</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lS1-rk-kaR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="787.5" y="812.109375"/>
+            <point key="canvasLocation" x="1216" y="790"/>
         </scene>
         <!--Map-->
         <scene sceneID="jMH-5a-6Gh">

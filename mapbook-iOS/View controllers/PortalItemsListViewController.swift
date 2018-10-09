@@ -146,6 +146,10 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    @IBAction func dismissPortalItemsListViewController(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     deinit {
         //remove observer
         NotificationCenter.default.removeObserver(self)
