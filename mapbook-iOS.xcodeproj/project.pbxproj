@@ -37,6 +37,9 @@
 		3EEBD3281F423FE300DB4AAA /* AppContext+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
 		944FC151202404F3007535DB /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 944FC150202404F3007535DB /* ArcGIS.bundle */; };
+		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
+		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
+		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +79,9 @@
 		3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Login.swift"; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		944FC150202404F3007535DB /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Static/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
+		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
+		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
+		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,7 @@
 		3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9494DD532175026800DE04A5 /* Extensions */,
 				3EEBD3261F423EA800DB4AAA /* View controllers */,
 				3EEBD3251F42264200DB4AAA /* AppContext */,
 				3EDC846B1F1FD5C0002DBCF2 /* Cells */,
@@ -194,6 +201,16 @@
 				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
 			);
 			path = "View controllers";
+			sourceTree = "<group>";
+		};
+		9494DD532175026800DE04A5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9494DD512175025F00DE04A5 /* Bundle+Version.swift */,
+				9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */,
+				9494DD56217502C200DE04A5 /* UIColor+House.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,10 +297,12 @@
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				3E1D6E8C1F27F35D00FB119A /* LocalPackagesListViewController.swift in Sources */,
 				3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */,
+				9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */,
 				3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
 				3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */,
+				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
 				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
 				3EEBD3211F42196000DB4AAA /* AppContext+Helper.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
@@ -292,6 +311,7 @@
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
 				3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */,
+				9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */,
 				3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
