@@ -30,7 +30,9 @@ import ArcGIS
  */
 extension Notification.Name {
     
-    static let DownloadCompleted = Notification.Name("DownloadCompleted")
+    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
+    static let appModeDidChange = Notification.Name("AppModeChanged")
+    static let portalDidChange = Notification.Name("PortalDidChange")
 }
 
 /*
@@ -41,14 +43,16 @@ class AppContext {
     //singleton
     static let shared = AppContext()
     
-    //name of the directory for saving downloaded packages
-    let DownloadedPackagesDirectoryName = "Downloaded packages"
-    
-    //name of the directory for downloading packages
-    let DownloadingPackagesDirectoryName = "Downloading packages"
-    
     //current mode of the app
-    var appMode:AppMode = .notSet
+    var appMode: AppMode {
+        didSet {
+            //post change to app mode
+            NotificationCenter.default.post(name: .appModeDidChange, object: self, userInfo: nil)
+            
+            //save new mode to defaults
+            appMode.saveToUserDefaults()
+        }
+    }
     
     //list of packages available on device
     var localPackages:[AGSMobileMapPackage] = []
@@ -85,10 +89,13 @@ class AppContext {
             self.updatableItemIDs.removeAll()
             
             //cancel all downloads in progress
-            _ = self.downloadOperationQueue.operations.map( { $0.cancel() } )
+            self.downloadOperationQueue.operations.forEach { $0.cancel() }
             
             //clear list of currently downloading itemIDs
             self.currentlyDownloadingItemIDs.removeAll()
+            
+            //post notification of change.
+            NotificationCenter.default.post(name: .portalDidChange, object: self, userInfo: nil)
         }
     }
     
@@ -142,36 +149,7 @@ class AppContext {
             AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         }
         
-        //determine app mode
-        self.appMode = self.determineMode()
-    }
-    
-    /*
-     The app can be in either one of the three modes:
-     a. NotSet - used first time; user logged out; there is no local data and user is logged out
-     b. Device - if there are any packages in the documents directory
-     c. Portal - if user is logged in to a portal
-     The determineMode method uses these conditions to find out the app mode
-    */
-    private func determineMode() -> AppMode {
-        
-        //portal mode
-        //if user is logged in
-        if self.isUserLoggedIn() {
-            return .portal
-        }
-        
-        //device mode
-        //check if documents directory root folder has mmpks
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        if let urls = try? FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
-            
-            let mmpkURLs = urls.filter({ return $0.pathExtension == "mmpk" })
-            if mmpkURLs.count > 0 {
-                return .device
-            }
-        }
-        
-        return .notSet
+        //set initial value from last session, if first session the default is portal
+        appMode = AppMode.retrieveFromUserDefaults()
     }
 }

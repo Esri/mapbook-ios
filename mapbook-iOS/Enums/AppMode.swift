@@ -22,8 +22,39 @@
 // email: contracts@esri.com
 //
 
-enum AppMode:String {
-    case notSet = "NotSet"
-    case device = "Device"
-    case portal = "Portal"
+enum AppMode: Int {
+    case portal = 0, device
+    
+    private static let userDefaultsKey = "AppMode.UserDefaultsKey"
+    
+    func saveToUserDefaults() {
+        UserDefaults.standard.set(self.rawValue, forKey: AppMode.userDefaultsKey)
+    }
+    
+    static func retrieveFromUserDefaults() -> AppMode {
+        let rawAppMode = UserDefaults.standard.integer(forKey: userDefaultsKey)
+        return AppMode(rawValue: rawAppMode) ?? .portal
+    }
+}
+
+extension AppMode {
+    
+    var noPackagesText: String {
+        
+        switch self {
+        case .device:
+            return "Add the mobile map package via iTunes.\n\nPull to refresh device loaded mobile map packages."
+        case .portal:
+            return "Tap the 'Portal MMPKs' button to download mobile map packages from portal.\n\nPull to refresh downloaded mobile map packages."
+        }
+    }
+    
+    var viewControllerTitle: String {
+        switch self {
+        case .portal:
+            return "Downloaded Portal Mobile Map Packages"
+        case .device:
+            return "Device Mobile Map Packages"
+        }
+    }
 }

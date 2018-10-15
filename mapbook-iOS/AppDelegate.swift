@@ -45,9 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setLicenseKey()
         
         self.setupOAuthManager()
-        
-        self.navigateBasedOnAppMode()
-        
+                
         self.modifyAppearance()
         
         return true
@@ -73,40 +71,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AGSAuthenticationManager.shared().credentialCache.enableAutoSyncToKeychain(withIdentifier: AppSettings.keychainIdentifier, accessGroup: nil, acrossDevices: false)
     }
     
-    private func navigateBasedOnAppMode() {
-        
-        switch AppContext.shared.appMode {
-        case .device, .portal:
-            if let navigationController = self.window?.rootViewController as? UINavigationController {
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let localPackagesListViewController = storyboard.instantiateViewController(withIdentifier: "LocalPackagesListViewController")
-                navigationController.pushViewController(localPackagesListViewController, animated: false)
-            }
-        case .notSet:
-            break
-        }
-    }
-    
     // MARK: - Appearance modification
     
     func modifyAppearance() {
+        
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
         UINavigationBar.appearance().tintColor = UIColor.yellow
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.yellow
+        UIButton.appearance().tintColor = UIColor.primaryBlue()
         
         UITabBar.appearance().tintColor = UIColor.white
         UITabBar.appearance().barTintColor = UIColor.primaryBlue()
 
         UISwitch.appearance().onTintColor = UIColor.primaryBlue()
         UISlider.appearance().tintColor = UIColor.primaryBlue()
+        
+        UISegmentedControl.appearance().tintColor = UIColor.primaryBlue()
+        
+        UIRefreshControl.appearance().tintColor = UIColor.yellow
+        
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor.primaryBlue()
     }
 }
-
-extension UIColor {
-    
-    class func primaryBlue() -> UIColor {
-        return UIColor(red: 61.0/255.0, green: 81.0/255.0, blue: 180.0/255.0, alpha: 1)
-    }
-}
-

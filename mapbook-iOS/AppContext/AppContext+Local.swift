@@ -40,10 +40,6 @@ extension AppContext {
         
         var localPackageURLs:[URL] = []
         
-        if self.appMode == .notSet {
-            return localPackageURLs
-        }
-        
         //documents directory url
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
@@ -54,7 +50,7 @@ extension AppContext {
             directoryURL = documentsDirectoryURL
         }
         else {
-            directoryURL = documentsDirectoryURL.appendingPathComponent(DownloadedPackagesDirectoryName, isDirectory: true)
+            directoryURL = documentsDirectoryURL.appendingPathComponent(DirectoryType.downloaded.directoryName, isDirectory: true)
         }
         
         //get contents of the directory

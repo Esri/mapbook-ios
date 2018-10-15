@@ -36,13 +36,7 @@ class LocalPackageCell: UITableViewCell {
     @IBOutlet private var updateButton:UIButton!
     @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
     @IBOutlet private var updateStackView:UIStackView!
-    
-    var isUpdateAvailable = false {
-        didSet {
-            self.updateButton.isEnabled = isUpdateAvailable
-        }
-    }
-    
+        
     var isUpdating = false {
         didSet {
             self.updateButton.isHidden = isUpdating
@@ -70,7 +64,6 @@ class LocalPackageCell: UITableViewCell {
                 
                 self?.updateStackView.isHidden = (AppContext.shared.appMode == .device)
                 self?.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
-                self?.isUpdateAvailable = AppContext.shared.isUpdatable(package: mobileMapPackage)
                 self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
                 self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
                 self?.titleLabel.text = item.title
@@ -84,6 +77,11 @@ class LocalPackageCell: UITableViewCell {
     @IBAction private func update() {
         
         guard let package = self.mobileMapPackage else {
+            return
+        }
+        
+        guard AppContext.shared.isUpdatable(package: package) else {
+            SVProgressHUD.showInfo(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
             return
         }
         
