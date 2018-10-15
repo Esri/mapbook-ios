@@ -81,7 +81,7 @@ class LocalPackageCell: UITableViewCell {
         }
         
         guard AppContext.shared.isUpdatable(package: package) else {
-            SVProgressHUD.showSuccess(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
+            SVProgressHUD.showInfo(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
             return
         }
         
