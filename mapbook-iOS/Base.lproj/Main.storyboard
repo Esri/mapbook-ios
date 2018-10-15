@@ -236,7 +236,7 @@
                                                     <rect key="frame" x="8" y="8" width="752" height="63.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="G7b-9w-qTC">
-                                                            <rect key="frame" x="0.0" y="3" width="691.5" height="57.5"/>
+                                                            <rect key="frame" x="0.0" y="3" width="666" height="57.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1n2-WF-rbp">
                                                                     <rect key="frame" x="0.0" y="0.0" width="265" height="57.5"/>
@@ -292,7 +292,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="In2-Ym-jDw">
-                                                                    <rect key="frame" x="270" y="0.0" width="421.5" height="57.5"/>
+                                                                    <rect key="frame" x="270" y="0.0" width="396" height="57.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -301,16 +301,16 @@
                                                             <variation key="widthClass=compact" axis="vertical"/>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KVv-mk-YoR">
-                                                            <rect key="frame" x="696.5" y="11.5" width="55.5" height="40.5"/>
+                                                            <rect key="frame" x="671" y="0.5" width="81" height="62.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXd-qT-zkt">
-                                                                    <rect key="frame" x="6.5" y="0.0" width="42" height="22"/>
+                                                                    <rect key="frame" x="8.5" y="0.0" width="64" height="44"/>
                                                                     <subviews>
                                                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KMG-w3-sD1">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="22"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="44"/>
                                                                         </activityIndicatorView>
                                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBG-Ul-YFd">
-                                                                            <rect key="frame" x="20" y="0.0" width="22" height="22"/>
+                                                                            <rect key="frame" x="20" y="0.0" width="44" height="44"/>
                                                                             <state key="normal" image="Update"/>
                                                                             <connections>
                                                                                 <action selector="update" destination="Z3a-Qu-JSk" eventType="touchUpInside" id="b92-jz-Z4e"/>
@@ -319,7 +319,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAd-tx-MAS">
-                                                                    <rect key="frame" x="13.5" y="27" width="28.5" height="13.5"/>
+                                                                    <rect key="frame" x="26.5" y="49" width="28.5" height="13.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -615,11 +615,11 @@
                         <viewControllerLayoutGuide type="bottom" id="hRy-qt-vMr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J0w-uP-akO">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="530"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="zDR-3P-h1K">
-                                <rect key="frame" x="120" y="130" width="300" height="360"/>
+                                <rect key="frame" x="50" y="85" width="300" height="360"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mkh-5Q-sec">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="172"/>
@@ -715,7 +715,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64j-Vw-ih1">
-                                <rect key="frame" x="20" y="569.5" width="500" height="30.5"/>
+                                <rect key="frame" x="20" y="479.5" width="360" height="30.5"/>
                                 <string key="text">App Version
 SDK Version</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
@@ -734,6 +734,7 @@ SDK Version</string>
                             <constraint firstItem="zDR-3P-h1K" firstAttribute="centerY" secondItem="J0w-uP-akO" secondAttribute="centerY" id="xG2-6r-emY"/>
                         </constraints>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="400" height="530"/>
                     <connections>
                         <outlet property="actionButton" destination="nu8-p7-Qf3" id="4Jp-jC-nWD"/>
                         <outlet property="appVersionLabel" destination="64j-Vw-ih1" id="fJa-Ix-ePx"/>
@@ -1110,11 +1111,11 @@ SDK Version</string>
     </scenes>
     <resources>
         <image name="BurgerMenuSelected" width="30" height="30"/>
-        <image name="Download" width="30" height="30"/>
-        <image name="LegendTabBar" width="30" height="30"/>
-        <image name="LegendTabBarSelected" width="30" height="30"/>
+        <image name="Download" width="60" height="60"/>
+        <image name="LegendTabBar" width="60" height="60"/>
+        <image name="LegendTabBarSelected" width="60" height="60"/>
         <image name="Placeholder" width="80" height="80"/>
-        <image name="Update" width="22" height="22"/>
-        <image name="iOS7_Toolbar_Settings22" width="22" height="22"/>
+        <image name="Update" width="44" height="44"/>
+        <image name="iOS7_Toolbar_Settings22" width="44" height="44"/>
     </resources>
 </document>

@@ -209,7 +209,6 @@ class LocalPackagesListViewController: UIViewController {
             let controller = segue.destination as? PortalAccessViewController {
             
             controller.delegate = self
-            controller.preferredContentSize = CGSize(width: 400, height: 530)
             controller.presentationController?.delegate = self
         }
     }
