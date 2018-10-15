@@ -23,7 +23,7 @@
 //
 
 enum AppMode: Int {
-    case portal, device
+    case portal = 0, device
     
     private static let userDefaultsKey = "AppMode.UserDefaultsKey"
     
