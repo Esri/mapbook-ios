@@ -51,7 +51,7 @@ class PackageViewController: UIViewController {
         
         //stylize image view
         self.thumbnailImageView.layer.borderWidth = 1
-        self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue().cgColor
+        self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue.cgColor
     }
 
     private func loadMapPackage() {

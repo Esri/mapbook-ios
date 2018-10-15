@@ -76,22 +76,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func modifyAppearance() {
         
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
-        UINavigationBar.appearance().barTintColor = UIColor.primaryBlue()
-        UINavigationBar.appearance().tintColor = UIColor.yellow
+        UINavigationBar.appearance().barTintColor = .primaryBlue
+        UINavigationBar.appearance().tintColor = .yellow
         
-        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.yellow
-        UIButton.appearance().tintColor = UIColor.primaryBlue()
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .yellow
+        UIButton.appearance().tintColor = .primaryBlue
         
-        UITabBar.appearance().tintColor = UIColor.white
-        UITabBar.appearance().barTintColor = UIColor.primaryBlue()
+        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().barTintColor = .primaryBlue
 
-        UISwitch.appearance().onTintColor = UIColor.primaryBlue()
-        UISlider.appearance().tintColor = UIColor.primaryBlue()
+        UISwitch.appearance().onTintColor = .primaryBlue
+        UISlider.appearance().tintColor = .primaryBlue
         
-        UISegmentedControl.appearance().tintColor = UIColor.primaryBlue()
+        UISegmentedControl.appearance().tintColor = .primaryBlue
         
-        UIRefreshControl.appearance().tintColor = UIColor.yellow
+        UIRefreshControl.appearance().tintColor = .yellow
         
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor.primaryBlue()
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primaryBlue
     }
 }
