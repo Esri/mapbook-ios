@@ -47,7 +47,7 @@ extension Bundle {
     
     /// An end-user printable string representation of the app display name.
     ///
-    /// For example, "Data Collection"
+    /// For example, "Mapbook"
     
     static var appDisplayName: String {
         return (main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String) ?? "?"
@@ -55,7 +55,7 @@ extension Bundle {
     
     /// An end-user printable string representation of the app version number.
     ///
-    /// For example, "1.0"
+    /// For example, "1.1"
     
     static var appVersion: String {
         return (main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? "?"
@@ -63,7 +63,7 @@ extension Bundle {
     
     /// An end-user printable string representation of the app bundle number.
     ///
-    /// For example, "10"
+    /// For example, "1"
     
     static var appBundleVersion: String {
         return (main.object(forInfoDictionaryKey: "CFBundleVersion") as? String) ?? "?"
@@ -71,7 +71,7 @@ extension Bundle {
     
     /// Builds an end-user printable string representation of the app name and version.
     ///
-    /// For example, "Data Collection 1.0 (10)"
+    /// For example, "Mapbook 1.1 (1)"
     
     static var AppNameVersionString: String {
         return "\(appDisplayName) \(appVersion) (\(appBundleVersion))"
