@@ -157,7 +157,7 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .DownloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
             guard let strongSelf = self else { return }
             
@@ -172,7 +172,7 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observeAppModeChangeNotification() {
         
-        NotificationCenter.default.addObserver(forName: .AppModeDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .appModeDidChange, object: nil, queue: .main) { [weak self] (_) in
             
             guard let strongSelf = self else { return }
             
@@ -189,7 +189,7 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .PortalDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
             //the navigation bar button items should reflect the app mode and portal
             self?.updateNavigationItems()
         }

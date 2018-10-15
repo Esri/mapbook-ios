@@ -125,7 +125,7 @@ class PortalItemsListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .DownloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
             let error = notification.userInfo?["error"] as? Error
                         

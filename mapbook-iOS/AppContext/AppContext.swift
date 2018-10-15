@@ -30,9 +30,9 @@ import ArcGIS
  */
 extension Notification.Name {
     
-    static let DownloadDidComplete = Notification.Name("DownloadDidComplete")
-    static let AppModeDidChange = Notification.Name("AppModeChanged")
-    static let PortalDidChange = Notification.Name("PortalDidChange")
+    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
+    static let appModeDidChange = Notification.Name("AppModeChanged")
+    static let portalDidChange = Notification.Name("PortalDidChange")
 }
 
 /*
@@ -47,7 +47,7 @@ class AppContext {
     var appMode: AppMode {
         didSet {
             //post change to app mode
-            NotificationCenter.default.post(name: .AppModeDidChange, object: self, userInfo: nil)
+            NotificationCenter.default.post(name: .appModeDidChange, object: self, userInfo: nil)
             
             //save new mode to defaults
             appMode.saveToUserDefaults()
@@ -95,7 +95,7 @@ class AppContext {
             self.currentlyDownloadingItemIDs.removeAll()
             
             //post notification of change.
-            NotificationCenter.default.post(name: .PortalDidChange, object: self, userInfo: nil)
+            NotificationCenter.default.post(name: .portalDidChange, object: self, userInfo: nil)
         }
     }
     

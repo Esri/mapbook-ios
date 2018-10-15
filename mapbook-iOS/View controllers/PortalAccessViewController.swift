@@ -69,7 +69,7 @@ class PortalAccessViewController: UIViewController {
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .PortalDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
             self?.updateForAppContextPortal()
         }
     }

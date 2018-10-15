@@ -263,7 +263,7 @@ extension AppContext {
     */
     private func postDownloadCompletedNotification(userInfo: [AnyHashable : Any]) {
         
-        NotificationCenter.default.post(name: .DownloadDidComplete, object: self, userInfo: userInfo)
+        NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: userInfo)
     }
     
     /*
