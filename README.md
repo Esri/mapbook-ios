@@ -21,7 +21,7 @@ The project also demonstrates some patterns for building real-world apps around 
 * Internal application communication patterns
 
 ## Get Started
-You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
+You will need [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 4.2 and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
 
 ### Fork the repo
 **Fork** the [Mapbook App](https://github.com/Esri/mapbook-ios/fork) repo
@@ -89,7 +89,7 @@ This step is optional during development, but required for deployment.
 Learn more about the App Architecture and usage [here](https://github.com/ArcGIS/mapbook-ios/tree/dop/update-readme/mapbook-iOS).
 
 ## Requirements
-* [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+* [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 4.2
 * [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)
 
 ## Contributing
