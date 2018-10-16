@@ -4,6 +4,8 @@
 <dict>
 	<key>AGSConfiguration</key>
 	<dict>
+		<key>DefaultPortalURLString</key>
+		<string>https://www.arcgis.com</string>
 		<key>AppURLScheme</key>
 		<string>mapbook</string>
 		<key>AuthURLPath</key>
@@ -82,7 +84,7 @@
 		</dict>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ArcGIS SDK requires access to the device's photo library.</string>
+	<string>ArcGIS SDK requires access to the device&apos;s photo library.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

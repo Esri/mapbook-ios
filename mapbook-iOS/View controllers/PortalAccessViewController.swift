@@ -101,7 +101,7 @@ class PortalAccessViewController: UIViewController {
         }
         else {
             urlTextField.isHidden = false
-            urlTextField.text = "https://www.arcgis.com"
+            urlTextField.text = AppSettings.defaultPortalURLString
             urlTextField.isEnabled = true
             actionButton.setTitle("Access Portal", for: .normal)
             usernameLabel.text = " "
