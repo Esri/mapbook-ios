@@ -53,7 +53,7 @@ class PortalItemsListViewController: UIViewController {
         //mapbook we created, using 'Offline mapbook' keyword while fetching
         //portal items.
         var keyword:String?
-        if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
+        if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == AppSettings.arcGISOnlineURLString {
             keyword = "Offline mapbook"
             
             self.searchBar.text = "Offline mapbook"
