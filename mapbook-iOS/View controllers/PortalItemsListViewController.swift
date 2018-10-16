@@ -55,7 +55,7 @@ class PortalItemsListViewController: UIViewController {
         var defaultSearch:String?
         
         //So that we can demonstrate Mapbook, we will provide a default search string.
-        if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == AppSettings.arcGISOnlineURLString {
+        if let url = AppContext.shared.portal?.url, url == URL.arcGISOnline {
             defaultSearch = "Offline mapbook"
         }
         
