@@ -52,13 +52,15 @@ class PortalItemsListViewController: UIViewController {
         //If the portal url is for ArcGIS Online, highlight the offline
         //mapbook we created, using 'Offline mapbook' keyword while fetching
         //portal items.
-        var keyword:String?
+        var defaultSearch:String?
+        
+        //So that we can demonstrate Mapbook, we will provide a default search string.
         if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == AppSettings.arcGISOnlineURLString {
-            keyword = "Offline mapbook"
-            
-            self.searchBar.text = "Offline mapbook"
+            defaultSearch = "Offline mapbook"
         }
-        self.fetchPortalItems(using: keyword)
+        
+        self.searchBar.text = defaultSearch
+        self.fetchPortalItems(using: defaultSearch)
     }
     
     /*
