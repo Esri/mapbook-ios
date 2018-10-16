@@ -68,7 +68,7 @@ struct AppSettings {
     // When a user attempts to access a Portal, this URL string defaults in `PortalAccessViewController`
     // Change the cooresponding value in Info.plist to configure your own default
     // Falls back to arcgis online
-    static let defaultPortalURLString: String = getAgsSetting(named: "DefaultPortalURLString") ?? "https://www.arcgis.com"
+    static let defaultPortalURLString: String = getAgsSetting(named: "DefaultPortalURLString") ?? URL.arcGISOnline.absoluteString
     
     // MARK: - User Preferences
     // Store and retrieve latest portal URL
