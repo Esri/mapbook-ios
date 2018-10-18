@@ -1,5 +1,5 @@
 //
-// Copyright 2017 Esri.
+// Copyright 2018 Esri.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,20 +22,22 @@
 // email: contracts@esri.com
 //
 
+import ArcGIS
 
-//to identify which directory to get
-//downloading - for currently downloading packages
-//downloaded - for already downloaded packages
-enum DirectoryType {
-    case downloaded, downloading
+extension AGSPortalInfo {
     
-    //name of the directory for saving packages
-    var directoryName: String {
-        switch self {
-        case .downloading:
-            return "Downloading packages"
-        case .downloaded:
-            return "Downloaded packages"
+    var appPortalDescription: String? {
+        
+        var portalDescription: String = ""
+        if let organizationName = organizationName {
+            portalDescription = organizationName
         }
+        if let portalName = portalName {
+            if portalDescription.count > 0 {
+                portalDescription += "\n"
+            }
+            portalDescription += portalName
+        }
+        return portalDescription.count > 0 ? portalDescription : nil
     }
 }

@@ -64,11 +64,14 @@ struct AppSettings {
     // Can help to avoid loading multiple pages of results
     static let portalItemQuerySize:Int = getAgsSetting(named: "PortalItemQuerySize") ?? 20
     
+    // MARK: - Portal Default URL String
+    // When a user attempts to access a Portal, this URL string defaults in `PortalAccessViewController`
+    // Change the cooresponding value in Info.plist to configure your own default
+    // Falls back to arcgis online
+    static let defaultPortalURLString: String = getAgsSetting(named: "DefaultPortalURLString") ?? URL.arcGISOnline.absoluteString
     
     // MARK: - User Preferences
-    // Determine where user preferences are stored
-    static let preferencesStore = UserDefaults.standard
-    
+    // Store and retrieve latest portal URL
     static func save(portalUrl url:URL?) {
         UserDefaults.standard.set(url, forKey: "PORTALURL")
     }

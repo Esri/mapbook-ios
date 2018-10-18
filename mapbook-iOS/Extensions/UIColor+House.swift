@@ -1,5 +1,5 @@
 //
-// Copyright 2017 Esri.
+// Copyright 2018 Esri.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,20 +22,12 @@
 // email: contracts@esri.com
 //
 
+import UIKit.UIColor
 
-//to identify which directory to get
-//downloading - for currently downloading packages
-//downloaded - for already downloaded packages
-enum DirectoryType {
-    case downloaded, downloading
+extension UIColor {
     
-    //name of the directory for saving packages
-    var directoryName: String {
-        switch self {
-        case .downloading:
-            return "Downloading packages"
-        case .downloaded:
-            return "Downloaded packages"
-        }
+    class var primaryBlue: UIColor {
+        return UIColor(red: 61.0/255.0, green: 81.0/255.0, blue: 180.0/255.0, alpha: 1)
     }
 }
+

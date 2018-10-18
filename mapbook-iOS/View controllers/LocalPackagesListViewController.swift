@@ -29,28 +29,20 @@ class LocalPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet private var addBBI:UIBarButtonItem!
-    @IBOutlet private var userProfileBBI:UIBarButtonItem!
     @IBOutlet private var settingsBBI:UIBarButtonItem!
-    @IBOutlet private var deviceBBI:UIBarButtonItem!
-    @IBOutlet private var portalBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
+    @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //self sizing table view cells
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = 84
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //add refresh control to allow refreshing local packages
         //and check for updates
         self.addRefreshControl()
-        
-        //update right bar button items based on the mode and state of the app
-        self.updateBarButtonItems()
-        
-        //never show back button
-        self.navigationItem.hidesBackButton = true
         
         //for .portal mode, show portal url screen by default if user not logged in
         if AppContext.shared.appMode == .portal && !AppContext.shared.isUserLoggedIn() {
@@ -62,11 +54,30 @@ class LocalPackagesListViewController: UIViewController {
         //state when update completes
         self.observeDownloadCompletedNotification()
         
+        //observe changes to app mode
+        self.observeAppModeChangeNotification()
+        
+        //observe changes to portal
+        self.observePortalChangedNotification()
+        
         //fetch local packages
         self.fetchLocalPackages()
         
         //check for updates
         self.checkForUpdates()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //the title of the view controller should reflect the app mode
+        self.updateTitleForAppMode()
+        
+        //the segment control should reflect the app mode
+        self.updateSegmentedControlForAppMode()
+        
+        //the navigation bar button items should reflect the app mode and portal
+        self.updateNavigationItems()
     }
     
     /*
@@ -75,6 +86,7 @@ class LocalPackagesListViewController: UIViewController {
     private func fetchLocalPackages() {
         
         AppContext.shared.fetchLocalPackages()
+        
         self.tableView.reloadData()
         
         self.showBackgroundLabelIfNeeded()
@@ -86,12 +98,13 @@ class LocalPackagesListViewController: UIViewController {
     fileprivate func showBackgroundLabelIfNeeded() {
         
         if AppContext.shared.localPackages.count > 0 {
+            //remove background label
             self.noPackagesLabel.isHidden = true
             self.tableView.separatorStyle = .singleLine
         }
         else {
             //set background label
-            self.noPackagesLabel.text = AppContext.shared.textForNoPackages()
+            self.noPackagesLabel.text = AppContext.shared.appMode.noPackagesText
             self.noPackagesLabel.isHidden = false
             self.tableView.separatorStyle = .none
         }
@@ -102,15 +115,10 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func addRefreshControl() {
         
+        //add a refresh control to the table view, triggering a refresh of local packages
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
-        
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = refreshControl
-        } else {
-            tableView.backgroundView = refreshControl
-        }
+        tableView.refreshControl = refreshControl
     }
     
     /*
@@ -120,36 +128,26 @@ class LocalPackagesListViewController: UIViewController {
         if AppContext.shared.appMode == .portal {
             AppContext.shared.checkForUpdates {
                 self.tableView.reloadData()
+                self.showBackgroundLabelIfNeeded()
             }
         }
     }
     
-    /*
-     Update right bar button items based on the app mode and state. Device 
-     mode will only have a button to switch to Portal mode. Portal mode can
-     have different buttons based on if the user is logged in or not.
-    */
-    fileprivate func updateBarButtonItems() {
-        
-        if AppContext.shared.appMode == .device {
-            self.navigationItem.rightBarButtonItems = [self.portalBBI]
-        }
-        else {
-            if AppContext.shared.isUserLoggedIn() {
-                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI, self.settingsBBI, self.userProfileBBI]
-            }
-            else {
-                self.navigationItem.rightBarButtonItems = [self.addBBI, self.deviceBBI]
-            }
-        }
+    private func updateNavigationItems() {
+        //navigation item bar button items should reflect app mode and portal
+        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
+        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+        addBBI.isEnabled = AppContext.shared.portal != nil
     }
     
-    /*
-     Perform segue to PortalItemsListViewController
-    */
-    fileprivate func showPortalItemsListVC() {
-        
-        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+    private func updateSegmentedControlForAppMode() {
+        //segmented control should reflect app mode
+        appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
+    }
+    
+    private func updateTitleForAppMode() {
+        //view controller title should reflect app mode
+        title = AppContext.shared.appMode.viewControllerTitle
     }
     
     /*
@@ -159,30 +157,41 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
+            
+            guard let strongSelf = self else { return }
             
             //get error from notification
-            let error = notification.userInfo?["error"] as? Error
-            
-            //show error to user
-            if let error = error as NSError?, error.code != NSUserCancelledError {
+            if let error = notification.userInfo?["error"] as? NSError, error.code != NSUserCancelledError {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
-            //get itemID from notification, then get package for that ID.
-            //And get the index to get the corresponding cell from the
-            //table view. Then update the state of the cell.
-            if let itemID = notification.userInfo?["itemID"] as? String,
-                let package = AppContext.shared.localPackage(withItemID: itemID),
-                let index = AppContext.shared.localPackages.index(of: package),
-                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? LocalPackageCell {
-                
-                cell.isUpdating = false
-                
-                if error == nil {
-                    cell.isUpdateAvailable = false
-                }
-            }
+            strongSelf.refreshLocalPackages()
+        }
+    }
+    
+    private func observeAppModeChangeNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .appModeDidChange, object: nil, queue: .main) { [weak self] (_) in
+            
+            guard let strongSelf = self else { return }
+            
+            //the title of the view controller should reflect the app mode
+            strongSelf.updateTitleForAppMode()
+            
+            //the segment control should reflect the app mode
+            strongSelf.updateSegmentedControlForAppMode()
+            
+            //the navigation bar button items should reflect the app mode and portal
+            strongSelf.updateNavigationItems()
+        }
+    }
+    
+    private func observePortalChangedNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
+            //the navigation bar button items should reflect the app mode and portal
+            self?.updateNavigationItems()
         }
     }
     
@@ -197,14 +206,7 @@ class LocalPackagesListViewController: UIViewController {
             controller.mobileMapPackage = package
         }
         else if segue.identifier == "PortalURLSegue",
-            let controller = segue.destination as? PortalURLViewController {
-            
-            controller.delegate = self
-            controller.preferredContentSize = CGSize(width: 400, height: 300)
-            controller.presentationController?.delegate = self
-        }
-        else if segue.identifier == "UserProfileSegue",
-            let controller = segue.destination as? UserProfileViewController {
+            let controller = segue.destination as? PortalAccessViewController {
             
             controller.delegate = self
             controller.presentationController?.delegate = self
@@ -217,7 +219,7 @@ class LocalPackagesListViewController: UIViewController {
         
         if AppContext.shared.isUserLoggedIn() {
             //show portal items list view controller
-            self.showPortalItemsListVC()
+            self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
         else {
             //show portal URL page
@@ -225,13 +227,25 @@ class LocalPackagesListViewController: UIViewController {
         }
     }
     
-    @IBAction func switchToDeviceMode() {
+    @IBAction func appModeSegmentControlValueChanged(_ sender: Any) {
+        
+        guard sender as? UISegmentedControl == appModeSegmentedControl, let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
+        
+        switch newMode {
+        case .device:
+            switchToDeviceMode()
+        case .portal:
+            switchToPortalMode()
+        }
+    }
+    
+    private func switchToDeviceMode() {
         
         //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all the packages you have already downloaded and log you out", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and log you out.", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
             
             //log user out
             AppContext.shared.logoutUser()
@@ -239,15 +253,15 @@ class LocalPackagesListViewController: UIViewController {
             //update appMode to .device
             AppContext.shared.appMode = .device
             
-            //update bar button items
-            self?.updateBarButtonItems()
-            
             //fetch packages for new mode
             self?.fetchLocalPackages()
         }
         
         //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
+            
+            self?.updateSegmentedControlForAppMode()
+        }
         
         //add actions to alert controller
         alertController.addAction(yesAction)
@@ -257,26 +271,26 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func switchToPortalMode() {
+    private func switchToPortalMode() {
         
         //show alert controller for confirmation
         let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
             
             //update appMode to .portal
             AppContext.shared.appMode = .portal
-            
-            //update bar button items
-            self?.updateBarButtonItems()
             
             //fetch packages for new mode
             self?.fetchLocalPackages()
         }
         
         //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
+            
+            self?.updateSegmentedControlForAppMode()
+        }
         
         //add actions to alert controller
         alertController.addAction(yesAction)
@@ -292,7 +306,7 @@ class LocalPackagesListViewController: UIViewController {
         let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Log out", style: .default) { [weak self] (action) in
             
             //log user out
             AppContext.shared.logoutUser()
@@ -312,21 +326,28 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func settings() {
+    @IBAction func viewPortalAccessViewController() {
         
         self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
     }
     
     @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
+
+        self.refreshLocalPackages()
+    }
+    
+    func refreshLocalPackages() {
         
         //refresh local packages
         self.fetchLocalPackages()
         
-        //hide control
-        refreshControl.endRefreshing()
-        
         //check for updates
         self.checkForUpdates()
+        
+        //give pause before end refreshing
+        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+            self?.tableView.refreshControl?.endRefreshing()
+        }
     }
     
     deinit {
@@ -362,14 +383,31 @@ extension LocalPackagesListViewController: UITableViewDelegate {
         
         if editingStyle == .delete {
             
-            //delete package using AppContext
-            AppContext.shared.deleteLocalPackage(at: indexPath.row)
-        
-            //refresh table view
-            tableView.reloadData()
+            //show alert controller for confirmation
+            let alertController = UIAlertController(title: nil, message: "Are you sure you want to delete this mobile map package?", preferredStyle: .alert)
             
-            //if no packages left then show the background label
-            self.showBackgroundLabelIfNeeded()
+            //yes action
+            let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
+                
+                //delete package using AppContext
+                AppContext.shared.deleteLocalPackage(at: indexPath.row)
+                
+                //refresh table view
+                tableView.reloadData()
+                
+                //if no packages left then show the background label
+                self?.showBackgroundLabelIfNeeded()
+            }
+            
+            //no action
+            let noAction = UIAlertAction(title: "No", style: .cancel)
+            
+            //add actions to alert controller
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+            
+            //present alert controller
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -379,32 +417,20 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     }
 }
 
-extension LocalPackagesListViewController: PortalURLViewControllerDelegate {
+extension LocalPackagesListViewController: PortalAccessViewControllerDelegate {
     
-    func portalURLViewController(_ portalURLViewController: PortalURLViewController, loadedPortalWithError error: Error?) {
+    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
         
         //refresh table view as the portal could have been switched and
         //earlier packages might have been deleted
         self.tableView.reloadData()
         
-        //update bar button items as the user could be logged in or out now
-        self.updateBarButtonItems()
-        
-        if let error = error {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        portalURLViewController.dismiss(animated: true) {
+            
+            if shouldShowItems {
+                self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+            }
         }
-        else {
-            //show portal items from portal
-            self.showPortalItemsListVC()
-        }
-    }
-}
-
-extension LocalPackagesListViewController: UserProfileViewControllerDelegate {
-    
-    func userProfileViewControllerWantsToLogOut(_ userProfileViewController: UserProfileViewController) {
-        
-        self.logout()
     }
 }
 

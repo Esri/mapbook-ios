@@ -28,7 +28,6 @@ import ArcGIS
 class PackageViewController: UIViewController {
 
     @IBOutlet private var thumbnailImageView:UIImageView!
-    @IBOutlet private var titleLabel:UILabel!
     @IBOutlet private var createdLabel:UILabel!
     @IBOutlet private var sizeLabel:UILabel!
     @IBOutlet private var mapsCountLabel:UILabel!
@@ -52,7 +51,7 @@ class PackageViewController: UIViewController {
         
         //stylize image view
         self.thumbnailImageView.layer.borderWidth = 1
-        self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue().cgColor
+        self.thumbnailImageView.layer.borderColor = UIColor.primaryBlue.cgColor
     }
 
     private func loadMapPackage() {
@@ -87,9 +86,7 @@ class PackageViewController: UIViewController {
             SVProgressHUD.showError(withStatus: "Item not found on mobile map package", maskType: .gradient)
             return
         }
-        
-        //update textfields
-        self.titleLabel.text = item.title
+        self.title = item.title
         self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
         self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"

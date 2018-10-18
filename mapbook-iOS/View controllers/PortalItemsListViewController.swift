@@ -52,13 +52,15 @@ class PortalItemsListViewController: UIViewController {
         //If the portal url is for ArcGIS Online, highlight the offline
         //mapbook we created, using 'Offline mapbook' keyword while fetching
         //portal items.
-        var keyword:String?
-        if let urlString = AppContext.shared.portal?.url?.absoluteString, urlString == "https://www.arcgis.com" {
-            keyword = "Offline mapbook"
-            
-            self.searchBar.text = "Offline mapbook"
+        var defaultSearch:String?
+        
+        //So that we can demonstrate Mapbook, we will provide a default search string.
+        if let url = AppContext.shared.portal?.url, url == URL.arcGISOnline {
+            defaultSearch = "Offline mapbook"
         }
-        self.fetchPortalItems(using: keyword)
+        
+        self.searchBar.text = defaultSearch
+        self.fetchPortalItems(using: defaultSearch)
     }
     
     /*
@@ -125,7 +127,7 @@ class PortalItemsListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .DownloadCompleted, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
             let error = notification.userInfo?["error"] as? Error
                         
@@ -144,6 +146,10 @@ class PortalItemsListViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func dismissPortalItemsListViewController(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     deinit {
