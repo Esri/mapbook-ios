@@ -121,7 +121,7 @@ class MapViewController: UIViewController {
         self.overlayTrailingConstraint.constant = on ? 10 : -(width + 10)
         
         if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: { [weak self] in
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: { [weak self] in
                 
                 self?.view.layoutIfNeeded()
                 

@@ -38,7 +38,7 @@ class LocalPackagesListViewController: UIViewController {
 
         //self sizing table view cells
         tableView.estimatedRowHeight = 84
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         //add refresh control to allow refreshing local packages
         //and check for updates
@@ -379,7 +379,7 @@ extension LocalPackagesListViewController: UITableViewDataSource {
 extension LocalPackagesListViewController: UITableViewDelegate {
     
     //for deleting package
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
             

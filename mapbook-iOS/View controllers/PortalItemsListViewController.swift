@@ -43,7 +43,7 @@ class PortalItemsListViewController: UIViewController {
         super.viewDidLoad()
 
         //for self sizing cells
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 80
         
         //observe DownloadCompleted notification to update cell state
