@@ -73,7 +73,9 @@ class PortalItemsListViewController: UIViewController {
         
         AppContext.shared.fetchPortalItems(using: keyword) { [weak self] (error, portalItems) in
             
-            self?.isLoading = false
+            guard let self = self else { return }
+            
+            self.isLoading = false
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
@@ -86,7 +88,7 @@ class PortalItemsListViewController: UIViewController {
                 return
             }
             
-            self?.tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     
@@ -103,7 +105,9 @@ class PortalItemsListViewController: UIViewController {
         
         AppContext.shared.fetchMorePortalItems { [weak self] (error, newPortalItems) in
             
-            self?.isLoading = false
+            guard let self = self else { return }
+            
+            self.isLoading = false
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
@@ -116,7 +120,7 @@ class PortalItemsListViewController: UIViewController {
                 return
             }
             
-            self?.tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     

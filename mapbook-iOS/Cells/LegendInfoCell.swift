@@ -49,18 +49,20 @@ class LegendInfoCell: UITableViewCell {
         
         legendInfo.symbol?.createSwatch { [weak self, legendName = legendInfo.name] (image, error) in
             
+            guard let self = self else { return }
+            
             guard error == nil else {
                 print("Error while creating swatch :: \(error!.localizedDescription)")
                 return
             }
             
-            guard let legendInfo = self?.legendInfo else {
+            guard let legendInfo = self.legendInfo else {
                 return
             }
             
             //if the cell is still representing the same legendInfo
             if legendInfo.name == legendName {
-                self?.thumbnailImageView.image = image
+                self.thumbnailImageView.image = image
             }
         }
     }

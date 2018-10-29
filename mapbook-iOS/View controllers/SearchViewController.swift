@@ -62,6 +62,8 @@ class SearchViewController: UIViewController {
     
         self.suggestCancelable = locatorTask.suggest(withSearchText: text, parameters: suggestParameters) { [weak self] (suggestResults, error) in
             
+            guard let self = self else { return }
+            
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
                     SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
@@ -74,8 +76,8 @@ class SearchViewController: UIViewController {
                 return
             }
             
-            self?.suggestResults = suggestResults
-            self?.tableView.reloadData()
+            self.suggestResults = suggestResults
+            self.tableView.reloadData()
         }
     }
     
