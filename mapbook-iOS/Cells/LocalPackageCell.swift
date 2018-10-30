@@ -53,23 +53,23 @@ class LocalPackageCell: UITableViewCell {
             
             self.mobileMapPackage?.load { [weak self] (error) in
                 
-                guard error == nil else {
-                    return
-                }
+                guard let self = self else { return }
                 
-                guard let mobileMapPackage = self?.mobileMapPackage,
+                guard error == nil else { return }
+                
+                guard let mobileMapPackage = self.mobileMapPackage,
                     let item = mobileMapPackage.item else {
                     return
                 }
                 
-                self?.updateStackView.isHidden = (AppContext.shared.appMode == .device)
-                self?.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
-                self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
-                self?.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
-                self?.titleLabel.text = item.title
-                self?.descriptionLabel.text = item.snippet
-                self?.thumbnailImageView.image = item.thumbnail?.image
-                self?.downloadedLabel.text = AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--"
+                self.updateStackView.isHidden = (AppContext.shared.appMode == .device)
+                self.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
+                self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
+                self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
+                self.titleLabel.text = item.title
+                self.descriptionLabel.text = item.snippet
+                self.thumbnailImageView.image = item.thumbnail?.image
+                self.downloadedLabel.text = AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--"
             }
         }
     }

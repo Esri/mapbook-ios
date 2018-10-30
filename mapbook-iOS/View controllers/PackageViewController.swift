@@ -59,16 +59,18 @@ class PackageViewController: UIViewController {
         //load mobile map package to access content
         self.mobileMapPackage?.load { [weak self] (error) in
             
+            guard let self = self else { return }
+            
             guard error == nil else {
                 SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                 return
             }
             
             //update UI
-            self?.updateUI()
+            self.updateUI()
             
             //reload collection view to show maps in the package
-            self?.collectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     

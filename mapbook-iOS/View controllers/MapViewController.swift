@@ -61,15 +61,6 @@ class MapViewController: UIViewController {
         self.overlayView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
         self.overlayView.layer.borderWidth = 2
         
-        //increase selection width for feature layers
-        if let operationalLayers = self.map?.operationalLayers as? [AGSLayer] {
-            _ = operationalLayers.map ({
-                if let featureLayer = $0 as? AGSFeatureLayer {
-                    featureLayer.selectionWidth = 5
-                }
-            })
-        }
-        
         //hide side panel by default
         self.toggleOverlay(on: false, animated: false)
     }
@@ -121,7 +112,7 @@ class MapViewController: UIViewController {
         self.overlayTrailingConstraint.constant = on ? 10 : -(width + 10)
         
         if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: { [weak self] in
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .allowUserInteraction, animations: { [weak self] in
                 
                 self?.view.layoutIfNeeded()
                 

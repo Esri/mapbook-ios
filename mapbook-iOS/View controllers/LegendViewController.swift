@@ -57,14 +57,16 @@ class LegendViewController: UIViewController {
                 self.content.insert(layer, at: 0)
                 layer.fetchLegendInfos { [weak self, constLayer = layer] (legendInfos, error) -> Void in
                     
+                    guard let self = self else { return }
+                    
                     guard error == nil else {
                         SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
                         return
                     }
                     
-                    if let legendInfos = legendInfos, let index = self?.content.index(of: constLayer) {
-                        self?.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
-                        self?.tableView.reloadData()
+                    if let legendInfos = legendInfos, let index = self.content.index(of: constLayer) {
+                        self.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
+                        self.tableView.reloadData()
                     }
                 }
             }

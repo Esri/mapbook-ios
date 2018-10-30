@@ -59,8 +59,10 @@ extension AppContext {
         //find items
         self.fetchPortalItemsCancelable = self.portal?.findItems(with: parameters) { [weak self] (resultSet, error) in
             
+            guard let self = self else { return }
+            
             //set the state
-            self?.isFetchingPortalItems = false
+            self.isFetchingPortalItems = false
             
             //completion with error
             guard error == nil else {
@@ -76,10 +78,10 @@ extension AppContext {
             }
             
             //save next query params
-            self?.nextQueryParameters = resultSet?.nextQueryParameters
+            self.nextQueryParameters = resultSet?.nextQueryParameters
             
             //set portal items instance variable
-            self?.portalItems = portalItems
+            self.portalItems = portalItems
             
             //call completion
             completion?(nil, portalItems)
@@ -119,8 +121,10 @@ extension AppContext {
         //find items
         self.fetchPortalItemsCancelable = self.portal?.findItems(with: nextQueryParameters) { [weak self] (resultSet, error) in
             
+            guard let self = self else { return }
+            
             //set the state
-            self?.isFetchingPortalItems = false
+            self.isFetchingPortalItems = false
             
             //error
             guard error == nil else {
@@ -136,10 +140,10 @@ extension AppContext {
             }
             
             //save next query params
-            self?.nextQueryParameters = resultSet?.nextQueryParameters
+            self.nextQueryParameters = resultSet?.nextQueryParameters
             
             //append to existing items
-            self?.portalItems.append(contentsOf: portalItems)
+            self.portalItems.append(contentsOf: portalItems)
             
             //call completion
             completion?(nil, portalItems)
@@ -195,14 +199,16 @@ extension AppContext {
         
         requestOperation.registerListener(self) { [weak self] (result, error) in
             
+            guard let self = self else { return }
+            
             //remove from currently downloading list
-            if let index = self?.currentlyDownloadingItemIDs.index(of: portalItem.itemID) {
-                self?.currentlyDownloadingItemIDs.remove(at: index)
+            if let index = self.currentlyDownloadingItemIDs.index(of: portalItem.itemID) {
+                self.currentlyDownloadingItemIDs.remove(at: index)
             }
             
             guard error == nil else {
                 //post notification
-                self?.postDownloadCompletedNotification(userInfo: ["error": error!, "itemID": portalItem.itemID])
+                self.postDownloadCompletedNotification(userInfo: ["error": error!, "itemID": portalItem.itemID])
                 
                 //delete from downloading folder
                 try? FileManager.default.removeItem(at: downloadingFileURL)
@@ -211,15 +217,15 @@ extension AppContext {
             }
             
             //clear itemID from updatableItemIDs if it was an update
-            if let index = self?.updatableItemIDs.index(of: portalItem.itemID) {
-                self?.updatableItemIDs.remove(at: index)
+            if let index = self.updatableItemIDs.index(of: portalItem.itemID) {
+                self.updatableItemIDs.remove(at: index)
             }
             
             //move item from downloading folder to downloaded folder
             try? FileManager.default.moveItem(at: downloadingFileURL, to: downloadedFileURL)
             
             //success
-            self?.postDownloadCompletedNotification(userInfo: ["itemID": portalItem.itemID])
+            self.postDownloadCompletedNotification(userInfo: ["itemID": portalItem.itemID])
         }
         
         self.downloadOperationQueue.addOperation(requestOperation)
@@ -303,17 +309,17 @@ extension AppContext {
                 
                 dispatchGroup.leave()
                 
-                guard error == nil else {
-                    return
-                }
+                guard let self = self else { return }
+                
+                guard error == nil else { return }
                 
                 //check if updated
-                if let downloadedDate = self?.downloadDate(of: package),
+                if let downloadedDate = self.downloadDate(of: package),
                     let modifiedDate = portalItem.modified,
                     modifiedDate > downloadedDate {
                     
                     //add to the list
-                    self?.updatableItemIDs.append(portalItem.itemID)
+                    self.updatableItemIDs.append(portalItem.itemID)
                 }
             }
         }

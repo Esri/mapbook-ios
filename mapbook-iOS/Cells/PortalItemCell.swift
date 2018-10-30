@@ -61,29 +61,29 @@ class PortalItemCell: UITableViewCell {
             
             self.portalItem?.load { [weak self] (error) in
                 
-                guard error == nil else {
-                    return
-                }
+                guard let self = self else { return }
                 
-                guard let portalItem = self?.portalItem, portalItem.itemID == portalItemID else {
+                guard error == nil else { return }
+                
+                guard let portalItem = self.portalItem, portalItem.itemID == portalItemID else {
                     return
                 }
 
                 //update UI
-                self?.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
-                self?.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
-                self?.titleLabel.text = portalItem.title
-                self?.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: portalItem) ?? "--")"
-                self?.sizeLabel.text = "\(ByteCountFormatter().string(fromByteCount: portalItem.size))"
-                self?.descriptionLabel.text = portalItem.snippet
+                self.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
+                self.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
+                self.titleLabel.text = portalItem.title
+                self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: portalItem) ?? "--")"
+                self.sizeLabel.text = "\(ByteCountFormatter().string(fromByteCount: portalItem.size))"
+                self.descriptionLabel.text = portalItem.snippet
                 
-                self?.portalItem?.thumbnail?.load { (error) in
+                self.portalItem?.thumbnail?.load { (error) in
                     
-                    guard let portalItem = self?.portalItem, portalItem.itemID == portalItemID else {
+                    guard let portalItem = self.portalItem, portalItem.itemID == portalItemID else {
                         return
                     }
                     
-                    self?.thumbnailImageView.image = self?.portalItem?.thumbnail?.image
+                    self.thumbnailImageView.image = self.portalItem?.thumbnail?.image
                 }
             }
         }
