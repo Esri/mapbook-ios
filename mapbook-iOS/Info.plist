@@ -5,7 +5,7 @@
 	<key>AGSConfiguration</key>
 	<dict>
 		<key>DefaultPortalURLString</key>
-		<string>https://www.arcgis.com</string>
+		<string>https://arcgis.com</string>
 		<key>AppURLScheme</key>
 		<string>mapbook</string>
 		<key>AuthURLPath</key>

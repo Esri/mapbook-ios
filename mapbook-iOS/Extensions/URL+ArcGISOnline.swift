@@ -25,5 +25,5 @@
 import Foundation
 
 extension URL {
-    static let arcGISOnline = URL(string: "https://www.arcgis.com")!
+    static let arcGISOnline = URL(string: "https://arcgis.com")!
 }

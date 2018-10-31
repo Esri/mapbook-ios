@@ -58,7 +58,7 @@
                                                     <rect key="frame" x="10" y="10" width="748" height="63.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rnp-06-SSB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="674" height="63.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="644" height="63.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oqu-2U-yPw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="260" height="63.5"/>
@@ -114,7 +114,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="253" text="Descripiton" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofg-Lc-jdz">
-                                                                    <rect key="frame" x="265" y="0.0" width="409" height="63.5"/>
+                                                                    <rect key="frame" x="265" y="0.0" width="379" height="63.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -123,13 +123,13 @@
                                                             <variation key="widthClass=compact" axis="vertical"/>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7dz-Wu-RgL">
-                                                            <rect key="frame" x="682" y="0.0" width="66" height="63.5"/>
+                                                            <rect key="frame" x="652" y="0.0" width="96" height="63.5"/>
                                                             <subviews>
                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hAl-sO-bJb">
                                                                     <rect key="frame" x="0.0" y="22" width="20" height="20"/>
                                                                 </activityIndicatorView>
                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rfu-xT-eFe">
-                                                                    <rect key="frame" x="20" y="17" width="30" height="30"/>
+                                                                    <rect key="frame" x="20" y="2" width="60" height="60"/>
                                                                     <state key="normal" image="Download"/>
                                                                     <connections>
                                                                         <action selector="download:" destination="K33-Se-aCB" eventType="touchUpInside" id="dfF-gB-e4U"/>
@@ -677,7 +677,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://www.arcgis.com" borderStyle="roundedRect" placeholder="Your Portal URL" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="laD-yo-AUW">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://arcgis.com" borderStyle="roundedRect" placeholder="Your Portal URL" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="laD-yo-AUW">
                                                         <rect key="frame" x="0.0" y="64" width="300" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
