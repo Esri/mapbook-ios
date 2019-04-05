@@ -93,7 +93,7 @@ extension AppContext {
     func indexOfPortalItem(withItemID itemID:String) -> Int? {
         
         if let portalItem = self.portalItemWith(itemID: itemID),
-            let index = self.portalItems.index(of: portalItem) {
+            let index = self.portalItems.firstIndex(of: portalItem) {
             return index
         }
         return nil
@@ -133,7 +133,7 @@ extension AppContext {
     */
     func localPackage(withItemID itemID: String) -> AGSMobileMapPackage? {
         
-        if let index = self.localPackages.index(where: { $0.fileURL.lastPathComponent == "\(itemID).mmpk" }) {
+        if let index = self.localPackages.firstIndex(where: { $0.fileURL.lastPathComponent == "\(itemID).mmpk" }) {
             return self.localPackages[index]
         }
         return nil
