@@ -202,7 +202,7 @@ extension AppContext {
             guard let self = self else { return }
             
             //remove from currently downloading list
-            if let index = self.currentlyDownloadingItemIDs.index(of: portalItem.itemID) {
+            if let index = self.currentlyDownloadingItemIDs.firstIndex(of: portalItem.itemID) {
                 self.currentlyDownloadingItemIDs.remove(at: index)
             }
             
@@ -217,7 +217,7 @@ extension AppContext {
             }
             
             //clear itemID from updatableItemIDs if it was an update
-            if let index = self.updatableItemIDs.index(of: portalItem.itemID) {
+            if let index = self.updatableItemIDs.firstIndex(of: portalItem.itemID) {
                 self.updatableItemIDs.remove(at: index)
             }
             

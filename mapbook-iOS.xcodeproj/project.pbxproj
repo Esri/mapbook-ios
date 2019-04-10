@@ -36,12 +36,27 @@
 		3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3231F42261300DB4AAA /* AppMode.swift */; };
 		3EEBD3281F423FE300DB4AAA /* AppContext+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
-		944FC151202404F3007535DB /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 944FC150202404F3007535DB /* ArcGIS.bundle */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
+		94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; };
+		94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		94AB9D33225E8C090040D989 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3E062F5F1F424C350061D84F /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -79,11 +94,11 @@
 		3EEBD3231F42261300DB4AAA /* AppMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMode.swift; path = Enums/AppMode.swift; sourceTree = "<group>"; };
 		3EEBD3271F423FE300DB4AAA /* AppContext+Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Login.swift"; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
-		944FC150202404F3007535DB /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Static/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
+		94AB9D30225E8C090040D989 /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +138,7 @@
 		3EDC843D1F1E8B94002DBCF2 = {
 			isa = PBXGroup;
 			children = (
+				94AB9D30225E8C090040D989 /* ArcGIS.framework */,
 				3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */,
 				3EDC84471F1E8B94002DBCF2 /* Products */,
 			);
@@ -148,7 +165,6 @@
 				3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */,
 				3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */,
 				944FC14E202404C1007535DB /* AppIcon.xcassets */,
-				944FC150202404F3007535DB /* ArcGIS.bundle */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
 				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
@@ -226,6 +242,8 @@
 				3EDC84421F1E8B94002DBCF2 /* Sources */,
 				3EDC84431F1E8B94002DBCF2 /* Frameworks */,
 				3EDC84441F1E8B94002DBCF2 /* Resources */,
+				94AB9D2F225E8B8C0040D989 /* ShellScript */,
+				94AB9D33225E8C090040D989 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,14 +266,14 @@
 				TargetAttributes = {
 					3EDC84451F1E8B94002DBCF2 = {
 						CreatedOnToolsVersion = 8.3.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 3EDC84411F1E8B94002DBCF2 /* Build configuration list for PBXProject "mapbook-iOS" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -276,7 +294,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				944FC151202404F3007535DB /* ArcGIS.bundle in Resources */,
 				944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */,
 				3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */,
 				3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */,
@@ -286,6 +303,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		94AB9D2F225E8B8C0040D989 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/ArcGIS.framework/strip-frameworks.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3EDC84421F1E8B94002DBCF2 /* Sources */ = {
@@ -463,25 +500,16 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
-				);
+				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					ArcGIS,
-					"-l",
-					"c++",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.arcgisruntime-example-apps.mapbook";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -492,25 +520,16 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Static",
-				);
+				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					ArcGIS,
-					"-l",
-					"c++",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.esri.arcgisruntime-example-apps.mapbook";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

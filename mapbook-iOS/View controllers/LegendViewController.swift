@@ -64,7 +64,7 @@ class LegendViewController: UIViewController {
                         return
                     }
                     
-                    if let legendInfos = legendInfos, let index = self.content.index(of: constLayer) {
+                    if let legendInfos = legendInfos, let index = self.content.firstIndex(of: constLayer) {
                         self.content.insert(contentsOf: legendInfos as [AGSObject], at: index + 1)
                         self.tableView.reloadData()
                     }
