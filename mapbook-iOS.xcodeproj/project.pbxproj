@@ -500,10 +500,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					$HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/,
-					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
-				);
+				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -523,10 +520,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					$HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/,
-					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
-				);
+				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
