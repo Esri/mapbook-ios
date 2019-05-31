@@ -44,8 +44,8 @@ class LocalPackagesListViewController: UIViewController {
         //and check for updates
         self.addRefreshControl()
         
-        //for .portal mode, show portal url screen by default if user not logged in
-        if AppContext.shared.appMode == .portal && !AppContext.shared.isUserLoggedIn() {
+        //for .portal mode, show portal url screen by default if user not signed in
+        if AppContext.shared.appMode == .portal && !AppContext.shared.isUserSignedIn() {
             //show portal URL page
             self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
@@ -217,7 +217,7 @@ class LocalPackagesListViewController: UIViewController {
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if AppContext.shared.isUserLoggedIn() {
+        if AppContext.shared.isUserSignedIn() {
             //show portal items list view controller
             self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
@@ -242,13 +242,13 @@ class LocalPackagesListViewController: UIViewController {
     private func switchToDeviceMode() {
         
         //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and log you out.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and sign you out.", preferredStyle: .alert)
         
         //yes action
         let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
             
-            //log user out
-            AppContext.shared.logoutUser()
+            //sign user out
+            AppContext.shared.signOutUser()
             
             //update appMode to .device
             AppContext.shared.appMode = .device
@@ -300,16 +300,16 @@ class LocalPackagesListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
-    fileprivate func logout() {
+    fileprivate func signOut() {
         
         //show confirmation
         let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
         
         //yes action
-        let yesAction = UIAlertAction(title: "Log out", style: .default) { [weak self] (action) in
+        let yesAction = UIAlertAction(title: "Sign out", style: .default) { [weak self] (action) in
             
-            //log user out
-            AppContext.shared.logoutUser()
+            //sign user out
+            AppContext.shared.signOutUser()
             
             //pop to initial view controller
             self?.navigationController?.popToRootViewController(animated: true)

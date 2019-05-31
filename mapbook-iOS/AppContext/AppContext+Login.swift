@@ -26,22 +26,22 @@ import Foundation
 import ArcGIS
 
 /*
- Part of the AppContext that contains log in related methods
+ Part of the AppContext that contains sign in related methods
 */
 extension AppContext {
     
     /*
-     Check if user is logged in. Based off if portal is set.
+     Check if user is signed in. Based off if portal is set.
     */
-    func isUserLoggedIn() -> Bool {
+    func isUserSignedIn() -> Bool {
         return (self.portal != nil)
     }
     
     /*
-     Log the user out. This involves clearing cached credential.
+     Sign the user out. This involves clearing cached credential.
      Deleting all local packages and setting the portal to nil.
      */
-    func logoutUser() {
+    func signOutUser() {
         
         AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         

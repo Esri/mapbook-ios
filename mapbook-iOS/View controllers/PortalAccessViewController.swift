@@ -114,7 +114,7 @@ class PortalAccessViewController: UIViewController {
     //MARK: - Actions
     
     /*
-     If textfield is not empty and user is not already logged in, then
+     If textfield is not empty and user is not already signed in, then
      initialize and load portal else show alert for confirmation.
     */
     @IBAction private func userTappedActionButton(_ sender:UIButton) {
@@ -163,8 +163,8 @@ class PortalAccessViewController: UIViewController {
         //yes action
         let yesAction = UIAlertAction(title: "Leave", style: .default) { (_) in
             
-            //log user out, this will delete existing packages
-            AppContext.shared.logoutUser()
+            //sign user out, this will delete existing packages
+            AppContext.shared.signOutUser()
         }
         
         //no action

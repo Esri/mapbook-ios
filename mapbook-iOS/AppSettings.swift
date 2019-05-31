@@ -37,7 +37,7 @@ struct AppSettings {
     static let licenseKey = "YOUR-LICENSE-KEY"
     
     
-    // MARK: - OAuth Logins
+    // MARK: - OAuth
 
     /// The App's public client ID.
     /// - The client ID is used by oAuth to authenticate a user.
