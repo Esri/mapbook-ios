@@ -61,10 +61,10 @@ class AppContext {
     var portal:AGSPortal? {
         
         //the portal could be set if 
-        //a. user logins first time
+        //a. user signs in the first time
         //b. user switches to a different portal
-        //c. user logs out (set to nil)
-        //d. On app start up, if user was previously logged in
+        //c. user signs out (set to nil)
+        //d. on app start up, if user was previously signed in
         didSet {
             
             //save the portal url in UserDefaults to instantiate 
@@ -145,7 +145,7 @@ class AppContext {
             //remove credential - special case
             //when app is deleted, the credential is not removed from the keychain
             //and portal load works on re-install w/o the need of OAuth
-            //For new install or logged out, PORTALURL wont be there, so clear the credential
+            //For new install or signed out, PORTALURL wont be there, so clear the credential
             AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
         }
         
