@@ -1,54 +1,6 @@
 {
   "images" : [
     {
-      "size" : "20x20",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_40.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "20x20",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_60.png",
-      "scale" : "3x"
-    },
-    {
-      "size" : "29x29",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_58.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "29x29",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_87.png",
-      "scale" : "3x"
-    },
-    {
-      "size" : "40x40",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_80.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "40x40",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_120.png",
-      "scale" : "3x"
-    },
-    {
-      "size" : "60x60",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_120-1.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "60x60",
-      "idiom" : "iphone",
-      "filename" : "ArcGIS_Open_Source_Apps_180.png",
-      "scale" : "3x"
-    },
-    {
       "idiom" : "ipad",
       "size" : "20x20",
       "scale" : "1x"
