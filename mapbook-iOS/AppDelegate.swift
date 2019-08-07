@@ -76,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func modifyAppearance() {
         
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor.white]
         UINavigationBar.appearance().barTintColor = .primaryBlue
         UINavigationBar.appearance().tintColor = .yellow
         
