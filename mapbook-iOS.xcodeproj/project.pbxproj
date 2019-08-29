@@ -242,8 +242,8 @@
 				3EDC84421F1E8B94002DBCF2 /* Sources */,
 				3EDC84431F1E8B94002DBCF2 /* Frameworks */,
 				3EDC84441F1E8B94002DBCF2 /* Resources */,
-				94AB9D2F225E8B8C0040D989 /* ShellScript */,
 				94AB9D33225E8C090040D989 /* Embed Frameworks */,
+				94AB9D2F225E8B8C0040D989 /* ShellScript */,
 			);
 			buildRules = (
 			);
