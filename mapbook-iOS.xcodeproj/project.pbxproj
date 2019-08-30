@@ -243,7 +243,7 @@
 				3EDC84431F1E8B94002DBCF2 /* Frameworks */,
 				3EDC84441F1E8B94002DBCF2 /* Resources */,
 				94AB9D33225E8C090040D989 /* Embed Frameworks */,
-				94AB9D2F225E8B8C0040D989 /* ShellScript */,
+				94AB9D2F225E8B8C0040D989 /* Strip Frameworks */,
 			);
 			buildRules = (
 			);
@@ -305,7 +305,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		94AB9D2F225E8B8C0040D989 /* ShellScript */ = {
+		94AB9D2F225E8B8C0040D989 /* Strip Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -314,6 +314,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Strip Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
