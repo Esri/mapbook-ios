@@ -75,10 +75,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func modifyAppearance() {
         
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white]
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor.white]
-        UINavigationBar.appearance().barTintColor = .primaryBlue
-        UINavigationBar.appearance().tintColor = .yellow
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor : UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor : UIColor.white]
+            navBarAppearance.backgroundColor = .primaryBlue
+            let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+            buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.yellow]
+            navBarAppearance.buttonAppearance = buttonAppearance
+            UINavigationBar.appearance().standardAppearance = navBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+            UINavigationBar.appearance().compactAppearance = navBarAppearance
+        }
+        else {
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white]
+            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor.white]
+            UINavigationBar.appearance().barTintColor = .primaryBlue
+            UINavigationBar.appearance().tintColor = .yellow
+        }
         
         UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .yellow
         UIButton.appearance().tintColor = .primaryBlue
