@@ -41,7 +41,7 @@ Now that the mobile map package has been created and published, it can be downlo
 
 ### Authentication
 
-The Mapbook App leverages the ArcGIS [authentication](/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -54,7 +54,7 @@ The process of accessing token secured services with a challenge handler is illu
 5. If the user is successfully authenticated, a credential (token) is included in requests to the secured service.
 6. The identity manager stores the credential for this portal and all requests for secured content includes the token in the request.
 
-The `AGSOAuthConfiguration` class takes care of steps 1-6 in the diagram above. For an application to use this pattern, follow these [guides](/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/) to register your app.
+The `AGSOAuthConfiguration` class takes care of steps 1-6 in the diagram above. For an application to use this pattern, follow these [guides](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/) to register your app.
 
 ``` Swift
 let oauthConfig = AGSOAuthConfiguration(portalURL: portal.url, clientID: clientId, redirectURL: oAuthRedirectURL)
@@ -80,7 +80,7 @@ To tell iOS to call back like this, the Mapbook App configures a `URL Type` in t
 
 <img src="/docs/images/configure-url-type.png" width="900"  />
 
-Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](/documentation/core-concepts/security-and-authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](/dashboard/). For more details on the user authorization flow, see the [Authorize REST API](/rest/users-groups-and-items/authorize.htm).
+Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/dashboard/). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
 For more details on configuring the Mapbook App for OAuth, see [the main README.md](https://github.com/Esri/mapbook-ios#2-configuring-the-project)
 
@@ -114,7 +114,7 @@ The API provides the ability to identify multiple layer types, with results bein
 
 ### Displaying identify results
 
-Results of the identify action are displayed using [`PopUp`](/ios/latest/swift/guide/essential-vocabulary.htm#GUID-3FD39DD2-FFEF-4010-9B90-09BF1E230E8F). The geoelements identified are used to initialize popups. And these popups are shown using `AGSPopupsViewController`.
+Results of the identify action are displayed using [`PopUp`](https://developers.arcgis.com/ios/latest/swift/guide/essential-vocabulary.htm#GUID-3FD39DD2-FFEF-4010-9B90-09BF1E230E8F). The geoelements identified are used to initialize popups. And these popups are shown using `AGSPopupsViewController`.
 
 ```swift
 var popups:[AGSPopup] = []
