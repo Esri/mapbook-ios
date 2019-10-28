@@ -41,7 +41,7 @@ Now that the mobile map package has been created and published, it can be downlo
 
 ### Authentication
 
-The Mapbook App leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+Offline Mapbook leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -61,7 +61,7 @@ let oauthConfig = AGSOAuthConfiguration(portalURL: portal.url, clientID: clientI
 AGSAuthenticationManager.shared().oAuthConfigurations.add(oauthConfig)
 ```
 
-Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to the Mapbook App to confirm authentication with the Runtime SDK.
+Any time a secured service issues an authentication challenge, the `AGSOAuthConfiguration` and the app's `UIApplicationDelegate` work together to broker the authentication transaction. The `oAuthRedirectURL` above tells iOS how to call back to Offline Mapbook to confirm authentication with the Runtime SDK.
 
 iOS knows to call the `UIApplicationDelegate` with this URL, and we pass that directly to an ArcGIS Runtime SDK helper function to retrieve a token:
 
@@ -76,13 +76,13 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 ```
 
-To tell iOS to call back like this, the Mapbook App configures a `URL Type` in the `Info.plist` file.
+To tell iOS to call back like this, Offline Mapbook configures a `URL Type` in the `Info.plist` file.
 
 <img src="/docs/images/configure-url-type.png" width="900"  />
 
 Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/dashboard/). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
-For more details on configuring the Mapbook App for OAuth, see [the main README.md](https://github.com/Esri/mapbook-ios#2-configuring-the-project)
+For more details on configuring the Offline Mapbook for OAuth, see [the main README.md](https://github.com/Esri/mapbook-ios#2-configuring-the-project)
 
 ### Identify
 
@@ -173,7 +173,7 @@ private func populateLegends(with layers:[AGSLayer]) {
 
 ### Bookmarks
 
-A `Bookmark` identifies a particular geographic location and time on an ArcGISMap. In the mapbook app, the list of bookmarks saved in the map are shown in the table view. You can select one to update the map view's viewpoint with the bookmarked viewpoint.
+A `Bookmark` identifies a particular geographic location and time on an ArcGISMap. In Offline Mapbook, the list of bookmarks saved in the map are shown in the table view. You can select one to update the map view's viewpoint with the bookmarked viewpoint.
 
 ```swift
 func setBookmark(_ bookmark:AGSBookmark) {
@@ -312,7 +312,7 @@ func checkForUpdates(completion: (() -> Void)?) {
 
 ## Create your own mobile map packages
 
-The Offline Mapbook App for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
+Offline Mapbook for iOS is designed to work exclusively with [mobile map packages](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm) or .mmpks. With this app, you can open any mobile map package by either side-loading it or hosting it on a portal or ArcGIS Online organization.
 
 This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
 
@@ -360,7 +360,7 @@ To keep the mobile map package (.mmpk) as small as possible, the reference layer
 
 #### Creating locators
 
-The Offline Mapbook app supports geocoding and search so a [locator](http://desktop.arcgis.com/en/arcmap/10.3/guide-books/geocoding/essential-geocoding-vocabulary.htm) was built for each layer in the app by using the [Create Address Locator](http://pro.arcgis.com/en/pro-app/tool-reference/geocoding/create-address-locator.htm) geoprocessing tool once per layer. Most crucial to this part of the workflow was that 'General - Single Field' was chosen for the "Address Locator Style". This style is useful for allowing searching of the contents within a single field, which was sufficient for the purpose of app.
+Offline Mapbook supports geocoding and search so a [locator](http://desktop.arcgis.com/en/arcmap/10.3/guide-books/geocoding/essential-geocoding-vocabulary.htm) was built for each layer in the app by using the [Create Address Locator](http://pro.arcgis.com/en/pro-app/tool-reference/geocoding/create-address-locator.htm) geoprocessing tool once per layer. Most crucial to this part of the workflow was that 'General - Single Field' was chosen for the "Address Locator Style". This style is useful for allowing searching of the contents within a single field, which was sufficient for the purpose of app.
 
 The following layers in the app are searchable:
 
@@ -373,7 +373,7 @@ Once an address locator, or .loc file, is created for each layer, it was time to
 
 #### Setting bookmarks
 
-The Offline Mapbook app supports viewing of predefined, bookmarked locations. Two [bookmarks](http://pro.arcgis.com/en/pro-app/help/mapping/navigation/bookmarks.htm) were set in ArcGIS Pro for each map and are included in the mobile map package.
+Offline Mapbook supports viewing of predefined, bookmarked locations. Two [bookmarks](http://pro.arcgis.com/en/pro-app/help/mapping/navigation/bookmarks.htm) were set in ArcGIS Pro for each map and are included in the mobile map package.
 
 #### Metadata and thumbnails
 
@@ -381,11 +381,11 @@ Before finalizing the maps for publishing, metadata was created for each map. Th
 
 ### Packaging for consumption
 
-In order for this data to be consumed within the Mapbook app, it had to first be published as an .mmpk or ([mobile map package](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm)). An .mmpk file can either be hosted on a portal and downloaded automatically prior to running the app or, in this case, side-loaded onto the device and placed beside the app prior to running it. This subsection describes using the [Create Mobile Map Package](http://pro.arcgis.com/en/pro-app/tool-reference/data-management/create-mobile-map-package.htm) geoprocessing tool specifically for the purpose of packaging the data that was created for the Offline Mapbook app.
+In order for this data to be consumed within Offline Mapbook, it had to first be published as an .mmpk or ([mobile map package](http://pro.arcgis.com/en/pro-app/help/sharing/overview/mobile-map-package.htm)). An .mmpk file can either be hosted on a portal and downloaded automatically prior to running the app or, in this case, side-loaded onto the device and placed beside the app prior to running it. This subsection describes using the [Create Mobile Map Package](http://pro.arcgis.com/en/pro-app/tool-reference/data-management/create-mobile-map-package.htm) geoprocessing tool specifically for the purpose of packaging the data that was created for Offline Mapbook.
 
 #### Including multiple maps
 
-Because multiple maps were authored to be used for the Offline Mapbook app, multiple maps had to be specified when running the Create Mobile Map Package tool. The first parameter of the tool is 'Input Map' and can accommodate for the specification of multiple entries. By default, each dropdown will present a list of maps that exist within the current ArcGIS Pro project. For this mobile-map-packaging, each of the three maps was specified once.
+Because multiple maps were authored to be used for Offline Mapbook, multiple maps had to be specified when running the Create Mobile Map Package tool. The first parameter of the tool is 'Input Map' and can accommodate for the specification of multiple entries. By default, each dropdown will present a list of maps that exist within the current ArcGIS Pro project. For this mobile-map-packaging, each of the three maps was specified once.
 
 <img src="/docs/images/multiple-maps-mmpk.png" width="900"  />
 
