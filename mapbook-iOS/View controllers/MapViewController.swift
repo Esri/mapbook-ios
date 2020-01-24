@@ -275,7 +275,7 @@ extension MapViewController:AGSPopupsViewControllerDelegate {
             return
         }
         
-        feature.featureTable?.featureLayer?.select(feature)
+        (feature.featureTable?.layer as? AGSFeatureLayer)?.select(feature)
     }
 }
 
