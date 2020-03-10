@@ -1,3 +1,7 @@
+# v1.2.0
+
+
+
 # v1.1.4
 
 * Fixes featureLayer deprecation.
