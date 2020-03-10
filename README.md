@@ -54,7 +54,7 @@ Before running the app, it must be configured with application credentials. Foll
 2. Configure the Mapbook App project to reference that application.
 3. License the app to remove the Developer Mode watermark.
 
-#### 1. Register an Application 
+#### 1. Register an Application
 For OAuth configuration, create a new Application in your ArcGIS Portal to obtain a `Client ID` and configure a `Redirect URL`. The **Client ID** configures the ArcGIS Runtime to show your users, during the log in process, that the application was built by you and can be trusted. The **Redirect URL** configures the OAuth process to then return to your app once authentication is complete.
 
 1. Log in to [https://developers.arcgis.com](https://developers.arcgis.com) with either your ArcGIS Organizational Account or an ArcGIS Developer Account.
@@ -86,7 +86,7 @@ This step is optional during development, but required for deployment.
 3. Set the value of the static variable `licenseKey` to the value from step 1.
 
 ## Learn More
-Learn more about the App Architecture and usage [here](https://github.com/ArcGIS/mapbook-ios/tree/dop/update-readme/mapbook-iOS).
+Learn more about the App Architecture and usage [here](/docs/index.md).
 
 ## Requirements
 * [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5
