@@ -26,6 +26,12 @@ import UIKit
 import ArcGIS
 
 class MapCell: UICollectionViewCell {
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
 
     @IBOutlet private var titleLabel:UILabel!
     @IBOutlet private var dateLabel:UILabel!
@@ -48,8 +54,13 @@ class MapCell: UICollectionViewCell {
             
             //update UI
             self.titleLabel?.text = item.title
-            self.dateLabel?.text = AppContext.shared.createdDateAsString(of: item)
-            self.descriptionLabel?.text = item.snippet
+            if let created = item.created {
+                self.dateLabel.text = "Created \(Self.dateFormatter.string(from: created))"
+            }
+            else {
+                self.dateLabel.text = ""
+            }
+            self.descriptionLabel.text = item.snippet
             self.thumbnailImageView.image = item.thumbnail?.image
         }
     }

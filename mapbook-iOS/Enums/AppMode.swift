@@ -52,9 +52,9 @@ extension AppMode {
     var viewControllerTitle: String {
         switch self {
         case .portal:
-            return "Downloaded Portal Mobile Map Packages"
+            return "Downloaded Packages"
         case .device:
-            return "Device Mobile Map Packages"
+            return "Device Packages"
         }
     }
 }

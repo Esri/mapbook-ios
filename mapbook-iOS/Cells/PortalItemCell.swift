@@ -26,6 +26,17 @@ import UIKit
 import ArcGIS
 
 class PortalItemCell: UITableViewCell {
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
+    
+    static var byteCountFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        return formatter
+    }()
 
     @IBOutlet private var titleLabel:UILabel!
     @IBOutlet private var createdLabel:UILabel!
@@ -73,8 +84,14 @@ class PortalItemCell: UITableViewCell {
                 self.isDownloading = AppContext.shared.isCurrentlyDownloading(portalItem: portalItem)
                 self.isAlreadyDownloaded = AppContext.shared.isAlreadyDownloaded(portalItem: portalItem)
                 self.titleLabel.text = portalItem.title
-                self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: portalItem) ?? "--")"
-                self.sizeLabel.text = "\(ByteCountFormatter().string(fromByteCount: portalItem.size))"
+                
+                if let created = portalItem.created {
+                    self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
+                }
+                else {
+                    self.createdLabel.text = ""
+                }
+                self.sizeLabel.text = "\(Self.byteCountFormatter.string(fromByteCount: portalItem.size))"
                 self.descriptionLabel.text = portalItem.snippet
                 
                 self.portalItem?.thumbnail?.load { (error) in

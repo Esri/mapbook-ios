@@ -26,6 +26,12 @@ import UIKit
 import ArcGIS
 
 class LocalPackageCell: UITableViewCell {
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
 
     @IBOutlet private var titleLabel:UILabel!
     @IBOutlet private var createdLabel:UILabel!
@@ -64,12 +70,23 @@ class LocalPackageCell: UITableViewCell {
                 
                 self.updateStackView.isHidden = (AppContext.shared.appMode == .device)
                 self.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
-                self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
+                if let created = item.created {
+                    self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
+                }
+                else {
+                    self.createdLabel.text = ""
+                }
                 self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
                 self.titleLabel.text = item.title
                 self.descriptionLabel.text = item.snippet
                 self.thumbnailImageView.image = item.thumbnail?.image
-                self.downloadedLabel.text = AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--"
+                
+                if let downloadDate = mobileMapPackage.downloadDate {
+                    self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
+                }
+                else {
+                    self.downloadedLabel.text = ""
+                }
             }
         }
     }

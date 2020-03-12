@@ -153,43 +153,29 @@ extension AppContext {
         return nil
     }
     
-    /*
-     Get download date of local package.
-     */
-    func downloadDate(of package:AGSMobileMapPackage) -> Date? {
-        
-        if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
-            let date = attributes[FileAttributeKey.creationDate] as? Date {
-            
-            return date
-        }
-        return nil
-    }
-    
-    /*
-     Get download date of local package as String.
-     */
-    func downloadDateAsString(of package:AGSMobileMapPackage) -> String? {
-        
-        if let date = self.downloadDate(of: package) {
-            
-            let dateString = self.dateFormatter.string(from: date)
-            return dateString
-        }
-        
-        return nil
-    }
+//    /*
+//     Get download date of local package.
+//     */
+//    func downloadDate(of package:AGSMobileMapPackage) -> Date? {
+//        
+//        if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
+//            let date = attributes[FileAttributeKey.creationDate] as? Date {
+//            
+//            return date
+//        }
+//        return nil
+//    }
     
     /*
      Get created date of local package as String.
      */
-    func createdDateAsString(of item:AGSItem) -> String? {
-        
-        if let created = item.created {
-            let dateString = "\(self.dateFormatter.string(from: created))"
-            return dateString
-        }
-        
-        return nil
-    }
+//    func createdDateAsString(of item:AGSItem) -> String? {
+//        
+//        if let created = item.created {
+//            let dateString = "\(self.dateFormatter.string(from: created))"
+//            return dateString
+//        }
+//        
+//        return nil
+//    }
 }

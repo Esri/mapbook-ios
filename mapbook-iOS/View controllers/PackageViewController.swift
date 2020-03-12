@@ -26,6 +26,12 @@ import UIKit
 import ArcGIS
 
 class PackageViewController: UIViewController {
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
 
     @IBOutlet private var thumbnailImageView:UIImageView!
     @IBOutlet private var createdLabel:UILabel!
@@ -89,10 +95,22 @@ class PackageViewController: UIViewController {
             return
         }
         self.title = item.title
-        self.createdLabel.text = "Created \(AppContext.shared.createdDateAsString(of: item) ?? "--")"
+        
+        if let created = item.created {
+            self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
+        }
+        else {
+            self.createdLabel.text = ""
+        }
+        
         self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
-        self.lastDownloadedLabel.text = "Last downloaded \(AppContext.shared.downloadDateAsString(of: mobileMapPackage) ?? "--")"
+        if let downloadDate = mobileMapPackage.downloadDate {
+            self.lastDownloadedLabel.text = "Last downloaded \(Self.dateFormatter.string(from: downloadDate))"
+        }
+        else {
+            self.lastDownloadedLabel.text = ""
+        }
         self.descriptionLabel.text = item.snippet
         self.thumbnailImageView.image = item.thumbnail?.image
     }

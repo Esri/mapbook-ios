@@ -44,12 +44,6 @@ class LocalPackagesListViewController: UIViewController {
         //and check for updates
         self.addRefreshControl()
         
-        //for .portal mode, show portal url screen by default if user not signed in
-        if AppContext.shared.appMode == .portal && !AppContext.shared.isUserSignedIn() {
-            //show portal URL page
-            self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
-        }
-        
         //add self as observer for DownloadCompleted notification, to update cell
         //state when update completes
         self.observeDownloadCompletedNotification()
@@ -137,7 +131,13 @@ class LocalPackagesListViewController: UIViewController {
         //navigation item bar button items should reflect app mode and portal
         navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
         navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
-        addBBI.isEnabled = AppContext.shared.portal != nil
+        
+        if case AppContext.PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
+            addBBI.isEnabled = true
+        }
+        else {
+            addBBI.isEnabled = false
+        }
     }
     
     private func updateSegmentedControlForAppMode() {
@@ -189,7 +189,7 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .portalSessionStatusDidChange, object: nil, queue: .main) { [weak self] (_) in
             //the navigation bar button items should reflect the app mode and portal
             self?.updateNavigationItems()
         }
@@ -217,7 +217,7 @@ class LocalPackagesListViewController: UIViewController {
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if AppContext.shared.isUserSignedIn() {
+        if case AppContext.PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
             //show portal items list view controller
             self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
@@ -233,83 +233,24 @@ class LocalPackagesListViewController: UIViewController {
         
         switch newMode {
         case .device:
-            switchToDeviceMode()
-        case .portal:
-            switchToPortalMode()
-        }
-    }
-    
-    private func switchToDeviceMode() {
-        
-        //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and sign you out.", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
-            
-            //sign user out
-            AppContext.shared.signOutUser()
-            
-            //update appMode to .device
             AppContext.shared.appMode = .device
-            
-            //fetch packages for new mode
-            self?.fetchLocalPackages()
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
-            
-            self?.updateSegmentedControlForAppMode()
-        }
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    private func switchToPortalMode() {
-        
-        //show alert controller for confirmation
-        let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
-            
-            //update appMode to .portal
+        case .portal:
             AppContext.shared.appMode = .portal
-            
-            //fetch packages for new mode
-            self?.fetchLocalPackages()
         }
         
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
-            
-            self?.updateSegmentedControlForAppMode()
-        }
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
+        fetchLocalPackages()
     }
 
     fileprivate func signOut() {
         
         //show confirmation
-        let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Confirm logout?", message: nil, preferredStyle: .alert)
         
         //yes action
         let yesAction = UIAlertAction(title: "Sign out", style: .default) { [weak self] (action) in
             
             //sign user out
-            AppContext.shared.signOutUser()
+            AppContext.shared.portalSession.signOut()
             
             //pop to initial view controller
             self?.navigationController?.popToRootViewController(animated: true)

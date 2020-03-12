@@ -57,7 +57,7 @@ extension AppContext {
         self.isFetchingPortalItems = true
         
         //find items
-        self.fetchPortalItemsCancelable = self.portal?.findItems(with: parameters) { [weak self] (resultSet, error) in
+        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: parameters) { [weak self] (resultSet, error) in
             
             guard let self = self else { return }
             
@@ -119,7 +119,7 @@ extension AppContext {
         self.isFetchingPortalItems = true
         
         //find items
-        self.fetchPortalItemsCancelable = self.portal?.findItems(with: nextQueryParameters) { [weak self] (resultSet, error) in
+        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: nextQueryParameters) { [weak self] (resultSet, error) in
             
             guard let self = self else { return }
             
@@ -170,7 +170,7 @@ extension AppContext {
         //add to the currently downloading itemIDs list
         self.currentlyDownloadingItemIDs.append(portalItem.itemID)
         
-        guard let absoluteString = self.portal?.url?.absoluteString else {
+        guard let absoluteString = self.portalSession.portal?.url?.absoluteString else {
             let error = NSError(domain: "com.mapbook", code: 101, userInfo: [NSLocalizedDescriptionKey: "URL not found"])
             self.postDownloadCompletedNotification(userInfo: ["error": error, "itemID": portalItem.itemID])
             return
@@ -192,7 +192,7 @@ extension AppContext {
         let downloadingFileURL = downloadingDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
         let downloadedFileURL = downloadedDirectoryURL.appendingPathComponent("\(portalItem.itemID).mmpk")
         
-        let requestOperation = AGSRequestOperation(remoteResource: self.portal, url: URL(string: itemDataURL)!, queryParameters: nil, method: .get)
+        let requestOperation = AGSRequestOperation(remoteResource: self.portalSession.portal, url: URL(string: itemDataURL)!, queryParameters: nil, method: .get)
         
         requestOperation.outputFileURL = downloadingFileURL
         requestOperation.sessionID = portalItem.itemID
@@ -282,7 +282,7 @@ extension AppContext {
     func checkForUpdates(completion: (() -> Void)?) {
         
         //if portal is nil. Should not be the case
-        if self.portal == nil {
+        guard self.portalSession.portal != nil else {
             completion?()
             return
         }
@@ -314,7 +314,7 @@ extension AppContext {
                 guard error == nil else { return }
                 
                 //check if updated
-                if let downloadedDate = self.downloadDate(of: package),
+                if let downloadedDate = package.downloadDate,
                     let modifiedDate = portalItem.modified,
                     modifiedDate > downloadedDate {
                     
@@ -335,7 +335,7 @@ extension AppContext {
     */
     private func createPortalItem(forPackage package:AGSMobileMapPackage) -> AGSPortalItem? {
         
-        if let portal = self.portal,
+        if let portal = self.portalSession.portal,
             let itemID = self.itemID(for: package) {
             
             //create portal item

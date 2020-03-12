@@ -69,7 +69,7 @@ class PortalAccessViewController: UIViewController {
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .portalSessionStatusDidChange, object: nil, queue: .main) { [weak self] (_) in
             self?.updateForAppContextPortal()
         }
     }
@@ -77,8 +77,7 @@ class PortalAccessViewController: UIViewController {
     private func updateForAppContextPortal() {
         
         // Portal is accessed
-        if let portal = AppContext.shared.portal {
-            
+        if let portal = AppContext.shared.portalSession.portal {
             portal.user?.thumbnail?.load { [weak self] (error) in
                 guard error == nil else {
                     print("Could not load user thumbnail image.")
@@ -120,7 +119,7 @@ class PortalAccessViewController: UIViewController {
     @IBAction private func userTappedActionButton(_ sender:UIButton) {
         dismissTimer?.invalidate()
         
-        if AppContext.shared.portal == nil {
+        if AppContext.shared.portalSession.portal == nil {
             accessPortal()
         }
         else {
@@ -138,44 +137,22 @@ class PortalAccessViewController: UIViewController {
         //initialize portal
         let portal = AGSPortal(url: portalURL, loginRequired: true)
         
-        //load portal
-        portal.load { [weak self] (error) in
+        AppContext.shared.portalSession.signIn(to: portal) { [weak self] (status) in
             
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
-            if let error = error {
+            switch status {
+            case .failed(let error):
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-                return
+            case .loaded(_):
+                self.triggerTimerToDismissViewController()
+            default: break
             }
-            
-            AppContext.shared.portal = portal
-            
-            //request dismissal from parent view controller request to show portal items list
-            strongSelf.triggerTimerToDismissViewController()
         }
     }
     
     private func leavePortal() {
-        
-        //alert controller for confirmation
-        let alertController = UIAlertController(title: "Leave portal?", message: "This will delete all downloaded mobile map packages.", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Leave", style: .default) { (_) in
-            
-            //sign user out, this will delete existing packages
-            AppContext.shared.signOutUser()
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "Stay", style: .cancel, handler: nil)
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
+        AppContext.shared.portalSession.signOut()
     }
     
     private func triggerTimerToDismissViewController() {
