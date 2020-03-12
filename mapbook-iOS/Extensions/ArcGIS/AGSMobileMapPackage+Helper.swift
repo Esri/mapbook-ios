@@ -19,4 +19,8 @@ extension AGSMobileMapPackage {
     var downloadDate: Date? {
         try? FileManager.default.attributesOfItem(atPath: fileURL.path)[FileAttributeKey.creationDate] as? Date
     }
+    
+    var size: Int64? {
+        try? (FileManager.default.attributesOfItem(atPath: fileURL.path)[FileAttributeKey.size] as? NSNumber)?.int64Value
+    }
 }

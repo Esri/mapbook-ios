@@ -32,6 +32,11 @@ class LocalPackageCell: UITableViewCell {
         formatter.dateStyle = .short
         return formatter
     }()
+    
+    static var byteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        return formatter
+    }()
 
     @IBOutlet private var titleLabel:UILabel!
     @IBOutlet private var createdLabel:UILabel!
@@ -76,7 +81,13 @@ class LocalPackageCell: UITableViewCell {
                 else {
                     self.createdLabel.text = ""
                 }
-                self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
+                
+                if let size = mobileMapPackage.size {
+                    self.sizeLabel.text = "Size \(Self.byteFormatter.string(fromByteCount: size))"
+                }
+                else {
+                    self.sizeLabel.text = ""
+                }
                 self.titleLabel.text = item.title
                 self.descriptionLabel.text = item.snippet
                 self.thumbnailImageView.image = item.thumbnail?.image

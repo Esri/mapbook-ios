@@ -524,6 +524,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "";
@@ -532,6 +533,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -545,6 +547,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "";
@@ -553,6 +556,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

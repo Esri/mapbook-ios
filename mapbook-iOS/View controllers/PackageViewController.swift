@@ -32,6 +32,11 @@ class PackageViewController: UIViewController {
         formatter.dateStyle = .short
         return formatter
     }()
+    
+    static var byteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        return formatter
+    }()
 
     @IBOutlet private var thumbnailImageView:UIImageView!
     @IBOutlet private var createdLabel:UILabel!
@@ -103,7 +108,13 @@ class PackageViewController: UIViewController {
             self.createdLabel.text = ""
         }
         
-        self.sizeLabel.text = "Size \(AppContext.shared.size(of: mobileMapPackage) ?? "--")"
+        if let size = mobileMapPackage.size {
+            self.sizeLabel.text = "Size \(Self.byteFormatter.string(fromByteCount: size))"
+        }
+        else {
+            self.sizeLabel.text = ""
+        }
+        
         self.mapsCountLabel.text = "\(mobileMapPackage.maps.count) Maps"
         if let downloadDate = mobileMapPackage.downloadDate {
             self.lastDownloadedLabel.text = "Last downloaded \(Self.dateFormatter.string(from: downloadDate))"

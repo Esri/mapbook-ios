@@ -138,44 +138,4 @@ extension AppContext {
         }
         return nil
     }
-    
-    /*
-     Get size of local package.
-    */
-    func size(of package:AGSMobileMapPackage) -> String? {
-        
-        if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
-            let size = attributes[FileAttributeKey.size] as? NSNumber {
-            
-            let bytes = ByteCountFormatter().string(fromByteCount: size.int64Value)
-            return bytes
-        }
-        return nil
-    }
-    
-//    /*
-//     Get download date of local package.
-//     */
-//    func downloadDate(of package:AGSMobileMapPackage) -> Date? {
-//        
-//        if let attributes = try? FileManager.default.attributesOfItem(atPath: package.fileURL.path),
-//            let date = attributes[FileAttributeKey.creationDate] as? Date {
-//            
-//            return date
-//        }
-//        return nil
-//    }
-    
-    /*
-     Get created date of local package as String.
-     */
-//    func createdDateAsString(of item:AGSItem) -> String? {
-//        
-//        if let created = item.created {
-//            let dateString = "\(self.dateFormatter.string(from: created))"
-//            return dateString
-//        }
-//        
-//        return nil
-//    }
 }
