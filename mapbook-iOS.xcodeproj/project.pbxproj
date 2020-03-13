@@ -40,7 +40,7 @@
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
-		94A9196A24198BCE0086E808 /* AppContext+PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* AppContext+PortalSessionManager.swift */; };
+		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
 		94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; };
 		94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -99,7 +99,7 @@
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
-		94A9196924198BCE0086E808 /* AppContext+PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppContext+PortalSessionManager.swift"; sourceTree = "<group>"; };
+		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
 		94AB9D30225E8C090040D989 /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -203,7 +203,7 @@
 				3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */,
 				3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */,
 				3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */,
-				94A9196924198BCE0086E808 /* AppContext+PortalSessionManager.swift */,
+				94A9196924198BCE0086E808 /* PortalSessionManager.swift */,
 			);
 			path = AppContext;
 			sourceTree = "<group>";
@@ -351,7 +351,7 @@
 			files = (
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */,
-				94A9196A24198BCE0086E808 /* AppContext+PortalSessionManager.swift in Sources */,
+				94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,

@@ -26,9 +26,8 @@ import UIKit
 import ArcGIS
 
 protocol PortalAccessViewControllerDelegate:class {
-    
     //to notify delegate that portal was loaded
-    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool)
+    func portalURLViewControllerRequestedDismiss(_ portalURLViewController: PortalAccessViewController)
 }
 
 class PortalAccessViewController: UIViewController {
@@ -157,8 +156,8 @@ class PortalAccessViewController: UIViewController {
     
     private func triggerTimerToDismissViewController() {
         dismissTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] (_) in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.portalURLViewController(strongSelf, requestsDismissAndShouldShowPortalItemsList: true)
+            guard let self = self else { return }
+            self.delegate?.portalURLViewControllerRequestedDismiss(self)
         }
     }
     
@@ -167,8 +166,7 @@ class PortalAccessViewController: UIViewController {
     */
     @IBAction private func cancel(_ sender:UIButton) {
         dismissTimer?.invalidate()
-        
-        delegate?.portalURLViewController(self, requestsDismissAndShouldShowPortalItemsList: false)
+        self.delegate?.portalURLViewControllerRequestedDismiss(self)
     }
     
     deinit {

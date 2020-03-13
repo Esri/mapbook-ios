@@ -132,7 +132,7 @@ class LocalPackagesListViewController: UIViewController {
         navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
         navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
         
-        if case AppContext.PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
+        if case PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
             addBBI.isEnabled = true
         }
         else {
@@ -217,7 +217,7 @@ class LocalPackagesListViewController: UIViewController {
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if case AppContext.PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
+        if case PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
             //show portal items list view controller
             self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
@@ -353,25 +353,17 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         self.performSegue(withIdentifier: "PackageVCSegue", sender: self)
     }
 }
 
 extension LocalPackagesListViewController: PortalAccessViewControllerDelegate {
     
-    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
-        
+    func portalURLViewControllerRequestedDismiss(_ portalURLViewController: PortalAccessViewController) {
         //refresh table view as the portal could have been switched and
         //earlier packages might have been deleted
         self.tableView.reloadData()
-        
-        portalURLViewController.dismiss(animated: true) {
-            
-            if shouldShowItems {
-                self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
-            }
-        }
+        portalURLViewController.dismiss(animated: true, completion: nil)
     }
 }
 

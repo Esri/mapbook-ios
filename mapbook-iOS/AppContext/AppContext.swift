@@ -118,4 +118,19 @@ class AppContext {
     
     //list of local package's itemIDs, that have an update available online
     var updatableItemIDs:[String] = []
+    
+    init() {
+        portalSession.delegate = self
+    }
+}
+
+extension Notification.Name {
+    static let portalSessionStatusDidChange = Notification.Name("PortalSessionStatusDidChange")
+}
+
+extension AppContext: PortalSessionManagerDelegate {
+    
+    func portalSessionManager(manager: PortalSessionManager, didChangeStatus status: PortalSessionManager.Status) {
+        NotificationCenter.default.post(name: .portalSessionStatusDidChange, object: self)
+    }
 }
