@@ -22,6 +22,8 @@ class PortalFindPackagesManager {
         self.portal = portal
     }
     
+    // MARK:- Errors
+    
     struct AlreadyFinding: LocalizedError {
         let localizedDescription: String = "You are already finding portal items."
     }
@@ -29,6 +31,8 @@ class PortalFindPackagesManager {
     struct UnknownError: LocalizedError {
         let localizedDescription: String = "An unknown error occured."
     }
+    
+    // MARK:- Find Setup
     
     private var cancelableFind: AGSCancelable?
     
@@ -40,6 +44,8 @@ class PortalFindPackagesManager {
         var keyword: String?
     }
 
+    // MARK:- Find Portal Items
+    
     func findPortalItems(params: FindParameters, completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
                 
         guard portal != nil else { throw UnknownError() }
@@ -53,6 +59,8 @@ class PortalFindPackagesManager {
         
         try performFind(with: parameters, completion: completion)
     }
+    
+    // MARK:- Find More Portal Items
     
     private var nextQueryParameters: AGSPortalQueryParameters?
     
@@ -73,6 +81,8 @@ class PortalFindPackagesManager {
         
         try performFind(with: next, completion: completion)
     }
+    
+    // MARK:- Private, Peform Find
     
     private func performFind(with params: AGSPortalQueryParameters, completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
         
