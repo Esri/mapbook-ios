@@ -83,48 +83,20 @@ class PortalItemsListViewController: UIViewController {
         
         self.isLoading = true
         
+        let params = PortalFindPackagesManager.FindParameters(batchSize: 20,
+                                                              type: .mobileMapPackage,
+                                                              keyword: keyword)
+        
         do {
-            try packageFinder.findPortalItems(keyword: keyword, n: batchSize) { [weak self] (result) in
-                
-                guard let self = self else { return }
-                
-                defer {
-                    self.isLoading = false
-                    self.tableView.reloadData()
-                }
-                
-                switch result {
-                case .success(let items):
-                    self.processFindResults(items: items, append: false)
-                case .failure(let error):
-                    if let error = error as NSError?, error.code != NSUserCancelledError {
-                        SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-                    }
-                }
+            try packageFinder.findPortalItems(params: params) { [weak self] (result) in
+                self?.processFindResult(result: result, append: false)
             }
         }
         catch {
             SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
         }
     }
-    
-    private func processFindResults(items: [AGSPortalItem]?, append: Bool) {
-        if let items = items {
-            AGSLoadObjects(items) { (completed) in
-                DispatchQueue.main.async {
-                    if append {
-                        self.portalItems.append(contentsOf: items)
-                    }
-                    else {
-                        self.portalItems = items
-                    }
-                    
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
+        
     /*
      Fetch next set of portal items. Again AppContext's fetchMorePortalItems
      method is called. On completion either the error is displayed or table
@@ -140,22 +112,7 @@ class PortalItemsListViewController: UIViewController {
         
         do {
             try packageFinder.findMorePortalItems { [weak self] (result) in
-                
-                guard let self = self else { return }
-                
-                defer {
-                    self.isLoading = false
-                    self.tableView.reloadData()
-                }
-                
-                switch result {
-                case .success(let items):
-                    self.processFindResults(items: items, append: true)
-                case .failure(let error):
-                    if let error = error as NSError?, error.code != NSUserCancelledError {
-                        SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-                    }
-                }
+                self?.processFindResult(result: result, append: true)
             }
         }
         catch {
@@ -163,6 +120,36 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    private func processFindResult(result: Result<[AGSPortalItem]?, Error>, append: Bool) {
+        
+        defer {
+            DispatchQueue.main.async {
+                self.isLoading = false
+                self.tableView.reloadData()
+            }
+        }
+        
+        switch result {
+            
+        case .success(let items):
+            if let items = items {
+                AGSLoadObjects(items) { (_) in
+                    if append {
+                        self.portalItems.append(contentsOf: items)
+                    }
+                    else {
+                        self.portalItems = items
+                    }
+                }
+            }
+            
+        case .failure(let error):
+            if let error = error as NSError?, error.code != NSUserCancelledError {
+                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            }
+        }
+    }
+
     /*
      Convenience method for observing DownloadCompleted notification. In
      the closure, the itemID from userInfo is used to get the corresponding

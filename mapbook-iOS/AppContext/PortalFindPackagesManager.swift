@@ -33,39 +33,25 @@ class PortalFindPackagesManager {
     private var cancelableFind: AGSCancelable?
     
     private var finding: Bool = false
+    
+    struct FindParameters {
+        var batchSize: Int
+        var type: AGSPortalItemType
+        var keyword: String?
+    }
 
-    func findPortalItems(keyword: String?, n: Int, completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
+    func findPortalItems(params: FindParameters, completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
                 
-        guard let portal = portal else { throw UnknownError() }
+        guard portal != nil else { throw UnknownError() }
 
         guard !finding else { throw AlreadyFinding() }
         
-        finding = true
-        
         nextQueryParameters = nil
 
-        cancelableFind?.cancel()
-
-        let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: keyword)
-        parameters.limit = max(n, 1)
-
-        cancelableFind = portal.findItems(with: parameters) { [weak self] (results, error) in
-
-            guard let self = self else { return }
-            
-            defer {
-                self.finding = false
-            }
-            
-            guard error == nil else {
-                completion(.failure(error!))
-                return
-            }
-            
-            self.nextQueryParameters = results?.nextQueryParameters
-
-            completion(.success(results?.results as? [AGSPortalItem]))
-        }
+        let parameters = AGSPortalQueryParameters(forItemsOf: params.type, withSearch: params.keyword)
+        parameters.limit = max(params.batchSize, 1)
+        
+        try performFind(with: parameters, completion: completion)
     }
     
     private var nextQueryParameters: AGSPortalQueryParameters?
@@ -75,9 +61,9 @@ class PortalFindPackagesManager {
     }
     
     func findMorePortalItems(_ completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
-                        
-        guard let portal = portal else { throw UnknownError() }
-
+                  
+        guard portal != nil else { throw UnknownError() }
+        
         guard !finding else { throw AlreadyFinding() }
         
         guard let next = nextQueryParameters else {
@@ -85,11 +71,18 @@ class PortalFindPackagesManager {
             return
         }
         
+        try performFind(with: next, completion: completion)
+    }
+    
+    private func performFind(with params: AGSPortalQueryParameters, completion: @escaping (Result<[AGSPortalItem]?, Error>) -> Void) throws {
+        
+        guard let portal = portal else { throw UnknownError() }
+
         finding = true
         
         cancelableFind?.cancel()
         
-        cancelableFind = portal.findItems(with: next) { [weak self] (results, error) in
+        cancelableFind = portal.findItems(with: params) { [weak self] (results, error) in
 
             guard let self = self else { return }
             
@@ -103,8 +96,15 @@ class PortalFindPackagesManager {
             }
             
             self.nextQueryParameters = results?.nextQueryParameters
-
-            completion(.success(results?.results as? [AGSPortalItem]))
+            
+            guard let results = results?.results as? [AGSPortalItem] else {
+                completion(.success(nil))
+                return
+            }
+            
+            AGSLoadObjects(results) { (_) in
+                completion(.success(results))
+            }
         }
     }
     
