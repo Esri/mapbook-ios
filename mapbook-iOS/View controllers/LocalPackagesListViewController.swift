@@ -211,6 +211,14 @@ class LocalPackagesListViewController: UIViewController {
             controller.delegate = self
             controller.presentationController?.delegate = self
         }
+        else if segue.identifier == "PortalItemsSegue",
+            let navigation = segue.destination as? UINavigationController,
+            let controller = navigation.topViewController as? PortalItemsListViewController  {
+            guard let portal = AppContext.shared.portalSession.portal else {
+                preconditionFailure("User must be signed in to an active portal session.")
+            }
+            controller.packageFinder = PortalFindPackagesManager(portal)
+        }
     }
     
     //MARK: - Actions

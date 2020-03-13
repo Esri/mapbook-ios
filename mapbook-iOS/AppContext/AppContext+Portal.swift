@@ -33,122 +33,122 @@ import ArcGIS
  */
 extension AppContext {
     
-    /*
-     Fetch portal items from the portal with the seach keyword (if specified). 
-     It cancels any request made previously. On completion is returns either an
-     error or list of portalItems fetched. It also updates the portalItems array
-     on AppContext and saves the nextQueryParameters to fetch the next set of 
-     portalItems.
-    */
-    func fetchPortalItems(using keyword:String?, completion: ((_ error:Error?, _ portalItems:[AGSPortalItem]?) -> Void)?) {
-        
-        //cancel previous request
-        self.fetchPortalItemsCancelable?.cancel()
-        
-        //clear previous portal items
-        self.portalItems = []
-        
-        //Set query parameters with item type as .mobileMapPackage, search keyword
-        //and result limit. The result limit can be set in the Info.plist file.
-        let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: keyword)
-        parameters.limit = AppSettings.portalItemQuerySize
-        
-        //set the state
-        self.isFetchingPortalItems = true
-        
-        //find items
-        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: parameters) { [weak self] (resultSet, error) in
-            
-            guard let self = self else { return }
-            
-            //set the state
-            self.isFetchingPortalItems = false
-            
-            //completion with error
-            guard error == nil else {
-                completion?(error, nil)
-                return
-            }
-            
-            //completion with no results
-            guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
-                print("No portal items found")
-                completion?(nil, nil)
-                return
-            }
-            
-            //save next query params
-            self.nextQueryParameters = resultSet?.nextQueryParameters
-            
-            //set portal items instance variable
-            self.portalItems = portalItems
-            
-            //call completion
-            completion?(nil, portalItems)
-        }
-    }
-    
-    /*
-     Find out if more portal items are available
-    */
-    func hasMorePortalItems() -> Bool {
-        return self.nextQueryParameters != nil
-    }
-    
-    /*
-     Get the next set of portal items. This only works if there is no other 
-     fetch request. Determined using isFetchingPortalItems boolean. On completion,
-     it returns either error or next set of portalItems. Also updates the ivar by
-     appending new values to it. And stores the next query parameter.
-    */
-    func fetchMorePortalItems(completion: ((_ error:Error?, _ morePortalItems: [AGSPortalItem]?) -> Void)?) {
-        
-        //Already fetching portal items
-        if self.isFetchingPortalItems {
-            completion?(nil, nil)
-            return
-        }
-        
-        //if next query parameters is nil
-        guard let nextQueryParameters = self.nextQueryParameters else {
-            completion?(nil, nil)
-            return
-        }
-        
-        //set the state
-        self.isFetchingPortalItems = true
-        
-        //find items
-        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: nextQueryParameters) { [weak self] (resultSet, error) in
-            
-            guard let self = self else { return }
-            
-            //set the state
-            self.isFetchingPortalItems = false
-            
-            //error
-            guard error == nil else {
-                completion?(error, nil)
-                return
-            }
-            
-            //no result
-            guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
-                print("No portalItems found")
-                completion?(nil, nil)
-                return
-            }
-            
-            //save next query params
-            self.nextQueryParameters = resultSet?.nextQueryParameters
-            
-            //append to existing items
-            self.portalItems.append(contentsOf: portalItems)
-            
-            //call completion
-            completion?(nil, portalItems)
-        }
-    }
+//    /*
+//     Fetch portal items from the portal with the seach keyword (if specified). 
+//     It cancels any request made previously. On completion is returns either an
+//     error or list of portalItems fetched. It also updates the portalItems array
+//     on AppContext and saves the nextQueryParameters to fetch the next set of 
+//     portalItems.
+//    */
+//    func fetchPortalItems(using keyword:String?, completion: ((_ error:Error?, _ portalItems:[AGSPortalItem]?) -> Void)?) {
+//        
+//        //cancel previous request
+//        self.fetchPortalItemsCancelable?.cancel()
+//        
+//        //clear previous portal items
+//        self.portalItems = []
+//        
+//        //Set query parameters with item type as .mobileMapPackage, search keyword
+//        //and result limit. The result limit can be set in the Info.plist file.
+//        let parameters = AGSPortalQueryParameters(forItemsOf: .mobileMapPackage, withSearch: keyword)
+//        parameters.limit = AppSettings.portalItemQuerySize
+//        
+//        //set the state
+//        self.isFetchingPortalItems = true
+//        
+//        //find items
+//        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: parameters) { [weak self] (resultSet, error) in
+//            
+//            guard let self = self else { return }
+//            
+//            //set the state
+//            self.isFetchingPortalItems = false
+//            
+//            //completion with error
+//            guard error == nil else {
+//                completion?(error, nil)
+//                return
+//            }
+//            
+//            //completion with no results
+//            guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
+//                print("No portal items found")
+//                completion?(nil, nil)
+//                return
+//            }
+//            
+//            //save next query params
+//            self.nextQueryParameters = resultSet?.nextQueryParameters
+//            
+//            //set portal items instance variable
+//            self.portalItems = portalItems
+//            
+//            //call completion
+//            completion?(nil, portalItems)
+//        }
+//    }
+//    
+//    /*
+//     Find out if more portal items are available
+//    */
+//    func hasMorePortalItems() -> Bool {
+//        return self.nextQueryParameters != nil
+//    }
+//    
+//    /*
+//     Get the next set of portal items. This only works if there is no other 
+//     fetch request. Determined using isFetchingPortalItems boolean. On completion,
+//     it returns either error or next set of portalItems. Also updates the ivar by
+//     appending new values to it. And stores the next query parameter.
+//    */
+//    func fetchMorePortalItems(completion: ((_ error:Error?, _ morePortalItems: [AGSPortalItem]?) -> Void)?) {
+//        
+//        //Already fetching portal items
+//        if self.isFetchingPortalItems {
+//            completion?(nil, nil)
+//            return
+//        }
+//        
+//        //if next query parameters is nil
+//        guard let nextQueryParameters = self.nextQueryParameters else {
+//            completion?(nil, nil)
+//            return
+//        }
+//        
+//        //set the state
+//        self.isFetchingPortalItems = true
+//        
+//        //find items
+//        self.fetchPortalItemsCancelable = self.portalSession.portal?.findItems(with: nextQueryParameters) { [weak self] (resultSet, error) in
+//            
+//            guard let self = self else { return }
+//            
+//            //set the state
+//            self.isFetchingPortalItems = false
+//            
+//            //error
+//            guard error == nil else {
+//                completion?(error, nil)
+//                return
+//            }
+//            
+//            //no result
+//            guard let portalItems = resultSet?.results as? [AGSPortalItem] else {
+//                print("No portalItems found")
+//                completion?(nil, nil)
+//                return
+//            }
+//            
+//            //save next query params
+//            self.nextQueryParameters = resultSet?.nextQueryParameters
+//            
+//            //append to existing items
+//            self.portalItems.append(contentsOf: portalItems)
+//            
+//            //call completion
+//            completion?(nil, portalItems)
+//        }
+//    }
     
     /*
      Method to download the package from a portal item. An AGSRequestOperation is

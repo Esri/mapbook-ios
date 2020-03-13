@@ -39,6 +39,13 @@ class PortalItemsListViewController: UIViewController {
         }
     }
     
+    #warning("TODO: make Batch Size an app setting.")
+    var batchSize = 20
+
+    var packageFinder: PortalFindPackagesManager!
+    
+    private var portalItems = [AGSPortalItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,27 +75,53 @@ class PortalItemsListViewController: UIViewController {
      method. And simply refreshes the table view on successful completion
      or displays the error on failure.
     */
-    fileprivate func fetchPortalItems(using keyword:String?) {
+    fileprivate func fetchPortalItems(using keyword: String?) {
+        
+        if packageFinder == nil {
+            preconditionFailure("Portal find packages manager should never be nil.")
+        }
+        
         self.isLoading = true
         
-        AppContext.shared.fetchPortalItems(using: keyword) { [weak self] (error, portalItems) in
-            
-            guard let self = self else { return }
-            
-            self.isLoading = false
-            
-            guard error == nil else {
-                if let error = error as NSError?, error.code != NSUserCancelledError {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        do {
+            try packageFinder.findPortalItems(keyword: keyword, n: batchSize) { [weak self] (result) in
+                
+                guard let self = self else { return }
+                
+                defer {
+                    self.isLoading = false
+                    self.tableView.reloadData()
                 }
-                return
+                
+                switch result {
+                case .success(let items):
+                    self.processFindResults(items: items, append: false)
+                case .failure(let error):
+                    if let error = error as NSError?, error.code != NSUserCancelledError {
+                        SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                    }
+                }
             }
-            
-            guard portalItems != nil else {
-                return
+        }
+        catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        }
+    }
+    
+    private func processFindResults(items: [AGSPortalItem]?, append: Bool) {
+        if let items = items {
+            AGSLoadObjects(items) { (completed) in
+                DispatchQueue.main.async {
+                    if append {
+                        self.portalItems.append(contentsOf: items)
+                    }
+                    else {
+                        self.portalItems = items
+                    }
+                    
+                    self.tableView.reloadData()
+                }
             }
-            
-            self.tableView.reloadData()
         }
     }
     
@@ -99,28 +132,34 @@ class PortalItemsListViewController: UIViewController {
     */
     fileprivate func fetchMorePortalItems() {
         
-        if self.isLoading || !AppContext.shared.hasMorePortalItems() { return }
+        guard !self.isLoading else { return }
+        
+        guard packageFinder.canFindMorePortalItems else { return }
         
         self.isLoading = true
         
-        AppContext.shared.fetchMorePortalItems { [weak self] (error, newPortalItems) in
-            
-            guard let self = self else { return }
-            
-            self.isLoading = false
-            
-            guard error == nil else {
-                if let error = error as NSError?, error.code != NSUserCancelledError {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        do {
+            try packageFinder.findMorePortalItems { [weak self] (result) in
+                
+                guard let self = self else { return }
+                
+                defer {
+                    self.isLoading = false
+                    self.tableView.reloadData()
                 }
-                return
+                
+                switch result {
+                case .success(let items):
+                    self.processFindResults(items: items, append: true)
+                case .failure(let error):
+                    if let error = error as NSError?, error.code != NSUserCancelledError {
+                        SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                    }
+                }
             }
-            
-            guard newPortalItems != nil else {
-                return
-            }
-            
-            self.tableView.reloadData()
+        }
+        catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
         }
     }
     
@@ -133,6 +172,8 @@ class PortalItemsListViewController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
             
+            guard let self = self else { return }
+            
             let error = notification.userInfo?["error"] as? Error
                         
             if let error = error as NSError?, error.code != NSUserCancelledError {
@@ -140,11 +181,9 @@ class PortalItemsListViewController: UIViewController {
             }
             
             if let itemID = notification.userInfo?["itemID"] as? String,
-                let index = AppContext.shared.indexOfPortalItem(withItemID: itemID),
-                let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
-                
+                let index = self.portalItems.firstIndex(where: { (item) in item.itemID == itemID }),
+                let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
                 cell.isDownloading = false
-                
                 if error == nil {
                     cell.isAlreadyDownloaded = true
                 }
@@ -165,7 +204,7 @@ class PortalItemsListViewController: UIViewController {
 extension PortalItemsListViewController:UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppContext.shared.portalItems.count
+        return portalItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -174,7 +213,7 @@ extension PortalItemsListViewController:UITableViewDataSource, UITableViewDelega
             return UITableViewCell()
         }
         
-        let portalItem = AppContext.shared.portalItems[indexPath.row]
+        let portalItem = portalItems[indexPath.row]
         cell.portalItem = portalItem
         
         return cell
@@ -218,6 +257,7 @@ extension PortalItemsListViewController:UISearchBarDelegate {
         if self.searchBar.isFirstResponder {
             self.searchBar.resignFirstResponder()
         }
+        
         self.fetchPortalItems(using: searchBar.text)
     }
     

@@ -57,6 +57,7 @@ class AppContext {
     var localPackages:[AGSMobileMapPackage] = []
     
     var portalSession = PortalSessionManager()
+        
 //    //portal to use for fetching portal items
 //    var portal:AGSPortal? {
 //
@@ -98,17 +99,17 @@ class AppContext {
 //            NotificationCenter.default.post(name: .portalDidChange, object: self, userInfo: nil)
 //        }
 //    }
-    
-    //list of portalItems from portal
-    var portalItems:[AGSPortalItem] = []
-    
-    //cancelable for the fetch call, in case it needs to be cancelled
-    var fetchPortalItemsCancelable:AGSCancelable?
+//
+//    //list of portalItems from portal
+//    var portalItems:[AGSPortalItem] = []
+//
+//    //cancelable for the fetch call, in case it needs to be cancelled
+//    var fetchPortalItemsCancelable:AGSCancelable?
     
     var downloadOperationQueue = AGSOperationQueue()
-    
-    //flag if fetching is in progress
-    var isFetchingPortalItems = false
+//
+//    //flag if fetching is in progress
+//    var isFetchingPortalItems = false
     
     //next query parameters returned in the last query
     var nextQueryParameters:AGSPortalQueryParameters?

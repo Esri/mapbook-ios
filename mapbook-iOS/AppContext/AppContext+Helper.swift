@@ -87,32 +87,32 @@ extension AppContext {
         return false
     }
     
-    /*
-     Get the index of portal item by using itemID.
-    */
-    func indexOfPortalItem(withItemID itemID:String) -> Int? {
-        
-        if let portalItem = self.portalItemWith(itemID: itemID),
-            let index = self.portalItems.firstIndex(of: portalItem) {
-            return index
-        }
-        return nil
-    }
-    
-    /*
-     Get portalItem for itemID.
-    */
-    func portalItemWith(itemID:String) -> AGSPortalItem? {
-        
-        let filtered = self.portalItems.filter({ return $0.itemID == itemID })
-        
-        if filtered.count > 0 {
-            return filtered[0]
-        }
-        else {
-            return nil
-        }
-    }
+//    /*
+//     Get the index of portal item by using itemID.
+//    */
+//    func indexOfPortalItem(withItemID itemID:String) -> Int? {
+//        
+//        if let portalItem = self.portalItemWith(itemID: itemID),
+//            let index = self.portalItems.firstIndex(of: portalItem) {
+//            return index
+//        }
+//        return nil
+//    }
+//    
+//    /*
+//     Get portalItem for itemID.
+//    */
+//    func portalItemWith(itemID:String) -> AGSPortalItem? {
+//        
+//        let filtered = self.portalItems.filter({ return $0.itemID == itemID })
+//        
+//        if filtered.count > 0 {
+//            return filtered[0]
+//        }
+//        else {
+//            return nil
+//        }
+//    }
     
     /*
      Get itemID for a pacakge. The local packages are written to
