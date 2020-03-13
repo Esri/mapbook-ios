@@ -23,19 +23,19 @@
 //
 
 
-//to identify which directory to get
-//downloading - for currently downloading packages
-//downloaded - for already downloaded packages
-enum DirectoryType {
-    case downloaded, downloading
-    
-    //name of the directory for saving packages
-    var directoryName: String {
-        switch self {
-        case .downloading:
-            return "Downloading packages"
-        case .downloaded:
-            return "Downloaded packages"
-        }
-    }
-}
+////to identify which directory to get
+////downloading - for currently downloading packages
+////downloaded - for already downloaded packages
+//enum DirectoryType {
+//    case downloaded, downloading
+//    
+//    //name of the directory for saving packages
+//    var directoryName: String {
+//        switch self {
+//        case .downloading:
+//            return "Downloading packages"
+//        case .downloaded:
+//            return "Downloaded packages"
+//        }
+//    }
+//}

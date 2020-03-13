@@ -119,8 +119,8 @@ class LocalPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        if AppContext.shared.appMode == .portal {
-            AppContext.shared.checkForUpdates {
+        if AppContext.shared.appMode == .portal, let sync = AppContext.shared.portalDeviceSync {
+            try? sync.checkForUpdates(packages: AppContext.shared.localPackages) {
                 self.tableView.reloadData()
                 self.showBackgroundLabelIfNeeded()
             }

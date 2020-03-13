@@ -31,11 +31,10 @@
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
 		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
 		3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */; };
-		3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */; };
-		3EEBD3211F42196000DB4AAA /* AppContext+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */; };
 		3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3231F42261300DB4AAA /* AppMode.swift */; };
 		943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */; };
 		943C611F241B04F700FEF4F7 /* PortalFindPackagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */; };
+		943C6121241BD90300FEF4F7 /* PortalDeviceSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
@@ -91,11 +90,10 @@
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Local.swift"; sourceTree = "<group>"; };
-		3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Portal.swift"; sourceTree = "<group>"; };
-		3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppContext+Helper.swift"; sourceTree = "<group>"; };
 		3EEBD3231F42261300DB4AAA /* AppMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMode.swift; path = Enums/AppMode.swift; sourceTree = "<group>"; };
 		943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSMobileMapPackage+Helper.swift"; sourceTree = "<group>"; };
 		943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalFindPackagesManager.swift; sourceTree = "<group>"; };
+		943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalDeviceSyncManager.swift; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
@@ -203,10 +201,9 @@
 			children = (
 				3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */,
 				3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */,
-				3EEBD31E1F4218B700DB4AAA /* AppContext+Portal.swift */,
-				3EEBD3201F42196000DB4AAA /* AppContext+Helper.swift */,
 				94A9196924198BCE0086E808 /* PortalSessionManager.swift */,
 				943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */,
+				943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */,
 			);
 			path = AppContext;
 			sourceTree = "<group>";
@@ -365,11 +362,11 @@
 				3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
+				943C6121241BD90300FEF4F7 /* PortalDeviceSyncManager.swift in Sources */,
 				3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */,
 				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalFindPackagesManager.swift in Sources */,
 				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
-				3EEBD3211F42196000DB4AAA /* AppContext+Helper.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
@@ -377,7 +374,6 @@
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
 				3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */,
 				9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */,
-				3EEBD31F1F4218B700DB4AAA /* AppContext+Portal.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,

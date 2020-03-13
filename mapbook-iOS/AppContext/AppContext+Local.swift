@@ -40,21 +40,18 @@ extension AppContext {
         
         var localPackageURLs:[URL] = []
         
-        //documents directory url
-        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        var directoryURL:URL
+        let url:URL
         
         //determine directory to look for, based on app mode
         if self.appMode == .device {
-            directoryURL = documentsDirectoryURL
+            url = URL.root
         }
         else {
-            directoryURL = documentsDirectoryURL.appendingPathComponent(DirectoryType.downloaded.directoryName, isDirectory: true)
+            url = URL.downloaded
         }
         
         //get contents of the directory
-        if let urls = try? FileManager.default.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
+        if let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
             
             //filter for packages (.mmpk)
             localPackageURLs = urls.filter({ return $0.pathExtension == "mmpk" })
@@ -77,7 +74,7 @@ extension AppContext {
         
         //create AGSMobileMapPackage for each url
         for url in localPackageURLs {
-            let package = AGSMobileMapPackage(fileURL: url)
+            let package = PortalAwareMobileMapPackage(fileURL: url)
             self.localPackages.append(package)
         }
     }
@@ -106,18 +103,14 @@ extension AppContext {
     func deleteAllLocalPackages() {
         
         if self.appMode == .portal {
-            guard let downloadedDirectoryURL = self.downloadDirectoryURL(directoryType: .downloaded) else {
-                return
-            }
-            
             do {
-                try FileManager.default.removeItem(at: downloadedDirectoryURL)
+                let url = try FileManager.default.touchDownloadedDirectory()
+                try FileManager.default.removeItem(at: url)
             }
-            catch let error {
+            catch {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-                return
             }
-            
+
             self.localPackages.removeAll()
         }
         else {

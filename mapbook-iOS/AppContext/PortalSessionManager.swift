@@ -14,7 +14,7 @@
 
 import ArcGIS
 
-protocol PortalSessionManagerDelegate {
+protocol PortalSessionManagerDelegate: class {
     func portalSessionManager(manager: PortalSessionManager, didChangeStatus status: PortalSessionManager.Status)
 }
 
@@ -155,5 +155,5 @@ class PortalSessionManager {
     
     // MARK:- Delegate
     
-    var delegate: PortalSessionManagerDelegate?
+    weak var delegate: PortalSessionManagerDelegate?
 }

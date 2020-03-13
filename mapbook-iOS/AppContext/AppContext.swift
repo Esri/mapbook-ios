@@ -54,71 +54,11 @@ class AppContext {
     }
     
     //list of packages available on device
-    var localPackages:[AGSMobileMapPackage] = []
+    var localPackages = [PortalAwareMobileMapPackage]()
     
     var portalSession = PortalSessionManager()
-        
-//    //portal to use for fetching portal items
-//    var portal:AGSPortal? {
-//
-//        //the portal could be set if
-//        //a. user signs in the first time
-//        //b. user switches to a different portal
-//        //c. user signs out (set to nil)
-//        //d. on app start up, if user was previously signed in
-//        didSet {
-//
-//            //save the portal url in UserDefaults to instantiate
-//            //portal if the app is closed and re-opened
-//            AppSettings.save(portalUrl: self.portal?.url)
-//
-//            //clean up previous data, if any
-//
-//            //remove all portal items
-//            self.portalItems.removeAll()
-//
-//            //cancel if previously fetching portal items
-//            self.fetchPortalItemsCancelable?.cancel()
-//
-//            //new portal is not fetching portal items currently
-//            self.isFetchingPortalItems = false
-//
-//            //next query is not yet available
-//            self.nextQueryParameters = nil
-//
-//            //clear list of updatable items, as there may not be any local packages
-//            self.updatableItemIDs.removeAll()
-//
-//            //cancel all downloads in progress
-//            self.downloadOperationQueue.operations.forEach { $0.cancel() }
-//
-//            //clear list of currently downloading itemIDs
-//            self.currentlyDownloadingItemIDs.removeAll()
-//
-//            //post notification of change.
-//            NotificationCenter.default.post(name: .portalDidChange, object: self, userInfo: nil)
-//        }
-//    }
-//
-//    //list of portalItems from portal
-//    var portalItems:[AGSPortalItem] = []
-//
-//    //cancelable for the fetch call, in case it needs to be cancelled
-//    var fetchPortalItemsCancelable:AGSCancelable?
     
-    var downloadOperationQueue = AGSOperationQueue()
-//
-//    //flag if fetching is in progress
-//    var isFetchingPortalItems = false
-    
-    //next query parameters returned in the last query
-    var nextQueryParameters:AGSPortalQueryParameters?
-    
-    //list of currently dowloading item's IDs, to show UI accordingly
-    var currentlyDownloadingItemIDs:[String] = []
-    
-    //list of local package's itemIDs, that have an update available online
-    var updatableItemIDs:[String] = []
+    var portalDeviceSync: PortalDeviceSyncManager?
     
     init() {
         portalSession.delegate = self
@@ -132,6 +72,26 @@ extension Notification.Name {
 extension AppContext: PortalSessionManagerDelegate {
     
     func portalSessionManager(manager: PortalSessionManager, didChangeStatus status: PortalSessionManager.Status) {
+        
+        switch status {
+        case .loaded(let portal):
+            portalDeviceSync = PortalDeviceSyncManager(portal: portal)
+            portalDeviceSync?.delegate = self
+        default:
+            portalDeviceSync = nil
+        }
+        
         NotificationCenter.default.post(name: .portalSessionStatusDidChange, object: self)
+    }
+}
+
+extension AppContext: PortalDeviceSyncManagerDelegate {
+    
+    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, failed error: Error, item: AGSPortalItem) {
+        NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["error": error, "itemID": item.itemID])
+    }
+    
+    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, downloaded item: AGSPortalItem, to path: URL) {
+        NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["itemID": item.itemID])
     }
 }

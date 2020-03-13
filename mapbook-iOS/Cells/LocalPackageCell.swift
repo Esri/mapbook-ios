@@ -59,7 +59,7 @@ class LocalPackageCell: UITableViewCell {
         }
     }
     
-    var mobileMapPackage:AGSMobileMapPackage? {
+    var mobileMapPackage:PortalAwareMobileMapPackage? {
         didSet {
             
             self.mobileMapPackage?.load { [weak self] (error) in
@@ -74,7 +74,13 @@ class LocalPackageCell: UITableViewCell {
                 }
                 
                 self.updateStackView.isHidden = (AppContext.shared.appMode == .device)
-                self.isUpdating = AppContext.shared.isUpdating(package: mobileMapPackage)
+                
+                if let itemID = mobileMapPackage.itemID  {
+                    self.isUpdating = AppContext.shared.portalDeviceSync?.isCurrentlyDownloading(item: itemID) ?? false
+                }
+                else {
+                    self.isUpdating = false 
+                }
                 if let created = item.created {
                     self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
                 }
@@ -108,12 +114,22 @@ class LocalPackageCell: UITableViewCell {
             return
         }
         
-        guard AppContext.shared.isUpdatable(package: package) else {
+        guard package.canUpdate else {
             SVProgressHUD.showInfo(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
             return
         }
         
-        self.isUpdating = true
-        AppContext.shared.update(package: package)
+        guard let sync = AppContext.shared.portalDeviceSync else {
+            self.isUpdating = false
+            return
+        }
+        
+        do {
+            try sync.update(package: package)
+            self.isUpdating = true
+        }
+        catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
+        }
     }
 }
