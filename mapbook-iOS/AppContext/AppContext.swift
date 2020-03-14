@@ -25,24 +25,18 @@
 import UIKit
 import ArcGIS
 
-/*
- Extend Notification.Name to add custom notification name for a package download completion
- */
+// MARK:- AppMode
+
 extension Notification.Name {
-    
-    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
     static let appModeDidChange = Notification.Name("AppModeChanged")
 }
 
-/*
- Singleton class that handles all local and portal requests and provide a bunch of helper methods
- */
+var appContext: AppContext { AppContext.shared }
+
 class AppContext {
     
-    //singleton
-    static let shared = AppContext()
+    fileprivate static let shared = AppContext()
     
-    //current mode of the app
     var appMode: AppMode = AppMode.retrieveFromUserDefaults() {
         didSet {
             //post change to app mode
@@ -53,17 +47,16 @@ class AppContext {
         }
     }
     
-    //list of packages available on device
-    var localPackages = [PortalAwareMobileMapPackage]()
+    private(set) var sessionManager = PortalSessionManager()
     
-    var portalSession = PortalSessionManager()
-    
-    var portalDeviceSync = PackageSyncManager()
+    private(set) var portalDeviceSync = PackageManager()
     
     init() {
-        portalSession.delegate = self
+        sessionManager.delegate = self
     }
 }
+
+// MARK:- Portal Session
 
 extension Notification.Name {
     static let portalSessionStatusDidChange = Notification.Name("PortalSessionStatusDidChange")
@@ -84,13 +77,19 @@ extension AppContext: PortalSessionManagerDelegate {
     }
 }
 
-extension AppContext: PackageSyncManagerDelegate {
+// MARK:- Package Manager
+
+extension Notification.Name {
+    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
+}
+
+extension AppContext: PackageManagerDelegate {
     
-    func packageSyncManager(_ manager: PackageSyncManager, failed error: Error, item: AGSPortalItem) {
+    func packageManager(_ manager: PackageManager, failed error: Error, item: AGSPortalItem) {
         NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["error": error, "itemID": item.itemID])
     }
     
-    func packageSyncManager(_ manager: PackageSyncManager, downloaded item: AGSPortalItem, to path: URL) {
+    func packageManager(_ manager: PackageManager, downloaded item: AGSPortalItem, to path: URL) {
         NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["itemID": item.itemID])
     }
 }

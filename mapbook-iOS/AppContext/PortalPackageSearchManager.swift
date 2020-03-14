@@ -14,7 +14,7 @@
 
 import ArcGIS
 
-class PortalFindPackagesManager {
+class PortalPackageSearchManager {
     
     private weak var portal: AGSPortal?
     

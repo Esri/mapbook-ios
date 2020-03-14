@@ -42,7 +42,7 @@ class PortalItemsListViewController: UIViewController {
     #warning("TODO: make Batch Size an app setting.")
     var batchSize = 20
 
-    var packageFinder: PortalFindPackagesManager!
+    var packageFinder: PortalPackageSearchManager!
     
     private var portalItems = [AGSPortalItem]()
     
@@ -62,7 +62,7 @@ class PortalItemsListViewController: UIViewController {
         var defaultSearch:String?
         
         //So that we can demonstrate Mapbook, we will provide a default search string.
-        if let url = AppContext.shared.portalSession.portal?.url, url == URL.arcGISOnline {
+        if let url = appContext.sessionManager.portal?.url, url == URL.arcGISOnline {
             defaultSearch = "Offline mapbook"
         }
         
@@ -83,7 +83,7 @@ class PortalItemsListViewController: UIViewController {
         
         self.isLoading = true
         
-        let params = PortalFindPackagesManager.FindParameters(batchSize: 20,
+        let params = PortalPackageSearchManager.FindParameters(batchSize: 20,
                                                               type: .mobileMapPackage,
                                                               keyword: keyword)
         

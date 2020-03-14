@@ -76,7 +76,7 @@ class PortalAccessViewController: UIViewController {
     private func updateForAppContextPortal() {
         
         // Portal is accessed
-        if let portal = AppContext.shared.portalSession.portal {
+        if let portal = appContext.sessionManager.portal {
             portal.user?.thumbnail?.load { [weak self] (error) in
                 guard error == nil else {
                     print("Could not load user thumbnail image.")
@@ -118,7 +118,7 @@ class PortalAccessViewController: UIViewController {
     @IBAction private func userTappedActionButton(_ sender:UIButton) {
         dismissTimer?.invalidate()
         
-        if AppContext.shared.portalSession.portal == nil {
+        if appContext.sessionManager.portal == nil {
             accessPortal()
         }
         else {
@@ -136,7 +136,7 @@ class PortalAccessViewController: UIViewController {
         //initialize portal
         let portal = AGSPortal(url: portalURL, loginRequired: true)
         
-        AppContext.shared.portalSession.signIn(to: portal) { [weak self] (status) in
+        appContext.sessionManager.signIn(to: portal) { [weak self] (status) in
             
             guard let self = self else { return }
             
@@ -151,7 +151,7 @@ class PortalAccessViewController: UIViewController {
     }
     
     private func leavePortal() {
-        AppContext.shared.portalSession.signOut()
+        appContext.sessionManager.signOut()
     }
     
     private func triggerTimerToDismissViewController() {

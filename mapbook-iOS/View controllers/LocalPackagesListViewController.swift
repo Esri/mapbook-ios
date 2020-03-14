@@ -90,7 +90,7 @@ class LocalPackagesListViewController: UIViewController {
         }
         
         do {
-            try AppContext.shared.portalDeviceSync.fetchDownloadedPackages { [weak self] (result) in
+            try appContext.portalDeviceSync.fetchDownloadedPackages { [weak self] (result) in
                 
                 guard let self = self else { return }
                 
@@ -127,7 +127,7 @@ class LocalPackagesListViewController: UIViewController {
         }
         else {
             //set background label
-            self.noPackagesLabel.text = AppContext.shared.appMode.noPackagesText
+            self.noPackagesLabel.text = appContext.appMode.noPackagesText
             self.noPackagesLabel.isHidden = false
             self.tableView.separatorStyle = .none
         }
@@ -148,8 +148,8 @@ class LocalPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        if AppContext.shared.appMode == .portal {
-            try? AppContext.shared.portalDeviceSync.checkForUpdates(packages: AppContext.shared.localPackages) {
+        if appContext.appMode == .portal {
+            try? appContext.portalDeviceSync.checkForUpdates(packages: downloadedPackages) {
                 self.tableView.reloadData()
                 self.showBackgroundLabelIfNeeded()
             }
@@ -158,10 +158,10 @@ class LocalPackagesListViewController: UIViewController {
     
     private func updateNavigationItems() {
         //navigation item bar button items should reflect app mode and portal
-        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
-        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
+        navigationItem.rightBarButtonItems = appContext.appMode == .portal ? [addBBI] : []
+        navigationItem.leftBarButtonItems = appContext.appMode == .portal ? [settingsBBI] : []
         
-        if case PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
+        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
             addBBI.isEnabled = true
         }
         else {
@@ -171,12 +171,12 @@ class LocalPackagesListViewController: UIViewController {
     
     private func updateSegmentedControlForAppMode() {
         //segmented control should reflect app mode
-        appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
+        appModeSegmentedControl.selectedSegmentIndex = appContext.appMode.rawValue
     }
     
     private func updateTitleForAppMode() {
         //view controller title should reflect app mode
-        title = AppContext.shared.appMode.viewControllerTitle
+        title = appContext.appMode.viewControllerTitle
     }
     
     /*
@@ -243,10 +243,10 @@ class LocalPackagesListViewController: UIViewController {
         else if segue.identifier == "PortalItemsSegue",
             let navigation = segue.destination as? UINavigationController,
             let controller = navigation.topViewController as? PortalItemsListViewController  {
-            guard let portal = AppContext.shared.portalSession.portal else {
+            guard let portal = appContext.sessionManager.portal else {
                 preconditionFailure("User must be signed in to an active portal session.")
             }
-            controller.packageFinder = PortalFindPackagesManager(portal)
+            controller.packageFinder = PortalPackageSearchManager(portal)
         }
     }
     
@@ -254,7 +254,7 @@ class LocalPackagesListViewController: UIViewController {
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if case PortalSessionManager.Status.loaded(_) = AppContext.shared.portalSession.status {
+        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
             //show portal items list view controller
             self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
@@ -270,9 +270,9 @@ class LocalPackagesListViewController: UIViewController {
         
         switch newMode {
         case .device:
-            AppContext.shared.appMode = .device
+            appContext.appMode = .device
         case .portal:
-            AppContext.shared.appMode = .portal
+            appContext.appMode = .portal
         }
         
         fetchLocalPackages()
@@ -287,7 +287,7 @@ class LocalPackagesListViewController: UIViewController {
         let yesAction = UIAlertAction(title: "Sign out", style: .default) { [weak self] (action) in
             
             //sign user out
-            AppContext.shared.portalSession.signOut()
+            appContext.sessionManager.signOut()
             
             //pop to initial view controller
             self?.navigationController?.popToRootViewController(animated: true)
@@ -367,14 +367,19 @@ extension LocalPackagesListViewController: UITableViewDelegate {
             //yes action
             let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
                 
+                guard let self = self else { return }
+                
                 //delete package using AppContext
-                AppContext.shared.deleteLocalPackage(at: indexPath.row)
+                let package = self.downloadedPackages[indexPath.row]
+                
+                try? appContext.portalDeviceSync.removeDownloaded(package: package)
+                self.downloadedPackages.remove(at: indexPath.row)
                 
                 //refresh table view
                 tableView.reloadData()
                 
                 //if no packages left then show the background label
-                self?.showBackgroundLabelIfNeeded()
+                self.showBackgroundLabelIfNeeded()
             }
             
             //no action

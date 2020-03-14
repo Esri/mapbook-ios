@@ -81,7 +81,7 @@ class PortalItemCell: UITableViewCell {
                 }
 
                 //update UI
-                self.isDownloading = AppContext.shared.portalDeviceSync.isCurrentlyDownloading(item: portalItem.itemID)
+                self.isDownloading = appContext.portalDeviceSync.isCurrentlyDownloading(item: portalItem.itemID)
                 let downloaded = try? FileManager.default.hasDownloaded(item: portalItem)
                 self.isAlreadyDownloaded = downloaded ?? false
                 self.titleLabel.text = portalItem.title
@@ -128,6 +128,6 @@ class PortalItemCell: UITableViewCell {
         
         self.isDownloading = true
         
-        try? AppContext.shared.portalDeviceSync.download(item: portalItem)
+        try? appContext.portalDeviceSync.download(item: portalItem)
     }
 }

@@ -57,21 +57,30 @@ extension FileManager {
         return url
     }
     
+    func downloadedURL(for item: AGSPortalItem) throws -> URL {
+        let mmpkName = try PortalAwareMobileMapPackage.mmpkDirectoryName(for: item)
+        return try FileManager.default.touchDownloadedDirectory().appendingPathComponent(mmpkName)
+    }
+    
+    func temporaryURL(for item: AGSPortalItem) throws -> URL {
+        let mmpkName = try PortalAwareMobileMapPackage.mmpkDirectoryName(for: item)
+        return try FileManager.default.touchTemporaryDirectory().appendingPathComponent(mmpkName)
+    }
+    
     func hasDownloaded(item: AGSPortalItem) throws -> Bool {
         let mmpkName = try PortalAwareMobileMapPackage.mmpkDirectoryName(for: item)
         let url = URL.downloaded.appendingPathComponent(mmpkName)
         return FileManager.default.fileExists(atPath: url.path)
-        
     }
 }
 
-protocol PackageSyncManagerDelegate: class {
+protocol PackageManagerDelegate: class {
     
-    func packageSyncManager(_ manager: PackageSyncManager, failed error: Error, item: AGSPortalItem)
-    func packageSyncManager(_ manager: PackageSyncManager, downloaded item: AGSPortalItem, to path: URL)
+    func packageManager(_ manager: PackageManager, failed error: Error, item: AGSPortalItem)
+    func packageManager(_ manager: PackageManager, downloaded item: AGSPortalItem, to path: URL)
 }
 
-class PackageSyncManager {
+class PackageManager {
     
     weak var portal: AGSPortal?
     
@@ -94,22 +103,14 @@ class PackageSyncManager {
         let temporaryURL: URL
         let downloadedURL: URL
         let operation: AGSRequestOperation
-        
-        let mmpkName = try PortalAwareMobileMapPackage.mmpkDirectoryName(for: item)
-        
+                
         do {
-            temporaryURL = try FileManager.default
-                                        .touchTemporaryDirectory()
-                                        .appendingPathComponent(mmpkName)
-            
-            downloadedURL = try FileManager.default
-                                        .touchDownloadedDirectory()
-                                        .appendingPathComponent(mmpkName)
-            
+            temporaryURL = try FileManager.default.temporaryURL(for: item)
+            downloadedURL = try FileManager.default.downloadedURL(for: item)
             operation = try AGSRequestOperation(portal: portal, item: item)
         }
         catch {
-            delegate?.packageSyncManager(self, failed: MissingDirectory(), item: item)
+            delegate?.packageManager(self, failed: MissingDirectory(), item: item)
             return
         }
         
@@ -120,7 +121,7 @@ class PackageSyncManager {
             
             guard error == nil else {
                 try? FileManager.default.removeItem(at: temporaryURL)
-                self.delegate?.packageSyncManager(self, failed: error!, item: item)
+                self.delegate?.packageManager(self, failed: error!, item: item)
                 return
             }
             
@@ -128,11 +129,11 @@ class PackageSyncManager {
                 try FileManager.default.moveItem(at: temporaryURL, to: downloadedURL)
             }
             catch {
-                self.delegate?.packageSyncManager(self, failed: error, item: item)
+                self.delegate?.packageManager(self, failed: error, item: item)
                 return
             }
             
-            self.delegate?.packageSyncManager(self, downloaded: item, to: downloadedURL)
+            self.delegate?.packageManager(self, downloaded: item, to: downloadedURL)
         }
         
         downloadQueue.addOperation(operation)
@@ -214,9 +215,13 @@ class PackageSyncManager {
         }
     }
     
+    func removeDownloaded(package: PortalAwareMobileMapPackage) throws {
+        try FileManager.default.removeItem(at: package.fileURL)
+    }
+    
     // MARK:- Delegate
     
-    weak var delegate: PackageSyncManagerDelegate?
+    weak var delegate: PackageManagerDelegate?
         
     // MARK: Errors
     
