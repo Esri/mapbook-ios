@@ -31,55 +31,6 @@ import ArcGIS
 extension AppContext {
     
     /*
-     The method gets the URL for all the packages on the device. It looks in the documents 
-     directory root folder for .Device mode. And download folder inside documents directory
-     for .Portal mode. Returns an empty array for .NotSet. The method should never be called
-     in .NotSet mode, per current design.
-    */
-    private func fetchLocalPackageURLs() -> [URL] {
-        
-        var localPackageURLs:[URL] = []
-        
-        let url:URL
-        
-        //determine directory to look for, based on app mode
-        if self.appMode == .device {
-            url = URL.root
-        }
-        else {
-            url = URL.downloaded
-        }
-        
-        //get contents of the directory
-        if let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
-            
-            //filter for packages (.mmpk)
-            localPackageURLs = urls.filter({ return $0.pathExtension == "mmpk" })
-        }
-        
-        return localPackageURLs
-    }
-    
-    /*
-     The method takes the package URLs from 'fetchLocalPackageURLs() -> [URL]', instantiates
-     an AGSMobileMapPackage object for each URL and returns the list of these objects. This
-     is a public method to be called by consuming classes.
-    */
-    func fetchLocalPackages() {
-        
-        //fetch local package URLs
-        let localPackageURLs = self.fetchLocalPackageURLs()
-        
-        self.localPackages = []
-        
-        //create AGSMobileMapPackage for each url
-        for url in localPackageURLs {
-            let package = PortalAwareMobileMapPackage(fileURL: url)
-            self.localPackages.append(package)
-        }
-    }
-    
-    /*
      Delete local package at an index. This will delete the package file from the device
     */
     func deleteLocalPackage(at index:Int) {

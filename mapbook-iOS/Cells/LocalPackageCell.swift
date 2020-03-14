@@ -76,7 +76,7 @@ class LocalPackageCell: UITableViewCell {
                 self.updateStackView.isHidden = (AppContext.shared.appMode == .device)
                 
                 if let itemID = mobileMapPackage.itemID  {
-                    self.isUpdating = AppContext.shared.portalDeviceSync?.isCurrentlyDownloading(item: itemID) ?? false
+                    self.isUpdating = AppContext.shared.portalDeviceSync.isCurrentlyDownloading(item: itemID)
                 }
                 else {
                     self.isUpdating = false 
@@ -119,13 +119,8 @@ class LocalPackageCell: UITableViewCell {
             return
         }
         
-        guard let sync = AppContext.shared.portalDeviceSync else {
-            self.isUpdating = false
-            return
-        }
-        
         do {
-            try sync.update(package: package)
+            try AppContext.shared.portalDeviceSync.update(package: package)
             self.isUpdating = true
         }
         catch {

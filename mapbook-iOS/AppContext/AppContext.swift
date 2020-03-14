@@ -58,7 +58,7 @@ class AppContext {
     
     var portalSession = PortalSessionManager()
     
-    var portalDeviceSync: PackageSyncManager?
+    var portalDeviceSync = PackageSyncManager()
     
     init() {
         portalSession.delegate = self
@@ -75,10 +75,9 @@ extension AppContext: PortalSessionManagerDelegate {
         
         switch status {
         case .loaded(let portal):
-            portalDeviceSync = PackageSyncManager(portal: portal)
-            portalDeviceSync?.delegate = self
+            portalDeviceSync.portal = portal
         default:
-            portalDeviceSync = nil
+            break
         }
         
         NotificationCenter.default.post(name: .portalSessionStatusDidChange, object: self)

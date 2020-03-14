@@ -73,11 +73,7 @@ protocol PackageSyncManagerDelegate: class {
 
 class PackageSyncManager {
     
-    private weak var portal: AGSPortal?
-    
-    init(portal: AGSPortal) {
-        self.portal = portal
-    }
+    weak var portal: AGSPortal?
     
     // MARK:- Download
     
@@ -194,11 +190,28 @@ class PackageSyncManager {
     
     // MARK:- Local
 
-    func fetchLocalPackages() throws -> [PortalAwareMobileMapPackage] {
+    func fetchDownloadedPackages(_ completion: @escaping (Result<[PortalAwareMobileMapPackage], Error>) -> Void) throws {
         
+        let packages = try FileManager.default.contentsOfDirectory(at: URL.downloaded,
+                                                                   includingPropertiesForKeys: nil,
+                                                                   options: .skipsSubdirectoryDescendants)
+            .filter { $0.pathExtension == PortalAwareMobileMapPackage.mmpk }
+            .map { PortalAwareMobileMapPackage(fileURL: $0) }
         
-        #warning("Delete")
-        return [PortalAwareMobileMapPackage]()
+        guard packages.count > 0 else {
+            completion(.success([PortalAwareMobileMapPackage]()))
+            return
+        }
+        
+        AGSLoadObjects(packages) { (completed) in
+            
+            guard completed else {
+                completion(.failure(CouldntLoadPackage()))
+                return
+            }
+            
+            completion(.success(packages))
+        }
     }
     
     // MARK:- Delegate
@@ -217,6 +230,10 @@ class PackageSyncManager {
     
     struct MissingPortalCounterpart: LocalizedError {
         let localizedDescription: String = "Local package missing portal counterpart."
+    }
+    
+    struct CouldntLoadPackage: LocalizedError {
+        let localizedDescription: String = "Couldn't load download package."
     }
     
     struct UnknownError: LocalizedError {
@@ -273,8 +290,10 @@ class PortalAwareMobileMapPackage: AGSMobileMapPackage {
         guard item.type == .mobileMapPackage else {
             throw InvalidType()
         }
-        return "\(item.itemID).mmpk"
+        return "\(item.itemID).\(mmpk)"
     }
+    
+    static var mmpk = "mmpk"
     
     // MARK:- Errors
     

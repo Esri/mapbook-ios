@@ -33,6 +33,12 @@ class LocalPackagesListViewController: UIViewController {
     @IBOutlet private var noPackagesLabel:UILabel!
     @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
     
+    private var downloadedPackages = [PortalAwareMobileMapPackage]()
+    
+    private var shouldShowBackgroundLabel: Bool {
+        downloadedPackages.count == 0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,11 +85,34 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func fetchLocalPackages() {
         
-        AppContext.shared.fetchLocalPackages()
+        func show(error: Error) {
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+        }
         
-        self.tableView.reloadData()
-        
-        self.showBackgroundLabelIfNeeded()
+        do {
+            try AppContext.shared.portalDeviceSync.fetchDownloadedPackages { [weak self] (result) in
+                
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let packages):
+                    self.downloadedPackages = packages
+                case .failure(let error):
+                    show(error: error)
+                }
+                
+                self.tableView.reloadData()
+                self.showBackgroundLabelIfNeeded()
+            }
+        }
+        catch {
+            
+            show(error: error)
+            downloadedPackages.removeAll()
+            
+            self.tableView.reloadData()
+            self.showBackgroundLabelIfNeeded()
+        }
     }
     
     /*
@@ -91,7 +120,7 @@ class LocalPackagesListViewController: UIViewController {
     */
     fileprivate func showBackgroundLabelIfNeeded() {
         
-        if AppContext.shared.localPackages.count > 0 {
+        if !shouldShowBackgroundLabel {
             //remove background label
             self.noPackagesLabel.isHidden = true
             self.tableView.separatorStyle = .singleLine
@@ -119,8 +148,8 @@ class LocalPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        if AppContext.shared.appMode == .portal, let sync = AppContext.shared.portalDeviceSync {
-            try? sync.checkForUpdates(packages: AppContext.shared.localPackages) {
+        if AppContext.shared.appMode == .portal {
+            try? AppContext.shared.portalDeviceSync.checkForUpdates(packages: AppContext.shared.localPackages) {
                 self.tableView.reloadData()
                 self.showBackgroundLabelIfNeeded()
             }
@@ -202,7 +231,7 @@ class LocalPackagesListViewController: UIViewController {
         if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController,
             let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
             
-            let package = AppContext.shared.localPackages[selectedIndexPath.row]
+            let package = downloadedPackages[selectedIndexPath.row]
             controller.mobileMapPackage = package
         }
         else if segue.identifier == "PortalURLSegue",
@@ -308,7 +337,7 @@ class LocalPackagesListViewController: UIViewController {
 extension LocalPackagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppContext.shared.localPackages.count
+        return downloadedPackages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -319,7 +348,7 @@ extension LocalPackagesListViewController: UITableViewDataSource {
         }
         
         //local package for cell
-        cell.mobileMapPackage = AppContext.shared.localPackages[indexPath.row]
+        cell.mobileMapPackage = downloadedPackages[indexPath.row]
         
         return cell
     }
