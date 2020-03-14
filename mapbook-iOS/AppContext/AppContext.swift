@@ -58,7 +58,7 @@ class AppContext {
     
     var portalSession = PortalSessionManager()
     
-    var portalDeviceSync: PortalDeviceSyncManager?
+    var portalDeviceSync: PackageSyncManager?
     
     init() {
         portalSession.delegate = self
@@ -75,7 +75,7 @@ extension AppContext: PortalSessionManagerDelegate {
         
         switch status {
         case .loaded(let portal):
-            portalDeviceSync = PortalDeviceSyncManager(portal: portal)
+            portalDeviceSync = PackageSyncManager(portal: portal)
             portalDeviceSync?.delegate = self
         default:
             portalDeviceSync = nil
@@ -85,13 +85,13 @@ extension AppContext: PortalSessionManagerDelegate {
     }
 }
 
-extension AppContext: PortalDeviceSyncManagerDelegate {
+extension AppContext: PackageSyncManagerDelegate {
     
-    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, failed error: Error, item: AGSPortalItem) {
+    func packageSyncManager(_ manager: PackageSyncManager, failed error: Error, item: AGSPortalItem) {
         NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["error": error, "itemID": item.itemID])
     }
     
-    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, downloaded item: AGSPortalItem, to path: URL) {
+    func packageSyncManager(_ manager: PackageSyncManager, downloaded item: AGSPortalItem, to path: URL) {
         NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["itemID": item.itemID])
     }
 }

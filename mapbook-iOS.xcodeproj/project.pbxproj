@@ -34,7 +34,7 @@
 		3EEBD3241F42261300DB4AAA /* AppMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBD3231F42261300DB4AAA /* AppMode.swift */; };
 		943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */; };
 		943C611F241B04F700FEF4F7 /* PortalFindPackagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */; };
-		943C6121241BD90300FEF4F7 /* PortalDeviceSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */; };
+		943C6121241BD90300FEF4F7 /* PackageSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PackageSyncManager.swift */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
@@ -93,7 +93,7 @@
 		3EEBD3231F42261300DB4AAA /* AppMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMode.swift; path = Enums/AppMode.swift; sourceTree = "<group>"; };
 		943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSMobileMapPackage+Helper.swift"; sourceTree = "<group>"; };
 		943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalFindPackagesManager.swift; sourceTree = "<group>"; };
-		943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalDeviceSyncManager.swift; sourceTree = "<group>"; };
+		943C6120241BD90300FEF4F7 /* PackageSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageSyncManager.swift; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 				3EEBD31C1F42183700DB4AAA /* AppContext+Local.swift */,
 				94A9196924198BCE0086E808 /* PortalSessionManager.swift */,
 				943C611E241B04F700FEF4F7 /* PortalFindPackagesManager.swift */,
-				943C6120241BD90300FEF4F7 /* PortalDeviceSyncManager.swift */,
+				943C6120241BD90300FEF4F7 /* PackageSyncManager.swift */,
 			);
 			path = AppContext;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 				3EEBD31D1F42183700DB4AAA /* AppContext+Local.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
-				943C6121241BD90300FEF4F7 /* PortalDeviceSyncManager.swift in Sources */,
+				943C6121241BD90300FEF4F7 /* PackageSyncManager.swift in Sources */,
 				3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */,
 				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalFindPackagesManager.swift in Sources */,

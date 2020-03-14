@@ -65,13 +65,13 @@ extension FileManager {
     }
 }
 
-protocol PortalDeviceSyncManagerDelegate: class {
+protocol PackageSyncManagerDelegate: class {
     
-    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, failed error: Error, item: AGSPortalItem)
-    func portalDeviceSyncManager(_ manager: PortalDeviceSyncManager, downloaded item: AGSPortalItem, to path: URL)
+    func packageSyncManager(_ manager: PackageSyncManager, failed error: Error, item: AGSPortalItem)
+    func packageSyncManager(_ manager: PackageSyncManager, downloaded item: AGSPortalItem, to path: URL)
 }
 
-class PortalDeviceSyncManager {
+class PackageSyncManager {
     
     private weak var portal: AGSPortal?
     
@@ -88,6 +88,8 @@ class PortalDeviceSyncManager {
     func download(item: AGSPortalItem) throws {
         
         guard let portal = portal else { throw UnknownError() }
+        
+        guard item.type == .mobileMapPackage else { throw PortalAwareMobileMapPackage.InvalidType() }
         
         guard !isCurrentlyDownloading(item: item.itemID) else {
             throw ItemAlreadyDownloading()
@@ -111,7 +113,7 @@ class PortalDeviceSyncManager {
             operation = try AGSRequestOperation(portal: portal, item: item)
         }
         catch {
-            delegate?.portalDeviceSyncManager(self, failed: MissingDirectory(), item: item)
+            delegate?.packageSyncManager(self, failed: MissingDirectory(), item: item)
             return
         }
         
@@ -122,7 +124,7 @@ class PortalDeviceSyncManager {
             
             guard error == nil else {
                 try? FileManager.default.removeItem(at: temporaryURL)
-                self.delegate?.portalDeviceSyncManager(self, failed: error!, item: item)
+                self.delegate?.packageSyncManager(self, failed: error!, item: item)
                 return
             }
             
@@ -130,11 +132,11 @@ class PortalDeviceSyncManager {
                 try FileManager.default.moveItem(at: temporaryURL, to: downloadedURL)
             }
             catch {
-                self.delegate?.portalDeviceSyncManager(self, failed: error, item: item)
+                self.delegate?.packageSyncManager(self, failed: error, item: item)
                 return
             }
             
-            self.delegate?.portalDeviceSyncManager(self, downloaded: item, to: downloadedURL)
+            self.delegate?.packageSyncManager(self, downloaded: item, to: downloadedURL)
         }
         
         downloadQueue.addOperation(operation)
@@ -190,10 +192,19 @@ class PortalDeviceSyncManager {
     
     private var downloadQueue = AGSOperationQueue()
     
+    // MARK:- Local
+
+    func fetchLocalPackages() throws -> [PortalAwareMobileMapPackage] {
+        
+        
+        #warning("Delete")
+        return [PortalAwareMobileMapPackage]()
+    }
+    
     // MARK:- Delegate
     
-    weak var delegate: PortalDeviceSyncManagerDelegate?
-    
+    weak var delegate: PackageSyncManagerDelegate?
+        
     // MARK: Errors
     
     struct ItemAlreadyDownloading: LocalizedError {
