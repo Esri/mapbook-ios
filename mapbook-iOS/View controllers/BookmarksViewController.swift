@@ -26,26 +26,26 @@ import UIKit
 import ArcGIS
 
 @objc protocol BookmarksViewControllerDelegate:class {
-    
     @objc optional func bookmarksViewController(_ bookmarksViewController:BookmarksViewController, didSelectBookmark bookmark:AGSBookmark)
 }
 
-class BookmarksViewController: UIViewController {
-
-    @IBOutlet private var tableView:UITableView!
+class BookmarksViewController: UITableViewController {
     
-    weak var map:AGSMap?
-    weak var delegate:BookmarksViewControllerDelegate?
-
+    weak var map: AGSMap?
+    weak var delegate: BookmarksViewControllerDelegate?
+    
+    @IBAction func userRequestedDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
-extension BookmarksViewController: UITableViewDataSource {
+extension BookmarksViewController /* UITableViewDataSource */ {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.map?.bookmarks.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkCell"),
             let bookmark = self.map?.bookmarks[indexPath.row] as? AGSBookmark else {
@@ -59,9 +59,9 @@ extension BookmarksViewController: UITableViewDataSource {
     }
 }
 
-extension BookmarksViewController: UITableViewDelegate {
+extension BookmarksViewController /* UITableViewDelegate */ {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let bookmark = self.map?.bookmarks[indexPath.row] as? AGSBookmark else {
             return

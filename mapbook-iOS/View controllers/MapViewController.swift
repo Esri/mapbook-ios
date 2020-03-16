@@ -28,9 +28,7 @@ import ArcGIS
 class MapViewController: UIViewController {
 
     @IBOutlet fileprivate var mapView:AGSMapView!
-    @IBOutlet fileprivate var overlayTrailingConstraint:NSLayoutConstraint!
-    @IBOutlet fileprivate var overlayView:UIVisualEffectView!
-    @IBOutlet private var toggleBarButtonItem:UIBarButtonItem!
+    @IBOutlet private var ellipsisButton:UIBarButtonItem!
     
     weak var map:AGSMap?
     weak var locatorTask:AGSLocatorTask?
@@ -51,18 +49,7 @@ class MapViewController: UIViewController {
         self.mapView.graphicsOverlays.add(self.searchGraphicsOverlay)
         
         //set title of the map as the title for the view controller
-        self.title = self.map?.item?.title
-        
-        //constraint bottom anchor of the overlay view to the top anchor
-        //of the attribution label, so it resizes when the label grows
-        self.overlayView.bottomAnchor.constraint(equalTo: self.mapView.attributionTopAnchor, constant: -50).isActive = true
-        
-        //stylize overlay view
-        self.overlayView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
-        self.overlayView.layer.borderWidth = 2
-        
-        //hide side panel by default
-        self.toggleOverlay(on: false, animated: false)
+        self.title = self.map?.item?.title        
     }
     
     /*
@@ -95,43 +82,37 @@ class MapViewController: UIViewController {
     
     //MARK: - Show/hide overlay
     
-    /*
-     Show or hide overlay view.
-    */
-    func toggleOverlay(on: Bool, animated: Bool) {
+    @IBAction func ellipsisButtonAction(_ sender: UIBarButtonItem) {
         
-        if self.isOverlayVisible == on {
-            return
+        let action = UIAlertController(title: nil, message: "Explore the map.", preferredStyle: .actionSheet)
+        
+        let legend = UIAlertAction(title: "Legend", style: .default) { (_) in
+            self.performSegue(withIdentifier: "showLegend", sender: nil)
         }
+        legend.trySetting(image: UIImage(systemName: "list.bullet"))
         
-        //update bar button item image based on state
-        self.toggleBarButtonItem?.image = !isOverlayVisible ? #imageLiteral(resourceName: "BurgerMenuSelected") : #imageLiteral(resourceName: "BurgerMenu")
-        
-        //use the width to compute the offset
-        let width = self.overlayView.frame.width
-        self.overlayTrailingConstraint.constant = on ? 10 : -(width + 10)
-        
-        if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .allowUserInteraction, animations: { [weak self] in
-                
-                self?.view.layoutIfNeeded()
-                
-            }, completion: { [weak self] (finished) in
-                
-                self?.isOverlayVisible = on
-            })
+        let search = UIAlertAction(title: "Search", style: .default) { (_) in
+            self.performSegue(withIdentifier: "showSearch", sender: nil)
         }
-        else {
-            self.view.layoutIfNeeded()
-            self.isOverlayVisible = on
-        }
-    }
-    
-    //MARK: - Actions
-    
-    @IBAction private func overlayAction(_ sender: UIBarButtonItem) {
+        search.trySetting(image: UIImage(systemName: "magnifyingglass"))
         
-        self.toggleOverlay(on: !isOverlayVisible, animated: true)
+        let bookmarks = UIAlertAction(title: "Bookmarks", style: .default) { (_) in
+            self.performSegue(withIdentifier: "showBookmarks", sender: nil)
+        }
+        bookmarks.trySetting(image: UIImage(systemName: "book"))
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        action.addAction(legend)
+        action.addAction(search)
+        action.addAction(bookmarks)
+        action.addAction(cancel)
+        
+        action.modalPresentationStyle = .popover
+        action.popoverPresentationController?.permittedArrowDirections = [.up]
+        action.popoverPresentationController?.barButtonItem = ellipsisButton
+        
+        present(action, animated: true, completion: nil)
     }
 
     //MARK: - Navigation
@@ -139,20 +120,22 @@ class MapViewController: UIViewController {
     //provide needed data (map or locatorTask) to the child view 
     //controllers in the tab bar controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "showLegend",
+            let legend = (segue.destination as? UINavigationController)?.topViewController as? LegendViewController {
+            legend.map = map
+        }
         
-        if segue.identifier == "TabBarEmbedSegue", let controller = segue.destination as? UITabBarController {
-            
-            if let legendViewController = controller.viewControllers?[0] as? LegendViewController {
-                legendViewController.map = self.map
-            }
-            if let searchViewController = controller.viewControllers?[1] as? SearchViewController {
-                searchViewController.locatorTask = self.locatorTask
-                searchViewController.delegate = self
-            }
-            if let bookmarksViewController = controller.viewControllers?[2] as? BookmarksViewController {
-                bookmarksViewController.map = map
-                bookmarksViewController.delegate = self
-            }
+        else if segue.identifier == "showSearch",
+            let search = (segue.destination as? UINavigationController)?.topViewController as? SearchViewController {
+            search.locatorTask = locatorTask
+            search.delegate = self
+        }
+        
+        else if segue.identifier == "showBookmarks",
+            let bookmarks = (segue.destination as? UINavigationController)?.topViewController as? BookmarksViewController {
+            bookmarks.map = map
+            bookmarks.delegate = self
         }
     }
 }
@@ -219,7 +202,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     }
 }
 
-extension MapViewController:BookmarksViewControllerDelegate {
+extension MapViewController: BookmarksViewControllerDelegate {
     
     /*
      Update map view's viewpoint based on the selected bookmark
@@ -231,10 +214,14 @@ extension MapViewController:BookmarksViewControllerDelegate {
         }
         
         self.mapView.setViewpoint(viewpoint, completion: nil)
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            bookmarksViewController.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
-extension MapViewController:SearchViewControllerDelegate {
+extension MapViewController: SearchViewControllerDelegate {
     
     /*
      Add geocode results as graphics on the graphics overlay.
@@ -244,18 +231,26 @@ extension MapViewController:SearchViewControllerDelegate {
         //clear existing graphics
         self.searchGraphicsOverlay.graphics.removeAllObjects()
         
-        if geocodeResults.count > 0 {
-            let geocodeResult = geocodeResults[0]
-            let graphic = AGSGraphic(geometry: geocodeResult.displayLocation, symbol: self.geocodeResultSymbol(), attributes: geocodeResult.attributes)
-            self.searchGraphicsOverlay.graphics.add(graphic)
-            
-            //zoom to the extent
-            if let extent = geocodeResult.extent {
-                self.mapView.setViewpointGeometry(extent, completion: nil)
-            }
-        }
-        else {
+        guard geocodeResults.count > 0 else {
             SVProgressHUD.showError(withStatus: "No results found", maskType: .gradient)
+            return
+        }
+        
+        let geocodeResult = geocodeResults[0]
+        
+        let graphic = AGSGraphic(geometry: geocodeResult.displayLocation,
+                                 symbol: self.geocodeResultSymbol(),
+                                 attributes: geocodeResult.attributes)
+        
+        self.searchGraphicsOverlay.graphics.add(graphic)
+        
+        //zoom to the extent
+        if let extent = geocodeResult.extent {
+            self.mapView.setViewpointGeometry(extent, completion: nil)
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            searchViewController.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -287,5 +282,26 @@ extension MapViewController:UIPopoverPresentationControllerDelegate {
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         
         self.clearSelection()
+    }
+}
+
+extension UIAlertAction {
+    
+    @discardableResult
+    func trySetting(image: UIImage?) -> Bool {
+        
+        guard var image = image else { return false }
+
+        let pointer = AutoreleasingUnsafeMutablePointer<AnyObject?>(&image)
+        
+        do {
+            try validateValue(pointer, forKey: "image")
+            setValue(image, forKey: "image")
+        }
+        catch {
+            return false
+        }
+        
+        return true
     }
 }

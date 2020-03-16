@@ -129,6 +129,10 @@ class SearchViewController: UIViewController {
             self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults ?? [])
         }
     }
+    
+    @IBAction func userRequestedDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SearchViewController:UITableViewDataSource {

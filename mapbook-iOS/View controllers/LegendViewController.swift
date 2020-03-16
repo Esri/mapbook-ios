@@ -77,6 +77,10 @@ class LegendViewController: UIViewController {
             self.footerView.isHidden = false
         }
     }
+    
+    @IBAction func userRequestedDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension LegendViewController: UITableViewDataSource {
