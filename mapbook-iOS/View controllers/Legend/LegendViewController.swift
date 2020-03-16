@@ -25,10 +25,9 @@
 import UIKit
 import ArcGIS
 
-class LegendViewController: UIViewController {
+class LegendViewController: UITableViewController {
 
-    @IBOutlet private var tableView:UITableView!
-    @IBOutlet private var footerView:UIView!
+    @IBOutlet private var footerView: UIView!
     
     weak var map:AGSMap?
     
@@ -83,13 +82,13 @@ class LegendViewController: UIViewController {
     }
 }
 
-extension LegendViewController: UITableViewDataSource {
+extension LegendViewController /* UITableViewDataSource */ {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.content.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let anyObject = self.content[indexPath.row]
         if let operationalLayer = anyObject as? AGSLayer,
@@ -111,9 +110,9 @@ extension LegendViewController: UITableViewDataSource {
     }
 }
 
-extension LegendViewController: UITableViewDelegate {
+extension LegendViewController /* UITableViewDelegate */ {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         let anyObject = self.content[indexPath.row]
         
