@@ -148,7 +148,10 @@ extension MapViewController:AGSGeoViewTouchDelegate {
         self.searchGraphicsOverlay.graphics.removeAllObjects()
         
         //identify
-        self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
+        self.mapView.identifyLayers(atScreenPoint: screenPoint,
+                                    tolerance: 12,
+                                    returnPopupsOnly: false,
+                                    maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
             
             guard error == nil else {
                 SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
@@ -179,26 +182,16 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     */
     private func showPopupsVC(for popups:[AGSPopup], at screenPoint:CGPoint) {
         
-        if popups.count > 0 {
-            
-            let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: AGSPopupsViewControllerContainerStyle.navigationController)
-            popupsVC.delegate = self
-            popupsVC.modalPresentationStyle = .popover
-            popupsVC.popoverPresentationController?.permittedArrowDirections = [.up, .down]
-            popupsVC.popoverPresentationController?.sourceView = self.mapView
-            popupsVC.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
-            self.present(popupsVC, animated: true, completion: nil)
-            popupsVC.popoverPresentationController?.delegate = self
-        }
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        guard !popups.isEmpty else { return }
         
-        //hide popover on rotation if visible
-        if let _ = self.presentedViewController {
-            self.clearSelection()
-            self.dismiss(animated: true, completion: nil)
-        }
+        let popups = AGSPopupsViewController(popups: popups, containerStyle: .navigationBar)
+        popups.delegate = self
+        popups.modalPresentationStyle = .popover
+        popups.popoverPresentationController?.permittedArrowDirections = [.up, .down]
+        popups.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
+        popups.popoverPresentationController?.delegate = self
+        
+        self.present(popups, animated: true, completion: nil)
     }
 }
 
@@ -209,9 +202,7 @@ extension MapViewController: BookmarksViewControllerDelegate {
     */
     func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelectBookmark bookmark: AGSBookmark) {
         
-        guard let viewpoint = bookmark.viewpoint else {
-            return
-        }
+        guard let viewpoint = bookmark.viewpoint else { return }
         
         self.mapView.setViewpoint(viewpoint, completion: nil)
         
@@ -255,7 +246,7 @@ extension MapViewController: SearchViewControllerDelegate {
     }
 }
 
-extension MapViewController:AGSPopupsViewControllerDelegate {
+extension MapViewController: AGSPopupsViewControllerDelegate {
     
     /*
      Update selection on map view to currently viewing popup.
@@ -263,14 +254,18 @@ extension MapViewController:AGSPopupsViewControllerDelegate {
     func popupsViewController(_ popupsViewController: AGSPopupsViewController, didChangeToCurrentPopup popup: AGSPopup) {
         
         //clear previous selection
-        self.clearSelection()
+        clearSelection()
         
         //select feature on the layer
-        guard let feature = popup.geoElement as? AGSFeature else {
-            return
-        }
+        guard let feature = popup.geoElement as? AGSFeature else { return }
         
         (feature.featureTable?.layer as? AGSFeatureLayer)?.select(feature)
+    }
+    
+    func popupsViewControllerDidFinishViewingPopups(_ popupsViewController: AGSPopupsViewController) {
+        popupsViewController.dismiss(animated: true) {
+            self.clearSelection()
+        }
     }
 }
 
@@ -280,8 +275,7 @@ extension MapViewController:UIPopoverPresentationControllerDelegate {
      Modal presentation as popover even for iPhone
     */
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-        
-        self.clearSelection()
+        clearSelection()
     }
 }
 
