@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpx-um-QS6">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Map-->
+        <scene sceneID="YIQ-n0-Qbp">
+            <objects>
+                <viewController id="Rpx-um-QS6" customClass="MapViewController" customModule="mapbook_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6pN-ey-nUg"/>
+                        <viewControllerLayoutGuide type="bottom" id="xJA-YB-llN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D0i-vK-GWa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAm-zR-Xmc" customClass="AGSMapView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QAm-zR-Xmc" firstAttribute="top" secondItem="6pN-ey-nUg" secondAttribute="bottom" id="41h-s9-LtB"/>
+                            <constraint firstAttribute="bottom" secondItem="QAm-zR-Xmc" secondAttribute="bottom" id="Qs2-ux-VQQ"/>
+                            <constraint firstItem="QAm-zR-Xmc" firstAttribute="leading" secondItem="D0i-vK-GWa" secondAttribute="leading" id="oGm-j7-IRK"/>
+                            <constraint firstAttribute="trailing" secondItem="QAm-zR-Xmc" secondAttribute="trailing" id="uMp-es-qA5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VfV-9S-jJI"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Map" largeTitleDisplayMode="never" id="AWR-2R-fqu">
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="wh5-be-yHr">
+                            <connections>
+                                <action selector="ellipsisButtonAction:" destination="Rpx-um-QS6" id="GoV-v7-joz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="ellipsisButton" destination="wh5-be-yHr" id="uvj-Vj-whu"/>
+                        <outlet property="mapView" destination="QAm-zR-Xmc" id="vV0-p4-HEl"/>
+                        <segue destination="TKv-FS-9Aa" kind="popoverPresentation" identifier="showBookmarks" popoverAnchorBarButtonItem="wh5-be-yHr" id="woH-zY-8DS">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                        </segue>
+                        <segue destination="56h-pu-T4d" kind="popoverPresentation" identifier="showLegend" popoverAnchorBarButtonItem="wh5-be-yHr" id="VXf-Lc-2U6">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                        </segue>
+                        <segue destination="2Oh-Fn-olw" kind="popoverPresentation" identifier="showSearch" popoverAnchorBarButtonItem="wh5-be-yHr" id="Fcw-Gx-Rn3">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FnO-f6-Gk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1167" y="40"/>
+        </scene>
+        <!--Legend-->
+        <scene sceneID="6EC-oW-nPJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Legend" id="56h-pu-T4d" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0tf-Eb-Ojl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1825" y="-5"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="UCW-o3-jKz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Search" id="2Oh-Fn-olw" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pOR-kM-dPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1824" y="40"/>
+        </scene>
+        <!--Bookmarks-->
+        <scene sceneID="qIa-E3-fDi">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Bookmarks" id="TKv-FS-9Aa" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0t0-a0-o5B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1833" y="84"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ellipsis" catalog="system" width="64" height="18"/>
+    </resources>
+</document>
