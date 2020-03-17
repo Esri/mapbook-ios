@@ -22,7 +22,6 @@
 		3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */; };
 		3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */; };
 		3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */; };
-		3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */; };
 		3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84611F1EC0CD002DBCF2 /* MapCell.swift */; };
 		3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */; };
 		3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */; };
@@ -87,7 +86,6 @@
 		3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3EDC84531F1E8B94002DBCF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EDC84551F1E8B94002DBCF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageViewController.swift; sourceTree = "<group>"; };
 		3EDC84611F1EC0CD002DBCF2 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendViewController.swift; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 		94C7293C2420172A00F37D96 /* Map Package */ = {
 			isa = PBXGroup;
 			children = (
-				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
 				94C7293D2420175200F37D96 /* MapPackage.storyboard */,
 				94A53EC82420366B006B0A27 /* MapPackageViewController.swift */,
 			);
@@ -429,7 +426,6 @@
 				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
 				94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */,
-				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,

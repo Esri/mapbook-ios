@@ -409,18 +409,11 @@
                                 <action selector="viewPortalAccessViewController" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
-                                <connections>
-                                    <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Fake" id="iWn-gr-8vA">
-                                <connections>
-                                    <segue destination="Gj9-aN-NuU" kind="show" identifier="showMapPackage" id="Qst-Py-VOK"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
+                            <connections>
+                                <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="accessPortalButton" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>
@@ -430,6 +423,7 @@
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
                         <segue destination="uCp-tR-RV9" kind="presentation" identifier="PortalURLSegue" modalPresentationStyle="formSheet" id="tD0-TS-2GU"/>
                         <segue destination="Vjl-eG-4P2" kind="presentation" identifier="PortalItemsSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
+                        <segue destination="Gj9-aN-NuU" kind="show" identifier="showMapPackage" id="qqC-9I-4fN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4j-Y2-2uf" userLabel="First Responder" sceneMemberID="firstResponder"/>
