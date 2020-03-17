@@ -28,7 +28,7 @@ import ArcGIS
 class LocalPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
-    @IBOutlet private var addBBI:UIBarButtonItem!
+    @IBOutlet private var accessPortalButton:UIBarButtonItem!
     @IBOutlet private var settingsBBI:UIBarButtonItem!
     @IBOutlet private var noPackagesLabel:UILabel!
     @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
@@ -157,15 +157,15 @@ class LocalPackagesListViewController: UIViewController {
     }
     
     private func updateNavigationItems() {
-        //navigation item bar button items should reflect app mode and portal
-        navigationItem.rightBarButtonItems = appContext.appMode == .portal ? [addBBI] : []
-        navigationItem.leftBarButtonItems = appContext.appMode == .portal ? [settingsBBI] : []
-        
+//        //navigation item bar button items should reflect app mode and portal
+//        navigationItem.rightBarButtonItems = appContext.appMode == .portal ? [addBBI] : []
+//        navigationItem.leftBarButtonItems = appContext.appMode == .portal ? [settingsBBI] : []
+//
         if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
-            addBBI.isEnabled = true
+            accessPortalButton.isEnabled = true
         }
         else {
-            addBBI.isEnabled = false
+            accessPortalButton.isEnabled = false
         }
     }
     
@@ -228,11 +228,11 @@ class LocalPackagesListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController,
+        if segue.identifier == "showMapPackage",
+            let controller = segue.destination as? MapPackageViewController,
             let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
-            
             let package = downloadedPackages[selectedIndexPath.row]
-            controller.mobileMapPackage = package
+            controller.mapPackage = package
         }
         else if segue.identifier == "PortalURLSegue",
             let controller = segue.destination as? PortalAccessViewController {
@@ -395,7 +395,7 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "PackageVCSegue", sender: self)
+        self.performSegue(withIdentifier: "showMapPackage", sender: self)
     }
 }
 

@@ -37,15 +37,18 @@
 		943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C612524200FE100FEF4F7 /* Bookmarks.storyboard */; };
 		943C61292420111600FEF4F7 /* Legend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C61282420111600FEF4F7 /* Legend.storyboard */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
+		946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987B9242142F700100FA2 /* UITextView+Padding.swift */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
+		94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A53EC82420366B006B0A27 /* MapPackageViewController.swift */; };
 		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
 		94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; };
 		94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		94C72937242012C500F37D96 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C72936242012C500F37D96 /* Search.storyboard */; };
 		94C7293A2420139800F37D96 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C729392420139800F37D96 /* Map.storyboard */; };
+		94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C7293D2420175200F37D96 /* MapPackage.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -99,14 +102,17 @@
 		943C612524200FE100FEF4F7 /* Bookmarks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bookmarks.storyboard; sourceTree = "<group>"; };
 		943C61282420111600FEF4F7 /* Legend.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legend.storyboard; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		946987B9242142F700100FA2 /* UITextView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Padding.swift"; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
+		94A53EC82420366B006B0A27 /* MapPackageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackageViewController.swift; sourceTree = "<group>"; };
 		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
 		94AB9D30225E8C090040D989 /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<absolute>"; };
 		94C72936242012C500F37D96 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		94C729392420139800F37D96 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		94C7293D2420175200F37D96 /* MapPackage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapPackage.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +222,7 @@
 		3EEBD3261F423EA800DB4AAA /* View controllers */ = {
 			isa = PBXGroup;
 			children = (
+				94C7293C2420172A00F37D96 /* Map Package */,
 				94C729382420138600F37D96 /* Map */,
 				94C72935242012A900F37D96 /* Search */,
 				943C61272420110500FEF4F7 /* Legend */,
@@ -223,7 +230,6 @@
 				3E1D6E8B1F27F35D00FB119A /* LocalPackagesListViewController.swift */,
 				3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
-				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
 			);
 			path = "View controllers";
 			sourceTree = "<group>";
@@ -234,6 +240,7 @@
 				9494DD512175025F00DE04A5 /* Bundle+Version.swift */,
 				949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */,
 				9494DD56217502C200DE04A5 /* UIColor+House.swift */,
+				946987B9242142F700100FA2 /* UITextView+Padding.swift */,
 			);
 			path = Cocoa;
 			sourceTree = "<group>";
@@ -290,6 +297,16 @@
 				94C729392420139800F37D96 /* Map.storyboard */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		94C7293C2420172A00F37D96 /* Map Package */ = {
+			isa = PBXGroup;
+			children = (
+				3EDC845F1F1E8C28002DBCF2 /* PackageViewController.swift */,
+				94C7293D2420175200F37D96 /* MapPackage.storyboard */,
+				94A53EC82420366B006B0A27 /* MapPackageViewController.swift */,
+			);
+			path = "Map Package";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,6 +379,7 @@
 				943C61292420111600FEF4F7 /* Legend.storyboard in Resources */,
 				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
 				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
+				94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */,
 				3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +427,7 @@
 				943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */,
 				3E1D6E901F2852D600FB119A /* LocalPackageCell.swift in Sources */,
 				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
+				94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */,
 				3EDC84601F1E8C28002DBCF2 /* PackageViewController.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
@@ -420,6 +439,7 @@
 				9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */,
+				946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
 				3E9222821F562AEE00DA0165 /* DirectoryType.swift in Sources */,
 			);
