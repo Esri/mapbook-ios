@@ -214,7 +214,15 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Mu-0G-crU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="502" y="40"/>
+            <point key="canvasLocation" x="554" y="51"/>
+        </scene>
+        <!--PortalAuth-->
+        <scene sceneID="CaJ-n4-fsJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PortalAuth" id="VA6-bT-3jQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9zX-qb-1ez" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="550" y="26"/>
         </scene>
         <!--My Maps-->
         <scene sceneID="Ad8-1r-bep">
@@ -407,6 +415,7 @@
                         <barButtonItem key="leftBarButtonItem" title="My Portal" image="person.crop.circle" catalog="system" id="pbW-lZ-4Kd">
                             <connections>
                                 <action selector="viewPortalAccessViewController" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
+                                <segue destination="VA6-bT-3jQ" kind="presentation" id="FDy-qR-OSQ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
@@ -421,7 +430,6 @@
                         <outlet property="noPackagesLabel" destination="DiA-Pb-DUO" id="Cqi-cd-mnk"/>
                         <outlet property="settingsBBI" destination="pbW-lZ-4Kd" id="J2v-Iv-r9y"/>
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
-                        <segue destination="uCp-tR-RV9" kind="presentation" identifier="PortalURLSegue" modalPresentationStyle="formSheet" id="tD0-TS-2GU"/>
                         <segue destination="Vjl-eG-4P2" kind="presentation" identifier="PortalItemsSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
                         <segue destination="Gj9-aN-NuU" kind="show" identifier="showMapPackage" id="qqC-9I-4fN"/>
                     </connections>
@@ -439,11 +447,11 @@
                         <viewControllerLayoutGuide type="bottom" id="hRy-qt-vMr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J0w-uP-akO">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="530"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="zDR-3P-h1K">
-                                <rect key="frame" x="50" y="85" width="300" height="360"/>
+                                <rect key="frame" x="267" y="417" width="300" height="360"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mkh-5Q-sec">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="172"/>
@@ -538,7 +546,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64j-Vw-ih1">
-                                <rect key="frame" x="20" y="479.5" width="360" height="30.5"/>
+                                <rect key="frame" x="20" y="1123.5" width="794" height="30.5"/>
                                 <string key="text">App Version
 SDK Version</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>

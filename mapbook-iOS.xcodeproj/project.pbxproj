@@ -37,6 +37,9 @@
 		943C61292420111600FEF4F7 /* Legend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C61282420111600FEF4F7 /* Legend.storyboard */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
 		946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987B9242142F700100FA2 /* UITextView+Padding.swift */; };
+		946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 946987BC2421697200100FA2 /* PortalAuth.storyboard */; };
+		946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */; };
+		946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C024218FB000100FA2 /* PortalSignInViewController.swift */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
@@ -101,6 +104,9 @@
 		943C61282420111600FEF4F7 /* Legend.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legend.storyboard; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		946987B9242142F700100FA2 /* UITextView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Padding.swift"; sourceTree = "<group>"; };
+		946987BC2421697200100FA2 /* PortalAuth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PortalAuth.storyboard; sourceTree = "<group>"; };
+		946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalAuthViewController.swift; sourceTree = "<group>"; };
+		946987C024218FB000100FA2 /* PortalSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSignInViewController.swift; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
@@ -220,6 +226,7 @@
 		3EEBD3261F423EA800DB4AAA /* View controllers */ = {
 			isa = PBXGroup;
 			children = (
+				946987BB2421695D00100FA2 /* Portal Auth */,
 				94C7293C2420172A00F37D96 /* Map Package */,
 				94C729382420138600F37D96 /* Map */,
 				94C72935242012A900F37D96 /* Search */,
@@ -268,6 +275,16 @@
 				943C61282420111600FEF4F7 /* Legend.storyboard */,
 			);
 			path = Legend;
+			sourceTree = "<group>";
+		};
+		946987BB2421695D00100FA2 /* Portal Auth */ = {
+			isa = PBXGroup;
+			children = (
+				946987BC2421697200100FA2 /* PortalAuth.storyboard */,
+				946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */,
+				946987C024218FB000100FA2 /* PortalSignInViewController.swift */,
+			);
+			path = "Portal Auth";
 			sourceTree = "<group>";
 		};
 		9494DD532175026800DE04A5 /* Extensions */ = {
@@ -372,6 +389,7 @@
 				3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */,
 				94C7293A2420139800F37D96 /* Map.storyboard in Resources */,
 				3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */,
+				946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */,
 				3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */,
 				943C61292420111600FEF4F7 /* Legend.storyboard in Resources */,
 				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
@@ -411,6 +429,7 @@
 			files = (
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */,
+				946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */,
 				94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
@@ -436,6 +455,7 @@
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */,
 				946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */,
+				946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
 				3E9222821F562AEE00DA0165 /* DirectoryType.swift in Sources */,
 			);

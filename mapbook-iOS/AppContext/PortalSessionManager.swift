@@ -51,6 +51,15 @@ class PortalSessionManager {
         }
     }
     
+    var isSignedIn: Bool {
+        switch status {
+        case .loaded(_):
+            return true
+        default:
+            return false
+        }
+    }
+    
     // MARK:- Restore Session
     
     private static let portalSessionURLKey = "\(Bundle.main.bundleIdentifier!).portalSessionManager.urlKey"
