@@ -28,16 +28,11 @@ import ArcGIS
 class LocalPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
-    @IBOutlet private var accessPortalButton:UIBarButtonItem!
-    @IBOutlet private var settingsBBI:UIBarButtonItem!
-    @IBOutlet private var noPackagesLabel:UILabel!
-    @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet private var portalSearchButton:UIBarButtonItem!
+    @IBOutlet private var portalAuthButton:UIBarButtonItem!
     
     private var downloadedPackages = [PortalAwareMobileMapPackage]()
-    
-    private var shouldShowBackgroundLabel: Bool {
-        downloadedPackages.count == 0
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,12 +65,6 @@ class LocalPackagesListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //the title of the view controller should reflect the app mode
-        self.updateTitleForAppMode()
-        
-        //the segment control should reflect the app mode
-        self.updateSegmentedControlForAppMode()
-        
         //the navigation bar button items should reflect the app mode and portal
         self.updateNavigationItems()
     }
@@ -90,7 +79,7 @@ class LocalPackagesListViewController: UIViewController {
         }
         
         do {
-            try appContext.portalDeviceSync.fetchDownloadedPackages { [weak self] (result) in
+            try appContext.packageManager.fetchDownloadedPackages { [weak self] (result) in
                 
                 guard let self = self else { return }
                 
@@ -102,7 +91,6 @@ class LocalPackagesListViewController: UIViewController {
                 }
                 
                 self.tableView.reloadData()
-                self.showBackgroundLabelIfNeeded()
             }
         }
         catch {
@@ -111,25 +99,6 @@ class LocalPackagesListViewController: UIViewController {
             downloadedPackages.removeAll()
             
             self.tableView.reloadData()
-            self.showBackgroundLabelIfNeeded()
-        }
-    }
-    
-    /*
-     Show background label if no packages found.
-    */
-    fileprivate func showBackgroundLabelIfNeeded() {
-        
-        if !shouldShowBackgroundLabel {
-            //remove background label
-            self.noPackagesLabel.isHidden = true
-            self.tableView.separatorStyle = .singleLine
-        }
-        else {
-            //set background label
-            self.noPackagesLabel.text = appContext.appMode.noPackagesText
-            self.noPackagesLabel.isHidden = false
-            self.tableView.separatorStyle = .none
         }
     }
     
@@ -148,37 +117,19 @@ class LocalPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        if appContext.appMode == .portal {
-            try? appContext.portalDeviceSync.checkForUpdates(packages: downloadedPackages) {
-                self.tableView.reloadData()
-                self.showBackgroundLabelIfNeeded()
-            }
+        try? appContext.packageManager.checkForUpdates(packages: downloadedPackages) {
+            self.tableView.reloadData()
         }
     }
     
     private func updateNavigationItems() {
-//        //navigation item bar button items should reflect app mode and portal
-//        navigationItem.rightBarButtonItems = appContext.appMode == .portal ? [addBBI] : []
-//        navigationItem.leftBarButtonItems = appContext.appMode == .portal ? [settingsBBI] : []
-//
         if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
-            accessPortalButton.isEnabled = true
+            portalSearchButton.isEnabled = true
         }
         else {
-            accessPortalButton.isEnabled = false
+            portalSearchButton.isEnabled = false
         }
     }
-    
-    private func updateSegmentedControlForAppMode() {
-        //segmented control should reflect app mode
-        appModeSegmentedControl.selectedSegmentIndex = appContext.appMode.rawValue
-    }
-    
-    private func updateTitleForAppMode() {
-        //view controller title should reflect app mode
-        title = appContext.appMode.viewControllerTitle
-    }
-    
     /*
      A convenient method to observe DownloadCompleted notification. It adds self
      as an observer for the notification. And in the closure, updates the state of
@@ -201,18 +152,13 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observeAppModeChangeNotification() {
         
-        NotificationCenter.default.addObserver(forName: .appModeDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default
+            .addObserver(forName: .appModeDidChange,
+                         object: nil,
+                         queue: .main) { [weak self] (_) in
             
-            guard let strongSelf = self else { return }
-            
-            //the title of the view controller should reflect the app mode
-            strongSelf.updateTitleForAppMode()
-            
-            //the segment control should reflect the app mode
-            strongSelf.updateSegmentedControlForAppMode()
-            
-            //the navigation bar button items should reflect the app mode and portal
-            strongSelf.updateNavigationItems()
+            guard let self = self else { return }
+            self.updateNavigationItems()
         }
     }
     
@@ -263,46 +209,27 @@ class LocalPackagesListViewController: UIViewController {
             self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
     }
-    
-    @IBAction func appModeSegmentControlValueChanged(_ sender: Any) {
-        
-        guard sender as? UISegmentedControl == appModeSegmentedControl, let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
-        
-        switch newMode {
-        case .device:
-            appContext.appMode = .device
-        case .portal:
-            appContext.appMode = .portal
-        }
-        
-        fetchLocalPackages()
-    }
 
-    fileprivate func signOut() {
-        
-        //show confirmation
-        let alertController = UIAlertController(title: "Confirm logout?", message: nil, preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Sign out", style: .default) { [weak self] (action) in
-            
-            //sign user out
-            appContext.sessionManager.signOut()
-            
-            //pop to initial view controller
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
-    }
+//    fileprivate func signOut() {
+//
+//        //show confirmation
+//        let alertController = UIAlertController(title: "Confirm logout?", message: nil, preferredStyle: .alert)
+//
+//        //yes action
+//        let yesAction = UIAlertAction(title: "Sign out", style: .default) { (_) in
+//            appContext.sessionManager.signOut()
+//        }
+//
+//        //no action
+//        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+//
+//        //add actions to alert controller
+//        alertController.addAction(yesAction)
+//        alertController.addAction(noAction)
+//
+//        //present alert controller
+//        self.present(alertController, animated: true, completion: nil)
+//    }
     
     @IBAction func viewPortalAccessViewController() {
         
@@ -372,14 +299,11 @@ extension LocalPackagesListViewController: UITableViewDelegate {
                 //delete package using AppContext
                 let package = self.downloadedPackages[indexPath.row]
                 
-                try? appContext.portalDeviceSync.removeDownloaded(package: package)
+                try? appContext.packageManager.removeDownloaded(package: package)
                 self.downloadedPackages.remove(at: indexPath.row)
                 
                 //refresh table view
                 tableView.reloadData()
-                
-                //if no packages left then show the background label
-                self.showBackgroundLabelIfNeeded()
             }
             
             //no action

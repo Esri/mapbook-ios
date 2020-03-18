@@ -37,19 +37,9 @@ class AppContext {
     
     fileprivate static let shared = AppContext()
     
-    var appMode: AppMode = AppMode.retrieveFromUserDefaults() {
-        didSet {
-            //post change to app mode
-            NotificationCenter.default.post(name: .appModeDidChange, object: self, userInfo: nil)
-            
-            //save new mode to defaults
-            appMode.saveToUserDefaults()
-        }
-    }
-    
     private(set) var sessionManager = PortalSessionManager()
     
-    private(set) var portalDeviceSync = PackageManager()
+    private(set) var packageManager = PackageManager()
     
     init() {
         sessionManager.delegate = self
@@ -68,7 +58,7 @@ extension AppContext: PortalSessionManagerDelegate {
         
         switch status {
         case .loaded(let portal):
-            portalDeviceSync.portal = portal
+            packageManager.portal = portal
         default:
             break
         }

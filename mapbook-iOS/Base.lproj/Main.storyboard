@@ -369,46 +369,13 @@
                                     <outlet property="delegate" destination="JTQ-Kl-o7Y" id="imp-tr-dVx"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiA-Pb-DUO">
-                                <rect key="frame" x="10" y="587" width="814" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOR-pI-YHA">
-                                <rect key="frame" x="0.0" y="1124" width="834" height="50"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aQ7-la-VsS"/>
-                                    <barButtonItem style="plain" id="xMO-JX-eKY">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="JWf-aL-MZv">
-                                            <rect key="frame" x="355.5" y="9" width="123" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="Portal"/>
-                                                <segment title="Device"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="appModeSegmentControlValueChanged:" destination="JTQ-Kl-o7Y" eventType="valueChanged" id="i2h-Jr-yxp"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="j9S-wg-jrh"/>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="1tK-qO-q34" secondAttribute="trailing" id="03p-z8-Uuw"/>
-                            <constraint firstItem="BOR-pI-YHA" firstAttribute="leading" secondItem="v5r-Ih-D7F" secondAttribute="leading" id="DCl-fD-yCp"/>
                             <constraint firstItem="1tK-qO-q34" firstAttribute="top" secondItem="v5r-Ih-D7F" secondAttribute="top" id="PRX-VU-xC3"/>
-                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="centerY" secondItem="1tK-qO-q34" secondAttribute="centerY" id="RXG-dw-KaJ"/>
                             <constraint firstAttribute="bottom" secondItem="1tK-qO-q34" secondAttribute="bottom" id="Uy3-Jp-Bce"/>
-                            <constraint firstItem="zjv-O0-A6v" firstAttribute="top" secondItem="BOR-pI-YHA" secondAttribute="bottom" id="ebc-0K-9Nf"/>
-                            <constraint firstAttribute="trailing" secondItem="BOR-pI-YHA" secondAttribute="trailing" id="kKl-WI-dBe"/>
-                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="centerX" secondItem="1tK-qO-q34" secondAttribute="centerX" id="lBq-qg-6Lh"/>
                             <constraint firstItem="1tK-qO-q34" firstAttribute="leading" secondItem="v5r-Ih-D7F" secondAttribute="leading" id="p4m-Ew-eYJ"/>
-                            <constraint firstItem="DiA-Pb-DUO" firstAttribute="leading" secondItem="v5r-Ih-D7F" secondAttribute="leading" constant="10" id="rIL-M8-9MN"/>
-                            <constraint firstAttribute="trailing" secondItem="DiA-Pb-DUO" secondAttribute="trailing" constant="10" id="u7q-Je-v57"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Maps" id="3ZE-dc-TNx">
@@ -425,10 +392,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="accessPortalButton" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>
-                        <outlet property="appModeSegmentedControl" destination="JWf-aL-MZv" id="9R6-3l-vWr"/>
-                        <outlet property="noPackagesLabel" destination="DiA-Pb-DUO" id="Cqi-cd-mnk"/>
-                        <outlet property="settingsBBI" destination="pbW-lZ-4Kd" id="J2v-Iv-r9y"/>
+                        <outlet property="portalAuthButton" destination="pbW-lZ-4Kd" id="J2v-Iv-r9y"/>
+                        <outlet property="portalSearchButton" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
                         <segue destination="Vjl-eG-4P2" kind="presentation" identifier="PortalItemsSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
                         <segue destination="Gj9-aN-NuU" kind="show" identifier="showMapPackage" id="qqC-9I-4fN"/>
@@ -437,148 +402,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4j-Y2-2uf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="79.6875" y="39.84375"/>
-        </scene>
-        <!--Portal Access View Controller-->
-        <scene sceneID="dUC-HD-uYu">
-            <objects>
-                <viewController id="uCp-tR-RV9" customClass="PortalAccessViewController" customModule="mapbook_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="btA-Ow-VHo"/>
-                        <viewControllerLayoutGuide type="bottom" id="hRy-qt-vMr"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="J0w-uP-akO">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="zDR-3P-h1K">
-                                <rect key="frame" x="267" y="417" width="300" height="360"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mkh-5Q-sec">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="172"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGH-lZ-nmw">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="80"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="nJn-4q-CsF">
-                                                        <rect key="frame" x="100" y="-10" width="100" height="100"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="3UO-gI-CgF"/>
-                                                            <constraint firstAttribute="height" constant="100" id="tbc-Oe-5bo"/>
-                                                        </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                <integer key="value" value="50"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </imageView>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="nJn-4q-CsF" firstAttribute="centerY" secondItem="LGH-lZ-nmw" secondAttribute="centerY" id="BqA-sd-D8a"/>
-                                                    <constraint firstAttribute="height" constant="80" id="OIL-CP-3zf"/>
-                                                    <constraint firstItem="nJn-4q-CsF" firstAttribute="centerX" secondItem="LGH-lZ-nmw" secondAttribute="centerX" id="jlx-0y-XW4"/>
-                                                </constraints>
-                                            </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Full Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrH-oP-lYQ">
-                                                <rect key="frame" x="0.0" y="98.5" width="300" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE1-8Y-gkd">
-                                                <rect key="frame" x="0.0" y="146.5" width="300" height="25.5"/>
-                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="21"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="woG-up-7sM">
-                                        <rect key="frame" x="0.0" y="188" width="300" height="172"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="hp9-9s-Rku">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="152"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Specify the URL to your organization or your ArcGIS portal." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaa-cg-hGN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="60" id="Lha-ul-pX1"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://arcgis.com" borderStyle="roundedRect" placeholder="Your Portal URL" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="laD-yo-AUW">
-                                                        <rect key="frame" x="0.0" y="64" width="300" height="34"/>
-                                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go" textContentType="url"/>
-                                                    </textField>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nu8-p7-Qf3">
-                                                        <rect key="frame" x="0.0" y="102" width="300" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="Omk-wN-aJI"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                                        <state key="normal" title="Access"/>
-                                                        <connections>
-                                                            <action selector="userTappedActionButton:" destination="uCp-tR-RV9" eventType="touchUpInside" id="4RN-8a-H56"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="mkh-5Q-sec" firstAttribute="width" secondItem="zDR-3P-h1K" secondAttribute="width" id="E88-Gn-fzG"/>
-                                    <constraint firstAttribute="width" constant="300" id="HN5-oi-F4i"/>
-                                    <constraint firstItem="woG-up-7sM" firstAttribute="width" secondItem="zDR-3P-h1K" secondAttribute="width" id="IWT-LX-CeL"/>
-                                    <constraint firstAttribute="height" constant="360" id="RVu-eT-30G"/>
-                                </constraints>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KB4-Dw-HR9">
-                                <rect key="frame" x="20" y="20" width="46" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Close"/>
-                                <connections>
-                                    <action selector="cancel:" destination="uCp-tR-RV9" eventType="touchUpInside" id="Y9k-uy-eXb"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64j-Vw-ih1">
-                                <rect key="frame" x="20" y="1123.5" width="794" height="30.5"/>
-                                <string key="text">App Version
-SDK Version</string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="zDR-3P-h1K" firstAttribute="centerX" secondItem="J0w-uP-akO" secondAttribute="centerX" id="4hG-ra-fpt"/>
-                            <constraint firstItem="hRy-qt-vMr" firstAttribute="top" secondItem="64j-Vw-ih1" secondAttribute="bottom" constant="20" id="NVl-Gd-c70"/>
-                            <constraint firstItem="64j-Vw-ih1" firstAttribute="trailing" secondItem="J0w-uP-akO" secondAttribute="trailingMargin" id="VvY-2y-Xbk"/>
-                            <constraint firstItem="KB4-Dw-HR9" firstAttribute="leading" secondItem="J0w-uP-akO" secondAttribute="leadingMargin" id="s0Q-nk-VIy"/>
-                            <constraint firstItem="KB4-Dw-HR9" firstAttribute="top" secondItem="btA-Ow-VHo" secondAttribute="bottom" constant="20" id="ss2-fh-MrY"/>
-                            <constraint firstItem="64j-Vw-ih1" firstAttribute="leading" secondItem="J0w-uP-akO" secondAttribute="leadingMargin" id="tL7-pQ-3TB"/>
-                            <constraint firstItem="zDR-3P-h1K" firstAttribute="centerY" secondItem="J0w-uP-akO" secondAttribute="centerY" id="xG2-6r-emY"/>
-                        </constraints>
-                    </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="400" height="530"/>
-                    <connections>
-                        <outlet property="actionButton" destination="nu8-p7-Qf3" id="4Jp-jC-nWD"/>
-                        <outlet property="appVersionLabel" destination="64j-Vw-ih1" id="fJa-Ix-ePx"/>
-                        <outlet property="portalInfoLabel" destination="zaa-cg-hGN" id="Ero-d4-lug"/>
-                        <outlet property="urlTextField" destination="laD-yo-AUW" id="rl3-dt-kWe"/>
-                        <outlet property="userFullNameLabel" destination="CrH-oP-lYQ" id="rxC-2T-Xk2"/>
-                        <outlet property="userProfileImageView" destination="nJn-4q-CsF" id="t2z-1P-ZXy"/>
-                        <outlet property="usernameLabel" destination="BE1-8Y-gkd" id="oHa-8P-yhr"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lS1-rk-kaR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1216" y="790"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Gq-Ur-SpL">
@@ -601,7 +424,6 @@ SDK Version</string>
     </scenes>
     <resources>
         <image name="Download" width="30" height="30"/>
-        <image name="Placeholder" width="80" height="80"/>
         <image name="Update" width="22" height="22"/>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="person.crop.circle" catalog="system" width="64" height="60"/>
