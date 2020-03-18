@@ -14,34 +14,42 @@
 
 import ArcGIS
 
-class PortalSignInViewController: UITableViewController {
+class PortalSignInViewController: UITableViewController, BundleAware {
     
     @IBOutlet weak var enterpriseURLTextField: UITextField!
     
+    @IBOutlet weak var appNameVersionLabel: UILabel!
+    @IBOutlet weak var sdkVersionLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        appNameVersionLabel.text = appNameVersionString
+        sdkVersionLabel.text = arcGISSDKVersionString
+    }
+    
     @IBAction func userRequestsSignInToAGOL(_ sender: AnyObject) {
+        
         let agol = AGSPortal.arcGISOnline(withLoginRequired: true)
+        
         appContext.sessionManager.signIn(to: agol) { (_) in }
     }
     
     @IBAction func userRequestsSignInToEnterprise(_ sender: AnyObject) {
+        
         guard
             let urlString = enterpriseURLTextField.text,
             let url = URL(string: urlString) else {
                 SVProgressHUD.showError(withStatus: InvalidURL().localizedDescription)
                 return
         }
+        
         let enterprise = AGSPortal(url: url, loginRequired: true)
+        
         appContext.sessionManager.signIn(to: enterprise) { (_) in }
     }
     
     private struct InvalidURL: LocalizedError {
         let localizedDescription: String = "Invalid URL"
-    }
-}
-
-class PortalSignOutViewController: UITableViewController {
-    
-    @IBAction func userRequestsSignOutFromPortal(_ sender: AnyObject) {
-        appContext.sessionManager.signOut()
     }
 }

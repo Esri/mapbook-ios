@@ -40,6 +40,7 @@
 		946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 946987BC2421697200100FA2 /* PortalAuth.storyboard */; };
 		946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */; };
 		946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C024218FB000100FA2 /* PortalSignInViewController.swift */; };
+		946987C32422934000100FA2 /* PortalHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C22422934000100FA2 /* PortalHomeViewController.swift */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
@@ -107,6 +108,7 @@
 		946987BC2421697200100FA2 /* PortalAuth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PortalAuth.storyboard; sourceTree = "<group>"; };
 		946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalAuthViewController.swift; sourceTree = "<group>"; };
 		946987C024218FB000100FA2 /* PortalSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSignInViewController.swift; sourceTree = "<group>"; };
+		946987C22422934000100FA2 /* PortalHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalHomeViewController.swift; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				946987BC2421697200100FA2 /* PortalAuth.storyboard */,
 				946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */,
 				946987C024218FB000100FA2 /* PortalSignInViewController.swift */,
+				946987C22422934000100FA2 /* PortalHomeViewController.swift */,
 			);
 			path = "Portal Auth";
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
+				946987C32422934000100FA2 /* PortalHomeViewController.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3EDC84621F1EC0CD002DBCF2 /* MapCell.swift in Sources */,

@@ -87,3 +87,16 @@ extension Bundle {
         return "\(appDisplayName) \(appVersion) (\(appBundleVersion))"
     }
 }
+
+protocol BundleAware { }
+
+extension BundleAware {
+    
+    var appNameVersionString: String {
+        Bundle.AppNameVersionString
+    }
+    
+    var arcGISSDKVersionString: String {
+        Bundle.ArcGISSDKVersionString
+    }
+}
