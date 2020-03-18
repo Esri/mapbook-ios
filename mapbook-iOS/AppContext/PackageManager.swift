@@ -215,7 +215,7 @@ class PackageManager {
         }
     }
     
-    func removeDownloaded(package: PortalAwareMobileMapPackage) throws {
+    func removeDownloaded(package: AGSMobileMapPackage) throws {
         try FileManager.default.removeItem(at: package.fileURL)
     }
     

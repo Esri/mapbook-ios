@@ -1,3 +1,4 @@
+
 //
 // Copyright 2017 Esri.
 //
@@ -55,11 +56,11 @@ class MapPackagesListViewController: UIViewController {
     }()
     
     private var portalSection: PortalSection {
-        sections[0] as! PortalSection
+        sections.first(where: { $0 is PortalSection }) as! PortalSection
     }
     
     private var deviceSection: DeviceSection {
-        sections[1] as! DeviceSection
+        sections.first(where: { $0 is DeviceSection }) as! DeviceSection
     }
     
     override func viewDidLoad() {
