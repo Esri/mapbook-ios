@@ -421,15 +421,15 @@ class LocalPackageCell: UITableViewCell {
         return formatter
     }()
 
-    @IBOutlet private var titleLabel:UILabel!
-    @IBOutlet private var createdLabel:UILabel!
-    @IBOutlet private var sizeLabel:UILabel!
-    @IBOutlet private var descriptionLabel:UILabel!
-    @IBOutlet private var thumbnailImageView:UIImageView!
-    @IBOutlet private var downloadedLabel:UILabel!
+    @IBOutlet weak var titleLabel:UILabel!
+    @IBOutlet weak var createdLabel:UILabel!
+    @IBOutlet weak var sizeLabel:UILabel!
+    @IBOutlet weak var descriptionLabel:UILabel!
+    @IBOutlet weak var thumbnailImageView:UIImageView!
+    @IBOutlet weak var downloadedLabel:UILabel!
     @IBOutlet weak var updateButton:UIButton!
-    @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
-    @IBOutlet private var updateStackView:UIStackView!
+    @IBOutlet weak var activityIndicatorView:UIActivityIndicatorView!
+    @IBOutlet weak var updateStackView:UIStackView!
         
     var isUpdating = false {
         didSet {
