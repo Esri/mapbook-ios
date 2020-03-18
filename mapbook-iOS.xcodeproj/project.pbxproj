@@ -39,7 +39,7 @@
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
-		949DDF242422D40F0038608D /* MapPackagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF232422D40F0038608D /* MapPackagesViewController.swift */; };
+		949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF232422D40F0038608D /* MapPackagesListViewController.swift */; };
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
 		94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A53EC82420366B006B0A27 /* MapPackageViewController.swift */; };
 		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
@@ -103,7 +103,7 @@
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
-		949DDF232422D40F0038608D /* MapPackagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackagesViewController.swift; sourceTree = "<group>"; };
+		949DDF232422D40F0038608D /* MapPackagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackagesListViewController.swift; sourceTree = "<group>"; };
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
 		94A53EC82420366B006B0A27 /* MapPackageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackageViewController.swift; sourceTree = "<group>"; };
 		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				946987BB2421695D00100FA2 /* Portal Auth */,
-				949DDF222422D3E20038608D /* Map Packages */,
+				949DDF222422D3E20038608D /* Map Packages List */,
 				94C7293C2420172A00F37D96 /* Map Package */,
 				94C729382420138600F37D96 /* Map */,
 				94C72935242012A900F37D96 /* Search */,
@@ -279,12 +279,12 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		949DDF222422D3E20038608D /* Map Packages */ = {
+		949DDF222422D3E20038608D /* Map Packages List */ = {
 			isa = PBXGroup;
 			children = (
-				949DDF232422D40F0038608D /* MapPackagesViewController.swift */,
+				949DDF232422D40F0038608D /* MapPackagesListViewController.swift */,
 			);
-			path = "Map Packages";
+			path = "Map Packages List";
 			sourceTree = "<group>";
 		};
 		94C72935242012A900F37D96 /* Search */ = {
@@ -426,7 +426,7 @@
 				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
-				949DDF242422D40F0038608D /* MapPackagesViewController.swift in Sources */,
+				949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */,
 				9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
