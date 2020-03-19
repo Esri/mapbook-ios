@@ -332,20 +332,16 @@ extension MapPackagesListViewController: UIAdaptivePresentationControllerDelegat
 extension MapPackagesListViewController: LocalPackageCellDelegate {
     
     func cell(_ cell: LocalPackageCell, requestsUpdate package: PortalAwareMobileMapPackage) {
-        do {
-            try appContext.packageManager.update(package: package) { (error) in
-                
-                if let error = error {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                }
-                
-                if let indexPath = self.tableView.indexPath(for: cell) {
-                    self.tableView.reloadRows(at: [indexPath], with: .none)
-                }
+        
+        appContext.packageManager.update(package: package) { (error) in
+            
+            if let error = error {
+                SVProgressHUD.showError(withStatus: error.localizedDescription)
             }
-        }
-        catch {
-            SVProgressHUD.showError(withStatus: error.localizedDescription)
+            
+            if let indexPath = self.tableView.indexPath(for: cell) {
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
         }
     }
 }

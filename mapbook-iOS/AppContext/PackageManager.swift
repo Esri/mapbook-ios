@@ -180,11 +180,11 @@ class PackageManager {
         }
     }
     
-    func update(package: PortalAwareMobileMapPackage, completion: @escaping(Error?) -> Void) throws {
+    func update(package: PortalAwareMobileMapPackage, completion: @escaping(Error?) -> Void) {
         
-        guard let portal = portal else { throw UnknownError() }
+        guard let portal = portal else { completion(UnknownError()); return }
         
-        guard let itemID = package.itemID else { throw MissingPortalCounterpart() }
+        guard let itemID = package.itemID else { completion(MissingPortalCounterpart()); return }
         
         let portalItem = AGSPortalItem(portal: portal, itemID: itemID)
         
