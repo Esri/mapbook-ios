@@ -121,7 +121,9 @@ class PackageManager {
             
             guard error == nil else {
                 try? FileManager.default.removeItem(at: temporaryURL)
-                self.delegate?.packageManager(self, failed: error!, item: item)
+                DispatchQueue.main.async {
+                    self.delegate?.packageManager(self, failed: error!, item: item)
+                }
                 return
             }
             
@@ -129,11 +131,15 @@ class PackageManager {
                 try FileManager.default.moveItem(at: temporaryURL, to: downloadedURL)
             }
             catch {
-                self.delegate?.packageManager(self, failed: error, item: item)
+                DispatchQueue.main.async {
+                    self.delegate?.packageManager(self, failed: error, item: item)
+                }
                 return
             }
             
-            self.delegate?.packageManager(self, downloaded: item, to: downloadedURL)
+            DispatchQueue.main.async {
+                self.delegate?.packageManager(self, downloaded: item, to: downloadedURL)
+            }
         }
         
         downloadQueue.addOperation(operation)

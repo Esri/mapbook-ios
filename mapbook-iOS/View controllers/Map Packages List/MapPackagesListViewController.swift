@@ -149,7 +149,8 @@ class MapPackagesListViewController: UIViewController {
             guard let self = self else { return }
             
             //get error from notification
-            if let error = notification.userInfo?["error"] as? NSError, error.code != NSUserCancelledError {
+            if let error = notification.userInfo?["error"] as? NSError,
+                error.code != NSUserCancelledError {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
@@ -171,7 +172,10 @@ class MapPackagesListViewController: UIViewController {
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .portalSessionStatusDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default
+            .addObserver(forName: .portalSessionStatusDidChange,
+                         object: nil,
+                         queue: .main) { [weak self] (_) in
             //the navigation bar button items should reflect the app mode and portal
             self?.updateNavigationItems()
         }
@@ -248,23 +252,7 @@ class MapPackagesListViewController: UIViewController {
     }
     
     @objc private func update() {
-        
-//        guard let package = self.mobileMapPackage else {
-//            return
-//        }
-//
-//        guard package.canUpdate else {
-//            SVProgressHUD.showInfo(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
-//            return
-//        }
-//
-//        do {
-//            try appContext.packageManager.update(package: package)
-//            self.isUpdating = true
-//        }
-//        catch {
-//            SVProgressHUD.showError(withStatus: error.localizedDescription)
-//        }
+
     }
 }
 
@@ -457,6 +445,7 @@ class LocalPackageCell: UITableViewCell {
             else {
                 self.sizeLabel.text = ""
             }
+            
             self.titleLabel.text = item.title
             self.descriptionLabel.text = item.snippet
             self.thumbnailImageView.image = item.thumbnail?.image

@@ -43,6 +43,7 @@ class AppContext {
     
     init() {
         sessionManager.delegate = self
+        packageManager.delegate = self
     }
 }
 
