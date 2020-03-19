@@ -45,85 +45,18 @@ class MapPackagesListViewController: UIViewController {
         tableView.estimatedRowHeight = 202
         tableView.rowHeight = UITableView.automaticDimension
         
-        //add refresh control to allow refreshing local packages
-        //and check for updates
-        self.addRefreshControl()
-        
         //add self as observer for DownloadCompleted notification, to update cell
         //state when update completes
-        self.observeDownloadCompletedNotification()
-        
-        //observe changes to app mode
-        self.observeAppModeChangeNotification()
+        observeDownloadCompletedNotification()
         
         //observe changes to portal
-        self.observePortalChangedNotification()
+        observePortalChangedNotification()
         
-        //fetch local packages
-        self.fetchLocalPackages()
+        //ensure navigation item buttons reflect app context state
+        updateNavigationItems()
         
-        //check for updates
-        self.checkForUpdates()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //the navigation bar button items should reflect the app mode and portal
-        self.updateNavigationItems()
-    }
-    
-    /*
-     Fetch local packages using AppContext.
-    */
-    private func fetchLocalPackages() {
-        
-        func show(error: Error) {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
-        }
-        
-        do {
-            try appContext.packageManager.fetchDownloadedPackages { [weak self] (result) in
-                
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let packages):
-                    self.portalPackages = packages
-                case .failure(let error):
-                    show(error: error)
-                }
-                
-                self.tableView.reloadData()
-            }
-        }
-        catch {
-            
-            show(error: error)
-            self.portalPackages.removeAll()
-            
-            self.tableView.reloadData()
-        }
-    }
-    
-    /*
-     Add refresh control to table view. To allow refresh content and check for updates.
-    */
-    private func addRefreshControl() {
-        
-        //add a refresh control to the table view, triggering a refresh of local packages
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged(_:)), for: .valueChanged)
-        tableView.refreshControl = refreshControl
-    }
-    
-    /*
-     Check for updates for the local packages. Works only for .portal mode.
-    */
-    private func checkForUpdates() {
-        try? appContext.packageManager.checkForUpdates(packages: self.portalPackages) {
-            self.tableView.reloadData()
-        }
+        //load and refresh packages downloaded from portal
+        fetchDownloadedPortalPackages()
     }
     
     private func updateNavigationItems() {
@@ -154,19 +87,7 @@ class MapPackagesListViewController: UIViewController {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
-            self.refreshLocalPackages()
-        }
-    }
-    
-    private func observeAppModeChangeNotification() {
-        
-        NotificationCenter.default
-            .addObserver(forName: .appModeDidChange,
-                         object: nil,
-                         queue: .main) { [weak self] (_) in
-            
-            guard let self = self else { return }
-            self.updateNavigationItems()
+            self.fetchDownloadedPortalPackages()
         }
     }
     
@@ -176,8 +97,11 @@ class MapPackagesListViewController: UIViewController {
             .addObserver(forName: .portalSessionStatusDidChange,
                          object: nil,
                          queue: .main) { [weak self] (_) in
-            //the navigation bar button items should reflect the app mode and portal
-            self?.updateNavigationItems()
+                            
+            guard let self = self else { return }
+            
+            self.updateNavigationItems()
+            self.checkForUpdatesForDownloadedPortalPackages()
         }
     }
     
@@ -212,14 +136,11 @@ class MapPackagesListViewController: UIViewController {
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
-            //show portal items list view controller
-            self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+        guard case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status else {
+            return
         }
-        else {
-            //show portal URL page
-            self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
-        }
+        
+        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
     }
     
     @IBAction func viewPortalAccessViewController() {
@@ -227,22 +148,71 @@ class MapPackagesListViewController: UIViewController {
         self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
     }
     
-    @objc private func refreshControlValueChanged(_ refreshControl: UIRefreshControl) {
-
-        self.refreshLocalPackages()
+    // MARK:- Refresh Downloaded Portal Packages
+    
+    func fetchDownloadedPortalPackages() {
+        do {
+            try appContext.packageManager.fetchDownloadedPackages { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let packages):
+                    self.finishRefresh(with: packages)
+                case .failure(let error):
+                    self.failRefresh(with: error)
+                }
+            }
+        }
+        catch {
+            failRefresh(with: error)
+        }
     }
     
-    func refreshLocalPackages() {
+    func checkForUpdatesForDownloadedPortalPackages() {
         
-        //refresh local packages
-        self.fetchLocalPackages()
+        guard appContext.sessionManager.isSignedIn else { return }
         
-        //check for updates
-        self.checkForUpdates()
+        do {
+            try appContext.packageManager.checkForUpdates(packages: portalPackages) { [weak self] in
+                guard let self = self else { return }
+                self.finishRefresh(with: self.portalPackages)
+            }
+        }
+        catch {
+            failRefresh(with: error)
+        }
+    }
+    
+    private func finishRefresh(with packages: [PortalAwareMobileMapPackage]) {
         
-        //give pause before end refreshing
-        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
-            self?.tableView.refreshControl?.endRefreshing()
+        portalPackages = packages
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+                            
+            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    private func failRefresh(with error: Error) {
+        
+        portalPackages.removeAll()
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+            
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            
+            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+                self?.tableView.refreshControl?.endRefreshing()
+            }
         }
     }
     

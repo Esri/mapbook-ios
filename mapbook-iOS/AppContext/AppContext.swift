@@ -25,11 +25,6 @@
 import UIKit
 import ArcGIS
 
-// MARK:- AppMode
-
-extension Notification.Name {
-    static let appModeDidChange = Notification.Name("AppModeChanged")
-}
 
 var appContext: AppContext { AppContext.shared }
 
