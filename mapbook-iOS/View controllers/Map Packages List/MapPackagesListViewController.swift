@@ -116,13 +116,13 @@ class MapPackagesListViewController: UIViewController {
             controller.mapPackage = package
             tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
-        else if segue.identifier == "PortalURLSegue",
+        else if segue.identifier == "showPortalAccess",
             let controller = segue.destination as? PortalAccessViewController {
             
             controller.delegate = self
             controller.presentationController?.delegate = self
         }
-        else if segue.identifier == "PortalItemsSegue",
+        else if segue.identifier == "showBrowsePortal",
             let navigation = segue.destination as? UINavigationController,
             let controller = navigation.topViewController as? PortalItemsListViewController  {
             guard let portal = appContext.sessionManager.portal else {
@@ -140,12 +140,11 @@ class MapPackagesListViewController: UIViewController {
             return
         }
         
-        self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
+        self.performSegue(withIdentifier: "showBrowsePortal", sender: self)
     }
     
     @IBAction func viewPortalAccessViewController() {
-        
-        self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
+        self.performSegue(withIdentifier: "showPortalAccess", sender: self)
     }
     
     // MARK:- Refresh Downloaded Portal Packages

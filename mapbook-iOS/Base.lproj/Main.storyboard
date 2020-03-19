@@ -433,7 +433,7 @@
                         <barButtonItem key="leftBarButtonItem" title="My Portal" image="person.crop.circle" catalog="system" id="pbW-lZ-4Kd">
                             <connections>
                                 <action selector="viewPortalAccessViewController" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
-                                <segue destination="VA6-bT-3jQ" kind="presentation" id="FDy-qR-OSQ"/>
+                                <segue destination="VA6-bT-3jQ" kind="presentation" identifier="showPortalAccess" id="FDy-qR-OSQ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
@@ -446,7 +446,7 @@
                         <outlet property="portalAuthButton" destination="pbW-lZ-4Kd" id="J2v-Iv-r9y"/>
                         <outlet property="portalSearchButton" destination="FNo-X8-Zne" id="XNT-0x-5Dd"/>
                         <outlet property="tableView" destination="1tK-qO-q34" id="jVg-MC-0kb"/>
-                        <segue destination="Vjl-eG-4P2" kind="presentation" identifier="PortalItemsSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
+                        <segue destination="Vjl-eG-4P2" kind="presentation" identifier="showBrowsePortal" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="9Ex-ni-r63"/>
                         <segue destination="Gj9-aN-NuU" kind="show" identifier="showMapPackage" id="qqC-9I-4fN"/>
                     </connections>
                 </viewController>
