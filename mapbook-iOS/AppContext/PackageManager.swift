@@ -128,7 +128,7 @@ class PackageManager {
             }
             
             do {
-                try FileManager.default.moveItem(at: temporaryURL, to: downloadedURL)
+                try FileManager.default.replaceItemAt(downloadedURL, withItemAt: temporaryURL)
             }
             catch {
                 DispatchQueue.main.async {
@@ -180,7 +180,7 @@ class PackageManager {
         }
     }
     
-    func update(package: PortalAwareMobileMapPackage) throws {
+    func update(package: PortalAwareMobileMapPackage, completion: @escaping(Error?) -> Void) throws {
         
         guard let portal = portal else { throw UnknownError() }
         
@@ -188,7 +188,23 @@ class PackageManager {
         
         let portalItem = AGSPortalItem(portal: portal, itemID: itemID)
         
-        try download(item: portalItem)
+        portalItem.load { [weak self] (error) in
+            
+            guard let self = self else { return }
+            
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            do {
+                try self.download(item: portalItem)
+                completion(nil)
+            }
+            catch {
+                completion(error)
+            }
+        }
     }
     
     // MARK:- Operation Queue
@@ -300,7 +316,7 @@ class PortalAwareMobileMapPackage: AGSMobileMapPackage {
         guard fileURL.pathExtension == "mmpk" else { return nil }
         return fileURL.deletingPathExtension().lastPathComponent
     }
-    
+        
     static func mmpkDirectoryName(for item: AGSPortalItem) throws -> String {
         guard item.type == .mobileMapPackage else {
             throw InvalidType()

@@ -258,6 +258,7 @@ extension MapPackagesListViewController /* UITableViewDataSource */ {
         
         if indexPath.section == 0 {
             cell.mobileMapPackage = portalPackages[indexPath.row]
+            cell.delegate = self
         }
         else {
 //            cell.mobileMapPackage = portalPackages[indexPath.row]
@@ -328,8 +329,28 @@ extension MapPackagesListViewController: UIAdaptivePresentationControllerDelegat
     }
 }
 
+extension MapPackagesListViewController: LocalPackageCellDelegate {
+    
+    func cell(_ cell: LocalPackageCell, requestsUpdate package: PortalAwareMobileMapPackage) {
+        do {
+            try appContext.packageManager.update(package: package) { (error) in
+                if let error = error {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+            }
+        }
+        catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
+        }
+    }
+}
+
 class NoPackagesCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
+}
+
+protocol LocalPackageCellDelegate: class {
+    func cell(_ cell: LocalPackageCell, requestsUpdate package: PortalAwareMobileMapPackage)
 }
 
 class LocalPackageCell: UITableViewCell {
@@ -354,6 +375,8 @@ class LocalPackageCell: UITableViewCell {
     @IBOutlet weak var updateButton:UIButton!
     @IBOutlet weak var activityIndicatorView:UIActivityIndicatorView!
     @IBOutlet weak var updateStackView:UIStackView!
+    
+    weak var delegate: LocalPackageCellDelegate?
         
     var isUpdating = false {
         didSet {
@@ -404,5 +427,14 @@ class LocalPackageCell: UITableViewCell {
                 self.downloadedLabel.text = ""
             }
         }
+    }
+    
+    @IBAction func userRequestsUpdatePortalAwarePackage(_ sender: UIButton) {
+        guard
+            let package = mobileMapPackage,
+            let delegate = delegate
+            else { return }
+        
+        delegate.cell(self, requestsUpdate: package)
     }
 }

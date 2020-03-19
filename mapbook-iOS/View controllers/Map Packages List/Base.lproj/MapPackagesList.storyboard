@@ -140,6 +140,9 @@
                                                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTd-lI-gow">
                                                                                                     <rect key="frame" x="20" y="0.0" width="22" height="22"/>
                                                                                                     <state key="normal" image="Update"/>
+                                                                                                    <connections>
+                                                                                                        <action selector="userRequestsUpdatePortalAwarePackage:" destination="Pxw-w5-nh1" eventType="touchUpInside" id="DaW-XW-sTc"/>
+                                                                                                    </connections>
                                                                                                 </button>
                                                                                             </subviews>
                                                                                         </stackView>
