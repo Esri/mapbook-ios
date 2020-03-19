@@ -222,7 +222,7 @@
                 <viewControllerPlaceholder storyboardName="PortalAuth" id="VA6-bT-3jQ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9zX-qb-1ez" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="550" y="26"/>
+            <point key="canvasLocation" x="549" y="27"/>
         </scene>
         <!--Map Packages-->
         <scene sceneID="Ad8-1r-bep">
@@ -432,13 +432,12 @@
                     <navigationItem key="navigationItem" title="Map Packages" id="3ZE-dc-TNx">
                         <barButtonItem key="leftBarButtonItem" title="My Portal" image="person.crop.circle" catalog="system" id="pbW-lZ-4Kd">
                             <connections>
-                                <action selector="viewPortalAccessViewController" destination="JTQ-Kl-o7Y" id="62z-L8-dYL"/>
-                                <segue destination="VA6-bT-3jQ" kind="presentation" identifier="showPortalAccess" id="FDy-qR-OSQ"/>
+                                <segue destination="VA6-bT-3jQ" kind="presentation" identifier="showPortalAuth" id="FDy-qR-OSQ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
                             <connections>
-                                <action selector="add:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
+                                <action selector="browsePortalForMapPackages:" destination="JTQ-Kl-o7Y" id="Uyj-zp-DE3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

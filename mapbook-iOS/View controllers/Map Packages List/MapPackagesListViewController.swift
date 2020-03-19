@@ -116,12 +116,6 @@ class MapPackagesListViewController: UIViewController {
             controller.mapPackage = package
             tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
-        else if segue.identifier == "showPortalAccess",
-            let controller = segue.destination as? PortalAccessViewController {
-            
-            controller.delegate = self
-            controller.presentationController?.delegate = self
-        }
         else if segue.identifier == "showBrowsePortal",
             let navigation = segue.destination as? UINavigationController,
             let controller = navigation.topViewController as? PortalItemsListViewController  {
@@ -134,17 +128,13 @@ class MapPackagesListViewController: UIViewController {
     
     //MARK: - Actions
     
-    @IBAction func add(_ sender:UIBarButtonItem) {
+    @IBAction func browsePortalForMapPackages(_ sender:UIBarButtonItem) {
         
         guard case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status else {
             return
         }
         
         self.performSegue(withIdentifier: "showBrowsePortal", sender: self)
-    }
-    
-    @IBAction func viewPortalAccessViewController() {
-        self.performSegue(withIdentifier: "showPortalAccess", sender: self)
     }
     
     // MARK:- Refresh Downloaded Portal Packages
@@ -330,16 +320,6 @@ extension MapPackagesListViewController: UITableViewDelegate {
         else {
             self.performSegue(withIdentifier: "showMapPackage", sender: self)
         }
-    }
-}
-
-extension MapPackagesListViewController: PortalAccessViewControllerDelegate {
-    
-    func portalURLViewControllerRequestedDismiss(_ portalURLViewController: PortalAccessViewController) {
-        //refresh table view as the portal could have been switched and
-        //earlier packages might have been deleted
-        self.tableView.reloadData()
-        portalURLViewController.dismiss(animated: true, completion: nil)
     }
 }
 

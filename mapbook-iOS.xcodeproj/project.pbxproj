@@ -10,7 +10,6 @@
 		3E062F601F424C350061D84F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E062F5F1F424C350061D84F /* AppSettings.swift */; };
 		3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */; };
 		3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */; };
-		3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */; };
 		3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */; };
 		3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */; };
 		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
@@ -68,7 +67,6 @@
 		3E062F5F1F424C350061D84F /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemsListViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
-		3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalAccessViewController.swift; sourceTree = "<group>"; };
 		3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
 		3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 				94C72935242012A900F37D96 /* Search */,
 				943C61272420110500FEF4F7 /* Legend */,
 				943C612424200FC800FEF4F7 /* Bookmarks */,
-				3E6E06B61F2FCC3900921439 /* PortalAccessViewController.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalItemsListViewController.swift */,
 			);
 			path = "View controllers";
@@ -439,7 +436,6 @@
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalItemsListViewController.swift in Sources */,
 				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
-				3E6E06B71F2FCC3900921439 /* PortalAccessViewController.swift in Sources */,
 				9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
 				949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */,
