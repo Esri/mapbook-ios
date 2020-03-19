@@ -116,9 +116,9 @@ class MapPackagesListViewController: UIViewController {
             controller.mapPackage = package
             tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
-        else if segue.identifier == "showBrowsePortal",
+        else if segue.identifier == "showPortalBrowser",
             let navigation = segue.destination as? UINavigationController,
-            let controller = navigation.topViewController as? PortalItemsListViewController  {
+            let controller = navigation.topViewController as? PortalBrowserViewController  {
             guard let portal = appContext.sessionManager.portal else {
                 preconditionFailure("User must be signed in to an active portal session.")
             }
@@ -134,7 +134,7 @@ class MapPackagesListViewController: UIViewController {
             return
         }
         
-        self.performSegue(withIdentifier: "showBrowsePortal", sender: self)
+        self.performSegue(withIdentifier: "showPortalBrowser", sender: self)
     }
     
     // MARK:- Refresh Downloaded Portal Packages

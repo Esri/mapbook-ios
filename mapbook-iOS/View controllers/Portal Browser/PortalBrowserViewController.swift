@@ -25,7 +25,7 @@
 import UIKit
 import ArcGIS
 
-class PortalItemsListViewController: UIViewController {
+class PortalBrowserViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
     @IBOutlet fileprivate var searchBar:UISearchBar!
@@ -188,7 +188,7 @@ class PortalItemsListViewController: UIViewController {
     }
 }
 
-extension PortalItemsListViewController:UITableViewDataSource, UITableViewDelegate {
+extension PortalBrowserViewController:UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return portalItems.count
@@ -207,7 +207,7 @@ extension PortalItemsListViewController:UITableViewDataSource, UITableViewDelega
     }
 }
 
-extension PortalItemsListViewController:UIScrollViewDelegate {
+extension PortalBrowserViewController:UIScrollViewDelegate {
     
     //Fetch next set of portal items when user scolls to the
     //end of the table view
@@ -235,7 +235,7 @@ extension PortalItemsListViewController:UIScrollViewDelegate {
 }
 
 //Search delegate methods
-extension PortalItemsListViewController:UISearchBarDelegate {
+extension PortalBrowserViewController:UISearchBarDelegate {
     
     //fetch portal items using keyword on search bar button click
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
