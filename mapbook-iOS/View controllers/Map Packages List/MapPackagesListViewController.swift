@@ -26,9 +26,7 @@
 import UIKit
 import ArcGIS
 
-class MapPackagesListViewController: UIViewController {
-
-    @IBOutlet fileprivate var tableView:UITableView!
+class MapPackagesListViewController: UITableViewController {
     
     @IBOutlet private var portalSearchButton:UIBarButtonItem!
     @IBOutlet private var portalAuthButton:UIBarButtonItem!
@@ -215,13 +213,13 @@ class MapPackagesListViewController: UIViewController {
     }
 }
 
-extension MapPackagesListViewController: UITableViewDataSource {
+extension MapPackagesListViewController /* UITableViewDataSource */ {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { // Portal Packages
             return portalPackages.isEmpty ? 1 : portalPackages.count
         }
@@ -230,7 +228,7 @@ extension MapPackagesListViewController: UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 { // Portal Packages
             return "Portal Packages"
         }
@@ -239,7 +237,7 @@ extension MapPackagesListViewController: UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
         var sectionEmpty = false
         
@@ -271,10 +269,10 @@ extension MapPackagesListViewController: UITableViewDataSource {
     }
 }
 
-extension MapPackagesListViewController: UITableViewDelegate {
+extension MapPackagesListViewController /* UITableViewDelegate */ {
     
     //for deleting package
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         guard editingStyle == .delete else { return } // supports no other form of editing.
         
@@ -312,7 +310,7 @@ extension MapPackagesListViewController: UITableViewDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.cellForRow(at: indexPath) is NoPackagesCell {
             tableView.deselectRow(at: indexPath, animated: true)
