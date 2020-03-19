@@ -187,7 +187,11 @@ class PackageManager {
     
     // MARK:- Operation Queue
     
-    private var downloadQueue = AGSOperationQueue()
+    private var downloadQueue: AGSOperationQueue = {
+        let queue = AGSOperationQueue()
+        queue.qualityOfService = .userInitiated
+        return queue
+    }()
     
     // MARK:- Local
 

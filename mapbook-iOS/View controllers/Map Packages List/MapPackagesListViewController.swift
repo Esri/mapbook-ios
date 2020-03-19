@@ -26,24 +26,6 @@
 import UIKit
 import ArcGIS
 
-private protocol Section {
-    var header: String { get }
-    var packages: [AGSMobileMapPackage] { get }
-    var noPackagesMessage: String { get }
-}
-
-private class PortalSection: Section {
-    let header = "Portal Packages"
-    let noPackagesMessage = "No portal packages, sign in to Portal and tap the search button."
-    var packages = [PortalAwareMobileMapPackage]() as [AGSMobileMapPackage]
-}
-
-private class DeviceSection: Section {
-    let header = "Device Packages"
-    let noPackagesMessage = "No device packages, tap the folder button."
-    var packages = [AGSMobileMapPackage]()
-}
-
 class MapPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
@@ -51,23 +33,16 @@ class MapPackagesListViewController: UIViewController {
     @IBOutlet private var portalSearchButton:UIBarButtonItem!
     @IBOutlet private var portalAuthButton:UIBarButtonItem!
     
-    private let sections: [Section] = {
-        [PortalSection(), DeviceSection()]
-    }()
+    // MARK:- Portal Section
     
-    private var portalSection: PortalSection {
-        sections.first(where: { $0 is PortalSection }) as! PortalSection
-    }
-    
-    private var deviceSection: DeviceSection {
-        sections.first(where: { $0 is DeviceSection }) as! DeviceSection
-    }
+    private var portalPackages = [PortalAwareMobileMapPackage]()
+    private var devicePackages = [AGSMobileMapPackage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //self sizing table view cells
-        tableView.estimatedRowHeight = 84
+        tableView.estimatedRowHeight = 202
         tableView.rowHeight = UITableView.automaticDimension
         
         //add refresh control to allow refreshing local packages
@@ -114,7 +89,7 @@ class MapPackagesListViewController: UIViewController {
                 
                 switch result {
                 case .success(let packages):
-                    self.portalSection.packages = packages
+                    self.portalPackages = packages
                 case .failure(let error):
                     show(error: error)
                 }
@@ -125,7 +100,7 @@ class MapPackagesListViewController: UIViewController {
         catch {
             
             show(error: error)
-            portalSection.packages.removeAll()
+            self.portalPackages.removeAll()
             
             self.tableView.reloadData()
         }
@@ -146,7 +121,7 @@ class MapPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        try? appContext.packageManager.checkForUpdates(packages: portalSection.packages as! [PortalAwareMobileMapPackage]) {
+        try? appContext.packageManager.checkForUpdates(packages: self.portalPackages) {
             self.tableView.reloadData()
         }
     }
@@ -166,16 +141,19 @@ class MapPackagesListViewController: UIViewController {
     */
     private func observeDownloadCompletedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .downloadDidComplete, object: nil, queue: .main) { [weak self] (notification) in
+        NotificationCenter.default
+            .addObserver(forName: .downloadDidComplete,
+                         object: nil,
+                         queue: .main) { [weak self] (notification) in
             
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
             //get error from notification
             if let error = notification.userInfo?["error"] as? NSError, error.code != NSUserCancelledError {
                 SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
             }
             
-            strongSelf.refreshLocalPackages()
+            self.refreshLocalPackages()
         }
     }
     
@@ -206,7 +184,7 @@ class MapPackagesListViewController: UIViewController {
         if segue.identifier == "showMapPackage",
             let controller = segue.destination as? MapPackageViewController,
             let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
-            let package = portalSection.packages[selectedIndexPath.row]
+            let package = portalPackages[selectedIndexPath.row]
             controller.mapPackage = package
             tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
@@ -293,43 +271,51 @@ class MapPackagesListViewController: UIViewController {
 extension MapPackagesListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        sections.count
+        2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if sections[section].packages.isEmpty {
-            return 1
+        if section == 0 { // Portal Packages
+            return portalPackages.isEmpty ? 1 : portalPackages.count
         }
-        else {
-            return sections[section].packages.count
+        else { // Device Packages
+            return devicePackages.isEmpty ? 1 : devicePackages.count
         }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        sections[section].header
+        if section == 0 { // Portal Packages
+            return "Portal Packages"
+        }
+        else { // Device Packages
+            return "Device Packages"
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                
+        var sectionEmpty = false
         
-        let section = sections[indexPath.section]
+        if indexPath.section == 0 {
+            sectionEmpty = portalPackages.isEmpty
+        }
+        else {
+            sectionEmpty = devicePackages.isEmpty
+        }
         
-        guard !section.packages.isEmpty else {
+        guard !sectionEmpty else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoPackagesCell") as! NoPackagesCell
-            cell.messageLabel.text = section.noPackagesMessage
             return cell
         }
         
         //cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocalPackageCell") as! LocalPackageCell
         
-        if let portalSection = section as? PortalSection {
-            cell.mobileMapPackage = (portalSection.packages[indexPath.row] as! PortalAwareMobileMapPackage)
-        }
-        else if let _ = section as? DeviceSection {
-//            cell.mobileMapPackage = sections[indexPath.section].packages[indexPath.row]
+        if indexPath.section == 0 {
+            cell.mobileMapPackage = portalPackages[indexPath.row]
         }
         else {
-            preconditionFailure("Unsupported section.")
+//            cell.mobileMapPackage = portalPackages[indexPath.row]
         }
         
         cell.updateButton.addTarget(self, action: #selector(update), for: .touchUpInside)
@@ -343,37 +329,40 @@ extension MapPackagesListViewController: UITableViewDelegate {
     //for deleting package
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        if editingStyle == .delete {
+        guard editingStyle == .delete else { return } // supports no other form of editing.
+        
+        //show alert controller for confirmation
+        let alertController = UIAlertController(title: nil,
+                                                message: "Are you sure you want to delete this mobile map package?",
+                                                preferredStyle: .alert)
+        
+        //yes action
+        let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
             
-            //show alert controller for confirmation
-            let alertController = UIAlertController(title: nil, message: "Are you sure you want to delete this mobile map package?", preferredStyle: .alert)
+            guard let self = self else { return }
             
-            //yes action
-            let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
-                
-                guard let self = self else { return }
-                
-                //delete package using AppContext
-                let package = self.sections[indexPath.section].packages[indexPath.row]
-                
+            if indexPath.section == 0 { // Portal Packages
+                let package = self.portalPackages.remove(at: indexPath.row)
+                            
+                //delete package from app context
                 try? appContext.packageManager.removeDownloaded(package: package)
-                var packages = self.sections[indexPath.section].packages
-                packages.remove(at: indexPath.row)
                 
-                //refresh table view
-                tableView.reloadData()
+                tableView.reloadSections([indexPath.section], with: .fade)
             }
-            
-            //no action
-            let noAction = UIAlertAction(title: "No", style: .cancel)
-            
-            //add actions to alert controller
-            alertController.addAction(yesAction)
-            alertController.addAction(noAction)
-            
-            //present alert controller
-            self.present(alertController, animated: true, completion: nil)
+            else {
+                //
+            }
         }
+        
+        //no action
+        let noAction = UIAlertAction(title: "No", style: .cancel)
+        
+        //add actions to alert controller
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        //present alert controller
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

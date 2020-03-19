@@ -240,15 +240,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocalPackageCell" rowHeight="203" id="B97-C2-fFa" customClass="LocalPackageCell" customModule="mapbook_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="834" height="203"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocalPackageCell" rowHeight="202" id="B97-C2-fFa" customClass="LocalPackageCell" customModule="mapbook_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.5" width="834" height="202"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="B97-C2-fFa" id="zwi-84-8lC">
-                                            <rect key="frame" x="0.0" y="0.0" width="834" height="203"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="202"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="qVc-XB-BZo">
-                                                    <rect key="frame" x="20" y="20" width="794" height="163"/>
+                                                    <rect key="frame" x="20" y="20" width="794" height="162"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="GWK-ij-7Xt">
                                                             <rect key="frame" x="0.0" y="0.0" width="794" height="153"/>
@@ -390,7 +390,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoPackagesCell" rowHeight="48" id="mhw-6k-EIF" customClass="NoPackagesCell" customModule="mapbook_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="258.5" width="834" height="48"/>
+                                        <rect key="frame" x="0.0" y="257.5" width="834" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mhw-6k-EIF" id="ZNp-bX-Dd7">
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="48"/>
