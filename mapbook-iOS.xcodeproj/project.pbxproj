@@ -15,7 +15,7 @@
 		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
 		3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */; };
 		3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */; };
-		3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */; };
+		3EDC844F1F1E8B94002DBCF2 /* MapPackagesList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* MapPackagesList.storyboard */; };
 		3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */; };
 		3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */; };
 		3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84631F1ED3E7002DBCF2 /* MapViewController.swift */; };
@@ -78,7 +78,7 @@
 		3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapbook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3EDC844E1F1E8B94002DBCF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3EDC844E1F1E8B94002DBCF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MapPackagesList.storyboard; sourceTree = "<group>"; };
 		3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3EDC84531F1E8B94002DBCF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EDC84551F1E8B94002DBCF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -173,7 +173,6 @@
 				3EDC846B1F1FD5C0002DBCF2 /* Cells */,
 				3E6E06B81F3237B300921439 /* Libraries */,
 				3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */,
-				3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */,
 				3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */,
 				944FC14E202404C1007535DB /* AppIcon.xcassets */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
@@ -206,8 +205,8 @@
 		3EEBD3261F423EA800DB4AAA /* View controllers */ = {
 			isa = PBXGroup;
 			children = (
-				949DDF2A242426EF0038608D /* Portal Browser */,
 				946987BB2421695D00100FA2 /* Portal Auth */,
+				949DDF2A242426EF0038608D /* Portal Browser */,
 				949DDF222422D3E20038608D /* Map Packages List */,
 				94C7293C2420172A00F37D96 /* Map Package */,
 				94C729382420138600F37D96 /* Map */,
@@ -282,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				949DDF232422D40F0038608D /* MapPackagesListViewController.swift */,
+				3EDC844D1F1E8B94002DBCF2 /* MapPackagesList.storyboard */,
 			);
 			path = "Map Packages List";
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
 				949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */,
 				94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */,
-				3EDC844F1F1E8B94002DBCF2 /* Main.storyboard in Resources */,
+				3EDC844F1F1E8B94002DBCF2 /* MapPackagesList.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,12 +460,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3EDC844D1F1E8B94002DBCF2 /* Main.storyboard */ = {
+		3EDC844D1F1E8B94002DBCF2 /* MapPackagesList.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3EDC844E1F1E8B94002DBCF2 /* Base */,
 			);
-			name = Main.storyboard;
+			name = MapPackagesList.storyboard;
 			sourceTree = "<group>";
 		};
 		3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */ = {
