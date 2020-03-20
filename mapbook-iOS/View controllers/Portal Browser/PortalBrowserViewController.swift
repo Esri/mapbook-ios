@@ -93,7 +93,7 @@ class PortalBrowserViewController: UIViewController {
             }
         }
         catch {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            flash(error: error)
         }
     }
         
@@ -116,7 +116,7 @@ class PortalBrowserViewController: UIViewController {
             }
         }
         catch {
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            flash(error: error)
         }
     }
     
@@ -145,7 +145,7 @@ class PortalBrowserViewController: UIViewController {
             
         case .failure(let error):
             if let error = error as NSError?, error.code != NSUserCancelledError {
-                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                flash(error: error)
             }
         }
     }
@@ -164,7 +164,7 @@ class PortalBrowserViewController: UIViewController {
             let error = notification.userInfo?["error"] as? Error
                         
             if let error = error as NSError?, error.code != NSUserCancelledError {
-                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                flash(error: error)
             }
             
             if let itemID = notification.userInfo?["itemID"] as? String,

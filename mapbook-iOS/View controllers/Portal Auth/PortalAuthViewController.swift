@@ -31,7 +31,7 @@ class PortalAuthViewController: UIViewController {
         
         switch appContext.sessionManager.status {
         case .failed(let error):
-            SVProgressHUD.showError(withStatus: error.localizedDescription)
+            flash(error: error)
             break
         default:
             break

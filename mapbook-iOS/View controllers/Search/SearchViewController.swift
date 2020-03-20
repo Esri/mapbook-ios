@@ -66,7 +66,7 @@ class SearchViewController: UIViewController {
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                    flash(error: error)
                 }
                 return
             }
@@ -97,7 +97,7 @@ class SearchViewController: UIViewController {
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                    flash(error: error)
                 }
                 return
             }
@@ -121,7 +121,7 @@ class SearchViewController: UIViewController {
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                    flash(error: error)
                 }
                 return
             }

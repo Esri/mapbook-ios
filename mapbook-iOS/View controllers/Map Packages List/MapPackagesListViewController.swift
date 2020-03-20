@@ -77,7 +77,7 @@ class MapPackagesListViewController: UITableViewController {
             //get error from notification
             if let error = notification.userInfo?["error"] as? NSError,
                 error.code != NSUserCancelledError {
-                SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+                flash(error: error)
             }
             
             self.fetchDownloadedPortalPackages()
@@ -190,7 +190,7 @@ class MapPackagesListViewController: UITableViewController {
             
             self.tableView.reloadData()
             
-            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
+            flash(error: error)
             
             Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
                 self?.tableView.refreshControl?.endRefreshing()
@@ -331,7 +331,7 @@ extension MapPackagesListViewController: LocalPackageCellDelegate {
         appContext.packageManager.update(package: package) { (error) in
             
             if let error = error {
-                SVProgressHUD.showError(withStatus: error.localizedDescription)
+                flash(error: error)
             }
             
             if let indexPath = self.tableView.indexPath(for: cell) {

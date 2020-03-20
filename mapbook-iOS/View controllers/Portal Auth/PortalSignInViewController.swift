@@ -40,7 +40,7 @@ class PortalSignInViewController: UITableViewController, BundleAware {
         guard
             let urlString = enterpriseURLTextField.text,
             let url = URL(string: urlString) else {
-                SVProgressHUD.showError(withStatus: InvalidURL().localizedDescription)
+                flash(error: InvalidURL())
                 return
         }
         

@@ -10,9 +10,6 @@
 		3E062F601F424C350061D84F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E062F5F1F424C350061D84F /* AppSettings.swift */; };
 		3E1D6E881F2691FF00FB119A /* PortalBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E871F2691FE00FB119A /* PortalBrowserViewController.swift */; };
 		3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */; };
-		3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */; };
-		3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */; };
-		3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */; };
 		3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */; };
 		3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */; };
 		3EDC844F1F1E8B94002DBCF2 /* MapPackagesList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC844D1F1E8B94002DBCF2 /* MapPackagesList.storyboard */; };
@@ -40,6 +37,23 @@
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF232422D40F0038608D /* MapPackagesListViewController.swift */; };
 		949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949DDF2B242427320038608D /* PortalBrowser.storyboard */; };
+		949DDF432425798B0038608D /* PKHUDSystemActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF302425798B0038608D /* PKHUDSystemActivityIndicatorView.swift */; };
+		949DDF442425798B0038608D /* PKHUDAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF312425798B0038608D /* PKHUDAnimation.swift */; };
+		949DDF452425798B0038608D /* PKHUDAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF322425798B0038608D /* PKHUDAnimating.swift */; };
+		949DDF462425798B0038608D /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF332425798B0038608D /* FrameView.swift */; };
+		949DDF472425798B0038608D /* PKHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF342425798B0038608D /* PKHUD.swift */; };
+		949DDF482425798B0038608D /* PKHUDSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF352425798B0038608D /* PKHUDSuccessView.swift */; };
+		949DDF492425798B0038608D /* PKHUDAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF362425798B0038608D /* PKHUDAssets.swift */; };
+		949DDF4A2425798B0038608D /* PKHUDWideBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF372425798B0038608D /* PKHUDWideBaseView.swift */; };
+		949DDF4B2425798B0038608D /* PKHUDTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF382425798B0038608D /* PKHUDTextView.swift */; };
+		949DDF4C2425798B0038608D /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF392425798B0038608D /* HUD.swift */; };
+		949DDF4D2425798B0038608D /* PKHUDRotatingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF3A2425798B0038608D /* PKHUDRotatingImageView.swift */; };
+		949DDF4E2425798B0038608D /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF3B2425798B0038608D /* Window.swift */; };
+		949DDF4F2425798B0038608D /* WindowRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF3C2425798B0038608D /* WindowRootViewController.swift */; };
+		949DDF502425798B0038608D /* PKHUDProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF3D2425798B0038608D /* PKHUDProgressView.swift */; };
+		949DDF512425798B0038608D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949DDF3E2425798B0038608D /* Images.xcassets */; };
+		949DDF522425798B0038608D /* PKHUDSquareBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF3F2425798B0038608D /* PKHUDSquareBaseView.swift */; };
+		949DDF532425798B0038608D /* PKHUDErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF402425798B0038608D /* PKHUDErrorView.swift */; };
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
 		94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A53EC82420366B006B0A27 /* MapPackageViewController.swift */; };
 		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
@@ -68,12 +82,6 @@
 		3E062F5F1F424C350061D84F /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3E1D6E871F2691FE00FB119A /* PortalBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalBrowserViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
-		3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
-		3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
-		3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		3E6E06BE1F3237FA00921439 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mapbook-iOSBridgingHeader.h"; sourceTree = "<group>"; };
 		3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapbook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +112,24 @@
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949DDF232422D40F0038608D /* MapPackagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackagesListViewController.swift; sourceTree = "<group>"; };
 		949DDF2B242427320038608D /* PortalBrowser.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PortalBrowser.storyboard; sourceTree = "<group>"; };
+		949DDF302425798B0038608D /* PKHUDSystemActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDSystemActivityIndicatorView.swift; sourceTree = "<group>"; };
+		949DDF312425798B0038608D /* PKHUDAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDAnimation.swift; sourceTree = "<group>"; };
+		949DDF322425798B0038608D /* PKHUDAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDAnimating.swift; sourceTree = "<group>"; };
+		949DDF332425798B0038608D /* FrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
+		949DDF342425798B0038608D /* PKHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUD.swift; sourceTree = "<group>"; };
+		949DDF352425798B0038608D /* PKHUDSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDSuccessView.swift; sourceTree = "<group>"; };
+		949DDF362425798B0038608D /* PKHUDAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDAssets.swift; sourceTree = "<group>"; };
+		949DDF372425798B0038608D /* PKHUDWideBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDWideBaseView.swift; sourceTree = "<group>"; };
+		949DDF382425798B0038608D /* PKHUDTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDTextView.swift; sourceTree = "<group>"; };
+		949DDF392425798B0038608D /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		949DDF3A2425798B0038608D /* PKHUDRotatingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDRotatingImageView.swift; sourceTree = "<group>"; };
+		949DDF3B2425798B0038608D /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		949DDF3C2425798B0038608D /* WindowRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowRootViewController.swift; sourceTree = "<group>"; };
+		949DDF3D2425798B0038608D /* PKHUDProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDProgressView.swift; sourceTree = "<group>"; };
+		949DDF3E2425798B0038608D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		949DDF3F2425798B0038608D /* PKHUDSquareBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDSquareBaseView.swift; sourceTree = "<group>"; };
+		949DDF402425798B0038608D /* PKHUDErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKHUDErrorView.swift; sourceTree = "<group>"; };
+		949DDF412425798B0038608D /* PKHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHUD.h; sourceTree = "<group>"; };
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
 		94A53EC82420366B006B0A27 /* MapPackageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackageViewController.swift; sourceTree = "<group>"; };
 		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
@@ -125,28 +151,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3E6E06B81F3237B300921439 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				3E6E06B91F3237FA00921439 /* SVProgressHUD */,
-			);
-			name = Libraries;
-			sourceTree = "<group>";
-		};
-		3E6E06B91F3237FA00921439 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				3E6E06BA1F3237FA00921439 /* SVIndefiniteAnimatedView.h */,
-				3E6E06BB1F3237FA00921439 /* SVIndefiniteAnimatedView.m */,
-				3E6E06BC1F3237FA00921439 /* SVProgressHUD-Prefix.pch */,
-				3E6E06BD1F3237FA00921439 /* SVProgressHUD.bundle */,
-				3E6E06BE1F3237FA00921439 /* SVProgressHUD.h */,
-				3E6E06BF1F3237FA00921439 /* SVProgressHUD.m */,
-			);
-			name = SVProgressHUD;
-			path = Libraries/SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		3EDC843D1F1E8B94002DBCF2 = {
 			isa = PBXGroup;
 			children = (
@@ -167,28 +171,19 @@
 		3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				9494DD532175026800DE04A5 /* Extensions */,
-				3EEBD3261F423EA800DB4AAA /* View controllers */,
 				3EEBD3251F42264200DB4AAA /* AppContext */,
-				3EDC846B1F1FD5C0002DBCF2 /* Cells */,
-				3E6E06B81F3237B300921439 /* Libraries */,
+				3EEBD3261F423EA800DB4AAA /* View controllers */,
+				9494DD532175026800DE04A5 /* Extensions */,
+				949DDF2F2425798B0038608D /* PKHUD */,
 				3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */,
+				3E062F5F1F424C350061D84F /* AppSettings.swift */,
 				3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */,
 				944FC14E202404C1007535DB /* AppIcon.xcassets */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
 				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
-				3E062F5F1F424C350061D84F /* AppSettings.swift */,
 			);
 			path = "mapbook-iOS";
-			sourceTree = "<group>";
-		};
-		3EDC846B1F1FD5C0002DBCF2 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */,
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 		3EEBD3251F42264200DB4AAA /* AppContext */ = {
@@ -289,10 +284,36 @@
 		949DDF2A242426EF0038608D /* Portal Browser */ = {
 			isa = PBXGroup;
 			children = (
+				3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */,
 				3E1D6E871F2691FE00FB119A /* PortalBrowserViewController.swift */,
 				949DDF2B242427320038608D /* PortalBrowser.storyboard */,
 			);
 			path = "Portal Browser";
+			sourceTree = "<group>";
+		};
+		949DDF2F2425798B0038608D /* PKHUD */ = {
+			isa = PBXGroup;
+			children = (
+				949DDF302425798B0038608D /* PKHUDSystemActivityIndicatorView.swift */,
+				949DDF312425798B0038608D /* PKHUDAnimation.swift */,
+				949DDF322425798B0038608D /* PKHUDAnimating.swift */,
+				949DDF332425798B0038608D /* FrameView.swift */,
+				949DDF342425798B0038608D /* PKHUD.swift */,
+				949DDF352425798B0038608D /* PKHUDSuccessView.swift */,
+				949DDF362425798B0038608D /* PKHUDAssets.swift */,
+				949DDF372425798B0038608D /* PKHUDWideBaseView.swift */,
+				949DDF382425798B0038608D /* PKHUDTextView.swift */,
+				949DDF392425798B0038608D /* HUD.swift */,
+				949DDF3A2425798B0038608D /* PKHUDRotatingImageView.swift */,
+				949DDF3B2425798B0038608D /* Window.swift */,
+				949DDF3C2425798B0038608D /* WindowRootViewController.swift */,
+				949DDF3D2425798B0038608D /* PKHUDProgressView.swift */,
+				949DDF3E2425798B0038608D /* Images.xcassets */,
+				949DDF3F2425798B0038608D /* PKHUDSquareBaseView.swift */,
+				949DDF402425798B0038608D /* PKHUDErrorView.swift */,
+				949DDF412425798B0038608D /* PKHUD.h */,
+			);
+			path = PKHUD;
 			sourceTree = "<group>";
 		};
 		94C72935242012A900F37D96 /* Search */ = {
@@ -385,7 +406,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */,
-				3E6E06C11F3237FA00921439 /* SVProgressHUD.bundle in Resources */,
 				94C7293A2420139800F37D96 /* Map.storyboard in Resources */,
 				3EDC84541F1E8B94002DBCF2 /* LaunchScreen.storyboard in Resources */,
 				946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */,
@@ -394,6 +414,7 @@
 				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
 				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
 				949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */,
+				949DDF512425798B0038608D /* Images.xcassets in Resources */,
 				94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */,
 				3EDC844F1F1E8B94002DBCF2 /* MapPackagesList.storyboard in Resources */,
 			);
@@ -427,33 +448,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				949DDF4E2425798B0038608D /* Window.swift in Sources */,
 				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
+				949DDF442425798B0038608D /* PKHUDAnimation.swift in Sources */,
 				943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */,
 				946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */,
+				949DDF472425798B0038608D /* PKHUD.swift in Sources */,
+				949DDF4D2425798B0038608D /* PKHUDRotatingImageView.swift in Sources */,
+				949DDF522425798B0038608D /* PKHUDSquareBaseView.swift in Sources */,
 				94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */,
 				3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */,
-				3E6E06C01F3237FA00921439 /* SVIndefiniteAnimatedView.m in Sources */,
+				949DDF432425798B0038608D /* PKHUDSystemActivityIndicatorView.swift in Sources */,
 				3ECCFF901F2AAB6100E703B8 /* AppContext.swift in Sources */,
+				949DDF4A2425798B0038608D /* PKHUDWideBaseView.swift in Sources */,
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
+				949DDF4C2425798B0038608D /* HUD.swift in Sources */,
 				949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */,
 				9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */,
+				949DDF4F2425798B0038608D /* WindowRootViewController.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
 				943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */,
+				949DDF502425798B0038608D /* PKHUDProgressView.swift in Sources */,
 				9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */,
 				94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */,
 				943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */,
 				3E1D6E8E1F280D0300FB119A /* PortalItemCell.swift in Sources */,
 				946987C32422934000100FA2 /* PortalHomeViewController.swift in Sources */,
+				949DDF452425798B0038608D /* PKHUDAnimating.swift in Sources */,
+				949DDF532425798B0038608D /* PKHUDErrorView.swift in Sources */,
 				3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */,
 				3E1D6E881F2691FF00FB119A /* PortalBrowserViewController.swift in Sources */,
-				3E6E06C21F3237FA00921439 /* SVProgressHUD.m in Sources */,
+				949DDF4B2425798B0038608D /* PKHUDTextView.swift in Sources */,
 				9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */,
 				3E062F601F424C350061D84F /* AppSettings.swift in Sources */,
+				949DDF482425798B0038608D /* PKHUDSuccessView.swift in Sources */,
 				949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */,
+				949DDF492425798B0038608D /* PKHUDAssets.swift in Sources */,
 				946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */,
 				946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */,
 				3EDC84641F1ED3E7002DBCF2 /* MapViewController.swift in Sources */,
+				949DDF462425798B0038608D /* FrameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

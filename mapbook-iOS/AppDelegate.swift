@@ -42,11 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        self.setLicenseKey()
-        
-        self.setupOAuthManager()
-                
-        self.modifyAppearance()
+        setLicenseKey()
+        setupOAuthManager()
+        modifyAppearance()
+        configureHUD()
         
         return true
     }
@@ -101,4 +100,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primary
     }
+    
+    // MARK:- Configure HUD (PKHUD)
+    
+    func configureHUD() {
+        HUD.registerForKeyboardNotifications()
+        HUD.dimsBackground = false
+        HUD.allowsInteraction = false
+    }
+}
+
+func flash(error: Error, delay: TimeInterval = 2.0) {
+    HUD.flash(.labeledError(title: nil, subtitle: error.localizedDescription), delay: delay)
 }

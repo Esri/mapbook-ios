@@ -154,12 +154,11 @@ extension MapViewController:AGSGeoViewTouchDelegate {
                                     maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
             
             guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                flash(error: error!)
                 return
             }
             
             guard let results = identifyLayerResults else {
-                SVProgressHUD.showError(withStatus: "No features at the tapped location", maskType: .gradient)
                 return
             }
             
@@ -221,11 +220,6 @@ extension MapViewController: SearchViewControllerDelegate {
         
         //clear existing graphics
         self.searchGraphicsOverlay.graphics.removeAllObjects()
-        
-        guard geocodeResults.count > 0 else {
-            SVProgressHUD.showError(withStatus: "No results found", maskType: .gradient)
-            return
-        }
         
         let geocodeResult = geocodeResults[0]
         

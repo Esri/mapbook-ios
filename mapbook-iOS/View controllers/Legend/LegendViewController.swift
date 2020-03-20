@@ -59,7 +59,7 @@ class LegendViewController: UITableViewController {
                     guard let self = self else { return }
                     
                     guard error == nil else {
-                        SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
+                        flash(error: error!)
                         return
                     }
                     
