@@ -76,6 +76,7 @@ extension FileManager {
 
 protocol PackageManagerDelegate: class {
     
+    func packageManager(_ manager: PackageManager, enqueued item: AGSPortalItem)
     func packageManager(_ manager: PackageManager, failed error: Error, item: AGSPortalItem)
     func packageManager(_ manager: PackageManager, downloaded item: AGSPortalItem, to path: URL)
 }
@@ -87,7 +88,7 @@ class PackageManager {
     // MARK:- Download
     
     func isCurrentlyDownloading(item id: String) -> Bool {
-        downloadQueue.operations.contains(where: { ($0 as! AGSRequestOperation).sessionID == id })
+        downloadQueue.operations.contains(where: { ($0 as! PortalItemRequestOperation).item.itemID == id })
     }
     
     func download(item: AGSPortalItem) throws {
@@ -107,7 +108,7 @@ class PackageManager {
         do {
             temporaryURL = try FileManager.default.temporaryURL(for: item)
             downloadedURL = try FileManager.default.downloadedURL(for: item)
-            operation = try AGSRequestOperation(portal: portal, item: item)
+            operation = try PortalItemRequestOperation(portal: portal, item: item)
         }
         catch {
             delegate?.packageManager(self, failed: MissingDirectory(), item: item)
@@ -128,7 +129,7 @@ class PackageManager {
             }
             
             do {
-                try FileManager.default.replaceItemAt(downloadedURL, withItemAt: temporaryURL)
+                _ = try FileManager.default.replaceItemAt(downloadedURL, withItemAt: temporaryURL)
             }
             catch {
                 DispatchQueue.main.async {
@@ -143,6 +144,7 @@ class PackageManager {
         }
         
         downloadQueue.addOperation(operation)
+        delegate?.packageManager(self, enqueued: item)
     }
     
     // MARK:- Update
@@ -215,6 +217,10 @@ class PackageManager {
         return queue
     }()
     
+    func fetchDownloadingPackages() -> [AGSPortalItem] {
+        downloadQueue.operations.map { ($0 as! PortalItemRequestOperation).item }
+    }
+    
     // MARK:- Local
 
     func fetchDownloadedPackages(_ completion: @escaping (Result<[PortalAwareMobileMapPackage], Error>) -> Void) throws {
@@ -278,9 +284,11 @@ class PackageManager {
     }
 }
 
-extension AGSRequestOperation {
+class PortalItemRequestOperation: AGSRequestOperation {
     
-    convenience init(portal: AGSPortal, item: AGSItem) throws {
+    private(set) var item: AGSPortalItem
+    
+    init(portal: AGSPortal, item: AGSPortalItem) throws {
         
         guard let url = portal.url else {
             throw MissingURLError()
@@ -292,7 +300,9 @@ extension AGSRequestOperation {
             throw InvalidURLError()
         }
                 
-        self.init(remoteResource: portal, url: dataURL, queryParameters: nil, method: .get)
+        self.item = item
+        
+        super.init(remoteResource: portal, url: dataURL, queryParameters: nil, method: .get)
         
         self.sessionID = item.itemID
     }

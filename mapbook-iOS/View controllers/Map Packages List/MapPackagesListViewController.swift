@@ -23,7 +23,6 @@
 // email: contracts@esri.com
 //
 
-import UIKit
 import ArcGIS
 
 class MapPackagesListViewController: UITableViewController {
@@ -58,13 +57,9 @@ class MapPackagesListViewController: UITableViewController {
     }
     
     private func updateNavigationItems() {
-        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
-            portalSearchButton.isEnabled = true
-        }
-        else {
-            portalSearchButton.isEnabled = false
-        }
+        portalSearchButton.isEnabled = appContext.sessionManager.isSignedIn
     }
+    
     /*
      A convenient method to observe DownloadCompleted notification. It adds self
      as an observer for the notification. And in the closure, updates the state of

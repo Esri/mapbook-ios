@@ -22,9 +22,7 @@
 // email: contracts@esri.com
 //
 
-import UIKit
 import ArcGIS
-
 
 var appContext: AppContext { AppContext.shared }
 
@@ -71,11 +69,22 @@ extension Notification.Name {
 
 extension AppContext: PackageManagerDelegate {
     
+    func packageManager(_ manager: PackageManager, enqueued item: AGSPortalItem) {
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["itemID": item.itemID, "item": item])
+    }
+    
     func packageManager(_ manager: PackageManager, failed error: Error, item: AGSPortalItem) {
-        NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["error": error, "itemID": item.itemID])
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["error": error,
+                                                   "itemID": item.itemID])
     }
     
     func packageManager(_ manager: PackageManager, downloaded item: AGSPortalItem, to path: URL) {
-        NotificationCenter.default.post(name: .downloadDidComplete, object: self, userInfo: ["itemID": item.itemID])
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["itemID": item.itemID])
     }
 }
