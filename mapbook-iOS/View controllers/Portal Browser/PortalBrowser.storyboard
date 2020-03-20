@@ -56,7 +56,7 @@
                                                     <rect key="frame" x="10" y="10" width="394" height="64"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eBy-uP-OAF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="64"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="326" height="64"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0Yc-Kn-LT2">
                                                                     <rect key="frame" x="0.0" y="0.0" width="260" height="64"/>
@@ -112,7 +112,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="253" text="Descripiton" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0D-Oe-2Oy">
-                                                                    <rect key="frame" x="265" y="0.0" width="25" height="64"/>
+                                                                    <rect key="frame" x="265" y="0.0" width="61" height="64"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -121,14 +121,14 @@
                                                             <variation key="widthClass=compact" axis="vertical"/>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fji-gK-Spe">
-                                                            <rect key="frame" x="298" y="0.0" width="96" height="64"/>
+                                                            <rect key="frame" x="334" y="0.0" width="60" height="64"/>
                                                             <subviews>
                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Swj-8E-SNg">
                                                                     <rect key="frame" x="0.0" y="22" width="20" height="20"/>
                                                                 </activityIndicatorView>
                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mG1-fv-Kro">
-                                                                    <rect key="frame" x="20" y="2" width="60" height="60"/>
-                                                                    <state key="normal" image="Download"/>
+                                                                    <rect key="frame" x="20" y="21" width="24" height="22"/>
+                                                                    <state key="normal" image="icloud.and.arrow.down" catalog="system"/>
                                                                     <connections>
                                                                         <action selector="download:" destination="wt1-Rh-SzD" eventType="touchUpInside" id="271-S5-qap"/>
                                                                     </connections>
@@ -210,6 +210,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Download" width="30" height="30"/>
+        <image name="icloud.and.arrow.down" catalog="system" width="64" height="56"/>
     </resources>
 </document>

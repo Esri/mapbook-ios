@@ -166,7 +166,7 @@ class MapCollectionCell: UICollectionViewCell {
         set {
             _selected = newValue
             if _selected {
-                self.layer.borderColor = UIColor.primaryBlue.cgColor
+                self.layer.borderColor = UIColor.primary.cgColor
             }
             else {
                 self.layer.borderColor = UIColor.clear.cgColor

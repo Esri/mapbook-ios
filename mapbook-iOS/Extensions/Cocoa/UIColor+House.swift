@@ -26,8 +26,8 @@ import UIKit.UIColor
 
 extension UIColor {
     
-    class var primaryBlue: UIColor {
-        return UIColor(red: 61.0/255.0, green: 81.0/255.0, blue: 180.0/255.0, alpha: 1)
+    class var primary: UIColor {
+        return UIColor(named: "primary")!
     }
 }
 

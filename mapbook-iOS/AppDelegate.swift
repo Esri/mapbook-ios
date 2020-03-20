@@ -78,27 +78,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-        buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
-        buttonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
-        buttonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
+        buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+        buttonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+        buttonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
         navBarAppearance.buttonAppearance = buttonAppearance
         let doneButtonAppearance = UIBarButtonItemAppearance(style: .done)
-        doneButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
-        doneButtonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
-        doneButtonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primaryBlue]
+        doneButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+        doneButtonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+        doneButtonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
         navBarAppearance.doneButtonAppearance = doneButtonAppearance
         UINavigationBar.appearance().standardAppearance = navBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
         UINavigationBar.appearance().compactAppearance = navBarAppearance
         
-        UIButton.appearance().tintColor = .primaryBlue
+        UIButton.appearance().tintColor = .primary
         
         UITabBar.appearance().tintColor = .white
-        UITabBar.appearance().barTintColor = .primaryBlue
+        UITabBar.appearance().barTintColor = .primary
 
-        UISwitch.appearance().onTintColor = .primaryBlue
-        UISlider.appearance().tintColor = .primaryBlue
+        UISwitch.appearance().onTintColor = .primary
+        UISlider.appearance().tintColor = .primary
                         
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primaryBlue
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primary
     }
 }

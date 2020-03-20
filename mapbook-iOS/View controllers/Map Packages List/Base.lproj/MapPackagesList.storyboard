@@ -132,14 +132,14 @@
                                                                                     <rect key="frame" x="153.5" y="33.5" width="84.5" height="56.5"/>
                                                                                     <subviews>
                                                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XEj-gH-swL">
-                                                                                            <rect key="frame" x="42.5" y="0.0" width="42" height="22"/>
+                                                                                            <rect key="frame" x="46.5" y="0.0" width="38" height="22"/>
                                                                                             <subviews>
                                                                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YY5-vA-cqd">
                                                                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="22"/>
                                                                                                 </activityIndicatorView>
                                                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTd-lI-gow">
-                                                                                                    <rect key="frame" x="20" y="0.0" width="22" height="22"/>
-                                                                                                    <state key="normal" image="Update"/>
+                                                                                                    <rect key="frame" x="20" y="0.0" width="18" height="22"/>
+                                                                                                    <state key="normal" image="arrow.clockwise" catalog="system"/>
                                                                                                     <connections>
                                                                                                         <action selector="userRequestsUpdatePortalAwarePackage:" destination="Pxw-w5-nh1" eventType="touchUpInside" id="DaW-XW-sTc"/>
                                                                                                     </connections>
@@ -269,7 +269,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Update" width="22" height="22"/>
+        <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="person.crop.circle" catalog="system" width="64" height="60"/>
     </resources>
