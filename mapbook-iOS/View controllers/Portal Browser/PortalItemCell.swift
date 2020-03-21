@@ -46,76 +46,78 @@ class PortalItemCell: UITableViewCell {
     @IBOutlet private var downloadButton:UIButton!
     @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
     
-    var isDownloading = false {
+    enum Status {
+        case unknown, cloud, downloading, downloaded
+    }
+    
+    var status: Status = .unknown {
         didSet {
-            self.downloadButton.isHidden = isDownloading
-            self.activityIndicatorView?.isHidden = !isDownloading
-            
-            if !(self.activityIndicatorView?.isHidden ?? true) {
-                self.activityIndicatorView?.startAnimating()
+            switch status {
+            case .cloud:
+                downloadButton.isEnabled = true
+                downloadButton.isHidden = false
+                activityIndicatorView.isHidden = true
+                activityIndicatorView.stopAnimating()
+                break
+            case .downloading:
+                downloadButton.isEnabled = false
+                downloadButton.isHidden = true
+                activityIndicatorView.isHidden = false
+                activityIndicatorView.startAnimating()
+                break
+            case .downloaded:
+                downloadButton.isEnabled = false
+                downloadButton.isHidden = false
+                activityIndicatorView.isHidden = true
+                activityIndicatorView.stopAnimating()
+                break
+            default:
+                downloadButton.isEnabled = false
+                downloadButton.isHidden = true
+                activityIndicatorView.isHidden = true
+                activityIndicatorView.stopAnimating()
+                break
             }
         }
     }
     
-    var isAlreadyDownloaded = false {
-        didSet {
-            self.downloadButton.isEnabled = !isAlreadyDownloaded
-        }
-    }
-    
-    var portalItem:AGSPortalItem? {
+    var portalItem: AGSPortalItem? {
         didSet {
             
-            guard let portalItemID = portalItem?.itemID else {
-                return
+            //update UI
+            
+            self.titleLabel.text = portalItem?.title
+            
+            if let created = portalItem?.created {
+                self.createdLabel.text = "\(Self.dateFormatter.string(from: created))"
+            }
+            else {
+                self.createdLabel.text = ""
             }
             
-            self.portalItem?.load { [weak self] (error) in
-                
-                guard let self = self else { return }
-                
-                guard error == nil else { return }
-                
-                guard let portalItem = self.portalItem, portalItem.itemID == portalItemID else {
-                    return
-                }
-
-                //update UI
-                self.isDownloading = appContext.packageManager.isCurrentlyDownloading(item: portalItem.itemID)
-                let downloaded = try? FileManager.default.hasDownloaded(item: portalItem)
-                self.isAlreadyDownloaded = downloaded ?? false
-                self.titleLabel.text = portalItem.title
-                
-                if let created = portalItem.created {
-                    self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
-                }
-                else {
-                    self.createdLabel.text = ""
-                }
-                self.sizeLabel.text = "\(Self.byteCountFormatter.string(fromByteCount: portalItem.size))"
-                self.descriptionLabel.text = portalItem.snippet
-                
-                self.portalItem?.thumbnail?.load { (error) in
-                    
-                    guard let portalItem = self.portalItem, portalItem.itemID == portalItemID else {
-                        return
-                    }
-                    
-                    self.thumbnailImageView.image = self.portalItem?.thumbnail?.image
-                }
+            if let size = portalItem?.size {
+                self.sizeLabel.text = "\(Self.byteCountFormatter.string(fromByteCount: size))"
             }
+            else {
+                self.sizeLabel.text = ""
+            }
+            
+            self.descriptionLabel.text = portalItem?.snippet
+            
+            self.thumbnailImageView.image = portalItem?.thumbnail?.image
         }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.titleLabel.text = "Title"
-        self.createdLabel.text = "Created"
-        self.sizeLabel.text = "Size"
-        self.descriptionLabel.text = "Description"
-        self.thumbnailImageView.image = nil
-        self.isDownloading = false
+        titleLabel.text = ""
+        createdLabel.text = ""
+        sizeLabel.text = ""
+        descriptionLabel.text = ""
+        thumbnailImageView.image = nil
+        status = .unknown
+        portalItem = nil
     }
     
     //MARK: -  Actions
@@ -125,9 +127,7 @@ class PortalItemCell: UITableViewCell {
         guard let portalItem = self.portalItem else {
             return
         }
-        
-        self.isDownloading = true
-        
+                
         try? appContext.packageManager.download(item: portalItem)
     }
 }

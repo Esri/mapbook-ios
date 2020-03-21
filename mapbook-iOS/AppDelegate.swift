@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try AGSArcGISRuntimeEnvironment.setLicenseKey(AppSettings.licenseKey)
             }
-            catch let error {
+            catch {
                 print(error)
             }
         }

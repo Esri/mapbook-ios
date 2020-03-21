@@ -67,7 +67,7 @@ extension FileManager {
         return try FileManager.default.touchTemporaryDirectory().appendingPathComponent(mmpkName)
     }
     
-    func hasDownloaded(item: AGSPortalItem) throws -> Bool {
+    fileprivate func hasDownloaded(item: AGSPortalItem) throws -> Bool {
         let mmpkName = try PortalAwareMobileMapPackage.mmpkDirectoryName(for: item)
         let url = URL.downloaded.appendingPathComponent(mmpkName)
         return FileManager.default.fileExists(atPath: url.path)
@@ -223,6 +223,10 @@ class PackageManager {
     
     // MARK:- Local
 
+    func hasDownloaded(item: AGSPortalItem) throws -> Bool {
+        try FileManager.default.hasDownloaded(item: item)
+    }
+    
     func fetchDownloadedPackages(_ completion: @escaping (Result<[PortalAwareMobileMapPackage], Error>) -> Void) throws {
         
         let packages = try FileManager.default.contentsOfDirectory(at: URL.downloaded,

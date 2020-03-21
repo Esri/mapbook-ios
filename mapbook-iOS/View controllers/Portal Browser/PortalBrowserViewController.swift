@@ -169,10 +169,22 @@ class PortalBrowserViewController: UIViewController {
             
             if let itemID = notification.userInfo?["itemID"] as? String,
                 let index = self.portalItems.firstIndex(where: { (item) in item.itemID == itemID }),
-                let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell {
-                cell.isDownloading = false
-                if error == nil {
-                    cell.isAlreadyDownloaded = true
+                let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PortalItemCell,
+                let item = cell.portalItem {
+                
+                do {
+                    if try appContext.packageManager.hasDownloaded(item: item) {
+                        cell.status = .downloaded
+                    }
+                    else if appContext.packageManager.isCurrentlyDownloading(item: item.itemID) {
+                        cell.status = .downloading
+                    }
+                    else {
+                        cell.status = .cloud
+                    }
+                }
+                catch {
+                    cell.status = .unknown
                 }
             }
         }
@@ -200,8 +212,23 @@ extension PortalBrowserViewController:UITableViewDataSource, UITableViewDelegate
             return UITableViewCell()
         }
         
-        let portalItem = portalItems[indexPath.row]
-        cell.portalItem = portalItem
+        let item = portalItems[indexPath.row]
+        cell.portalItem = item
+        
+        do {
+            if try appContext.packageManager.hasDownloaded(item: item) {
+                cell.status = .downloaded
+            }
+            else if appContext.packageManager.isCurrentlyDownloading(item: item.itemID) {
+                cell.status = .downloading
+            }
+            else {
+                cell.status = .cloud
+            }
+        }
+        catch {
+            cell.status = .unknown
+        }
         
         return cell
     }
