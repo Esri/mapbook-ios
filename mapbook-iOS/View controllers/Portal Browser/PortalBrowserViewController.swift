@@ -38,9 +38,6 @@ class PortalBrowserViewController: UIViewController {
             self.footerView?.isHidden = !isLoading
         }
     }
-    
-    #warning("TODO: make Batch Size an app setting.")
-    var batchSize = 20
 
     var packageFinder: PortalPackageSearchManager!
     
@@ -83,7 +80,7 @@ class PortalBrowserViewController: UIViewController {
         
         self.isLoading = true
         
-        let params = PortalPackageSearchManager.FindParameters(batchSize: 20,
+        let params = PortalPackageSearchManager.FindParameters(batchSize: AppSettings.portalItemQuerySize ?? 20,
                                                               type: .mobileMapPackage,
                                                               keyword: keyword)
         

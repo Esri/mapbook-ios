@@ -62,21 +62,11 @@ struct AppSettings {
     // MARK: - Portal Basemap Group Querying
     // How many portalItems to get back in a single items query
     // Can help to avoid loading multiple pages of results
-    static let portalItemQuerySize:Int = getAgsSetting(named: "PortalItemQuerySize") ?? 20
+    static let portalItemQuerySize: Int? = getAgsSetting(named: "PortalItemQuerySize")
     
     // MARK: - Portal Default URL String
     // When a user attempts to access a Portal, this URL string defaults in `PortalAccessViewController`
     // Change the cooresponding value in Info.plist to configure your own default
     // Falls back to arcgis online
-    static let defaultPortalURLString: String = getAgsSetting(named: "DefaultPortalURLString") ?? URL.arcGISOnline.absoluteString
-    
-    // MARK: - User Preferences
-    // Store and retrieve latest portal URL
-    static func save(portalUrl url:URL?) {
-        UserDefaults.standard.set(url, forKey: "PORTALURL")
-    }
-    
-    static func getPortalURL() -> URL? {
-        return UserDefaults.standard.url(forKey: "PORTALURL")
-    }
+    static let defaultEnterprisePortalURLString: String? = getAgsSetting(named: "DefaultPortalURLString")
 }

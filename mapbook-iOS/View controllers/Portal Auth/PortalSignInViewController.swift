@@ -26,6 +26,8 @@ class PortalSignInViewController: UITableViewController, BundleAware {
         
         appNameVersionLabel.text = appNameVersionString
         sdkVersionLabel.text = arcGISSDKVersionString
+        
+        enterpriseURLTextField.text = AppSettings.defaultEnterprisePortalURLString
     }
     
     @IBAction func userRequestsSignInToAGOL(_ sender: AnyObject) {
