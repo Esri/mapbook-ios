@@ -140,12 +140,29 @@ class PortalBrowserViewController: UIViewController {
                     else {
                         self.portalItems = items
                     }
+                    
+                    for item in items {
+                        item.thumbnail?.load { [weak self] (error) in
+                            guard let self = self else { return }
+                            guard error == nil else { return }
+                            self.reloadCell(for: item)
+                        }
+                    }
                 }
             }
             
         case .failure(let error):
             if let error = error as NSError?, error.code != NSUserCancelledError {
                 flash(error: error)
+            }
+        }
+    }
+    
+    private func reloadCell(for item: AGSPortalItem) {
+        if let index = portalItems.firstIndex(of: item) {
+            let indexPath = IndexPath(row: index, section: 0)
+            if tableView.cellForRow(at: indexPath) is PortalItemCell {
+                tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
     }
