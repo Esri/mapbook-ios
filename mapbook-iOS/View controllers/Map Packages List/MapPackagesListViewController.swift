@@ -510,37 +510,6 @@ class LocalPackageCell: UITableViewCell {
     
     private var _portalAwarePackage: PortalAwareMobileMapPackage?
     
-//    var mobileMapPackage: PortalAwareMobileMapPackage? {
-//        didSet {
-//            guard let mobileMapPackage = self.mobileMapPackage,
-//                let item = mobileMapPackage.item else {
-//                return
-//            }
-//
-//            if let itemID = mobileMapPackage.itemID  {
-//                self.isUpdating = appContext.packageManager.isCurrentlyDownloading(item: itemID)
-//            }
-//            else {
-//                self.isUpdating = false
-//            }
-//            if let created = item.created {
-//                self.createdLabel.text = "\(Self.dateFormatter.string(from: created))"
-//            }
-//
-//            if let size = mobileMapPackage.size {
-//                self.sizeLabel.text = "\(Self.byteFormatter.string(fromByteCount: size))"
-//            }
-//
-//            self.titleLabel.text = item.title
-//            self.descriptionLabel.text = item.snippet
-//            self.thumbnailImageView.image = item.thumbnail?.image
-//
-//            if let downloadDate = mobileMapPackage.downloadDate {
-//                self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
-//            }
-//        }
-//    }
-    
     override func prepareForReuse() {
         titleLabel.text = ""
         createdLabel.text = ""
