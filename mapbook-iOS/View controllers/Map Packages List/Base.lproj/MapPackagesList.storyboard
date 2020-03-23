@@ -232,11 +232,18 @@
                                 <segue destination="VA6-bT-3jQ" kind="presentation" identifier="showPortalAuth" id="FDy-qR-OSQ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Browse Portal" image="magnifyingglass" catalog="system" id="FNo-X8-Zne">
-                            <connections>
-                                <action selector="browsePortalForMapPackages:" destination="K9I-zN-dMD" id="Rcl-UI-PQh"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Browse Portal" image="icloud" catalog="system" id="FNo-X8-Zne">
+                                <connections>
+                                    <action selector="browsePortalForMapPackages:" destination="K9I-zN-dMD" id="Rcl-UI-PQh"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Device" image="folder" catalog="system" id="MqP-cH-3G2">
+                                <connections>
+                                    <action selector="browseDeviceForMapPackages:" destination="K9I-zN-dMD" id="1qV-XR-xkO"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="portalAuthButton" destination="pbW-lZ-4Kd" id="L0E-LP-ERh"/>
@@ -270,7 +277,8 @@
     </scenes>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
-        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+        <image name="folder" catalog="system" width="64" height="46"/>
+        <image name="icloud" catalog="system" width="64" height="44"/>
         <image name="person.crop.circle" catalog="system" width="64" height="60"/>
     </resources>
 </document>

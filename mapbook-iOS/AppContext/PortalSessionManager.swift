@@ -68,7 +68,10 @@ class PortalSessionManager {
         
         guard case Status.none = status else { return }
         
-        guard let url = UserDefaults.standard.url(forKey: Self.portalSessionURLKey) else { return }
+        guard let url = UserDefaults.standard.url(forKey: Self.portalSessionURLKey) else {
+            self.revokeAndDisableAutoSyncToKeychain { }
+            return
+        }
         
         status = .loading
 
@@ -96,10 +99,16 @@ class PortalSessionManager {
             newPortal.requestConfiguration = originalPortalRC
 
             if let error = error {
-                self.status = .failed(error)
+                self.revokeAndDisableAutoSyncToKeychain {
+                    DispatchQueue.main.async {
+                        self.status = .failed(error)
+                    }
+                }
             }
             else {
-                self.status = .loaded(newPortal)
+                DispatchQueue.main.async {
+                    self.status = .loaded(newPortal)
+                }
             }
         }
     }

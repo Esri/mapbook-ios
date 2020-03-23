@@ -54,6 +54,9 @@ class MapPackagesListViewController: UITableViewController {
         
         //load and refresh packages downloaded from portal
         fetchDownloadedPortalPackages()
+        
+        //load packages from device import
+        fetchImportedDevicePackages()
     }
     
     private func updateNavigationItems() {
@@ -105,7 +108,13 @@ class MapPackagesListViewController: UITableViewController {
         if segue.identifier == "showMapPackage",
             let controller = segue.destination as? MapPackageViewController,
             let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
-            let package = portalPackages[selectedIndexPath.row]
+            let package: AGSMobileMapPackage
+            if selectedIndexPath.section == 0 {
+                package = portalPackages[selectedIndexPath.row]
+            }
+            else {
+                package = devicePackages[selectedIndexPath.row]
+            }
             controller.mapPackage = package
             tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
@@ -121,13 +130,21 @@ class MapPackagesListViewController: UITableViewController {
     
     //MARK: - Actions
     
-    @IBAction func browsePortalForMapPackages(_ sender:UIBarButtonItem) {
+    @IBAction func browsePortalForMapPackages(_ sender: UIBarButtonItem) {
         
         guard case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status else {
             return
         }
         
         self.performSegue(withIdentifier: "showPortalBrowser", sender: self)
+    }
+    
+    @IBAction func browseDeviceForMapPackages(_ sender: UIBarButtonItem) {
+        
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.mmpk"], in: .import)
+        documentPicker.allowsMultipleSelection = false
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
     }
     
     // MARK:- Refresh Downloaded Portal Packages
@@ -146,6 +163,23 @@ class MapPackagesListViewController: UITableViewController {
         }
         catch {
             failRefresh(with: error)
+        }
+    }
+    
+    func fetchImportedDevicePackages() {
+        do {
+            try appContext.packageManager.fetchImportedPackages { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let packages):
+                    self.finishImport(with: packages)
+                case .failure(let error):
+                    self.failImport(with: error)
+                }
+            }
+        }
+        catch {
+            failImport(with: error)
         }
     }
     
@@ -198,13 +232,43 @@ class MapPackagesListViewController: UITableViewController {
         }
     }
     
+    private func finishImport(with packages: [AGSMobileMapPackage]) {
+        
+        devicePackages = packages
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+                            
+            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    private func failImport(with error: Error) {
+        
+        devicePackages.removeAll()
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+            
+            flash(error: error)
+            
+            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] (_) in
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     deinit {
         //remove observer
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc private func update() {
-
     }
 }
 
@@ -252,15 +316,14 @@ extension MapPackagesListViewController /* UITableViewDataSource */ {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocalPackageCell") as! LocalPackageCell
         
         if indexPath.section == 0 {
-            cell.mobileMapPackage = portalPackages[indexPath.row]
+            cell.set(package: portalPackages[indexPath.row])
             cell.delegate = self
         }
         else {
-//            cell.mobileMapPackage = portalPackages[indexPath.row]
+            cell.set(package: devicePackages[indexPath.row])
+            cell.delegate = nil
         }
-        
-        cell.updateButton.addTarget(self, action: #selector(update), for: .touchUpInside)
-        
+
         return cell
     }
 }
@@ -291,7 +354,12 @@ extension MapPackagesListViewController /* UITableViewDelegate */ {
                 tableView.reloadSections([indexPath.section], with: .fade)
             }
             else {
-                //
+                let package = self.devicePackages.remove(at: indexPath.row)
+                
+                //delete package from app context
+                try? appContext.packageManager.removeDownloaded(package: package)
+                
+                tableView.reloadSections([indexPath.section], with: .fade)
             }
         }
         
@@ -321,6 +389,26 @@ extension MapPackagesListViewController: UIAdaptivePresentationControllerDelegat
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+extension MapPackagesListViewController: UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        if let url = urls.first {
+            do {
+                try appContext.packageManager.importMMPK(from: url)
+            }
+            catch {
+                state(error: error, in: self)
+            }
+        }
+        fetchImportedDevicePackages()
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -385,49 +473,89 @@ class LocalPackageCell: UITableViewCell {
         }
     }
     
-    var mobileMapPackage: PortalAwareMobileMapPackage? {
-        didSet {
-            guard let mobileMapPackage = self.mobileMapPackage,
-                let item = mobileMapPackage.item else {
-                return
-            }
-                            
-            if let itemID = mobileMapPackage.itemID  {
+    func set(package: AGSMobileMapPackage) {
+        
+        if let portalPackage = package as? PortalAwareMobileMapPackage {
+            updateStackView.isHidden = false
+            
+            if let itemID = portalPackage.itemID  {
                 self.isUpdating = appContext.packageManager.isCurrentlyDownloading(item: itemID)
             }
             else {
                 self.isUpdating = false
             }
-            if let created = item.created {
-                self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
-            }
-            else {
-                self.createdLabel.text = ""
-            }
             
-            if let size = mobileMapPackage.size {
-                self.sizeLabel.text = "Size \(Self.byteFormatter.string(fromByteCount: size))"
-            }
-            else {
-                self.sizeLabel.text = ""
-            }
-            
-            self.titleLabel.text = item.title
-            self.descriptionLabel.text = item.snippet
-            self.thumbnailImageView.image = item.thumbnail?.image
-            
-            if let downloadDate = mobileMapPackage.downloadDate {
-                self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
-            }
-            else {
-                self.downloadedLabel.text = ""
-            }
+            _portalAwarePackage = portalPackage
         }
+        else {
+            updateStackView.isHidden = true
+        }
+        
+        if let created = package.item?.created {
+            self.createdLabel.text = "\(Self.dateFormatter.string(from: created))"
+        }
+        
+        if let size = package.size {
+            self.sizeLabel.text = "\(Self.byteFormatter.string(fromByteCount: size))"
+        }
+        
+        self.titleLabel.text = package.item?.title
+        self.descriptionLabel.text = package.item?.snippet
+        self.thumbnailImageView.image = package.item?.thumbnail?.image
+        
+        if let downloadDate = package.downloadDate {
+            self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
+        }
+    }
+    
+    private var _portalAwarePackage: PortalAwareMobileMapPackage?
+    
+//    var mobileMapPackage: PortalAwareMobileMapPackage? {
+//        didSet {
+//            guard let mobileMapPackage = self.mobileMapPackage,
+//                let item = mobileMapPackage.item else {
+//                return
+//            }
+//
+//            if let itemID = mobileMapPackage.itemID  {
+//                self.isUpdating = appContext.packageManager.isCurrentlyDownloading(item: itemID)
+//            }
+//            else {
+//                self.isUpdating = false
+//            }
+//            if let created = item.created {
+//                self.createdLabel.text = "\(Self.dateFormatter.string(from: created))"
+//            }
+//
+//            if let size = mobileMapPackage.size {
+//                self.sizeLabel.text = "\(Self.byteFormatter.string(fromByteCount: size))"
+//            }
+//
+//            self.titleLabel.text = item.title
+//            self.descriptionLabel.text = item.snippet
+//            self.thumbnailImageView.image = item.thumbnail?.image
+//
+//            if let downloadDate = mobileMapPackage.downloadDate {
+//                self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
+//            }
+//        }
+//    }
+    
+    override func prepareForReuse() {
+        titleLabel.text = ""
+        createdLabel.text = ""
+        sizeLabel.text = ""
+        descriptionLabel.text = ""
+        thumbnailImageView.image = nil
+        downloadedLabel.text = ""
+        isUpdating = false
+        activityIndicatorView.stopAnimating()
+        _portalAwarePackage = nil
     }
     
     @IBAction func userRequestsUpdatePortalAwarePackage(_ sender: UIButton) {
         guard
-            let package = mobileMapPackage,
+            let package = _portalAwarePackage,
             let delegate = delegate
             else { return }
         

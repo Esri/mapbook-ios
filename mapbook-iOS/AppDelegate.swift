@@ -113,3 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 func flash(error: Error, delay: TimeInterval = 2.0) {
     HUD.flash(.labeledError(title: nil, subtitle: error.localizedDescription), delay: delay)
 }
+
+func state(error: Error, in controller: UIViewController) {
+    let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+    let okay = UIAlertAction(title: "Okay", style: .default, handler: nil)
+    alert.addAction(okay)
+    controller.present(alert, animated: true, completion: nil)
+}

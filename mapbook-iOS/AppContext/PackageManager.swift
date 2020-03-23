@@ -16,31 +16,39 @@ import ArcGIS
 
 extension URL {
     
-    static var root: URL {
+    fileprivate static var root: URL {
         let _root = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         guard let root = _root else { preconditionFailure("User root document directory should never be nil.") }
         return root
     }
     
-    static var temporary: URL {
+    fileprivate static var temporary: URL {
         URL(fileURLWithPath: NSTemporaryDirectory())
             .appendingPathComponent("mapbook", isDirectory: true)
             .appendingPathComponent("downloading", isDirectory: true)
     }
     
-    static var downloaded: URL {
+    fileprivate static var downloaded: URL {
         root.appendingPathComponent("downloaded", isDirectory: true)
+    }
+    
+    fileprivate static var imported: URL {
+        root.appendingPathComponent("imported", isDirectory: true)
     }
 }
 
 extension FileManager {
     
-    func touchTemporaryDirectory() throws -> URL {
+    fileprivate func touchTemporaryDirectory() throws -> URL {
         try createDirectory(at: URL.temporary)
     }
     
-    func touchDownloadedDirectory() throws -> URL {
+    fileprivate func touchDownloadedDirectory() throws -> URL {
         try createDirectory(at: URL.downloaded)
+    }
+    
+    fileprivate func touchImportedDirectory() throws -> URL {
+        try createDirectory(at: URL.imported)
     }
     
     private func createDirectory(at url: URL) throws -> URL {
@@ -129,7 +137,7 @@ class PackageManager {
             }
             
             do {
-                _ = try FileManager.default.replaceItemAt(downloadedURL, withItemAt: temporaryURL)
+                _ = try FileManager.default.replaceItemAt(downloadedURL, withItemAt: temporaryURL, backupItemName: "backup", options: .usingNewMetadataOnly)
             }
             catch {
                 DispatchQueue.main.async {
@@ -229,7 +237,7 @@ class PackageManager {
     
     func fetchDownloadedPackages(_ completion: @escaping (Result<[PortalAwareMobileMapPackage], Error>) -> Void) throws {
         
-        let packages = try FileManager.default.contentsOfDirectory(at: URL.downloaded,
+        let packages = try FileManager.default.contentsOfDirectory(at: FileManager.default.touchDownloadedDirectory(),
                                                                    includingPropertiesForKeys: nil,
                                                                    options: .skipsSubdirectoryDescendants)
             .filter { $0.pathExtension == PortalAwareMobileMapPackage.mmpk }
@@ -253,6 +261,45 @@ class PackageManager {
     
     func removeDownloaded(package: AGSMobileMapPackage) throws {
         try FileManager.default.removeItem(at: package.fileURL)
+    }
+    
+    // MARK:- Device
+    
+    func importMMPK(from url: URL) throws {
+        
+        guard url.pathExtension == "mmpk" else { throw InvalidFiletype() }
+                
+        let finalPath = try FileManager.default
+            .touchImportedDirectory()
+            .appendingPathComponent(url.lastPathComponent)
+        
+//        try FileManager.default.replaceItemAt(finalPath, withItemAt: url, backupItemName: pathComponentBackup, options: .usingNewMetadataOnly)
+        
+        try FileManager.default.moveItem(at: url, to: finalPath)
+    }
+    
+    func fetchImportedPackages(_ completion: @escaping (Result<[AGSMobileMapPackage], Error>) -> Void) throws {
+        
+        let packages = try FileManager.default.contentsOfDirectory(at: FileManager.default.touchImportedDirectory(),
+                                                                   includingPropertiesForKeys: nil,
+                                                                   options: .skipsSubdirectoryDescendants)
+            .filter { $0.pathExtension == PortalAwareMobileMapPackage.mmpk }
+            .map { AGSMobileMapPackage(fileURL: $0) }
+        
+        guard packages.count > 0 else {
+            completion(.success([AGSMobileMapPackage]()))
+            return
+        }
+        
+        AGSLoadObjects(packages) { (completed) in
+            
+            guard completed else {
+                completion(.failure(CouldntLoadPackage()))
+                return
+            }
+            
+            completion(.success(packages))
+        }
     }
     
     // MARK:- Delegate
@@ -279,6 +326,10 @@ class PackageManager {
     
     struct UnknownError: LocalizedError {
         let localizedDescription: String = "An unknown error occured."
+    }
+    
+    struct InvalidFiletype: LocalizedError {
+        let localizedDescription: String = "Invalid file type. This app only supports importing .mmpk files."
     }
     
     // MARK:- Deinit
