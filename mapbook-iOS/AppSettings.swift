@@ -69,4 +69,6 @@ struct AppSettings {
     // Change the cooresponding value in Info.plist to configure your own default
     // Falls back to arcgis online
     static let defaultEnterprisePortalURLString: String? = getAgsSetting(named: "DefaultPortalURLString")
+    
+    static let defaultPortalBrowserSearchString: String? = getAgsSetting(named: "DefaultPortalBrowserSearchString")
 }

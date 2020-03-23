@@ -53,17 +53,10 @@ class PortalBrowserViewController: UIViewController {
         //observe DownloadCompleted notification to update cell state
         self.observeDownloadCompletedNotification()
         
-        //If the portal url is for ArcGIS Online, highlight the offline
-        //mapbook we created, using 'Offline mapbook' keyword while fetching
-        //portal items.
-        var defaultSearch:String?
-        
-        //So that we can demonstrate Mapbook, we will provide a default search string.
-        if let url = appContext.sessionManager.portal?.url, url == URL.arcGISOnline {
-            defaultSearch = "Offline mapbook"
-        }
+        let defaultSearch = AppSettings.defaultPortalBrowserSearchString
         
         self.searchBar.text = defaultSearch
+        
         self.fetchPortalItems(using: defaultSearch)
     }
     
