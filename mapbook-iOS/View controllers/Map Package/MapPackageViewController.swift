@@ -103,7 +103,14 @@ class MapPackageViewController: UITableViewController {
     }
     
     private func configureView(with failure: Error) {
-        #warning("TODO!")
+        title = "Map Package"
+        createdAtLabel.text = "-"
+        byteCountLabel.text = "-"
+        mapCountLabel.text = "-"
+        lastDownloadedLabel.text = "-"
+        mapDescriptionlabel.text = "-"
+        packageThumbnailImageView.isHidden = true
+        flash(error: failure)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
