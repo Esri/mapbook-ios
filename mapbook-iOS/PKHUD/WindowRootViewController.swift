@@ -21,11 +21,31 @@ internal class WindowRootViewController: UIViewController {
     }
 
     internal override var preferredStatusBarStyle: UIStatusBarStyle {
-        return self.presentingViewController?.preferredStatusBarStyle ?? view.window?.windowScene?.statusBarManager?.statusBarStyle ?? .default
+        if #available(iOS 13, *) {
+            return
+                presentingViewController?.preferredStatusBarStyle ??
+                view.window?.windowScene?.statusBarManager?.statusBarStyle ??
+                .default
+        }
+        else {
+            return
+                presentingViewController?.preferredStatusBarStyle ??
+                UIApplication.shared.statusBarStyle
+        }
     }
 
     internal override var prefersStatusBarHidden: Bool {
-        return self.presentingViewController?.prefersStatusBarHidden ?? view.window?.windowScene?.statusBarManager?.isStatusBarHidden ?? false
+        if #available(iOS 13, *) {
+            return
+                presentingViewController?.prefersStatusBarHidden ??
+                view.window?.windowScene?.statusBarManager?.isStatusBarHidden ??
+                false
+        }
+        else {
+            return
+                presentingViewController?.prefersStatusBarHidden ??
+                UIApplication.shared.isStatusBarHidden
+        }
     }
 
     internal override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
