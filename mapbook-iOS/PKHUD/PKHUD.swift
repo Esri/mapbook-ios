@@ -123,7 +123,11 @@ open class PKHUD: NSObject {
     open var trailingMargin: CGFloat = 0
 
     open func show(onView view: UIView? = nil) {
-        let view: UIView = view ?? viewToPresentOn ?? UIApplication.shared.keyWindow!
+        
+        let _view = view ?? viewToPresentOn ?? UIApplication.shared.windows.first { $0.isKeyWindow }
+        precondition(_view != nil, "Must provide a view.")
+        
+        let view = _view!
         if  !view.subviews.contains(container) {
             view.addSubview(container)
             container.frame.origin = CGPoint.zero

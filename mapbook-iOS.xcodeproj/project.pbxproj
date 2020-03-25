@@ -361,6 +361,8 @@
 			dependencies = (
 			);
 			name = "mapbook-iOS";
+			packageProductDependencies = (
+			);
 			productName = "mapbook-iOS";
 			productReference = 3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -391,6 +393,8 @@
 				Base,
 			);
 			mainGroup = 3EDC843D1F1E8B94002DBCF2;
+			packageReferences = (
+			);
 			productRefGroup = 3EDC84471F1E8B94002DBCF2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
