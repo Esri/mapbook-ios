@@ -28,14 +28,14 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="irh-Tc-tX5">
-                                <rect key="frame" x="5" y="144" width="404" height="713"/>
+                                <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SuggestResultCell" id="AQO-3n-qEh">
-                                        <rect key="frame" x="0.0" y="28" width="404" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AQO-3n-qEh" id="5lN-4c-p1L">
-                                            <rect key="frame" x="0.0" y="0.0" width="404" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -50,12 +50,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="u5t-bB-mNZ" secondAttribute="trailing" id="549-9f-1aL"/>
-                            <constraint firstAttribute="trailing" secondItem="irh-Tc-tX5" secondAttribute="trailing" constant="5" id="5by-ef-2pE"/>
-                            <constraint firstItem="85y-qt-xZK" firstAttribute="top" secondItem="irh-Tc-tX5" secondAttribute="bottom" constant="5" id="Iw8-9b-cMA"/>
+                            <constraint firstAttribute="trailing" secondItem="irh-Tc-tX5" secondAttribute="trailing" id="5by-ef-2pE"/>
+                            <constraint firstAttribute="bottom" secondItem="irh-Tc-tX5" secondAttribute="bottom" id="FY1-B5-5S4"/>
                             <constraint firstItem="u5t-bB-mNZ" firstAttribute="leading" secondItem="hYb-7O-rvM" secondAttribute="leading" id="Mmv-i9-nFo"/>
-                            <constraint firstItem="irh-Tc-tX5" firstAttribute="top" secondItem="u5t-bB-mNZ" secondAttribute="bottom" id="eAo-MP-aEb"/>
                             <constraint firstItem="u5t-bB-mNZ" firstAttribute="top" secondItem="4TZ-KU-EfO" secondAttribute="bottom" id="gE5-CZ-BHI"/>
-                            <constraint firstItem="irh-Tc-tX5" firstAttribute="leading" secondItem="hYb-7O-rvM" secondAttribute="leading" constant="5" id="nwu-mk-Mrm"/>
+                            <constraint firstItem="irh-Tc-tX5" firstAttribute="top" secondItem="u5t-bB-mNZ" secondAttribute="bottom" id="m8c-RV-vCR"/>
+                            <constraint firstItem="irh-Tc-tX5" firstAttribute="leading" secondItem="hYb-7O-rvM" secondAttribute="leading" id="nwu-mk-Mrm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DP3-bP-4CB"/>
                     </view>
