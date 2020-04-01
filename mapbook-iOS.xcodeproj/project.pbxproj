@@ -27,6 +27,7 @@
 		943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C612524200FE100FEF4F7 /* Bookmarks.storyboard */; };
 		943C61292420111600FEF4F7 /* Legend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C61282420111600FEF4F7 /* Legend.storyboard */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
+		944FD85D2434E81B00B9F2FF /* calcite.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FD85C2434E81B00B9F2FF /* calcite.xcassets */; };
 		946987BA242142F700100FA2 /* UITextView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987B9242142F700100FA2 /* UITextView+Padding.swift */; };
 		946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 946987BC2421697200100FA2 /* PortalAuth.storyboard */; };
 		946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */; };
@@ -102,6 +103,7 @@
 		943C612524200FE100FEF4F7 /* Bookmarks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bookmarks.storyboard; sourceTree = "<group>"; };
 		943C61282420111600FEF4F7 /* Legend.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legend.storyboard; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		944FD85C2434E81B00B9F2FF /* calcite.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = calcite.xcassets; sourceTree = "<group>"; };
 		946987B9242142F700100FA2 /* UITextView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Padding.swift"; sourceTree = "<group>"; };
 		946987BC2421697200100FA2 /* PortalAuth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PortalAuth.storyboard; sourceTree = "<group>"; };
 		946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalAuthViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */,
 				3E062F5F1F424C350061D84F /* AppSettings.swift */,
 				3EDC84501F1E8B94002DBCF2 /* Assets.xcassets */,
+				944FD85C2434E81B00B9F2FF /* calcite.xcassets */,
 				944FC14E202404C1007535DB /* AppIcon.xcassets */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
@@ -416,6 +419,7 @@
 				3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */,
 				943C61292420111600FEF4F7 /* Legend.storyboard in Resources */,
 				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
+				944FD85D2434E81B00B9F2FF /* calcite.xcassets in Resources */,
 				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
 				949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */,
 				949DDF512425798B0038608D /* Images.xcassets in Resources */,
