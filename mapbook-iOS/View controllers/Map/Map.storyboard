@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpx-um-QS6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rpx-um-QS6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,7 +36,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Map" largeTitleDisplayMode="never" id="AWR-2R-fqu">
-                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="wh5-be-yHr">
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" id="wh5-be-yHr">
                             <connections>
                                 <action selector="ellipsisButtonAction:" destination="Rpx-um-QS6" id="GoV-v7-joz"/>
                             </connections>
@@ -86,6 +87,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ellipsis" catalog="system" width="64" height="18"/>
+        <image name="ellipsis" width="44" height="44"/>
     </resources>
 </document>

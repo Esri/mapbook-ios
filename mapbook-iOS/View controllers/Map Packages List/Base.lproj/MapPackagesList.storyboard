@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rdU-Ra-7i9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rdU-Ra-7i9">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -227,7 +228,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Map Packages" id="qgS-dN-bJf">
-                        <barButtonItem key="leftBarButtonItem" title="My Portal" image="person.crop.circle" catalog="system" id="pbW-lZ-4Kd">
+                        <barButtonItem key="leftBarButtonItem" title="My Portal" image="user" id="pbW-lZ-4Kd">
                             <connections>
                                 <segue destination="VA6-bT-3jQ" kind="presentation" identifier="showPortalAuth" id="FDy-qR-OSQ"/>
                             </connections>
@@ -278,7 +279,7 @@
     <resources>
         <image name="arcgis-online" width="24" height="24"/>
         <image name="folder-open" width="24" height="24"/>
-        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
         <image name="reset" width="24" height="24"/>
+        <image name="user" width="24" height="24"/>
     </resources>
 </document>

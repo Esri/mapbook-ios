@@ -4,17 +4,17 @@
       "idiom" : "universal"
     },
     {
-      "filename" : "reset@1x.png",
+      "filename" : "ellipsis@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "reset@2x.png",
+      "filename" : "ellipsis@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "reset@3x.png",
+      "filename" : "ellipsis@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
