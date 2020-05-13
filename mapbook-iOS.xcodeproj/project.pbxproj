@@ -58,11 +58,11 @@
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
 		94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A53EC82420366B006B0A27 /* MapPackageViewController.swift */; };
 		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
-		94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; };
-		94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB9D30225E8C090040D989 /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		94C72937242012C500F37D96 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C72936242012C500F37D96 /* Search.storyboard */; };
 		94C7293A2420139800F37D96 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C729392420139800F37D96 /* Map.storyboard */; };
 		94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C7293D2420175200F37D96 /* MapPackage.storyboard */; };
+		94D55EC3246C93940055BEFE /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D55EC2246C93940055BEFE /* ArcGIS.framework */; };
+		94D55EC4246C93940055BEFE /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94D55EC2246C93940055BEFE /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,7 +72,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				94AB9D32225E8C090040D989 /* ArcGIS.framework in Embed Frameworks */,
+				94D55EC4246C93940055BEFE /* ArcGIS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,10 +135,10 @@
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
 		94A53EC82420366B006B0A27 /* MapPackageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackageViewController.swift; sourceTree = "<group>"; };
 		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
-		94AB9D30225E8C090040D989 /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<absolute>"; };
 		94C72936242012C500F37D96 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		94C729392420139800F37D96 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		94C7293D2420175200F37D96 /* MapPackage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapPackage.storyboard; sourceTree = "<group>"; };
+		94D55EC2246C93940055BEFE /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94AB9D31225E8C090040D989 /* ArcGIS.framework in Frameworks */,
+				94D55EC3246C93940055BEFE /* ArcGIS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,9 +156,9 @@
 		3EDC843D1F1E8B94002DBCF2 = {
 			isa = PBXGroup;
 			children = (
-				94AB9D30225E8C090040D989 /* ArcGIS.framework */,
 				3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */,
 				3EDC84471F1E8B94002DBCF2 /* Products */,
+				94D55EC1246C93940055BEFE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -344,6 +344,14 @@
 				94A53EC82420366B006B0A27 /* MapPackageViewController.swift */,
 			);
 			path = "Map Package";
+			sourceTree = "<group>";
+		};
+		94D55EC1246C93940055BEFE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				94D55EC2246C93940055BEFE /* ArcGIS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -641,7 +649,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
+				FRAMEWORK_SEARCH_PATHS = (
+					$HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/,
+					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
+				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -664,7 +675,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/;
+				FRAMEWORK_SEARCH_PATHS = (
+					$HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/,
+					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
+				);
 				INFOPLIST_FILE = "mapbook-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
