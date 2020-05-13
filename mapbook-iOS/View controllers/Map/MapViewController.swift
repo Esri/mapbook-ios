@@ -89,17 +89,14 @@ class MapViewController: UIViewController {
         let legend = UIAlertAction(title: "Legend", style: .default) { (_) in
             self.performSegue(withIdentifier: "showLegend", sender: nil)
         }
-        legend.trySetting(image: UIImage(systemName: "list.bullet"))
         
         let search = UIAlertAction(title: "Search", style: .default) { (_) in
             self.performSegue(withIdentifier: "showSearch", sender: nil)
         }
-        search.trySetting(image: UIImage(systemName: "magnifyingglass"))
         
         let bookmarks = UIAlertAction(title: "Bookmarks", style: .default) { (_) in
             self.performSegue(withIdentifier: "showBookmarks", sender: nil)
         }
-        bookmarks.trySetting(image: UIImage(systemName: "book"))
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
         
@@ -273,23 +270,3 @@ extension MapViewController:UIPopoverPresentationControllerDelegate {
     }
 }
 
-extension UIAlertAction {
-    
-    @discardableResult
-    func trySetting(image: UIImage?) -> Bool {
-        
-        guard var image = image else { return false }
-
-        let pointer = AutoreleasingUnsafeMutablePointer<AnyObject?>(&image)
-        
-        do {
-            try validateValue(pointer, forKey: "image")
-            setValue(image, forKey: "image")
-        }
-        catch {
-            return false
-        }
-        
-        return true
-    }
-}
