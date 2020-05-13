@@ -71,14 +71,13 @@ class MapViewController: UIViewController {
     /*
      Picture Marker Symbol for geocde result.
     */
-    fileprivate func geocodeResultSymbol() -> AGSSymbol {
-        
+    fileprivate let geocodeResultSymbol: AGSSymbol = {
         let image = #imageLiteral(resourceName: "RedMarker")
         let pictureMarkerSymbol = AGSPictureMarkerSymbol(image: image)
         pictureMarkerSymbol.offsetY = image.size.height/2
         
         return pictureMarkerSymbol
-    }
+    }()
     
     //MARK: - Show/hide overlay
     
@@ -221,7 +220,7 @@ extension MapViewController: SearchViewControllerDelegate {
         let geocodeResult = geocodeResults[0]
         
         let graphic = AGSGraphic(geometry: geocodeResult.displayLocation,
-                                 symbol: self.geocodeResultSymbol(),
+                                 symbol: geocodeResultSymbol,
                                  attributes: geocodeResult.attributes)
         
         self.searchGraphicsOverlay.graphics.add(graphic)
