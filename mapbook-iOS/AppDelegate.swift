@@ -74,21 +74,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func modifyAppearance() {
         
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-        buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        buttonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        buttonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        navBarAppearance.buttonAppearance = buttonAppearance
-        let doneButtonAppearance = UIBarButtonItemAppearance(style: .done)
-        doneButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        doneButtonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        doneButtonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
-        navBarAppearance.doneButtonAppearance = doneButtonAppearance
-        UINavigationBar.appearance().standardAppearance = navBarAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-        UINavigationBar.appearance().compactAppearance = navBarAppearance
+        if #available(iOS 13.0, *) {
+            let navBarAppearance: UINavigationBarAppearance = {
+                let navBarAppearance = UINavigationBarAppearance()
+                navBarAppearance.configureWithOpaqueBackground()
+                navBarAppearance.buttonAppearance = {
+                    let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+                    buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    buttonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    buttonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    return buttonAppearance
+                }()
+                navBarAppearance.doneButtonAppearance = {
+                    let doneButtonAppearance = UIBarButtonItemAppearance(style: .done)
+                    doneButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    doneButtonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    doneButtonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    return doneButtonAppearance
+                }()
+                return navBarAppearance
+            }()
+            
+            UINavigationBar.appearance().standardAppearance = navBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+            UINavigationBar.appearance().compactAppearance = navBarAppearance
+        }
+        else {
+            UINavigationBar.appearance().tintColor = .primary
+        }
         
         UIButton.appearance().tintColor = .primary
         

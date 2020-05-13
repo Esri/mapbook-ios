@@ -40,7 +40,12 @@ public final class PKHUDSystemActivityIndicatorView: PKHUDSquareBaseView, PKHUDA
     }
 
     let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
+        let activity: UIActivityIndicatorView
+        if #available(iOS 13.0, *) {
+            activity = UIActivityIndicatorView(style: .large)
+        } else {
+            activity = UIActivityIndicatorView(style: .whiteLarge)
+        }
         activity.color = .black
         return activity
     }()
