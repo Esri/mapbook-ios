@@ -104,9 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         UIButton.appearance().tintColor = .primary
-        
-        UITabBar.appearance().tintColor = .white
-        UITabBar.appearance().barTintColor = .primary
 
         UISwitch.appearance().onTintColor = .primary
         UISlider.appearance().tintColor = .primary
