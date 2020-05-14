@@ -144,10 +144,12 @@ extension MapViewController:AGSGeoViewTouchDelegate {
         self.searchGraphicsOverlay.graphics.removeAllObjects()
         
         //identify
-        self.mapView.identifyLayers(atScreenPoint: screenPoint,
-                                    tolerance: 12,
-                                    returnPopupsOnly: false,
-                                    maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
+        self.mapView.identifyLayers(
+            atScreenPoint: screenPoint,
+            tolerance: 12,
+            returnPopupsOnly: false,
+            maximumResultsPerLayer: 10
+        ) { [weak self] (identifyLayerResults, error) in
             
             guard error == nil else {
                 flash(error: error!)
