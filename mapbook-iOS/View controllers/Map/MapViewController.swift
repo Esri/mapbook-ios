@@ -184,6 +184,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
         popups.modalPresentationStyle = .popover
         popups.popoverPresentationController?.permittedArrowDirections = [.up, .down]
         popups.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
+        popups.popoverPresentationController?.sourceView = mapView
         popups.popoverPresentationController?.delegate = self
         
         self.present(popups, animated: true, completion: nil)
