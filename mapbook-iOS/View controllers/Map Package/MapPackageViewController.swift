@@ -188,6 +188,7 @@ class MapCollectionCell: UICollectionViewCell {
         super.awakeFromNib()
         self.layer.cornerRadius = 8
         self.layer.borderWidth = 1.0
+        self.layer.borderColor = UIColor.clear.cgColor
     }
 }
 
