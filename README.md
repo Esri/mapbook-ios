@@ -92,6 +92,7 @@ Learn more about the App Architecture and usage [here](/docs/index.md).
 * [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5
 * [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)
 
+**Note:** Starting from the 100.8 release, the *ArcGIS Runtime SDK for iOS* uses Apple's [Metal](https://developer.apple.com/metal/) framework to render maps and scenes. In order to run your app in a simulator you must be developing on **macOS Catalina**, using **Xcode 11**, and simulating **iOS 13**.
 ## Contributing
 Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
 
