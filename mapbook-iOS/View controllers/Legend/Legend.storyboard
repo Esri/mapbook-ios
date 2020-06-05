@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="T3K-Ii-3mK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="T3K-Ii-3mK">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -109,7 +110,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Legend" id="Jcg-dv-9M9">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="Bxf-Cz-KeZ">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="Bxf-Cz-KeZ">
                             <connections>
                                 <action selector="userRequestedDismiss:" destination="1Gq-lv-MwW" id="xpY-pW-35R"/>
                             </connections>
