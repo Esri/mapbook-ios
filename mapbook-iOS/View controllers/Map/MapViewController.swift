@@ -24,6 +24,7 @@
 
 import UIKit
 import ArcGIS
+import ArcGISToolkit
 
 class MapViewController: UIViewController {
 
@@ -94,7 +95,7 @@ class MapViewController: UIViewController {
         }
         
         let bookmarks = UIAlertAction(title: "Bookmarks", style: .default) { (_) in
-            self.performSegue(withIdentifier: "showBookmarks", sender: nil)
+            self.showBookmarks()
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
@@ -127,12 +128,30 @@ class MapViewController: UIViewController {
             search.locatorTask = locatorTask
             search.delegate = self
         }
-        
-        else if segue.identifier == "showBookmarks",
-            let bookmarks = (segue.destination as? UINavigationController)?.topViewController as? BookmarksViewController {
-            bookmarks.map = map
-            bookmarks.delegate = self
-        }
+    }
+    
+    // MARK: - Bookmarks
+    
+    private func showBookmarks() {
+        // Bookmarks View Controller
+        let bookmarks = BookmarksViewController(geoView: mapView)
+        bookmarks.delegate = self
+        bookmarks.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(done)
+        )
+        // Embed Bookmarks View Controller into a Navigation Controller
+        let navigation = UINavigationController(rootViewController: bookmarks)
+        navigation.modalPresentationStyle = .popover
+        navigation.popoverPresentationController?.barButtonItem = ellipsisButton
+        navigation.popoverPresentationController?.permittedArrowDirections = .up
+        // Present Bookmarks
+        present(navigation, animated: true, completion: nil)
+    }
+    
+    @objc func done(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -198,7 +217,7 @@ extension MapViewController: BookmarksViewControllerDelegate {
     /*
      Update map view's viewpoint based on the selected bookmark
     */
-    func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelectBookmark bookmark: AGSBookmark) {
+    func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelect bookmark: AGSBookmark) {
         
         guard let viewpoint = bookmark.viewpoint else { return }
         

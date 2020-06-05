@@ -46,9 +46,6 @@
                     <connections>
                         <outlet property="ellipsisButton" destination="wh5-be-yHr" id="uvj-Vj-whu"/>
                         <outlet property="mapView" destination="QAm-zR-Xmc" id="vV0-p4-HEl"/>
-                        <segue destination="TKv-FS-9Aa" kind="popoverPresentation" identifier="showBookmarks" popoverAnchorBarButtonItem="wh5-be-yHr" id="woH-zY-8DS">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
-                        </segue>
                         <segue destination="56h-pu-T4d" kind="popoverPresentation" identifier="showLegend" popoverAnchorBarButtonItem="wh5-be-yHr" id="VXf-Lc-2U6">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                         </segue>
@@ -77,16 +74,8 @@
             </objects>
             <point key="canvasLocation" x="1824" y="40"/>
         </scene>
-        <!--Bookmarks-->
-        <scene sceneID="qIa-E3-fDi">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Bookmarks" id="TKv-FS-9Aa" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0t0-a0-o5B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1833" y="84"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="ellipsis" width="44" height="44"/>
+        <image name="ellipsis" width="24" height="24"/>
     </resources>
 </document>
