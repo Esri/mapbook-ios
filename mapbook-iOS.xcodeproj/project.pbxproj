@@ -34,7 +34,6 @@
 		946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C024218FB000100FA2 /* PortalSignInViewController.swift */; };
 		946987C32422934000100FA2 /* PortalHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C22422934000100FA2 /* PortalHomeViewController.swift */; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
-		9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF232422D40F0038608D /* MapPackagesListViewController.swift */; };
 		949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949DDF2B242427320038608D /* PortalBrowser.storyboard */; };
@@ -110,7 +109,6 @@
 		946987C024218FB000100FA2 /* PortalSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSignInViewController.swift; sourceTree = "<group>"; };
 		946987C22422934000100FA2 /* PortalHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalHomeViewController.swift; sourceTree = "<group>"; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
-		9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSPortalInfo+Description.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949DDF232422D40F0038608D /* MapPackagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackagesListViewController.swift; sourceTree = "<group>"; };
 		949DDF2B242427320038608D /* PortalBrowser.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PortalBrowser.storyboard; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 		943C6118241AD5DD00FEF4F7 /* ArcGIS */ = {
 			isa = PBXGroup;
 			children = (
-				9494DD542175029F00DE04A5 /* AGSPortalInfo+Description.swift */,
 				943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */,
 			);
 			path = ArcGIS;
@@ -480,7 +477,6 @@
 				3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */,
 				949DDF4C2425798B0038608D /* HUD.swift in Sources */,
 				949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */,
-				9494DD552175029F00DE04A5 /* AGSPortalInfo+Description.swift in Sources */,
 				949DDF4F2425798B0038608D /* WindowRootViewController.swift in Sources */,
 				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
