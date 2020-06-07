@@ -123,7 +123,8 @@ class PortalSessionManager {
         
         enableAutoSyncToKeychain()
         
-        portal.load { (error) in
+        portal.load { [weak self] (error) in
+            guard let self = self else { return }
             
             if let error = error {
                 self.status = .failed(error)
