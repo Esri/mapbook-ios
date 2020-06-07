@@ -67,15 +67,17 @@ class PortalBrowserViewController: UIViewController {
     */
     fileprivate func fetchPortalItems(using keyword: String?) {
         
-        if packageFinder == nil {
+        guard packageFinder != nil else {
             preconditionFailure("Portal find packages manager should never be nil.")
         }
         
         self.isLoading = true
         
-        let params = PortalPackageSearchManager.FindParameters(batchSize: AppSettings.portalItemQuerySize ?? 20,
-                                                              type: .mobileMapPackage,
-                                                              keyword: keyword)
+        let params = PortalPackageSearchManager.FindParameters(
+            batchSize: AppSettings.portalItemQuerySize ?? 20,
+            type: .mobileMapPackage,
+            keyword: keyword
+        )
         
         do {
             try packageFinder.findPortalItems(params: params) { [weak self] (result) in
