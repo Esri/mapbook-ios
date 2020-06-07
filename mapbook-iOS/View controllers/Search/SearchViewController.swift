@@ -91,9 +91,9 @@ class SearchViewController: UIViewController {
             return
         }
         
-        self.geocodeCancelable?.cancel()
-        
-        self.geocodeCancelable = locatorTask.geocode(with: suggestResult) { (geocodeResults, error) in
+        geocodeCancelable?.cancel()
+        geocodeCancelable = locatorTask.geocode(with: suggestResult) { [weak self] (geocodeResults, error) in
+            guard let self = self else { return }
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
@@ -115,9 +115,9 @@ class SearchViewController: UIViewController {
             return
         }
         
-        self.geocodeCancelable?.cancel()
-        
-        self.geocodeCancelable = locatorTask.geocode(withSearchText: text) { (geocodeResults, error) in
+        geocodeCancelable?.cancel()
+        geocodeCancelable = locatorTask.geocode(withSearchText: text) { [weak self] (geocodeResults, error) in
+            guard let self = self else { return }
             
             guard error == nil else {
                 if let error = error as NSError?, error.code != NSUserCancelledError {
