@@ -73,7 +73,7 @@ class MapPackageViewController: UITableViewController {
             byteCountLabel.text = .missing
         }
         
-        self.mapCountLabel.text = "\(package.maps.count)"
+        mapCountLabel.text = "\(package.maps.count)"
         
         if let downloadDate = package.downloadDate {
             lastDownloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
@@ -173,10 +173,10 @@ class MapCollectionCell: UICollectionViewCell {
         set {
             _selected = newValue
             if _selected {
-                self.layer.borderColor = UIColor.primary.cgColor
+                layer.borderColor = UIColor.primary.cgColor
             }
             else {
-                self.layer.borderColor = UIColor.clear.cgColor
+                layer.borderColor = UIColor.clear.cgColor
             }
         }
         get {
@@ -186,9 +186,9 @@ class MapCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = 8
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.clear.cgColor
+        layer.cornerRadius = 8
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.clear.cgColor
     }
 }
 
