@@ -63,14 +63,14 @@ class MapPackageViewController: UITableViewController {
             createdAtLabel.text = Self.dateFormatter.string(from: created)
         }
         else {
-            createdAtLabel.text = "-"
+            createdAtLabel.text = .missing
         }
         
         if let size = package.size {
             byteCountLabel.text = Self.byteFormatter.string(fromByteCount: size)
         }
         else {
-            byteCountLabel.text = "-"
+            byteCountLabel.text = .missing
         }
         
         self.mapCountLabel.text = "\(package.maps.count)"
@@ -79,7 +79,7 @@ class MapPackageViewController: UITableViewController {
             lastDownloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
         }
         else {
-            lastDownloadedLabel.text = "-"
+            lastDownloadedLabel.text = .missing
         }
         
         mapDescriptionlabel.text = item.snippet
@@ -104,11 +104,11 @@ class MapPackageViewController: UITableViewController {
     
     private func configureView(with failure: Error) {
         title = "Map Package"
-        createdAtLabel.text = "-"
-        byteCountLabel.text = "-"
-        mapCountLabel.text = "-"
-        lastDownloadedLabel.text = "-"
-        mapDescriptionlabel.text = "-"
+        createdAtLabel.text = .missing
+        byteCountLabel.text = .missing
+        mapCountLabel.text = .missing
+        lastDownloadedLabel.text = .missing
+        mapDescriptionlabel.text = .missing
         packageThumbnailImageView.isHidden = true
         flash(error: failure)
     }
@@ -159,7 +159,7 @@ class MapCollectionCell: UICollectionViewCell {
             createdDateLabel.text = Self.dateFormatter.string(from: created)
         }
         else {
-            createdDateLabel.text = "-"
+            createdDateLabel.text = .missing
         }
         
         mapTitleLabel.text = map.item?.title
@@ -215,4 +215,8 @@ extension MapPackageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showMap", sender: collectionView)
     }
+}
+
+private extension String {
+    static let missing = "-"
 }
