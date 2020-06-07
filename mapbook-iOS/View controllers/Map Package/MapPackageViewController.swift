@@ -123,6 +123,7 @@ class MapPackageViewController: UITableViewController {
                 let indexPath = indexPaths[0]
                 let map = mapPackage.maps[indexPath.row]
                 mapViewController.map = map
+                mapViewController.locatorTask = mapPackage.locatorTask
             }
         }
     }

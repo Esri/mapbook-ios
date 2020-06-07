@@ -4,6 +4,8 @@
 <dict>
 	<key>AGSConfiguration</key>
 	<dict>
+		<key>SearchSuggestionResultSize</key>
+		<string>12</string>
 		<key>DefaultPortalBrowserSearchString</key>
 		<string>Offline Mapbook</string>
 		<key>AppURLScheme</key>

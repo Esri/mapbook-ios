@@ -32,16 +32,16 @@ import ArcGIS
 
 class SearchViewController: UIViewController {
 
-    @IBOutlet private var tableView:UITableView!
-    @IBOutlet fileprivate var searchBar:UISearchBar!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet fileprivate var searchBar: UISearchBar!
     
-    weak var locatorTask:AGSLocatorTask?
-    weak var delegate:SearchViewControllerDelegate?
+    weak var locatorTask: AGSLocatorTask?
+    weak var delegate: SearchViewControllerDelegate?
     
-    fileprivate var suggestResults:[AGSSuggestResult] = []
+    fileprivate var suggestResults = [AGSSuggestResult]()
     
-    private var suggestCancelable:AGSCancelable?
-    private var geocodeCancelable:AGSCancelable?
+    private var suggestCancelable: AGSCancelable?
+    private var geocodeCancelable: AGSCancelable?
 
     /*
      Get suggestions for text. The method cancels any previous request.
@@ -50,17 +50,20 @@ class SearchViewController: UIViewController {
     */
     fileprivate func suggestions(for text:String) {
         
-        guard let locatorTask = self.locatorTask else {
+        guard let locatorTask = locatorTask else {
             return
         }
         
         //cancel previous request
-        self.suggestCancelable?.cancel()
+        suggestCancelable?.cancel()
         
-        let suggestParameters = AGSSuggestParameters()
-        suggestParameters.maxResults = 12
+        let params: AGSSuggestParameters = {
+            let suggestParameters = AGSSuggestParameters()
+            suggestParameters.maxResults = AppSettings.locatorSearchSuggestionSize ?? 12
+            return suggestParameters
+        }()
     
-        self.suggestCancelable = locatorTask.suggest(withSearchText: text, parameters: suggestParameters) { [weak self] (suggestResults, error) in
+        suggestCancelable = locatorTask.suggest(withSearchText: text, parameters: params) { [weak self] (suggestResults, error) in
             
             guard let self = self else { return }
             
@@ -147,7 +150,7 @@ extension SearchViewController:UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let suggestResult = self.suggestResults[indexPath.row]
+        let suggestResult = suggestResults[indexPath.row]
         cell.textLabel?.text = suggestResult.label
         
         return cell
@@ -158,12 +161,12 @@ extension SearchViewController:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if self.searchBar.isFirstResponder {
-            self.searchBar.resignFirstResponder()
+        if searchBar.isFirstResponder {
+            searchBar.resignFirstResponder()
         }
         
-        let suggestResult = self.suggestResults[indexPath.row]
-        self.geocode(for: suggestResult)
+        let suggestResult = suggestResults[indexPath.row]
+        geocode(for: suggestResult)
     }
 }
 
@@ -172,7 +175,7 @@ extension SearchViewController:UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if let searchText = searchBar.text {
-            self.suggestions(for: searchText)
+            suggestions(for: searchText)
         }
     }
     
@@ -181,7 +184,7 @@ extension SearchViewController:UISearchBarDelegate {
         searchBar.resignFirstResponder()
         
         if let text = searchBar.text {
-            self.geocode(for: text)
+            geocode(for: text)
         }
     }
 }
@@ -191,8 +194,8 @@ extension SearchViewController:UIScrollViewDelegate {
     //hide keyboard on scroll
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if self.searchBar.isFirstResponder {
-            self.searchBar.resignFirstResponder()
+        if searchBar.isFirstResponder {
+            searchBar.resignFirstResponder()
         }
     }
 }

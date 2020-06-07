@@ -64,6 +64,10 @@ struct AppSettings {
     // Can help to avoid loading multiple pages of results
     static let portalItemQuerySize: Int? = getAgsSetting(named: "PortalItemQuerySize")
     
+    // MARK:- Locator Search Suggestion Size
+    // How many suggestions are returned when actively searching a locator
+    static let locatorSearchSuggestionSize: Int? = getAgsSetting(named: "SearchSuggestionResultSize")
+    
     // MARK: - Portal Default URL String
     // When a user attempts to access a Portal, this URL string defaults in `PortalAccessViewController`
     // Change the cooresponding value in Info.plist to configure your own default
