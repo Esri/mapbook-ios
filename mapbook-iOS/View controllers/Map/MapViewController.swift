@@ -31,10 +31,6 @@ class MapViewController: UIViewController {
     @IBOutlet private var ellipsisButton:UIBarButtonItem!
     
     weak var map:AGSMap?
-    weak var locatorTask:AGSLocatorTask?
-    
-    private var isOverlayVisible = true
-    fileprivate var searchGraphicsOverlay = AGSGraphicsOverlay()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +40,7 @@ class MapViewController: UIViewController {
         
         //assign touch delegate for identify
         self.mapView.touchDelegate = self
-        
-        //graphics overlay to show geocoding results
-        self.mapView.graphicsOverlays.add(self.searchGraphicsOverlay)
-        
+                
         //set title of the map as the title for the view controller
         self.title = self.map?.item?.title        
     }
@@ -56,7 +49,7 @@ class MapViewController: UIViewController {
      Clear selection on each feature layer.
     */
     fileprivate func clearSelection() {
-        
+        mapView.callout.dismiss()
         if let operationalLayers = self.map?.operationalLayers as? [AGSLayer] {
             _ = operationalLayers.map {
                 if let featureLayer = $0 as? AGSFeatureLayer {
@@ -65,19 +58,6 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
-    //MARK: - Symbols
-    
-    /*
-     Picture Marker Symbol for geocde result.
-    */
-    fileprivate let geocodeResultSymbol: AGSSymbol = {
-        let image = #imageLiteral(resourceName: "RedMarker")
-        let pictureMarkerSymbol = AGSPictureMarkerSymbol(image: image)
-        pictureMarkerSymbol.offsetY = image.size.height/2
-        
-        return pictureMarkerSymbol
-    }()
     
     //MARK: - Show/hide overlay
     
@@ -89,10 +69,6 @@ class MapViewController: UIViewController {
             self.performSegue(withIdentifier: "showLegend", sender: nil)
         }
         
-        let search = UIAlertAction(title: "Search", style: .default) { (_) in
-            self.performSegue(withIdentifier: "showSearch", sender: nil)
-        }
-        
         let bookmarks = UIAlertAction(title: "Bookmarks", style: .default) { (_) in
             self.performSegue(withIdentifier: "showBookmarks", sender: nil)
         }
@@ -100,7 +76,6 @@ class MapViewController: UIViewController {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
         
         action.addAction(legend)
-        action.addAction(search)
         action.addAction(bookmarks)
         action.addAction(cancel)
         
@@ -109,6 +84,31 @@ class MapViewController: UIViewController {
         action.popoverPresentationController?.barButtonItem = ellipsisButton
         
         present(action, animated: true, completion: nil)
+    }
+    
+    //MARK:- Search
+    
+    weak var locatorTask:AGSLocatorTask? {
+        didSet {
+            updateSearchController()
+        }
+    }
+        
+    private func updateSearchController() {
+        if let locatorTask = locatorTask {
+            let results = LocatorSearchSuggestionController.fromStoryboard()
+            results.delegate = self
+            results.locatorTask = locatorTask
+            navigationItem.searchController = {
+                let searchController = UISearchController(searchResultsController: results)
+                searchController.searchResultsUpdater = results
+                searchController.searchBar.placeholder = "Search the map."
+                return searchController
+            }()
+        }
+        else {
+            navigationItem.searchController = nil
+        }
     }
 
     //MARK: - Navigation
@@ -121,13 +121,6 @@ class MapViewController: UIViewController {
             let legend = (segue.destination as? UINavigationController)?.topViewController as? LegendViewController {
             legend.map = map
         }
-        
-        else if segue.identifier == "showSearch",
-            let search = (segue.destination as? UINavigationController)?.topViewController as? SearchViewController {
-            search.locatorTask = locatorTask
-            search.delegate = self
-        }
-        
         else if segue.identifier == "showBookmarks",
             let bookmarks = (segue.destination as? UINavigationController)?.topViewController as? BookmarksViewController {
             bookmarks.map = map
@@ -141,10 +134,10 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
      
         //clear existing graphics
-        self.searchGraphicsOverlay.graphics.removeAllObjects()
+        clearSelection()
         
         //identify
-        self.mapView.identifyLayers(
+        mapView.identifyLayers(
             atScreenPoint: screenPoint,
             tolerance: 12,
             returnPopupsOnly: false,
@@ -212,30 +205,42 @@ extension MapViewController: BookmarksViewControllerDelegate {
 
 extension MapViewController: SearchViewControllerDelegate {
     
-    /*
-     Add geocode results as graphics on the graphics overlay.
-    */
-    func searchViewController(_ searchViewController: SearchViewController, didFindGeocodeResults geocodeResults: [AGSGeocodeResult]) {
+    func searchViewController(_ searchViewController:LocatorSearchSuggestionController,
+                              didFindGeocodeResults geocodeResults:[AGSGeocodeResult]) {
         
-        //clear existing graphics
-        self.searchGraphicsOverlay.graphics.removeAllObjects()
-        
-        let geocodeResult = geocodeResults[0]
-        
-        let graphic = AGSGraphic(geometry: geocodeResult.displayLocation,
-                                 symbol: geocodeResultSymbol,
-                                 attributes: geocodeResult.attributes)
-        
-        self.searchGraphicsOverlay.graphics.add(graphic)
-        
-        //zoom to the extent
-        if let extent = geocodeResult.extent {
-            self.mapView.setViewpointGeometry(extent, completion: nil)
-        }
-        
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        defer {
             searchViewController.dismiss(animated: true, completion: nil)
         }
+        
+        if let result = geocodeResults.first, let location = result.displayLocation, let extent = result.extent {
+            if #available(iOS 13.0, *) {
+                mapView.callout.accessoryButtonType = .close
+            } else {
+                mapView.callout.isAccessoryButtonHidden = true
+            }
+            mapView.callout.delegate = self
+            mapView.callout.title = result.label
+            mapView.callout.show(
+                at: location,
+                screenOffset: .zero,
+                rotateOffsetWithMap: false,
+                animated: true
+            )
+
+            mapView.setViewpointGeometry(extent, completion: nil)
+            navigationItem.searchController?.searchBar.text = result.label
+        }
+        else {
+            mapView.callout.dismiss()
+            navigationItem.searchController?.searchBar.text = nil
+        }
+    }
+}
+
+extension MapViewController: AGSCalloutDelegate {
+    
+    func didTapAccessoryButton(for callout: AGSCallout) {
+        callout.dismiss()
     }
 }
 

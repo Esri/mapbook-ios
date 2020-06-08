@@ -25,33 +25,40 @@
 import UIKit
 import ArcGIS
 
-@objc protocol SearchViewControllerDelegate:class {
-    
-    @objc optional func searchViewController(_ searchViewController:SearchViewController, didFindGeocodeResults geocodeResults:[AGSGeocodeResult])
+protocol SearchViewControllerDelegate: class {
+    func searchViewController(_ searchViewController:LocatorSearchSuggestionController, didFindGeocodeResults geocodeResults:[AGSGeocodeResult])
 }
 
-class SearchViewController: UIViewController {
-
-    @IBOutlet private var tableView: UITableView!
-    @IBOutlet fileprivate var searchBar: UISearchBar!
+class LocatorSearchSuggestionController: UITableViewController {
     
-    weak var locatorTask: AGSLocatorTask?
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    static func fromStoryboard() -> Self {
+        UIStoryboard(name: "Search", bundle: nil)
+            .instantiateViewController(withIdentifier: "SearchResultsViewController") as! Self
+    }
+        
+    var locatorTask: AGSLocatorTask!
+    
     weak var delegate: SearchViewControllerDelegate?
     
-    fileprivate var suggestResults = [AGSSuggestResult]()
+    // MARK:- Suggestions
     
-    private var suggestCancelable: AGSCancelable?
-    private var geocodeCancelable: AGSCancelable?
+    fileprivate var suggestResults = [AGSSuggestResult]()
 
-    /*
+    private var suggestCancelable: AGSCancelable?
+
+    /**
      Get suggestions for text. The method cancels any previous request.
      And on successful completion the results are shown in the table
      view.
     */
     fileprivate func suggestions(for text:String) {
         
-        guard let locatorTask = locatorTask else {
-            return
+        guard locatorTask != nil else {
+            preconditionFailure("LocatorTask must not be nil.")
         }
         
         //cancel previous request
@@ -84,14 +91,18 @@ class SearchViewController: UIViewController {
         }
     }
     
-    /*
+    // MARK:- Geocode
+    
+    private var geocodeCancelable: AGSCancelable?
+    
+    /**
      Geocode location for suggest result. Called when the user
      selects a suggestion. The delegate is notified of the results.
     */
     fileprivate func geocode(for suggestResult:AGSSuggestResult) {
         
-        guard let locatorTask = self.locatorTask else {
-            return
+        guard locatorTask != nil else {
+            preconditionFailure("LocatorTask must not be nil.")
         }
         
         geocodeCancelable?.cancel()
@@ -105,97 +116,38 @@ class SearchViewController: UIViewController {
                 return
             }
             
-            self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults ?? [])
+            self.delegate?.searchViewController(self, didFindGeocodeResults: geocodeResults ?? [])
         }
-    }
-    
-    /*
-     Geocode location for input text. Called when the user
-     hits search in the search bar
-     */
-    fileprivate func geocode(for text:String) {
-        guard let locatorTask = self.locatorTask else {
-            return
-        }
-        
-        geocodeCancelable?.cancel()
-        geocodeCancelable = locatorTask.geocode(withSearchText: text) { [weak self] (geocodeResults, error) in
-            guard let self = self else { return }
-            
-            guard error == nil else {
-                if let error = error as NSError?, error.code != NSUserCancelledError {
-                    flash(error: error)
-                }
-                return
-            }
-            
-            self.delegate?.searchViewController?(self, didFindGeocodeResults: geocodeResults ?? [])
-        }
-    }
-    
-    @IBAction func userRequestedDismiss(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
     }
 }
 
-extension SearchViewController:UITableViewDataSource {
+extension LocatorSearchSuggestionController /* UITableViewDataSource */ {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.suggestResults.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        suggestResults.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SuggestResultCell") else {
-            return UITableViewCell()
-        }
-        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SuggestResultCell", for: indexPath)
         let suggestResult = suggestResults[indexPath.row]
         cell.textLabel?.text = suggestResult.label
-        
         return cell
     }
 }
 
-extension SearchViewController:UITableViewDelegate {
+extension LocatorSearchSuggestionController /* UITableViewDelegate */ {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if searchBar.isFirstResponder {
-            searchBar.resignFirstResponder()
-        }
-        
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let suggestResult = suggestResults[indexPath.row]
         geocode(for: suggestResult)
     }
 }
 
-extension SearchViewController:UISearchBarDelegate {
+extension LocatorSearchSuggestionController: UISearchResultsUpdating {
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        if let searchText = searchBar.text {
-            suggestions(for: searchText)
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        searchBar.resignFirstResponder()
-        
-        if let text = searchBar.text {
-            geocode(for: text)
-        }
-    }
-}
-
-extension SearchViewController:UIScrollViewDelegate {
-    
-    //hide keyboard on scroll
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        if searchBar.isFirstResponder {
-            searchBar.resignFirstResponder()
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text {
+            suggestions(for: text)
         }
     }
 }

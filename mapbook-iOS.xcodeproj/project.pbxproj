@@ -20,7 +20,7 @@
 		3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */; };
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
-		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
+		3EDC846F1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */; };
 		943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */; };
 		943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */; };
 		943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PackageManager.swift */; };
@@ -95,7 +95,7 @@
 		3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendInfoCell.swift; sourceTree = "<group>"; };
 		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCell.swift; sourceTree = "<group>"; };
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
-		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorSearchSuggestionController.swift; sourceTree = "<group>"; };
 		943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSMobileMapPackage+Helper.swift"; sourceTree = "<group>"; };
 		943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalPackageSearchManager.swift; sourceTree = "<group>"; };
 		943C6120241BD90300FEF4F7 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
@@ -319,7 +319,7 @@
 		94C72935242012A900F37D96 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */,
+				3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */,
 				94C72936242012C500F37D96 /* Search.storyboard */,
 			);
 			path = Search;
@@ -478,7 +478,7 @@
 				949DDF4C2425798B0038608D /* HUD.swift in Sources */,
 				949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */,
 				949DDF4F2425798B0038608D /* WindowRootViewController.swift in Sources */,
-				3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */,
+				3EDC846F1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
 				943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */,
 				949DDF502425798B0038608D /* PKHUDProgressView.swift in Sources */,

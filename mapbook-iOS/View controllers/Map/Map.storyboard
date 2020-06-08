@@ -52,9 +52,6 @@
                         <segue destination="56h-pu-T4d" kind="popoverPresentation" identifier="showLegend" popoverAnchorBarButtonItem="wh5-be-yHr" id="VXf-Lc-2U6">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                         </segue>
-                        <segue destination="2Oh-Fn-olw" kind="popoverPresentation" identifier="showSearch" popoverAnchorBarButtonItem="wh5-be-yHr" id="Fcw-Gx-Rn3">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FnO-f6-Gk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -69,14 +66,6 @@
             </objects>
             <point key="canvasLocation" x="1825" y="-5"/>
         </scene>
-        <!--Search-->
-        <scene sceneID="UCW-o3-jKz">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Search" id="2Oh-Fn-olw" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pOR-kM-dPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1824" y="40"/>
-        </scene>
         <!--Bookmarks-->
         <scene sceneID="qIa-E3-fDi">
             <objects>
@@ -87,6 +76,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ellipsis" width="44" height="44"/>
+        <image name="ellipsis" width="24" height="24"/>
     </resources>
 </document>
