@@ -170,6 +170,9 @@ extension LocatorSuggestionController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text {
             suggestions(for: text)
         }
+        else {
+            suggestCancelable?.cancel()
+        }
     }
 }
 
