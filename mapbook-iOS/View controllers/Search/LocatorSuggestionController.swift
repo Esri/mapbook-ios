@@ -25,24 +25,40 @@
 import UIKit
 import ArcGIS
 
-protocol SearchViewControllerDelegate: class {
-    func searchViewController(_ searchViewController:LocatorSearchSuggestionController, didFindGeocodeResults geocodeResults:[AGSGeocodeResult])
+protocol LocatorSuggestionControllerDelegate: class {
+    func locatorSuggestionController(_ controller:LocatorSuggestionController, didFind result:AGSGeocodeResult)
+    func locatorSuggestionControllerFoundNoResults(_ controller:LocatorSuggestionController)
 }
 
-class LocatorSearchSuggestionController: UITableViewController {
+class LocatorSuggestionController: UITableViewController {
+    
+    // MARK:- Init
+    
+    // MARK: Storyboard
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    static func fromStoryboard() -> Self {
-        UIStoryboard(name: "Search", bundle: nil)
-            .instantiateViewController(withIdentifier: "SearchResultsViewController") as! Self
+    // Leverage this method if you want to design the look of the result suggestion cell.
+    static func fromStoryboard(with locator: AGSLocatorTask) -> Self {
+        let controller = UIStoryboard(name: "LocatorSearch", bundle: nil)
+            .instantiateViewController(withIdentifier: "LocatorSuggestionController") as! Self
+        controller.locatorTask = locator
+        return controller
+    }
+    
+    // MARK: Programmatically
+    
+    init(locator: AGSLocatorTask) {
+        locatorTask = locator
+        super.init(style: .plain)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: .cellReuseIdentifier)
     }
         
-    var locatorTask: AGSLocatorTask!
+    weak var locatorTask: AGSLocatorTask?
     
-    weak var delegate: SearchViewControllerDelegate?
+    weak var delegate: LocatorSuggestionControllerDelegate?
     
     // MARK:- Suggestions
     
@@ -57,7 +73,7 @@ class LocatorSearchSuggestionController: UITableViewController {
     */
     fileprivate func suggestions(for text:String) {
         
-        guard locatorTask != nil else {
+        guard let locatorTask = locatorTask else {
             preconditionFailure("LocatorTask must not be nil.")
         }
         
@@ -101,7 +117,7 @@ class LocatorSearchSuggestionController: UITableViewController {
     */
     fileprivate func geocode(for suggestResult:AGSSuggestResult) {
         
-        guard locatorTask != nil else {
+        guard let locatorTask = locatorTask else {
             preconditionFailure("LocatorTask must not be nil.")
         }
         
@@ -116,26 +132,31 @@ class LocatorSearchSuggestionController: UITableViewController {
                 return
             }
             
-            self.delegate?.searchViewController(self, didFindGeocodeResults: geocodeResults ?? [])
+            if let result = geocodeResults?.first {
+                self.delegate?.locatorSuggestionController(self, didFind: result)
+            }
+            else {
+                self.delegate?.locatorSuggestionControllerFoundNoResults(self)
+            }
         }
     }
 }
 
-extension LocatorSearchSuggestionController /* UITableViewDataSource */ {
+extension LocatorSuggestionController /* UITableViewDataSource */ {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         suggestResults.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SuggestResultCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: .cellReuseIdentifier, for: indexPath)
         let suggestResult = suggestResults[indexPath.row]
         cell.textLabel?.text = suggestResult.label
         return cell
     }
 }
 
-extension LocatorSearchSuggestionController /* UITableViewDelegate */ {
+extension LocatorSuggestionController /* UITableViewDelegate */ {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let suggestResult = suggestResults[indexPath.row]
@@ -143,11 +164,15 @@ extension LocatorSearchSuggestionController /* UITableViewDelegate */ {
     }
 }
 
-extension LocatorSearchSuggestionController: UISearchResultsUpdating {
+extension LocatorSuggestionController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text {
             suggestions(for: text)
         }
     }
+}
+
+extension String {
+    static let cellReuseIdentifier = "SearchSuggestionCell"
 }

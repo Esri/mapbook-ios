@@ -28,7 +28,6 @@ import ArcGIS
 class MapViewController: UIViewController {
 
     @IBOutlet fileprivate var mapView:AGSMapView!
-    @IBOutlet private var ellipsisButton:UIBarButtonItem!
     
     weak var map:AGSMap?
     
@@ -46,10 +45,12 @@ class MapViewController: UIViewController {
     }
     
     /*
-     Clear selection on each feature layer.
+     Clears the map of any selection/results information
     */
-    fileprivate func clearSelection() {
-        mapView.callout.dismiss()
+    fileprivate func clearMap() {
+        // 1. Hide any search result
+        hideSearchResult()
+        // 2. Clear any selection
         if let operationalLayers = self.map?.operationalLayers as? [AGSLayer] {
             _ = operationalLayers.map {
                 if let featureLayer = $0 as? AGSFeatureLayer {
@@ -60,6 +61,8 @@ class MapViewController: UIViewController {
     }
     
     //MARK: - Show/hide overlay
+    
+    @IBOutlet private var ellipsisButton:UIBarButtonItem!
     
     @IBAction func ellipsisButtonAction(_ sender: UIBarButtonItem) {
         
@@ -88,7 +91,7 @@ class MapViewController: UIViewController {
     
     //MARK:- Search
     
-    weak var locatorTask:AGSLocatorTask? {
+    weak var locatorTask: AGSLocatorTask? {
         didSet {
             updateSearchController()
         }
@@ -96,19 +99,48 @@ class MapViewController: UIViewController {
         
     private func updateSearchController() {
         if let locatorTask = locatorTask {
-            let results = LocatorSearchSuggestionController.fromStoryboard()
+            let results = LocatorSuggestionController.fromStoryboard(with: locatorTask)
             results.delegate = self
-            results.locatorTask = locatorTask
             navigationItem.searchController = {
-                let searchController = UISearchController(searchResultsController: results)
-                searchController.searchResultsUpdater = results
-                searchController.searchBar.placeholder = "Search the map."
-                return searchController
+                let controller = UISearchController(searchResultsController: results)
+                controller.searchResultsUpdater = results
+                controller.searchBar.placeholder = "Search the map."
+                controller.delegate = self
+                return controller
             }()
         }
         else {
             navigationItem.searchController = nil
         }
+    }
+    
+    private func showSearch(result: AGSGeocodeResult) {
+        if let location = result.displayLocation, let extent = result.extent {
+            if #available(iOS 13.0, *) {
+                mapView.callout.accessoryButtonType = .close
+            } else {
+                mapView.callout.isAccessoryButtonHidden = true
+            }
+            mapView.callout.delegate = self
+            mapView.callout.title = result.label
+            mapView.callout.show(
+                at: location,
+                screenOffset: .zero,
+                rotateOffsetWithMap: false,
+                animated: true
+            )
+
+            mapView.setViewpointGeometry(extent, completion: nil)
+            navigationItem.searchController?.searchBar.text = result.label
+        }
+        else {
+            hideSearchResult()
+        }
+    }
+    
+    private func hideSearchResult() {
+        mapView.callout.dismiss()
+        navigationItem.searchController?.searchBar.text = nil
     }
 
     //MARK: - Navigation
@@ -133,8 +165,7 @@ extension MapViewController:AGSGeoViewTouchDelegate {
     
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
      
-        //clear existing graphics
-        clearSelection()
+        clearMap()
         
         //identify
         mapView.identifyLayers(
@@ -193,46 +224,35 @@ extension MapViewController: BookmarksViewControllerDelegate {
     */
     func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelectBookmark bookmark: AGSBookmark) {
         
+        defer {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                bookmarksViewController.dismiss(animated: true, completion: nil)
+            }
+        }
+        
         guard let viewpoint = bookmark.viewpoint else { return }
         
         self.mapView.setViewpoint(viewpoint, completion: nil)
-        
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            bookmarksViewController.dismiss(animated: true, completion: nil)
-        }
     }
 }
 
-extension MapViewController: SearchViewControllerDelegate {
+extension MapViewController: LocatorSuggestionControllerDelegate {
     
-    func searchViewController(_ searchViewController:LocatorSearchSuggestionController,
-                              didFindGeocodeResults geocodeResults:[AGSGeocodeResult]) {
-        
-        defer {
-            searchViewController.dismiss(animated: true, completion: nil)
-        }
-        
-        if let result = geocodeResults.first, let location = result.displayLocation, let extent = result.extent {
-            if #available(iOS 13.0, *) {
-                mapView.callout.accessoryButtonType = .close
-            } else {
-                mapView.callout.isAccessoryButtonHidden = true
-            }
-            mapView.callout.delegate = self
-            mapView.callout.title = result.label
-            mapView.callout.show(
-                at: location,
-                screenOffset: .zero,
-                rotateOffsetWithMap: false,
-                animated: true
-            )
+    func locatorSuggestionController(_ controller: LocatorSuggestionController, didFind result: AGSGeocodeResult) {
+        showSearch(result: result)
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func locatorSuggestionControllerFoundNoResults(_ controller: LocatorSuggestionController) {
+        hideSearchResult()
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
 
-            mapView.setViewpointGeometry(extent, completion: nil)
-            navigationItem.searchController?.searchBar.text = result.label
-        }
-        else {
-            mapView.callout.dismiss()
-            navigationItem.searchController?.searchBar.text = nil
+extension MapViewController: UISearchControllerDelegate {
+    func didDismissSearchController(_ searchController: UISearchController) {
+        if !mapView.callout.isHidden {
+            searchController.searchBar.text = mapView.callout.title
         }
     }
 }
@@ -240,7 +260,7 @@ extension MapViewController: SearchViewControllerDelegate {
 extension MapViewController: AGSCalloutDelegate {
     
     func didTapAccessoryButton(for callout: AGSCallout) {
-        callout.dismiss()
+        hideSearchResult()
     }
 }
 
@@ -251,8 +271,7 @@ extension MapViewController: AGSPopupsViewControllerDelegate {
     */
     func popupsViewController(_ popupsViewController: AGSPopupsViewController, didChangeToCurrentPopup popup: AGSPopup) {
         
-        //clear previous selection
-        clearSelection()
+        clearMap()
         
         //select feature on the layer
         guard let feature = popup.geoElement as? AGSFeature else { return }
@@ -262,18 +281,18 @@ extension MapViewController: AGSPopupsViewControllerDelegate {
     
     func popupsViewControllerDidFinishViewingPopups(_ popupsViewController: AGSPopupsViewController) {
         popupsViewController.dismiss(animated: true) {
-            self.clearSelection()
+            self.clearMap()
         }
     }
 }
 
-extension MapViewController:UIPopoverPresentationControllerDelegate {
+extension MapViewController: UIPopoverPresentationControllerDelegate {
     
     /*
      Modal presentation as popover even for iPhone
     */
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-        clearSelection()
+        clearMap()
     }
 }
 

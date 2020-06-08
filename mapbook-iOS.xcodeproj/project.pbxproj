@@ -20,7 +20,7 @@
 		3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */; };
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
 		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
-		3EDC846F1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */; };
+		3EDC846F1F1FF165002DBCF2 /* LocatorSuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* LocatorSuggestionController.swift */; };
 		943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */; };
 		943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */; };
 		943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PackageManager.swift */; };
@@ -57,7 +57,7 @@
 		949E1859217674B800FF1499 /* URL+ArcGISOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */; };
 		94A53EC92420366B006B0A27 /* MapPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A53EC82420366B006B0A27 /* MapPackageViewController.swift */; };
 		94A9196A24198BCE0086E808 /* PortalSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9196924198BCE0086E808 /* PortalSessionManager.swift */; };
-		94C72937242012C500F37D96 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C72936242012C500F37D96 /* Search.storyboard */; };
+		94C72937242012C500F37D96 /* LocatorSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C72936242012C500F37D96 /* LocatorSearch.storyboard */; };
 		94C7293A2420139800F37D96 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C729392420139800F37D96 /* Map.storyboard */; };
 		94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C7293D2420175200F37D96 /* MapPackage.storyboard */; };
 		94D55EC3246C93940055BEFE /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D55EC2246C93940055BEFE /* ArcGIS.framework */; };
@@ -95,7 +95,7 @@
 		3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendInfoCell.swift; sourceTree = "<group>"; };
 		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCell.swift; sourceTree = "<group>"; };
 		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
-		3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorSearchSuggestionController.swift; sourceTree = "<group>"; };
+		3EDC846E1F1FF165002DBCF2 /* LocatorSuggestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorSuggestionController.swift; sourceTree = "<group>"; };
 		943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSMobileMapPackage+Helper.swift"; sourceTree = "<group>"; };
 		943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalPackageSearchManager.swift; sourceTree = "<group>"; };
 		943C6120241BD90300FEF4F7 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		949E1858217674B800FF1499 /* URL+ArcGISOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ArcGISOnline.swift"; sourceTree = "<group>"; };
 		94A53EC82420366B006B0A27 /* MapPackageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackageViewController.swift; sourceTree = "<group>"; };
 		94A9196924198BCE0086E808 /* PortalSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSessionManager.swift; sourceTree = "<group>"; };
-		94C72936242012C500F37D96 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		94C72936242012C500F37D96 /* LocatorSearch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LocatorSearch.storyboard; sourceTree = "<group>"; };
 		94C729392420139800F37D96 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		94C7293D2420175200F37D96 /* MapPackage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapPackage.storyboard; sourceTree = "<group>"; };
 		94D55EC2246C93940055BEFE /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = $HOME/Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<group>"; };
@@ -319,8 +319,8 @@
 		94C72935242012A900F37D96 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				3EDC846E1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift */,
-				94C72936242012C500F37D96 /* Search.storyboard */,
+				3EDC846E1F1FF165002DBCF2 /* LocatorSuggestionController.swift */,
+				94C72936242012C500F37D96 /* LocatorSearch.storyboard */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -425,7 +425,7 @@
 				943C61292420111600FEF4F7 /* Legend.storyboard in Resources */,
 				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
 				944FD85D2434E81B00B9F2FF /* calcite.xcassets in Resources */,
-				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
+				94C72937242012C500F37D96 /* LocatorSearch.storyboard in Resources */,
 				949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */,
 				949DDF512425798B0038608D /* Images.xcassets in Resources */,
 				94C7293E2420175200F37D96 /* MapPackage.storyboard in Resources */,
@@ -478,7 +478,7 @@
 				949DDF4C2425798B0038608D /* HUD.swift in Sources */,
 				949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */,
 				949DDF4F2425798B0038608D /* WindowRootViewController.swift in Sources */,
-				3EDC846F1F1FF165002DBCF2 /* LocatorSearchSuggestionController.swift in Sources */,
+				3EDC846F1F1FF165002DBCF2 /* LocatorSuggestionController.swift in Sources */,
 				3EDC844A1F1E8B94002DBCF2 /* AppDelegate.swift in Sources */,
 				943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */,
 				949DDF502425798B0038608D /* PKHUDProgressView.swift in Sources */,
