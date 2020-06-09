@@ -36,16 +36,24 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Map" largeTitleDisplayMode="never" id="AWR-2R-fqu">
-                        <barButtonItem key="rightBarButtonItem" image="ellipsis" id="wh5-be-yHr">
-                            <connections>
-                                <action selector="ellipsisButtonAction:" destination="Rpx-um-QS6" id="GoV-v7-joz"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="ellipsis" id="wh5-be-yHr">
+                                <connections>
+                                    <action selector="ellipsisButtonAction:" destination="Rpx-um-QS6" id="GoV-v7-joz"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="search" id="ssw-xE-7uO">
+                                <connections>
+                                    <action selector="toggleShouldShowSearch:" destination="Rpx-um-QS6" id="uHr-0e-JFg"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="ellipsisButton" destination="wh5-be-yHr" id="uvj-Vj-whu"/>
                         <outlet property="mapView" destination="QAm-zR-Xmc" id="vV0-p4-HEl"/>
+                        <outlet property="searchButton" destination="ssw-xE-7uO" id="McI-GY-zma"/>
                         <segue destination="TKv-FS-9Aa" kind="popoverPresentation" identifier="showBookmarks" popoverAnchorBarButtonItem="wh5-be-yHr" id="woH-zY-8DS">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                         </segue>
@@ -77,5 +85,6 @@
     </scenes>
     <resources>
         <image name="ellipsis" width="24" height="24"/>
+        <image name="search" width="24" height="24"/>
     </resources>
 </document>

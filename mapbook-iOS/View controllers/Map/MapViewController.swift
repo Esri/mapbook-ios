@@ -96,9 +96,21 @@ class MapViewController: UIViewController {
             updateSearchController()
         }
     }
+    
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    
+    @IBAction func toggleShouldShowSearch(_ sender: UIBarButtonItem) {
+        shouldShowSearch.toggle()
+    }
+    
+    private var shouldShowSearch = false {
+        didSet {
+            updateSearchController()
+        }
+    }
         
     private func updateSearchController() {
-        if let locatorTask = locatorTask {
+        if shouldShowSearch, let locatorTask = locatorTask {
             let results = LocatorSuggestionController.fromStoryboard(with: locatorTask)
             results.delegate = self
             navigationItem.searchController = {
@@ -112,9 +124,12 @@ class MapViewController: UIViewController {
         else {
             navigationItem.searchController = nil
         }
+        //refresh navigation controller layout.
+        navigationController?.view.setNeedsLayout()
     }
     
     private func showSearch(result: AGSGeocodeResult) {
+        shouldShowSearch.toggle()
         if let location = result.displayLocation, let extent = result.extent {
             if #available(iOS 13.0, *) {
                 mapView.callout.accessoryButtonType = .close
@@ -131,7 +146,6 @@ class MapViewController: UIViewController {
             )
 
             mapView.setViewpointGeometry(extent, completion: nil)
-            navigationItem.searchController?.searchBar.text = result.label
         }
         else {
             hideSearchResult()
@@ -140,7 +154,6 @@ class MapViewController: UIViewController {
     
     private func hideSearchResult() {
         mapView.callout.dismiss()
-        navigationItem.searchController?.searchBar.text = nil
     }
 
     //MARK: - Navigation
