@@ -42,6 +42,7 @@ class LocatorSuggestionController: UITableViewController {
     
     // Leverage this method if you want to design the look of the result suggestion cell.
     static func fromStoryboard(with locator: AGSLocatorTask) -> Self {
+        locator.load(completion: nil)
         let controller = UIStoryboard(name: "LocatorSearch", bundle: nil)
             .instantiateViewController(withIdentifier: "LocatorSuggestionController") as! Self
         controller.locatorTask = locator
@@ -51,6 +52,7 @@ class LocatorSuggestionController: UITableViewController {
     // MARK: Programmatically
     
     init(locator: AGSLocatorTask) {
+        locator.load(completion: nil)
         locatorTask = locator
         super.init(style: .plain)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: .cellReuseIdentifier)
@@ -77,33 +79,45 @@ class LocatorSuggestionController: UITableViewController {
             preconditionFailure("LocatorTask must not be nil.")
         }
         
-        //cancel previous request
-        suggestCancelable?.cancel()
-        
-        let params: AGSSuggestParameters = {
-            let suggestParameters = AGSSuggestParameters()
-            suggestParameters.maxResults = AppSettings.locatorSearchSuggestionSize ?? 12
-            return suggestParameters
-        }()
-    
-        suggestCancelable = locatorTask.suggest(withSearchText: text, parameters: params) { [weak self] (suggestResults, error) in
-            
+        locatorTask.load { [weak self] (error) in
             guard let self = self else { return }
             
-            guard error == nil else {
-                if let error = error as NSError?, error.code != NSUserCancelledError {
-                    flash(error: error)
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            //cancel previous request
+            self.suggestCancelable?.cancel()
+            
+            let params: AGSSuggestParameters = {
+                let suggestParameters = AGSSuggestParameters()
+                suggestParameters.maxResults = AppSettings.locatorSearchSuggestionSize ?? 12
+                return suggestParameters
+            }()
+            
+            self.suggestCancelable = locatorTask.suggest(
+                withSearchText: text,
+                parameters: params
+            ) { [weak self] (suggestResults, error) in
+                guard let self = self else { return }
+                
+                guard error == nil else {
+                    if let error = error as NSError?, error.code != NSUserCancelledError {
+                        flash(error: error)
+                    }
+                    return
                 }
-                return
+                
+                if let results = suggestResults {
+                    self.suggestResults = results
+                }
+                else {
+                    self.suggestResults = [AGSSuggestResult]()
+                }
+                
+                self.tableView.reloadData()
             }
-            
-            guard let suggestResults = suggestResults else {
-                print("No suggestions")
-                return
-            }
-            
-            self.suggestResults = suggestResults
-            self.tableView.reloadData()
         }
     }
     
@@ -117,8 +131,8 @@ class LocatorSuggestionController: UITableViewController {
     */
     fileprivate func geocode(for suggestResult:AGSSuggestResult) {
         
-        guard let locatorTask = locatorTask else {
-            preconditionFailure("LocatorTask must not be nil.")
+        guard let locatorTask = locatorTask, locatorTask.loadStatus == .loaded else {
+            preconditionFailure("LocatorTask must be loaded.")
         }
         
         geocodeCancelable?.cancel()
