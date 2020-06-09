@@ -93,13 +93,12 @@ class MapViewController: UIViewController {
     
     weak var locatorTask: AGSLocatorTask? {
         didSet {
+            updateBarButtonItems()
             updateSearchController()
         }
     }
-    
-    @IBOutlet weak var searchButton: UIBarButtonItem!
-    
-    @IBAction func toggleShouldShowSearch(_ sender: UIBarButtonItem) {
+            
+    @objc func toggleShouldShowSearch(_ sender: UIBarButtonItem) {
         shouldShowSearch.toggle()
     }
     
@@ -108,7 +107,22 @@ class MapViewController: UIViewController {
             updateSearchController()
         }
     }
-        
+      
+    private func updateBarButtonItems() {
+        if locatorTask == nil {
+            navigationItem.rightBarButtonItems = [ellipsisButton]
+        }
+        else {
+            let searchButton = UIBarButtonItem(
+                image: UIImage(named: "search"),
+                style: .plain,
+                target: self,
+                action: #selector(toggleShouldShowSearch)
+            )
+            navigationItem.rightBarButtonItems = [ellipsisButton, searchButton]
+        }
+    }
+    
     private func updateSearchController() {
         if shouldShowSearch, let locatorTask = locatorTask {
             let results = LocatorSuggestionController.fromStoryboard(with: locatorTask)
