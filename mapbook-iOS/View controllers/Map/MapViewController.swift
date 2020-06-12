@@ -276,14 +276,6 @@ extension MapViewController: LocatorSuggestionControllerDelegate {
     }
 }
 
-extension MapViewController: UISearchControllerDelegate {
-    func didDismissSearchController(_ searchController: UISearchController) {
-        if !mapView.callout.isHidden {
-            searchController.searchBar.text = mapView.callout.title
-        }
-    }
-}
-
 extension MapViewController: AGSCalloutDelegate {
     
     func didTapAccessoryButton(for callout: AGSCallout) {
