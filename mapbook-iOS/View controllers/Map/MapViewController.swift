@@ -131,7 +131,6 @@ class MapViewController: UIViewController {
                 let controller = UISearchController(searchResultsController: results)
                 controller.searchResultsUpdater = results
                 controller.searchBar.placeholder = "Search the map."
-                controller.delegate = self
                 return controller
             }()
         }
