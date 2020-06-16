@@ -66,7 +66,7 @@ class MapViewController: UIViewController {
     
     @IBAction func ellipsisButtonAction(_ sender: UIBarButtonItem) {
         
-        let action = UIAlertController(title: nil, message: "Explore the map.", preferredStyle: .actionSheet)
+        let action = UIAlertController(title: nil, message: "Explore the Map", preferredStyle: .actionSheet)
         
         let legend = UIAlertAction(title: "Legend", style: .default) { (_) in
             self.performSegue(withIdentifier: "showLegend", sender: nil)
