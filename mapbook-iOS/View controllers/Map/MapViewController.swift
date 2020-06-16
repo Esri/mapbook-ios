@@ -130,7 +130,7 @@ class MapViewController: UIViewController {
             navigationItem.searchController = {
                 let controller = UISearchController(searchResultsController: results)
                 controller.searchResultsUpdater = results
-                controller.searchBar.placeholder = "Search the map."
+                controller.searchBar.placeholder = "Search the Map"
                 return controller
             }()
         }
