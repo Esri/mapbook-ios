@@ -19,12 +19,10 @@
 		3EDC84661F1FC335002DBCF2 /* LegendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */; };
 		3EDC84681F1FD4A6002DBCF2 /* LegendInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */; };
 		3EDC846A1F1FD5BC002DBCF2 /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */; };
-		3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */; };
 		3EDC846F1F1FF165002DBCF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */; };
 		943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */; };
 		943C611F241B04F700FEF4F7 /* PortalPackageSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */; };
 		943C6121241BD90300FEF4F7 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6120241BD90300FEF4F7 /* PackageManager.swift */; };
-		943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C612524200FE100FEF4F7 /* Bookmarks.storyboard */; };
 		943C61292420111600FEF4F7 /* Legend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943C61282420111600FEF4F7 /* Legend.storyboard */; };
 		944FC14F202404C1007535DB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FC14E202404C1007535DB /* AppIcon.xcassets */; };
 		944FD85D2434E81B00B9F2FF /* calcite.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 944FD85C2434E81B00B9F2FF /* calcite.xcassets */; };
@@ -33,6 +31,8 @@
 		946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */; };
 		946987C124218FB000100FA2 /* PortalSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C024218FB000100FA2 /* PortalSignInViewController.swift */; };
 		946987C32422934000100FA2 /* PortalHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946987C22422934000100FA2 /* PortalHomeViewController.swift */; };
+		946C49A6248AE4BA00A717D2 /* ArcGISToolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946C49A3248AE49600A717D2 /* ArcGISToolkit.framework */; };
+		946C49A7248AE4BA00A717D2 /* ArcGISToolkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 946C49A3248AE49600A717D2 /* ArcGISToolkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9494DD522175025F00DE04A5 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD512175025F00DE04A5 /* Bundle+Version.swift */; };
 		9494DD57217502C200DE04A5 /* UIColor+House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9494DD56217502C200DE04A5 /* UIColor+House.swift */; };
 		949DDF242422D40F0038608D /* MapPackagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DDF232422D40F0038608D /* MapPackagesListViewController.swift */; };
@@ -64,6 +64,23 @@
 		94D55EC4246C93940055BEFE /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94D55EC2246C93940055BEFE /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		946C49A2248AE49600A717D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 946C499D248AE49600A717D2 /* ArcGISToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 881233701DF601A700B2EA8E;
+			remoteInfo = ArcGISToolkit;
+		};
+		946C49A4248AE49600A717D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 946C499D248AE49600A717D2 /* ArcGISToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4685B03237CA3C400F168CF;
+			remoteInfo = ArcGISToolkitTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		94AB9D33225E8C090040D989 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -71,6 +88,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				946C49A7248AE4BA00A717D2 /* ArcGISToolkit.framework in Embed Frameworks */,
 				94D55EC4246C93940055BEFE /* ArcGIS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -94,12 +112,10 @@
 		3EDC84651F1FC335002DBCF2 /* LegendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendViewController.swift; sourceTree = "<group>"; };
 		3EDC84671F1FD4A6002DBCF2 /* LegendInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendInfoCell.swift; sourceTree = "<group>"; };
 		3EDC84691F1FD5BC002DBCF2 /* LayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCell.swift; sourceTree = "<group>"; };
-		3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		3EDC846E1F1FF165002DBCF2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		943C6119241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGSMobileMapPackage+Helper.swift"; sourceTree = "<group>"; };
 		943C611E241B04F700FEF4F7 /* PortalPackageSearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalPackageSearchManager.swift; sourceTree = "<group>"; };
 		943C6120241BD90300FEF4F7 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
-		943C612524200FE100FEF4F7 /* Bookmarks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bookmarks.storyboard; sourceTree = "<group>"; };
 		943C61282420111600FEF4F7 /* Legend.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legend.storyboard; sourceTree = "<group>"; };
 		944FC14E202404C1007535DB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
 		944FD85C2434E81B00B9F2FF /* calcite.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = calcite.xcassets; sourceTree = "<group>"; };
@@ -108,6 +124,7 @@
 		946987BE24216F0D00100FA2 /* PortalAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalAuthViewController.swift; sourceTree = "<group>"; };
 		946987C024218FB000100FA2 /* PortalSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalSignInViewController.swift; sourceTree = "<group>"; };
 		946987C22422934000100FA2 /* PortalHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalHomeViewController.swift; sourceTree = "<group>"; };
+		946C499D248AE49600A717D2 /* ArcGISToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ArcGISToolkit.xcodeproj; path = "arcgis-runtime-toolkit-ios/Toolkit/ArcGISToolkit.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		9494DD512175025F00DE04A5 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		9494DD56217502C200DE04A5 /* UIColor+House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+House.swift"; sourceTree = "<group>"; };
 		949DDF232422D40F0038608D /* MapPackagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPackagesListViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				946C49A6248AE4BA00A717D2 /* ArcGISToolkit.framework in Frameworks */,
 				94D55EC3246C93940055BEFE /* ArcGIS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */,
+				946C499C248AE47200A717D2 /* Toolkit */,
 				3EDC84471F1E8B94002DBCF2 /* Products */,
 				94D55EC1246C93940055BEFE /* Frameworks */,
 			);
@@ -208,7 +227,6 @@
 				94C729382420138600F37D96 /* Map */,
 				94C72935242012A900F37D96 /* Search */,
 				943C61272420110500FEF4F7 /* Legend */,
-				943C612424200FC800FEF4F7 /* Bookmarks */,
 			);
 			path = "View controllers";
 			sourceTree = "<group>";
@@ -232,15 +250,6 @@
 			path = ArcGIS;
 			sourceTree = "<group>";
 		};
-		943C612424200FC800FEF4F7 /* Bookmarks */ = {
-			isa = PBXGroup;
-			children = (
-				3EDC846C1F1FDC93002DBCF2 /* BookmarksViewController.swift */,
-				943C612524200FE100FEF4F7 /* Bookmarks.storyboard */,
-			);
-			path = Bookmarks;
-			sourceTree = "<group>";
-		};
 		943C61272420110500FEF4F7 /* Legend */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +270,23 @@
 				946987C22422934000100FA2 /* PortalHomeViewController.swift */,
 			);
 			path = "Portal Auth";
+			sourceTree = "<group>";
+		};
+		946C499C248AE47200A717D2 /* Toolkit */ = {
+			isa = PBXGroup;
+			children = (
+				946C499D248AE49600A717D2 /* ArcGISToolkit.xcodeproj */,
+			);
+			path = Toolkit;
+			sourceTree = "<group>";
+		};
+		946C499E248AE49600A717D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				946C49A3248AE49600A717D2 /* ArcGISToolkit.framework */,
+				946C49A5248AE49600A717D2 /* ArcGISToolkitTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		9494DD532175026800DE04A5 /* Extensions */ = {
@@ -405,12 +431,35 @@
 			);
 			productRefGroup = 3EDC84471F1E8B94002DBCF2 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 946C499E248AE49600A717D2 /* Products */;
+					ProjectRef = 946C499D248AE49600A717D2 /* ArcGISToolkit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3EDC84451F1E8B94002DBCF2 /* mapbook-iOS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		946C49A3248AE49600A717D2 /* ArcGISToolkit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ArcGISToolkit.framework;
+			remoteRef = 946C49A2248AE49600A717D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		946C49A5248AE49600A717D2 /* ArcGISToolkitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ArcGISToolkitTests.xctest;
+			remoteRef = 946C49A4248AE49600A717D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3EDC84441F1E8B94002DBCF2 /* Resources */ = {
@@ -423,7 +472,6 @@
 				946987BD2421697200100FA2 /* PortalAuth.storyboard in Resources */,
 				3EDC84511F1E8B94002DBCF2 /* Assets.xcassets in Resources */,
 				943C61292420111600FEF4F7 /* Legend.storyboard in Resources */,
-				943C612624200FE100FEF4F7 /* Bookmarks.storyboard in Resources */,
 				944FD85D2434E81B00B9F2FF /* calcite.xcassets in Resources */,
 				94C72937242012C500F37D96 /* Search.storyboard in Resources */,
 				949DDF2C242427320038608D /* PortalBrowser.storyboard in Resources */,
@@ -462,7 +510,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				949DDF4E2425798B0038608D /* Window.swift in Sources */,
-				3EDC846D1F1FDC93002DBCF2 /* BookmarksViewController.swift in Sources */,
 				949DDF442425798B0038608D /* PKHUDAnimation.swift in Sources */,
 				943C611A241AD60100FEF4F7 /* AGSMobileMapPackage+Helper.swift in Sources */,
 				946987BF24216F0D00100FA2 /* PortalAuthViewController.swift in Sources */,
