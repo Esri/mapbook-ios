@@ -74,11 +74,12 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 > **mapbook**://auth
 
 1. Expand the **URL Types** section and modify the existing entry.
-    - The **Identifier** doesn't matter, but should be unique (e.g. `com.my-org.my-mapbook-app`).
+    - The **Identifier** doesn't matter, but should be unique.
+    > ex: **com.esri.mapbook**
     - The **URL Scheme** should match the **Redirect URL** scheme configured in "Register an Application" above. The scheme is the app name that comes before `://` in the redirect URI.
     > **mapbook**://auth
 
-![Configure the App URL Scheme](/docs/images/configure-app-settings.png)
+  ![Configure the App URL Scheme](/docs/images/configure-app-settings.png)
 
 **Configure Client ID**
 
