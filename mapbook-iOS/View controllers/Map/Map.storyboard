@@ -63,14 +63,6 @@
             </objects>
             <point key="canvasLocation" x="1825" y="-5"/>
         </scene>
-        <!--Search-->
-        <scene sceneID="UCW-o3-jKz">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Search" id="2Oh-Fn-olw" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pOR-kM-dPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1824" y="40"/>
-        </scene>
     </scenes>
     <resources>
         <image name="ellipsis" width="24" height="24"/>

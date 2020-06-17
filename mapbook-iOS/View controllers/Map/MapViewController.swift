@@ -180,11 +180,6 @@ class MapViewController: UIViewController {
             let legend = (segue.destination as? UINavigationController)?.topViewController as? LegendViewController {
             legend.map = map
         }
-        else if segue.identifier == "showSearch",
-            let search = (segue.destination as? UINavigationController)?.topViewController as? SearchViewController {
-            search.locatorTask = locatorTask
-            search.delegate = self
-        }
     }
     
     // MARK: - Bookmarks
