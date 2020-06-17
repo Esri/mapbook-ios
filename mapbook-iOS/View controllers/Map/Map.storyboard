@@ -21,13 +21,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAm-zR-Xmc" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QAm-zR-Xmc" firstAttribute="top" secondItem="VfV-9S-jJI" secondAttribute="top" id="2VB-IR-5Yx"/>
+                            <constraint firstItem="QAm-zR-Xmc" firstAttribute="top" secondItem="D0i-vK-GWa" secondAttribute="top" id="2VB-IR-5Yx"/>
                             <constraint firstAttribute="bottom" secondItem="QAm-zR-Xmc" secondAttribute="bottom" id="Qs2-ux-VQQ"/>
                             <constraint firstItem="QAm-zR-Xmc" firstAttribute="leading" secondItem="D0i-vK-GWa" secondAttribute="leading" id="oGm-j7-IRK"/>
                             <constraint firstAttribute="trailing" secondItem="QAm-zR-Xmc" secondAttribute="trailing" id="uMp-es-qA5"/>
@@ -47,9 +47,6 @@
                         <outlet property="ellipsisButton" destination="wh5-be-yHr" id="uvj-Vj-whu"/>
                         <outlet property="mapView" destination="QAm-zR-Xmc" id="vV0-p4-HEl"/>
                         <segue destination="56h-pu-T4d" kind="popoverPresentation" identifier="showLegend" popoverAnchorBarButtonItem="wh5-be-yHr" id="VXf-Lc-2U6">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
-                        </segue>
-                        <segue destination="2Oh-Fn-olw" kind="popoverPresentation" identifier="showSearch" popoverAnchorBarButtonItem="wh5-be-yHr" id="Fcw-Gx-Rn3">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                         </segue>
                     </connections>
