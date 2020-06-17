@@ -1,6 +1,12 @@
 # v2.0.0
 
-* Version 2.0 of Offline Mapbook for iOS!
+* Brand new UI & UX
+* Re-writes underlying App Architecture
+* Introduces support for Universal Layout (iPhone & iPad), a new Apple requirement
+* Introduces Toolkit dependency, Bookmarks
+* Reworks Locator Search
+* Introduces preliminary accessibility measure for label dynamic text resizing
+* Introduces support for Dark Mode
 
 # v1.1.4
 
