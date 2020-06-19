@@ -90,7 +90,7 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 
 This step is optional during development, but _required_ for deployment.
 
-1. Get your Runtime Lite License Key by clicking the `Show my ArcGIS Runtime Lite license key` at the top-right of the [Licensing Your ArcGIS Runtime App](https://developers.arcgis.com/arcgis-runtime/licensing/) page (you must be logged in).
+1. Access your [dashboard](https://developers.arcgis.com/dashboard) and get your Runtime Lite license key.
 1. Open the project in Xcode and navigate to `AppSettings.swift`, the same file used to configure your applications client id.
 1. Set the value of the static variable `licenseKey` to the value from step 1.
 
