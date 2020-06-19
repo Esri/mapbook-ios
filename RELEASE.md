@@ -8,6 +8,10 @@
 * Introduces preliminary accessibility measure for label dynamic text resizing
 * Introduces support for Dark Mode
 
+# v1.1.5
+
+* Certification for the 100.8.0 release of the ArcGIS Runtime SDK for iOS.
+
 # v1.1.4
 
 * Fixes featureLayer deprecation.
