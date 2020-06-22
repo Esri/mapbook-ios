@@ -11,7 +11,7 @@ This repo is home to the mobile mapbook app, an example application using the [A
 - Geocode addresses
 - Suggestion search
 - Bookmarks
-- Sign in to Portal
+- Sign in to your portal
 
 ## Best Practices
 The project also demonstrates some patterns for building real-world apps around the ArcGIS Runtime SDK.
