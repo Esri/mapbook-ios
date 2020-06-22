@@ -6,7 +6,7 @@ This repo is home to the mobile mapbook app, an example application using the [A
 - Feature layers
 - Identify
 - Table of Contents
-- Show a Legend
+- Show a legend
 - Use a map view callout
 - Geocode addresses
 - Suggestion search
