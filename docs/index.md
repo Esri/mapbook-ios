@@ -122,7 +122,7 @@ For more details on configuring the Offline Mapbook for OAuth, see [the main REA
 
 ### Identify
 
-Identify lets you recognize features on the map view. To know when the user interacts with the map view you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the identify method on map view.
+Identify lets you recognize features on the map view. To know when the user interacts with the map view, you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the identify method on map view.
 
 ```swift
 extension MapViewController: AGSGeoViewTouchDelegate {
