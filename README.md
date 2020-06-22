@@ -41,7 +41,7 @@ If you make changes in the fork and would like to [sync](https://help.github.com
 1. In the Terminal (for Mac users) or command prompt (fow Windows and Linus users) type ```git remote -v``` to list the current configured remote repo for your fork.
 1. ```git remote add upstream https://github.com/Esri/mapbook-ios.git``` to specify new remote upstream repository that will be synced with the fork. You can type ```git remote -v``` to verify the new upstream.
 
-If there are changes made in the Original repository, you can sync the fork to keep it updated with upstream repository.
+If there are changes made in the original repository, you can sync the fork to keep it updated with upstream repository.
 
 1. In the terminal, change the current working directory to your local project
 1. Type ```git fetch upstream``` to fetch the commits from the upstream repository
