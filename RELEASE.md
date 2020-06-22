@@ -1,7 +1,7 @@
 # v2.0.0
 
 * Brand new UI & UX
-* Re-writes underlying App Architecture
+* Re-writes underlying app architecture
 * Introduces support for Universal Layout (iPhone & iPad), a new Apple requirement
 * Introduces Toolkit dependency, Bookmarks
 * Reworks Locator Search
