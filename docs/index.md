@@ -77,7 +77,7 @@ Now that the mobile map package has been created and published, it can be downlo
 
 ### Authentication
 
-Offline Mapbook leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When accessing **Portal**, the app prompts the user for their credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+Offline Mapbook leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When accessing a **Portal**, the app prompts the user for their credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
