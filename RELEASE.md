@@ -1,3 +1,13 @@
+# v2.0.0
+
+* Brand new UI & UX
+* Re-writes underlying app architecture
+* Introduces support for Universal Layout (iPhone & iPad), a new Apple requirement
+* Introduces Toolkit dependency, Bookmarks
+* Reworks Locator Search
+* Introduces preliminary accessibility measure for label dynamic text resizing
+* Introduces support for Dark Mode
+
 # v1.1.5
 
 * Certification for the 100.8.0 release of the ArcGIS Runtime SDK for iOS.

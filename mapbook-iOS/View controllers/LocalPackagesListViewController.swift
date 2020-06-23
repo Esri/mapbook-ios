@@ -25,13 +25,42 @@
 import UIKit
 import ArcGIS
 
-class LocalPackagesListViewController: UIViewController {
+private protocol Section {
+    var header: String { get }
+    var packages: [AGSMobileMapPackage] { get }
+    var noPackagesMessage: String { get }
+}
+
+private class PortalSection: Section {
+    let header = "Portal Packages"
+    let noPackagesMessage = "No portal packages, sign in to Portal and tap the search button."
+    var packages = [PortalAwareMobileMapPackage]() as [AGSMobileMapPackage]
+}
+
+private class DeviceSection: Section {
+    let header = "Device Packages"
+    let noPackagesMessage = "No device packages, tap the folder button."
+    var packages = [AGSMobileMapPackage]()
+}
+
+class MapPackagesListViewController: UIViewController {
 
     @IBOutlet fileprivate var tableView:UITableView!
-    @IBOutlet private var addBBI:UIBarButtonItem!
-    @IBOutlet private var settingsBBI:UIBarButtonItem!
-    @IBOutlet private var noPackagesLabel:UILabel!
-    @IBOutlet weak var appModeSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet private var portalSearchButton:UIBarButtonItem!
+    @IBOutlet private var portalAuthButton:UIBarButtonItem!
+    
+    private let sections: [Section] = {
+        [PortalSection(), DeviceSection()]
+    }()
+    
+    private var portalSection: PortalSection {
+        sections[0] as! PortalSection
+    }
+    
+    private var deviceSection: DeviceSection {
+        sections[1] as! DeviceSection
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,12 +72,6 @@ class LocalPackagesListViewController: UIViewController {
         //add refresh control to allow refreshing local packages
         //and check for updates
         self.addRefreshControl()
-        
-        //for .portal mode, show portal url screen by default if user not signed in
-        if AppContext.shared.appMode == .portal && !AppContext.shared.isUserSignedIn() {
-            //show portal URL page
-            self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
-        }
         
         //add self as observer for DownloadCompleted notification, to update cell
         //state when update completes
@@ -70,12 +93,6 @@ class LocalPackagesListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //the title of the view controller should reflect the app mode
-        self.updateTitleForAppMode()
-        
-        //the segment control should reflect the app mode
-        self.updateSegmentedControlForAppMode()
-        
         //the navigation bar button items should reflect the app mode and portal
         self.updateNavigationItems()
     }
@@ -85,28 +102,31 @@ class LocalPackagesListViewController: UIViewController {
     */
     private func fetchLocalPackages() {
         
-        AppContext.shared.fetchLocalPackages()
-        
-        self.tableView.reloadData()
-        
-        self.showBackgroundLabelIfNeeded()
-    }
-    
-    /*
-     Show background label if no packages found.
-    */
-    fileprivate func showBackgroundLabelIfNeeded() {
-        
-        if AppContext.shared.localPackages.count > 0 {
-            //remove background label
-            self.noPackagesLabel.isHidden = true
-            self.tableView.separatorStyle = .singleLine
+        func show(error: Error) {
+            SVProgressHUD.showError(withStatus: error.localizedDescription, maskType: .gradient)
         }
-        else {
-            //set background label
-            self.noPackagesLabel.text = AppContext.shared.appMode.noPackagesText
-            self.noPackagesLabel.isHidden = false
-            self.tableView.separatorStyle = .none
+        
+        do {
+            try appContext.packageManager.fetchDownloadedPackages { [weak self] (result) in
+                
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let packages):
+                    self.portalSection.packages = packages
+                case .failure(let error):
+                    show(error: error)
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
+        catch {
+            
+            show(error: error)
+            portalSection.packages.removeAll()
+            
+            self.tableView.reloadData()
         }
     }
     
@@ -125,31 +145,19 @@ class LocalPackagesListViewController: UIViewController {
      Check for updates for the local packages. Works only for .portal mode.
     */
     private func checkForUpdates() {
-        if AppContext.shared.appMode == .portal {
-            AppContext.shared.checkForUpdates {
-                self.tableView.reloadData()
-                self.showBackgroundLabelIfNeeded()
-            }
+        try? appContext.packageManager.checkForUpdates(packages: portalSection.packages as! [PortalAwareMobileMapPackage]) {
+            self.tableView.reloadData()
         }
     }
     
     private func updateNavigationItems() {
-        //navigation item bar button items should reflect app mode and portal
-        navigationItem.rightBarButtonItems = AppContext.shared.appMode == .portal ? [addBBI] : []
-        navigationItem.leftBarButtonItems = AppContext.shared.appMode == .portal ? [settingsBBI] : []
-        addBBI.isEnabled = AppContext.shared.portal != nil
+        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
+            portalSearchButton.isEnabled = true
+        }
+        else {
+            portalSearchButton.isEnabled = false
+        }
     }
-    
-    private func updateSegmentedControlForAppMode() {
-        //segmented control should reflect app mode
-        appModeSegmentedControl.selectedSegmentIndex = AppContext.shared.appMode.rawValue
-    }
-    
-    private func updateTitleForAppMode() {
-        //view controller title should reflect app mode
-        title = AppContext.shared.appMode.viewControllerTitle
-    }
-    
     /*
      A convenient method to observe DownloadCompleted notification. It adds self
      as an observer for the notification. And in the closure, updates the state of
@@ -172,24 +180,19 @@ class LocalPackagesListViewController: UIViewController {
     
     private func observeAppModeChangeNotification() {
         
-        NotificationCenter.default.addObserver(forName: .appModeDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default
+            .addObserver(forName: .appModeDidChange,
+                         object: nil,
+                         queue: .main) { [weak self] (_) in
             
-            guard let strongSelf = self else { return }
-            
-            //the title of the view controller should reflect the app mode
-            strongSelf.updateTitleForAppMode()
-            
-            //the segment control should reflect the app mode
-            strongSelf.updateSegmentedControlForAppMode()
-            
-            //the navigation bar button items should reflect the app mode and portal
-            strongSelf.updateNavigationItems()
+            guard let self = self else { return }
+            self.updateNavigationItems()
         }
     }
     
     private func observePortalChangedNotification() {
         
-        NotificationCenter.default.addObserver(forName: .portalDidChange, object: nil, queue: .main) { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .portalSessionStatusDidChange, object: nil, queue: .main) { [weak self] (_) in
             //the navigation bar button items should reflect the app mode and portal
             self?.updateNavigationItems()
         }
@@ -199,11 +202,12 @@ class LocalPackagesListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "PackageVCSegue", let controller = segue.destination as? PackageViewController,
+        if segue.identifier == "showMapPackage",
+            let controller = segue.destination as? MapPackageViewController,
             let selectedIndexPath = self.tableView?.indexPathForSelectedRow {
-            
-            let package = AppContext.shared.localPackages[selectedIndexPath.row]
-            controller.mobileMapPackage = package
+            let package = portalSection.packages[selectedIndexPath.row]
+            controller.mapPackage = package
+            tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
         else if segue.identifier == "PortalURLSegue",
             let controller = segue.destination as? PortalAccessViewController {
@@ -211,13 +215,21 @@ class LocalPackagesListViewController: UIViewController {
             controller.delegate = self
             controller.presentationController?.delegate = self
         }
+        else if segue.identifier == "PortalItemsSegue",
+            let navigation = segue.destination as? UINavigationController,
+            let controller = navigation.topViewController as? PortalItemsListViewController  {
+            guard let portal = appContext.sessionManager.portal else {
+                preconditionFailure("User must be signed in to an active portal session.")
+            }
+            controller.packageFinder = PortalPackageSearchManager(portal)
+        }
     }
     
     //MARK: - Actions
     
     @IBAction func add(_ sender:UIBarButtonItem) {
         
-        if AppContext.shared.isUserSignedIn() {
+        if case PortalSessionManager.Status.loaded(_) = appContext.sessionManager.status {
             //show portal items list view controller
             self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
         }
@@ -225,105 +237,6 @@ class LocalPackagesListViewController: UIViewController {
             //show portal URL page
             self.performSegue(withIdentifier: "PortalURLSegue", sender: self)
         }
-    }
-    
-    @IBAction func appModeSegmentControlValueChanged(_ sender: Any) {
-        
-        guard sender as? UISegmentedControl == appModeSegmentedControl, let newMode = AppMode(rawValue: appModeSegmentedControl.selectedSegmentIndex) else { return }
-        
-        switch newMode {
-        case .device:
-            switchToDeviceMode()
-        case .portal:
-            switchToPortalMode()
-        }
-    }
-    
-    private func switchToDeviceMode() {
-        
-        //show alert controller for confirmation
-        let alertController = UIAlertController(title: "Switch to Device mode?", message: "This will delete all downloaded mobile map packages and sign you out.", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
-            
-            //sign user out
-            AppContext.shared.signOutUser()
-            
-            //update appMode to .device
-            AppContext.shared.appMode = .device
-            
-            //fetch packages for new mode
-            self?.fetchLocalPackages()
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
-            
-            self?.updateSegmentedControlForAppMode()
-        }
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    private func switchToPortalMode() {
-        
-        //show alert controller for confirmation
-        let alertController = UIAlertController(title: nil, message: "Are you sure you want to switch to Portal mode?", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Switch", style: .default) { [weak self] (action) in
-            
-            //update appMode to .portal
-            AppContext.shared.appMode = .portal
-            
-            //fetch packages for new mode
-            self?.fetchLocalPackages()
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (action) in
-            
-            self?.updateSegmentedControlForAppMode()
-        }
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
-    }
-
-    fileprivate func signOut() {
-        
-        //show confirmation
-        let alertController = UIAlertController(title: "Confirm logout?", message: "This will delete all the packages you have already downloaded", preferredStyle: .alert)
-        
-        //yes action
-        let yesAction = UIAlertAction(title: "Sign out", style: .default) { [weak self] (action) in
-            
-            //sign user out
-            AppContext.shared.signOutUser()
-            
-            //pop to initial view controller
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        //no action
-        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        
-        //add actions to alert controller
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-        
-        //present alert controller
-        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func viewPortalAccessViewController() {
@@ -354,29 +267,77 @@ class LocalPackagesListViewController: UIViewController {
         //remove observer
         NotificationCenter.default.removeObserver(self)
     }
+    
+    @objc private func update() {
+        
+//        guard let package = self.mobileMapPackage else {
+//            return
+//        }
+//
+//        guard package.canUpdate else {
+//            SVProgressHUD.showInfo(withStatus: "\(package.item?.title ?? "The mmpk") is already up to date.")
+//            return
+//        }
+//
+//        do {
+//            try appContext.packageManager.update(package: package)
+//            self.isUpdating = true
+//        }
+//        catch {
+//            SVProgressHUD.showError(withStatus: error.localizedDescription)
+//        }
+    }
 }
 
-extension LocalPackagesListViewController: UITableViewDataSource {
+extension MapPackagesListViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppContext.shared.localPackages.count
+        if sections[section].packages.isEmpty {
+            return 1
+        }
+        else {
+            return sections[section].packages.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        sections[section].header
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //cell
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocalPackageCell") as? LocalPackageCell else {
-            return UITableViewCell()
+        let section = sections[indexPath.section]
+        
+        guard !section.packages.isEmpty else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoPackagesCell") as! NoPackagesCell
+            cell.messageLabel.text = section.noPackagesMessage
+            return cell
         }
         
-        //local package for cell
-        cell.mobileMapPackage = AppContext.shared.localPackages[indexPath.row]
+        //cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocalPackageCell") as! LocalPackageCell
+        
+        if let portalSection = section as? PortalSection {
+            cell.mobileMapPackage = (portalSection.packages[indexPath.row] as! PortalAwareMobileMapPackage)
+        }
+        else if let _ = section as? DeviceSection {
+//            cell.mobileMapPackage = sections[indexPath.section].packages[indexPath.row]
+        }
+        else {
+            preconditionFailure("Unsupported section.")
+        }
+        
+        cell.updateButton.addTarget(self, action: #selector(update), for: .touchUpInside)
         
         return cell
     }
 }
 
-extension LocalPackagesListViewController: UITableViewDelegate {
+extension MapPackagesListViewController: UITableViewDelegate {
     
     //for deleting package
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -389,14 +350,17 @@ extension LocalPackagesListViewController: UITableViewDelegate {
             //yes action
             let yesAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
                 
+                guard let self = self else { return }
+                
                 //delete package using AppContext
-                AppContext.shared.deleteLocalPackage(at: indexPath.row)
+                let package = self.sections[indexPath.section].packages[indexPath.row]
+                
+                try? appContext.packageManager.removeDownloaded(package: package)
+                var packages = self.sections[indexPath.section].packages
+                packages.remove(at: indexPath.row)
                 
                 //refresh table view
                 tableView.reloadData()
-                
-                //if no packages left then show the background label
-                self?.showBackgroundLabelIfNeeded()
             }
             
             //no action
@@ -413,30 +377,106 @@ extension LocalPackagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        self.performSegue(withIdentifier: "PackageVCSegue", sender: self)
-    }
-}
-
-extension LocalPackagesListViewController: PortalAccessViewControllerDelegate {
-    
-    func portalURLViewController(_ portalURLViewController: PortalAccessViewController, requestsDismissAndShouldShowPortalItemsList shouldShowItems: Bool) {
-        
-        //refresh table view as the portal could have been switched and
-        //earlier packages might have been deleted
-        self.tableView.reloadData()
-        
-        portalURLViewController.dismiss(animated: true) {
-            
-            if shouldShowItems {
-                self.performSegue(withIdentifier: "PortalItemsSegue", sender: self)
-            }
+        if tableView.cellForRow(at: indexPath) is NoPackagesCell {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        else {
+            self.performSegue(withIdentifier: "showMapPackage", sender: self)
         }
     }
 }
 
-extension LocalPackagesListViewController: UIAdaptivePresentationControllerDelegate {
+extension MapPackagesListViewController: PortalAccessViewControllerDelegate {
+    
+    func portalURLViewControllerRequestedDismiss(_ portalURLViewController: PortalAccessViewController) {
+        //refresh table view as the portal could have been switched and
+        //earlier packages might have been deleted
+        self.tableView.reloadData()
+        portalURLViewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MapPackagesListViewController: UIAdaptivePresentationControllerDelegate {
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+class NoPackagesCell: UITableViewCell {
+    @IBOutlet weak var messageLabel: UILabel!
+}
+
+class LocalPackageCell: UITableViewCell {
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
+    
+    static var byteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        return formatter
+    }()
+
+    @IBOutlet private var titleLabel:UILabel!
+    @IBOutlet private var createdLabel:UILabel!
+    @IBOutlet private var sizeLabel:UILabel!
+    @IBOutlet private var descriptionLabel:UILabel!
+    @IBOutlet private var thumbnailImageView:UIImageView!
+    @IBOutlet private var downloadedLabel:UILabel!
+    @IBOutlet weak var updateButton:UIButton!
+    @IBOutlet private var activityIndicatorView:UIActivityIndicatorView!
+    @IBOutlet private var updateStackView:UIStackView!
+        
+    var isUpdating = false {
+        didSet {
+            self.updateButton.isHidden = isUpdating
+            self.activityIndicatorView?.isHidden = !isUpdating
+            
+            if !(self.activityIndicatorView?.isHidden ?? true) {
+                self.activityIndicatorView?.startAnimating()
+            }
+        }
+    }
+    
+    var mobileMapPackage: PortalAwareMobileMapPackage? {
+        didSet {
+            guard let mobileMapPackage = self.mobileMapPackage,
+                let item = mobileMapPackage.item else {
+                return
+            }
+                            
+            if let itemID = mobileMapPackage.itemID  {
+                self.isUpdating = appContext.packageManager.isCurrentlyDownloading(item: itemID)
+            }
+            else {
+                self.isUpdating = false
+            }
+            if let created = item.created {
+                self.createdLabel.text = "Created \(Self.dateFormatter.string(from: created))"
+            }
+            else {
+                self.createdLabel.text = ""
+            }
+            
+            if let size = mobileMapPackage.size {
+                self.sizeLabel.text = "Size \(Self.byteFormatter.string(fromByteCount: size))"
+            }
+            else {
+                self.sizeLabel.text = ""
+            }
+            self.titleLabel.text = item.title
+            self.descriptionLabel.text = item.snippet
+            self.thumbnailImageView.image = item.thumbnail?.image
+            
+            if let downloadDate = mobileMapPackage.downloadDate {
+                self.downloadedLabel.text = Self.dateFormatter.string(from: downloadDate)
+            }
+            else {
+                self.downloadedLabel.text = ""
+            }
+        }
     }
 }

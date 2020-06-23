@@ -22,134 +22,69 @@
 // email: contracts@esri.com
 //
 
-import UIKit
 import ArcGIS
 
-/*
- Extend Notification.Name to add custom notification name for a package download completion
- */
-extension Notification.Name {
-    
-    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
-    static let appModeDidChange = Notification.Name("AppModeChanged")
-    static let portalDidChange = Notification.Name("PortalDidChange")
-}
+var appContext: AppContext { AppContext.shared }
 
-/*
- Singleton class that handles all local and portal requests and provide a bunch of helper methods
- */
 class AppContext {
     
-    //singleton
-    static let shared = AppContext()
+    fileprivate static let shared = AppContext()
     
-    //current mode of the app
-    var appMode: AppMode {
-        didSet {
-            //post change to app mode
-            NotificationCenter.default.post(name: .appModeDidChange, object: self, userInfo: nil)
-            
-            //save new mode to defaults
-            appMode.saveToUserDefaults()
+    private(set) var sessionManager = PortalSessionManager()
+    
+    private(set) var packageManager = PackageManager()
+    
+    init() {
+        sessionManager.delegate = self
+        packageManager.delegate = self
+    }
+}
+
+// MARK:- Portal Session
+
+extension Notification.Name {
+    static let portalSessionStatusDidChange = Notification.Name("PortalSessionStatusDidChange")
+}
+
+extension AppContext: PortalSessionManagerDelegate {
+    
+    func portalSessionManager(manager: PortalSessionManager, didChangeStatus status: PortalSessionManager.Status) {
+        
+        switch status {
+        case .loaded(let portal):
+            packageManager.portal = portal
+        default:
+            break
         }
+        
+        NotificationCenter.default.post(name: .portalSessionStatusDidChange, object: self)
+    }
+}
+
+// MARK:- Package Manager
+
+extension Notification.Name {
+    static let downloadDidComplete = Notification.Name("DownloadDidComplete")
+}
+
+extension AppContext: PackageManagerDelegate {
+    
+    func packageManager(_ manager: PackageManager, enqueued item: AGSPortalItem) {
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["itemID": item.itemID, "item": item])
     }
     
-    //list of packages available on device
-    var localPackages:[AGSMobileMapPackage] = []
-    
-    //portal to use for fetching portal items
-    var portal:AGSPortal? {
-        
-        //the portal could be set if 
-        //a. user signs in the first time
-        //b. user switches to a different portal
-        //c. user signs out (set to nil)
-        //d. on app start up, if user was previously signed in
-        didSet {
-            
-            //save the portal url in UserDefaults to instantiate 
-            //portal if the app is closed and re-opened
-            AppSettings.save(portalUrl: self.portal?.url)
-            
-            //clean up previous data, if any
-            
-            //remove all portal items
-            self.portalItems.removeAll()
-            
-            //cancel if previously fetching portal items
-            self.fetchPortalItemsCancelable?.cancel()
-            
-            //new portal is not fetching portal items currently
-            self.isFetchingPortalItems = false
-            
-            //next query is not yet available
-            self.nextQueryParameters = nil
-            
-            //clear list of updatable items, as there may not be any local packages
-            self.updatableItemIDs.removeAll()
-            
-            //cancel all downloads in progress
-            self.downloadOperationQueue.operations.forEach { $0.cancel() }
-            
-            //clear list of currently downloading itemIDs
-            self.currentlyDownloadingItemIDs.removeAll()
-            
-            //post notification of change.
-            NotificationCenter.default.post(name: .portalDidChange, object: self, userInfo: nil)
-        }
+    func packageManager(_ manager: PackageManager, failed error: Error, item: AGSPortalItem) {
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["error": error,
+                                                   "itemID": item.itemID])
     }
     
-    //list of portalItems from portal
-    var portalItems:[AGSPortalItem] = []
-    
-    //cancelable for the fetch call, in case it needs to be cancelled
-    var fetchPortalItemsCancelable:AGSCancelable?
-    
-    var downloadOperationQueue = AGSOperationQueue()
-    
-    //flag if fetching is in progress
-    var isFetchingPortalItems = false
-    
-    //next query parameters returned in the last query
-    var nextQueryParameters:AGSPortalQueryParameters?
-    
-    //date formatter for Date to String conversions
-    var dateFormatter:DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        return dateFormatter
-    }()
-    
-    //list of currently dowloading item's IDs, to show UI accordingly
-    var currentlyDownloadingItemIDs:[String] = []
-    
-    //list of local package's itemIDs, that have an update available online
-    var updatableItemIDs:[String] = []
-    
-    
-    /*
-     AppContext's private initializer, called only once, since its a 
-     singleton class. Called from the AppDelegate's didFinishLaunching
-     method the first time. It checks for info on Portal's URL in the
-     UserDefaults and instantiates the portal, if available. And then
-     determines the app mode.
-     */
-    private init() {
-        
-        //if portalURL is stored then instantiate portal object and load it
-        if let portalURL = AppSettings.getPortalURL() {
-            self.portal = AGSPortal(url: portalURL, loginRequired: true)
-            self.portal?.load(completion: nil)
-        }
-        else {
-            //remove credential - special case
-            //when app is deleted, the credential is not removed from the keychain
-            //and portal load works on re-install w/o the need of OAuth
-            //For new install or signed out, PORTALURL wont be there, so clear the credential
-            AGSAuthenticationManager.shared().credentialCache.removeAllCredentials()
-        }
-        
-        //set initial value from last session, if first session the default is portal
-        appMode = AppMode.retrieveFromUserDefaults()
+    func packageManager(_ manager: PackageManager, downloaded item: AGSPortalItem, to path: URL) {
+        NotificationCenter.default.post(name: .downloadDidComplete,
+                                        object: self,
+                                        userInfo: ["itemID": item.itemID])
     }
 }

@@ -42,11 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        self.setLicenseKey()
-        
-        self.setupOAuthManager()
-                
-        self.modifyAppearance()
+        setLicenseKey()
+        setupOAuthManager()
+        modifyAppearance()
+        configureHUD()
         
         return true
     }
@@ -57,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try AGSArcGISRuntimeEnvironment.setLicenseKey(AppSettings.licenseKey)
             }
-            catch let error {
+            catch {
                 print(error)
             }
         }
@@ -76,38 +75,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func modifyAppearance() {
         
         if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor : UIColor.white]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor : UIColor.white]
-            navBarAppearance.backgroundColor = .primaryBlue
-            let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-            buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.yellow]
-            navBarAppearance.buttonAppearance = buttonAppearance
+            let navBarAppearance: UINavigationBarAppearance = {
+                let navBarAppearance = UINavigationBarAppearance()
+                navBarAppearance.configureWithOpaqueBackground()
+                navBarAppearance.buttonAppearance = {
+                    let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+                    buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    buttonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    buttonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    return buttonAppearance
+                }()
+                navBarAppearance.doneButtonAppearance = {
+                    let doneButtonAppearance = UIBarButtonItemAppearance(style: .done)
+                    doneButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    doneButtonAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    doneButtonAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.primary]
+                    return doneButtonAppearance
+                }()
+                return navBarAppearance
+            }()
+            
             UINavigationBar.appearance().standardAppearance = navBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
             UINavigationBar.appearance().compactAppearance = navBarAppearance
         }
         else {
-            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white]
-            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor.white]
-            UINavigationBar.appearance().barTintColor = .primaryBlue
-            UINavigationBar.appearance().tintColor = .yellow
+            UINavigationBar.appearance().tintColor = .primary
         }
         
-        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .yellow
-        UIButton.appearance().tintColor = .primaryBlue
-        
-        UITabBar.appearance().tintColor = .white
-        UITabBar.appearance().barTintColor = .primaryBlue
+        UIButton.appearance().tintColor = .primary
 
-        UISwitch.appearance().onTintColor = .primaryBlue
-        UISlider.appearance().tintColor = .primaryBlue
-        
-        UISegmentedControl.appearance().tintColor = .primaryBlue
-        
-        UIRefreshControl.appearance().tintColor = .yellow
-        
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primaryBlue
+        UISwitch.appearance().onTintColor = .primary
+        UISlider.appearance().tintColor = .primary
+                        
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .primary
     }
+    
+    // MARK:- Configure HUD (PKHUD)
+    
+    func configureHUD() {
+        HUD.registerForKeyboardNotifications()
+        HUD.dimsBackground = false
+        HUD.allowsInteraction = false
+    }
+}
+
+func flash(error: Error, delay: TimeInterval = 2.0) {
+    HUD.flash(.labeledError(title: nil, subtitle: error.localizedDescription), delay: delay)
+}
+
+func state(error: Error, in controller: UIViewController) {
+    let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+    let okay = UIAlertAction(title: "Okay", style: .default, handler: nil)
+    alert.addAction(okay)
+    controller.present(alert, animated: true, completion: nil)
 }
