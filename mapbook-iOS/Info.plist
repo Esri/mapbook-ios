@@ -4,6 +4,10 @@
 <dict>
 	<key>AGSConfiguration</key>
 	<dict>
+		<key>SearchSuggestionResultSize</key>
+		<string>12</string>
+		<key>DefaultPortalBrowserSearchString</key>
+		<string>Offline Mapbook</string>
 		<key>AppURLScheme</key>
 		<string>mapbook</string>
 		<key>AuthURLPath</key>
@@ -51,23 +55,46 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ArcGIS SDK requires access to the device's photo library.</string>
+	<string>ArcGIS SDK requires access to the device&apos;s photo library.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<string>MapPackagesList</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Esri Mobile Map Package</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.mmpk</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>mmpk</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

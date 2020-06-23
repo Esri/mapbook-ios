@@ -11,29 +11,65 @@ Learn how to create and share mobile map packages so that you can take your orga
 
 ## Design considerations
 
-The app is designed to be used in either **Device** mode or **Portal** mode, defaulting in **Portal** mode.
+The app is designed to open mobile map packages stored on the **Device** mode or downloaded from a **Portal**.
 
-![App Mode v1.1](/docs/images/app-mode-v1-1.png)
+| iPhone | iPad |
+| --- | --- |
+| ![iPhone](images/iPhone-Main.png) | ![iPad](images/iPad-Main.png)
 
-### Portal mode
 
-**Portal** mode supports a connected workflow in which a user browses the contents of a single portal. Browsing a portal requires authentication. While a mobile map package may not itself require authentication or authorization, this app assumes the content is secured. Thus in **Portal** mode, when a user switches portals in the app, signs out, or switches to **Device** mode, the content is deleted from the app (and device). The app isn't intended to cover all possible portal workflows (e.g. named user workflow).
+### Portal
 
-#### Default portal
+Tapping the cloud button item located in the navigation bar allows users to browse for and download mobile map packages located in a **Portal**. Browsing a portal requires authentication.
 
-The configured default **Portal** is [ArcGIS Online](http://www.arcgis.com).  The default URL can easily be configured by modifying the `AGSConfiguration` value for key `DefaultPortalURLString` contained within `Info.plist`.
+#### Portal Authentication
+
+A user can authenticate by tapping the profile button item located in the navigation bar. A user has the option to sign in to ArcGIS Online or they can specify a URL to an Enterprise Portal.
 
 #### Search portal
 
-The **Portal** mobile map packages view contains a search widget that filters results based on a search string. The app ships with a default search string _"Offline Mapbook"_ when accessing ArcGIS Online so that the app can showcase a _mobile map package_ named **Offline Mapbook** designed specifically for this app. This _mobile map package_ highlights particular features supported by the app: table of contents, legend, search, bookmarks, and callouts.
+The **Portal** mobile map packages view contains a search widget that filters results based on a search string. The app ships with a default search string _"Offline Mapbook"_ when accessing ArcGIS Online so that the app can showcase a _mobile map package_ named **Naperville Water Company Mapbook** designed specifically for this app. This _mobile map package_ highlights particular features supported by the app: table of contents, legend, search, bookmarks, and callouts.
 
-> It's important that the default behavior of the app results in a user downloading this particular mobile map package named **Offline Mapbook** from ArcGIS Online since this README assumes this mobile map package is in the app.
+> It's important that the default behavior of the app results in a user downloading this particular mobile map package named **Naperville Water Company Mapbook** from ArcGIS Online since this doc assumes this mobile map package is downloaded.
 
-The developer can change this default search string by commenting out part of code in the `viewDidLoad` method of `PortalItemsListViewController`. While the app is running, the user can also clear the search filter to see all mobile map package items. If an app user enters a custom portal url, then the default behavior described above is not enabled. The user should be able to see any mobile map packages in their **Portal** since the content will not be filtered.
+The developer can change this default search string by updating the value for `DefaultPortalBrowserSearchString` of `AGSConfiguration` located in the `Info.plist`. While the app is running, the user can also clear the search filter to see all mobile map package items. If an app user enters a custom portal url, then the default behavior described above is not enabled. The user should be able to see any mobile map packages in their **Portal** since the content will not be filtered.
 
-### Device mode
+### Device
 
-The **Device** mode supports a disconnected workflow whereby the use case supports users with mobile map package (*.mmpk) that can be added (sideloaded) via iTunes or a Mobile Device Management (MDM) system. If the user has mobile map packages in the app that they've sideloaded and they switch to **Portal** mode, the device mobile map packages are not removed from the app. Instead, they are hidden from the `Local Packages List` view while in **Portal** mode but restored to the view when switched back to **Device** mode.
+Tapping the folder button item in the navigation bar allows the users to browse the **Device**'s local file system for mobile map packages. The app uses `UIDocumentPickerViewController` to browse and import files with the extension `.mmpk`.
+
+_Note, when a user imports an `.mmpk` from device, a copy is produced and stored in the app's document directory._
+
+#### Exported `.mmpk` Uniform Type Identifier
+
+A custom [Exported Type Uniform Type Identifier](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/understanding_utis/understand_utis_declare/understand_utis_declare.html#:~:text=An%20exported%20UTI%20declaration%20means,it%20as%20an%20exported%20UTI.&text=To%20do%20so%2C%20your%20application,it%20as%20an%20imported%20declaration.) was created to narrow the scope of the document picker to browse for and import mobile map packages only. This Exported Type UTI can be found in the `Info.plist`.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>UTTypeConformsTo</key>
+		<array>
+			<string>public.data</string>
+			<string>public.archive</string>
+		</array>
+		<key>UTTypeDescription</key>
+		<string>Esri Mobile Map Package</string>
+		<key>UTTypeIdentifier</key>
+		<string>public.mmpk</string>
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mmpk</string>
+			</array>
+		</dict>
+	</dict>
+</array>
+</plist>
+```
 
 ## App developer patterns
 
@@ -41,7 +77,7 @@ Now that the mobile map package has been created and published, it can be downlo
 
 ### Authentication
 
-Offline Mapbook leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When in **Portal** mode, the app prompts you for your organization’s ArcGIS Online credentials used to obtain a token to be used for fetching mobile map packages from your organization. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
+Offline Mapbook leverages the ArcGIS [authentication](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/) model to provide access to resources via the the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/mobile-and-native-user-logins/) login pattern. When accessing a **Portal**, the app prompts the user for their credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple to use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -66,7 +102,7 @@ Any time a secured service issues an authentication challenge, the `AGSOAuthConf
 iOS knows to call the `UIApplicationDelegate` with this URL, and we pass that directly to an ArcGIS Runtime SDK helper function to retrieve a token:
 
 ``` Swift
-// UIApplicationDelegate function called when "mapbook-ios://auth" is opened.
+// UIApplicationDelegate function called when "mapbook://auth" is opened.
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     // Pass the OAuth callback through to the ArcGIS Runtime helper function
     AGSApplicationDelegate.shared().application(app, open: url, options: options)
@@ -80,34 +116,21 @@ To tell iOS to call back like this, Offline Mapbook configures a `URL Type` in t
 
 <img src="/docs/images/configure-url-type.png" width="900"  />
 
-Note the value for URL Schemes. Combined with the text `auth` to make `mapbook-ios://auth`, this is the [redirect URI](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/dashboard/). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
+Note the value for URL Schemes. Combined with the text `auth` to make `mapbook://auth`, this is the [redirect URI](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app [here](https://developers.arcgis.com/dashboard/). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
 For more details on configuring the Offline Mapbook for OAuth, see [the main README.md](https://github.com/Esri/mapbook-ios#2-configuring-the-project)
 
 ### Identify
 
-Identify lets you recognize features on the map view. To know when the user interacts with the map view you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the idenitfy method on map view.
+Identify lets you recognize features on the map view. To know when the user interacts with the map view, you need to adopt the `AGSGeoViewTouchDelegate` protocol. The methods on the protocol inform about single tap, long tap, force tap etc. To identify features, the tapped location is used with the identify method on map view.
 
 ```swift
+extension MapViewController: AGSGeoViewTouchDelegate {
 
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
-
-        //identify
-        self.mapView.identifyLayers(atScreenPoint: screenPoint, tolerance: 12, returnPopupsOnly: false, maximumResultsPerLayer: 10) { [weak self] (identifyLayerResults, error) in
-
-            guard error == nil else {
-                SVProgressHUD.showError(withStatus: error!.localizedDescription, maskType: .gradient)
-                return
-            }
-
-            guard let results = identifyLayerResults else {
-                SVProgressHUD.showError(withStatus: "No features at the tapped location", maskType: .gradient)
-                return
-            }
-
-            //Show results
-        }
+        // Handle tap event...
     }
+}
 ```
 
 The API provides the ability to identify multiple layer types, with results being stored in `subLayerContent`. Developers should note that if they choose to identify other layer types, like `AGSArcGISMapImageLayer` for example, they would need to add that implementation themselves.
@@ -117,22 +140,34 @@ The API provides the ability to identify multiple layer types, with results bein
 Results of the identify action are displayed using [`PopUp`](https://developers.arcgis.com/ios/latest/swift/guide/essential-vocabulary.htm#GUID-3FD39DD2-FFEF-4010-9B90-09BF1E230E8F). The geoelements identified are used to initialize popups. And these popups are shown using `AGSPopupsViewController`.
 
 ```swift
+// gather pop-ups
+
 var popups:[AGSPopup] = []
 
 for result in results {
     for geoElement in result.geoElements {
         let popup = AGSPopup(geoElement: geoElement)
+        popup.popupDefinition.title = result.layerContent.name
         popups.append(popup)
     }
 }
 
-//show using popups view controller
-let popupsVC = AGSPopupsViewController(popups: popups, containerStyle: .navigationController)
-popupsVC.delegate = self
-self.present(popupsVC, animated: true, completion: nil)
+// show using pop-ups view controller
+
+guard !popups.isEmpty else { return }
+
+let popups = AGSPopupsViewController(popups: popups, containerStyle: .navigationBar)
+popups.delegate = self
+popups.modalPresentationStyle = .popover
+popups.popoverPresentationController?.permittedArrowDirections = [.up, .down]
+popups.popoverPresentationController?.sourceRect = CGRect(origin: screenPoint, size: CGSize.zero)
+popups.popoverPresentationController?.sourceView = mapView
+popups.popoverPresentationController?.delegate = self
+
+self.present(popups, animated: true, completion: nil)
 ```
 
-![Identify Results](/docs/images/identify-results-v1-1.png)
+![Identify Results](/docs/images/iPad-Pop-up.png)
 
 ### TOC & legend
 
@@ -169,143 +204,152 @@ private func populateLegends(with layers:[AGSLayer]) {
 }
 ```
 
-![Legend](/docs/images/legend-v1-1.png)
+![Legend](/docs/images/iPad-Legend.png)
 
 ### Bookmarks
 
-A `Bookmark` identifies a particular geographic location and time on an ArcGISMap. In Offline Mapbook, the list of bookmarks saved in the map are shown in the table view. You can select one to update the map view's viewpoint with the bookmarked viewpoint.
+A `Bookmark` identifies a particular geographic location and time on an ArcGIS Map. In Offline Mapbook, the list of bookmarks saved in the map are shown in the table view. You can select one to update the map view's viewpoint with the bookmarked viewpoint.
+
+The app uses the `BookmarksViewController` that ships with the ArcGIS Toolkit for iOS.
 
 ```swift
-func setBookmark(_ bookmark:AGSBookmark) {
-    guard let viewpoint = bookmark.viewpoint else {
-       return
+private func showBookmarks() {
+    // Bookmarks View Controller
+    let bookmarks = BookmarksViewController(geoView: mapView)
+    bookmarks.delegate = self
+    bookmarks.navigationItem.leftBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .done,
+        target: self,
+        action: #selector(done)
+    )
+    // Embed Bookmarks View Controller into a Navigation Controller
+    let navigation = UINavigationController(rootViewController: bookmarks)
+    navigation.modalPresentationStyle = .popover
+    navigation.popoverPresentationController?.barButtonItem = ellipsisButton
+    navigation.popoverPresentationController?.permittedArrowDirections = .up
+    // Present Bookmarks
+    present(navigation, animated: true, completion: nil)
+}
+```
+
+The map view controller responds to users interacting with the bookmarks view controller through its delegate.
+
+```swift
+func bookmarksViewController(_ bookmarksViewController: BookmarksViewController, didSelect bookmark: AGSBookmark) {
+
+    // dismiss if the device is an iPhone, otherwise the view will dismiss when the user taps done or taps out of the popover.
+    defer {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            bookmarksViewController.dismiss(animated: true, completion: nil)
+        }
     }
+
+    guard let viewpoint = bookmark.viewpoint else { return }
+
+    // set the map's view point to the geometry of the bookmark.
     self.mapView.setViewpoint(viewpoint, completion: nil)
 }
 ```
 
-![Bookmarks](/docs/images/bookmarks-v1-1.png)
+![Bookmarks](/docs/images/iPad-Bookmarks.png)
 
 ### Suggestions & search
 
-Typing the first few letters of an address into the search bar (e.g. “Str”) shows a number of suggestions. This is using a simple call on the `AGSLocatorTask`.
+Typing the first few letters of an address into the search bar (e.g. "123") shows a number of suggestions. This is using a simple call on the `AGSLocatorTask`.
 
 ```swift
-func suggestions(for text:String) {
+let params: AGSSuggestParameters = {
+    let suggestParameters = AGSSuggestParameters()
+    suggestParameters.maxResults = AppSettings.locatorSearchSuggestionSize ?? 12
+    return suggestParameters
+}()
 
-    guard let locatorTask = self.locatorTask else {
+self.suggestCancelable = locatorTask.suggest(
+    withSearchText: text,
+    parameters: params
+) { [weak self] (suggestResults, error) in
+    guard let self = self else { return }
+
+    guard error == nil else {
+        if let error = error as NSError?, error.code != NSUserCancelledError {
+            flash(error: error)
+        }
         return
     }
 
-    //cancel previous request
-    self.suggestCancelable?.cancel()
-
-    self.suggestCancelable = locatorTask.suggest(withSearchText: text) { [weak self] (suggestResults, error) in
-
-        guard error == nil else {
-            if let error = error as NSError?, error.code != NSUserCancelledError {
-                //Show error
-            }
-            return
-        }
-
-        guard let suggestResults = suggestResults else {
-            print("No suggestions")
-            return
-        }
-
-        //Show results...
+    if let results = suggestResults {
+        self.suggestResults = results
     }
+    else {
+        self.suggestResults = [AGSSuggestResult]()
+    }
+
+    self.tableView.reloadData()
 }
 ```
 
 Once a suggestion in the list has been selected by the user, the suggested address is geocoded using the geocode method of the `AGSLocatorTask`.
 
 ```swift
-func geocode(for suggestResult:AGSSuggestResult) {
+fileprivate func geocode(for suggestResult:AGSSuggestResult) {
 
-    guard let locatorTask = self.locatorTask else {
-        return
+    guard let locatorTask = locatorTask, locatorTask.loadStatus == .loaded else {
+        preconditionFailure("LocatorTask must be loaded.")
     }
 
-    self.geocodeCancelable?.cancel()
-
-    self.geocodeCancelable = locatorTask.geocode(with: suggestResult) { (geocodeResults, error) in
+    geocodeCancelable?.cancel()
+    geocodeCancelable = locatorTask.geocode(with: suggestResult) { [weak self] (geocodeResults, error) in
+        guard let self = self else { return }
 
         guard error == nil else {
             if let error = error as NSError?, error.code != NSUserCancelledError {
-                //Show error
+                flash(error: error)
             }
             return
         }
 
-        guard let geocodeResults = geocodeResults else {
-            print("No location found")
-            return
+        if let result = geocodeResults?.first {
+            self.delegate?.locatorSuggestionController(self, didFind: result)
         }
-
-        //Show results...
+        else {
+            self.delegate?.locatorSuggestionControllerFoundNoResults(self)
+        }
     }
 }
 ```
 
-![Suggestions](/docs/images/suggestion-v1-1.png)
+![Suggestions](/docs/images/iPad-search.png)
 
 ### Check for mobile map package updates
 
-When in **Portal** mode, every time you start the app or do a `Pull to Refresh` in the `Local Packages List` view, the app checks for updates to the downloaded packages by comparing the modified date of the portal item with the download date of the local package. When a user taps the mobile map package's table cell refresh button, if a newer version of the mobile map package is available, the app will update the mobile map package.
-
-![Check For Updates](/docs/images/check-for-updates-v1-1.png)
+When a user taps the mobile map package's table cell refresh button, if a newer version of the mobile map package is available, the app will update the mobile map package.
 
 ```swift
-func checkForUpdates(completion: (() -> Void)?) {
+func checkForUpdates(packages: [PortalAwareMobileMapPackage], completion: @escaping () -> Void) throws {
 
-    //if portal is nil. Should not be the case
-    if self.portal == nil {
-        completion?()
-        return
+    guard let portal = portal else { throw UnknownError() }
+
+    let coupled = packages.compactMap { (package) -> MMPKCoupled? in
+        guard let itemID = package.itemID else {
+            package.canUpdate = false
+            return nil
+        }
+        let item = AGSPortalItem(portal: portal, itemID: itemID)
+        return MMPKCoupled(package: package, item: item)
     }
 
-    //clear updatable item IDs array
-    self.updatableItemIDs = []
+    guard coupled.count > 0 else { completion(); return }
 
-    //use dispatch group to track multiple async completion calls
-    let dispatchGroup = DispatchGroup()
-
-    //for each package
-    for package in self.localPackages {
-
-        dispatchGroup.enter()
-
-        //create portal item
-        guard let portalItem = self.createPortalItem(forPackage: package) else {
-            dispatchGroup.leave()
-            continue
-        }
-
-        //load portal item
-        portalItem.load { [weak self] (error) in
-
-            dispatchGroup.leave()
-
-            guard error == nil else {
-                return
+    AGSLoadObjects(coupled.map({ $0.item })) { (_) in
+        for couple in coupled {
+            if let downloaded = couple.package.downloadDate, let modified = couple.item.modified {
+                couple.package.canUpdate = modified > downloaded
             }
-
-            //check if updated
-            if let downloadedDate = self?.downloadDate(of: package),
-                let modifiedDate = portalItem.modified,
-                modifiedDate > downloadedDate {
-
-                //add to the list
-                self?.updatableItemIDs.append(portalItem.itemID)
+            else {
+                couple.package.canUpdate = false
             }
         }
-    }
-
-    dispatchGroup.notify(queue: .main) {
-        //call completion once all async calls are completed
-        completion?()
+        completion()
     }
 }
 ```
@@ -316,12 +360,12 @@ Offline Mapbook for iOS is designed to work exclusively with [mobile map package
 
 This example app, however, has been tailored to leverage specific features of the SDK that depend on specific information being saved with a mobile map package. This was done with consideration of the following:
 
-- .mmpks with locator(s)
-- .mmpks with bookmark(s)
-- .mmpks with multiple maps
-- .mmpks whose maps have useful metadata
+- `.mmpks` with locator(s)
+- `.mmpks` with bookmark(s)
+- `.mmpks` with multiple maps
+- `.mmpks` whose maps have useful metadata
 
-Although .mmpks not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any  features, or the bookmarks sidebar may appear blank.
+Although `.mmpks` not containing this information may be still be opened and viewed, features built into the app to leverage this info may not appear relevant. For example, attempting to use the search bar may not locate any features, or the bookmarks sidebar may appear blank.
 
 With this in mind, read on below to learn how to create and share a mobile map package with your own data and take advantage of the full suite of capabilities offered in this example app.
 
