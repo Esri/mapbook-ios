@@ -11,7 +11,7 @@ Learn how to create and share mobile map packages so that you can take your orga
 
 ## Design considerations
 
-The app is designed to open mobile map packages stored on the **Device** mode or downloaded from a **Portal**.
+The app is designed to open mobile map packages stored on the **Device** or downloaded from a **Portal**.
 
 | iPhone | iPad |
 | --- | --- |
