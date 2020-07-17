@@ -1,6 +1,29 @@
 # Mapbook iOS
 This repo is home to the mobile mapbook app, an example application using the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/). Replace the paper maps you use for field work with offline maps.
 
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+
+- [Features](#features)   
+- [Best Practices](#best-practices)   
+- [Detailed Documentation](#detailed-documentation)   
+- [Get Started](#get-started)   
+   - [Fork the repo](#fork-the-repo)   
+   - [Clone the repo](#clone-the-repo)   
+      - [Command line Git](#command-line-git)   
+   - [Configuring a Remote for a Fork](#configuring-a-remote-for-a-fork)   
+   - [Configure the app](#configure-the-app)   
+      - [1. Register an Application](#1-register-an-application)   
+      - [2. Configuring the project](#2-configuring-the-project)   
+      - [3. License the app (Optional)](#3-license-the-app-optional)   
+- [Learn More](#learn-more)   
+- [Requirements](#requirements)   
+- [Contributing](#contributing)   
+- [MDTOC](#mdtoc)   
+- [Licensing](#licensing)   
+
+<!-- /MDTOC -->
+---
+
 ## Features
 - Mobile map packages
 - Feature layers
@@ -20,6 +43,9 @@ The project also demonstrates some patterns for building real-world apps around 
 * Asynchronous service and UI coding patterns
 * Internal application communication patterns
 * FileManager used with ArcGIS
+
+## Detailed Documentation
+Read the [docs](./docs/README.md) for a detailed explanation of the application, including its architecture and how it leverages the ArcGIS platform, as well as how you can begin using the app right away.
 
 ## Get Started
 You will need [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5 and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
@@ -109,6 +135,9 @@ Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pu
 1. Report issues
 1. Contribute code
 1. Improve documentation
+
+## MDTOC
+Generation of this and other documents' table of contents in this repository was performed using the [MDTOC package for Atom](https://atom.io/packages/atom-mdtoc).
 
 ## Licensing
 Copyright 2017 Esri
