@@ -1,3 +1,8 @@
+# v2.0.1
+
+- Adds doc table of contents to root README.md and docs/index.md
+- Renames docs/index.md to [docs/README.md](/docs/README.md)
+
 # v2.0.0
 
 * Brand new UI & UX
@@ -25,7 +30,7 @@
 
 # v1.1.2
 
-* Adds [app documentation](/docs/index.md) from the ArcGIS for Developers site.
+* Adds [app documentation](/docs/README.md) from the ArcGIS for Developers site.
 
 # v1.1.1
 

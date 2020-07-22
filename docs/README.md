@@ -1,3 +1,40 @@
+# Contents
+
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+
+- [Description](#description)   
+- [Design considerations](#design-considerations)   
+   - [Portal](#portal)   
+      - [Portal Authentication](#portal-authentication)   
+      - [Search portal](#search-portal)   
+   - [Device](#device)   
+      - [Exported `.mmpk` Uniform Type Identifier](#exported-mmpk-uniform-type-identifier)   
+- [App developer patterns](#app-developer-patterns)   
+   - [Authentication](#authentication)   
+   - [Identify](#identify)   
+   - [Displaying identify results](#displaying-identify-results)   
+   - [TOC & legend](#toc-legend)   
+   - [Bookmarks](#bookmarks)   
+   - [Suggestions & search](#suggestions-search)   
+   - [Check for mobile map package updates](#check-for-mobile-map-package-updates)   
+- [Create your own mobile map packages](#create-your-own-mobile-map-packages)   
+   - [Data scenario](#data-scenario)   
+   - [Authoring the data for viewing](#authoring-the-data-for-viewing)   
+      - [Setting symbology](#setting-symbology)   
+      - [Creating a reference backdrop](#creating-a-reference-backdrop)   
+      - [Creating locators](#creating-locators)   
+      - [Setting bookmarks](#setting-bookmarks)   
+      - [Metadata and thumbnails](#metadata-and-thumbnails)   
+   - [Packaging for consumption](#packaging-for-consumption)   
+      - [Including multiple maps](#including-multiple-maps)   
+      - [Including the locator](#including-the-locator)   
+   - [Sharing the mobile map package](#sharing-the-mobile-map-package)   
+      - [Using the ArcGIS Pro 'Share Package' tool](#using-the-arcgis-pro-share-package-tool)   
+      - [Uploading directly from the 'My Content' page](#uploading-directly-from-the-my-content-page)   
+
+<!-- /MDTOC -->
+---
+
 ## Description
 
 Learn how to create and share mobile map packages so that you can take your organization's maps offline and view them in the field with an iOS app. This example demonstrate how to:
