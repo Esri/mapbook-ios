@@ -1,3 +1,7 @@
+# v2.0.2
+
+
+
 # v2.0.1
 
 - Adds doc table of contents to root README.md and docs/index.md
