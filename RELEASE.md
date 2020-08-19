@@ -1,6 +1,6 @@
 # v2.0.2
 
-
+- Hides update button for portal mobile map package if package is current.
 
 # v2.0.1
 
