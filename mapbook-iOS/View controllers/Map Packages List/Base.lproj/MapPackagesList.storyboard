@@ -190,8 +190,8 @@
                                     <outlet property="sizeLabel" destination="goD-Sh-OAp" id="AwI-Kb-aH0"/>
                                     <outlet property="thumbnailImageView" destination="Xaf-DV-dbd" id="oDj-wM-7Tb"/>
                                     <outlet property="titleLabel" destination="nBl-9k-EDx" id="gfg-DP-gvf"/>
+                                    <outlet property="updateActivityStackView" destination="XEj-gH-swL" id="7xo-9z-7bW"/>
                                     <outlet property="updateButton" destination="xTd-lI-gow" id="611-wa-PhU"/>
-                                    <outlet property="updateStackActivityView" destination="XEj-gH-swL" id="7xo-9z-7bW"/>
                                     <outlet property="updateStackView" destination="MMc-k7-VDX" id="wun-zM-qpS"/>
                                 </connections>
                             </tableViewCell>
