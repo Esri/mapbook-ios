@@ -100,7 +100,6 @@
 		3E062F5F1F424C350061D84F /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3E1D6E871F2691FE00FB119A /* PortalBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalBrowserViewController.swift; sourceTree = "<group>"; };
 		3E1D6E8D1F280D0300FB119A /* PortalItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalItemCell.swift; sourceTree = "<group>"; };
-		3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mapbook-iOSBridgingHeader.h"; sourceTree = "<group>"; };
 		3ECCFF8F1F2AAB6100E703B8 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		3EDC84461F1E8B94002DBCF2 /* mapbook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapbook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC84491F1E8B94002DBCF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -201,7 +200,6 @@
 				944FC14E202404C1007535DB /* AppIcon.xcassets */,
 				3EDC84521F1E8B94002DBCF2 /* LaunchScreen.storyboard */,
 				3EDC84551F1E8B94002DBCF2 /* Info.plist */,
-				3E6E06C31F32385800921439 /* mapbook-iOSBridgingHeader.h */,
 			);
 			path = "mapbook-iOS";
 			sourceTree = "<group>";
@@ -704,7 +702,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.esri.arcgisruntime.opensourceapps.mapbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -730,7 +727,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.esri.arcgisruntime.opensourceapps.mapbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "mapbook-iOS/mapbook-iOSBridgingHeader.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
