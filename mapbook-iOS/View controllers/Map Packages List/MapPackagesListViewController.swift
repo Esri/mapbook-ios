@@ -459,6 +459,7 @@ class LocalPackageCell: UITableViewCell {
     @IBOutlet weak var updateButton:UIButton!
     @IBOutlet weak var activityIndicatorView:UIActivityIndicatorView!
     @IBOutlet weak var updateStackView:UIStackView!
+    @IBOutlet weak var updateActivityStackView: UIStackView!
     
     weak var delegate: LocalPackageCellDelegate?
         
@@ -484,6 +485,8 @@ class LocalPackageCell: UITableViewCell {
             else {
                 self.isUpdating = false
             }
+            
+            updateActivityStackView.isHidden = !portalPackage.canUpdate
             
             _portalAwarePackage = portalPackage
         }
