@@ -50,7 +50,7 @@ Read the [docs](./docs/README.md) for a detailed explanation of the application,
 ## Get Started
 You will need [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5 and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
 
-The *Mapbook iOS app* now incorporates the [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios) (v100.9 or later) for additional functionality.
+*Mapbook for iOS* now incorporates the [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios) (v100.9 or later) for additional functionality.
 
 ### Fork the repo
 **Fork** the [Mapbook App](https://github.com/Esri/mapbook-ios/fork) repo.
