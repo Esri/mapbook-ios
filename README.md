@@ -50,11 +50,21 @@ Read the [docs](./docs/README.md) for a detailed explanation of the application,
 ## Get Started
 You will need [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5 and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
 
+The *Mapbook iOS app* now incorporates the [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios) (v100.9 or later) for additional functionality.
+
 ### Fork the repo
 **Fork** the [Mapbook App](https://github.com/Esri/mapbook-ios/fork) repo.
 
 ### Clone the repo
 Once you have forked the repo, you can make a clone.
+
+> Make sure to use the "recursive" option to ensure you get the **ArcGIS Runtime Toolkit** submodule
+>
+>`git clone --recursive [URL to forked Git repo]`
+>
+> If you've already cloned the repo without the submodule, you can load the submodule using
+>
+>`git submodule update --init`
 
 #### Command line Git
 1. [Clone the Mapbook App](https://help.github.com/articles/fork-a-repo#step-2-clone-your-fork)
