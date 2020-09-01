@@ -1,6 +1,7 @@
 # v2.0.2
 
 - Hides update button for portal mobile map package if package is current.
+- Certification for the 100.9.0 release of the ArcGIS Runtime SDK for iOS.
 
 # v2.0.1
 
