@@ -1,3 +1,10 @@
+# v2.0.3
+
+- The 100.10.0 release of the ArcGIS Runtime for iOS is now distributed as a binary framework.  This necessitated the following changes in the Mapbook Xcode project file:
+    - The `ArcGIS.framework` framework has been replaced with `ArcGIS.xcframework`.
+    - The Build Phase which ran the `strip-frameworks.sh` shell script is no longer necessary.
+- Certification for the 100.10.0 release of the ArcGIS Runtime SDK for iOS.
+
 # v2.0.2
 
 - Hides update button for portal mobile map package if package is current.

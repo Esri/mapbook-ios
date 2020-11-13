@@ -52,6 +52,8 @@ You will need [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12
 
 *Mapbook for iOS* now incorporates the [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios) (v100.9 or later) for additional functionality.
 
+Note that the 100.10.0 release of the ArcGIS Runtime SDK for iOS replaces the installed "fat framework" `ArcGIS.framework` with a new binary framework `ArcGIS.xcframework`.  It also changes the location of the installed framework file and removes the need for the `strip-frameworks.sh` Build Phase.  These changes have been incorporated in the lastest release of Mapbook.  If you do not wish to upgrade to the 100.10.0 release of the SDK, but still wish to use the latest Mapbook release, you will need to remove the `ArcGIS.xcframework` embedded file, re-add the pre-100.10.0 `ArcGIS.framework` and re-add the Build Phase which executed the `strip-frameworks.sh` shell script.  You will also need to use the 100.9.0 release of the ArcGIS Toolkit for iOS.
+
 ### Fork the repo
 **Fork** the [Mapbook App](https://github.com/Esri/mapbook-ios/fork) repo.
 
