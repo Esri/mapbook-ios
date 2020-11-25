@@ -145,11 +145,7 @@ class MapViewController: UIViewController {
     private func showSearch(result: AGSGeocodeResult) {
         shouldShowSearch.toggle()
         if let location = result.displayLocation, let extent = result.extent {
-            if #available(iOS 13.0, *) {
-                mapView.callout.accessoryButtonType = .close
-            } else {
-                mapView.callout.isAccessoryButtonHidden = true
-            }
+            mapView.callout.accessoryButtonType = .close
             mapView.callout.delegate = self
             mapView.callout.title = result.label
             mapView.callout.show(
