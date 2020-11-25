@@ -135,8 +135,9 @@ Learn more about the App Architecture and usage [here](/docs/index.md).
 * [Xcode 11 and Swift 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 * [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm#ESRI_SECTION1_D57435A2BEBC4D29AFA3A4CAA722506A), version 100.10.
 * [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios), version 100.10.
+* Device or Simulator running iOS 13.0 or later.
 
-**Note:** Starting from the 100.8 release, the *ArcGIS Runtime SDK for iOS* uses Apple's [Metal](https://developer.apple.com/metal/) framework to render maps and scenes. In order to run your app in a simulator you must be developing on **macOS Catalina**, using **Xcode 11**, and simulating **iOS 13**.
+**Note:** Starting from the 100.8 release, the ArcGIS Runtime SDK for iOS uses Apple's Metal framework to display maps and scenes. However, Xcode does not support Metal based rendering in any version of iOS simulator on macOS Mojave. If you are developing map or scene based apps in these environments, you will need test and debug them on a physical device instead of the simulator.
 
 **Note:** The 100.10 release of the ArcGIS Runtime SDK for iOS replaces the installed "fat framework" `ArcGIS.framework` with a new binary framework `ArcGIS.xcframework`.  It also changes the location of the installed framework file and removes the need for the `strip-frameworks.sh` Build Phase.  These changes have been incorporated in the lastest release of *Mapbook iOS*.
 
