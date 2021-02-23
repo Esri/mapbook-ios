@@ -12,15 +12,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
-// For additional information, contact:
-// Environmental Systems Research Institute, Inc.
-// Attn: Contracts Dept
-// 380 New York Street
-// Redlands, California, USA 92373
-//
-// email: contracts@esri.com
-//
 
 import UIKit
 
