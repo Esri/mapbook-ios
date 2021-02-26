@@ -93,7 +93,7 @@ Before running the app, it must be configured with application credentials. Foll
 For OAuth configuration, create a new Application in your ArcGIS Portal to obtain a `Client ID` and configure a `Redirect URL`. The **Client ID** configures the ArcGIS Runtime to show your users, during the log in process, that the application was built by you and can be trusted. The **Redirect URL** configures the OAuth process to then return to your app once authentication is complete.
 
 1. Log in to [https://developers.arcgis.com](https://developers.arcgis.com) with either your ArcGIS Organizational Account or an ArcGIS Developer Account.
-1. Visit your [dashboard](https://developers.arcgis.com/dashboard) and [create a new application](https://developers.arcgis.com/applications/new).
+1. Visit your [dashboard](https://developers.arcgis.com/dashboard) and [create a new application](https://developers.arcgis.com/applications/).
 1. In the Authentication tab, note the **Client ID**
 1. In the Authentication tab **add a redirect URI** to the **Current Redirect URIs** section. By default the Xcode project is configured to authentication callbacks using:
 > **mapbook://auth**
@@ -129,7 +129,7 @@ This step is optional during development, but _required_ for deployment.
 1. Set the value of the static variable `licenseKey` to the value from step 1.
 
 ## Learn More
-Learn more about the App Architecture and usage [here](/docs/index.md).
+Learn more about the App Architecture and usage [here](/docs/README.md).
 
 ## Requirements
 * [Xcode 12 and Swift 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
