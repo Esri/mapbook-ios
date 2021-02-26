@@ -132,8 +132,8 @@ This step is optional during development, but _required_ for deployment.
 Learn more about the App Architecture and usage [here](/docs/index.md).
 
 ## Requirements
-* [Xcode 11 and Swift 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
-* [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm#ESRI_SECTION1_D57435A2BEBC4D29AFA3A4CAA722506A), version 100.10.
+* [Xcode 12 and Swift 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+* [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/), version 100.10.
 * [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios), version 100.10.
 * Device or Simulator running iOS 13.0 or later.
 
@@ -163,4 +163,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 A copy of the license is available in the repository's [LICENSE](LICENSE) file.
 
-For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/ios/latest/swift/guide/license-your-app.htm).
+For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/ios/license-and-deployment/).
