@@ -48,9 +48,7 @@ The project also demonstrates some patterns for building real-world apps around 
 Read the [docs](./docs/README.md) for a detailed explanation of the application, including its architecture and how it leverages the ArcGIS platform, as well as how you can begin using the app right away.
 
 ## Get Started
-You will need [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5 and the [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/latest/swift/guide/install.htm) (v100.1 or later) installed locally.
-
-*Mapbook for iOS* now incorporates the [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios) (v100.9 or later) for additional functionality.
+Make sure you've installed Xcode and the ArcGIS Runtime SDK for iOS and that they meet these [requirements](#requirements).
 
 ### Fork the repo
 **Fork** the [Mapbook App](https://github.com/Esri/mapbook-ios/fork) repo.
@@ -95,7 +93,7 @@ Before running the app, it must be configured with application credentials. Foll
 For OAuth configuration, create a new Application in your ArcGIS Portal to obtain a `Client ID` and configure a `Redirect URL`. The **Client ID** configures the ArcGIS Runtime to show your users, during the log in process, that the application was built by you and can be trusted. The **Redirect URL** configures the OAuth process to then return to your app once authentication is complete.
 
 1. Log in to [https://developers.arcgis.com](https://developers.arcgis.com) with either your ArcGIS Organizational Account or an ArcGIS Developer Account.
-1. Visit your [dashboard](https://developers.arcgis.com/dashboard) and [create a new application](https://developers.arcgis.com/applications/new).
+1. Visit your [dashboard](https://developers.arcgis.com/dashboard) and [create a new application](https://developers.arcgis.com/applications/).
 1. In the Authentication tab, note the **Client ID**
 1. In the Authentication tab **add a redirect URI** to the **Current Redirect URIs** section. By default the Xcode project is configured to authentication callbacks using:
 > **mapbook://auth**
@@ -131,13 +129,18 @@ This step is optional during development, but _required_ for deployment.
 1. Set the value of the static variable `licenseKey` to the value from step 1.
 
 ## Learn More
-Learn more about the App Architecture and usage [here](/docs/index.md).
+Learn more about the App Architecture and usage [here](/docs/README.md).
 
 ## Requirements
-* [Xcode 11](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) with Swift 5
-* [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/)
+* [Xcode 12 and Swift 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+* [ArcGIS Runtime SDK for iOS](https://developers.arcgis.com/ios/), version 100.10.
+* [ArcGIS Runtime Toolkit for iOS](https://github.com/Esri/arcgis-runtime-toolkit-ios), version 100.10.
+* Device or Simulator running iOS 13.0 or later.
 
-**Note:** Starting from the 100.8 release, the *ArcGIS Runtime SDK for iOS* uses Apple's [Metal](https://developer.apple.com/metal/) framework to render maps and scenes. In order to run your app in a simulator you must be developing on **macOS Catalina**, using **Xcode 11**, and simulating **iOS 13**.
+**Note:** Starting from the 100.8 release, the ArcGIS Runtime SDK for iOS uses Apple's Metal framework to display maps and scenes. However, Xcode does not support Metal based rendering in any version of iOS simulator on macOS Mojave. If you are developing map or scene based apps in these environments, you will need test and debug them on a physical device instead of the simulator.
+
+**Note:** The 100.10 release of the ArcGIS Runtime SDK for iOS replaces the installed "fat framework" `ArcGIS.framework` with a new binary framework `ArcGIS.xcframework`.  It also changes the location of the installed framework file and removes the need for the `strip-frameworks.sh` Build Phase.  These changes have been incorporated in the lastest release of *Mapbook iOS*.
+
 ## Contributing
 Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
 
@@ -160,4 +163,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 A copy of the license is available in the repository's [LICENSE](LICENSE) file.
 
-For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/ios/latest/swift/guide/license-your-app.htm).
+For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/ios/license-and-deployment/).

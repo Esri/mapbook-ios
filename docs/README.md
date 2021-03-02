@@ -174,7 +174,7 @@ The API provides the ability to identify multiple layer types, with results bein
 
 ### Displaying identify results
 
-Results of the identify action are displayed using [`PopUp`](https://developers.arcgis.com/ios/latest/swift/guide/essential-vocabulary.htm#GUID-3FD39DD2-FFEF-4010-9B90-09BF1E230E8F). The geoelements identified are used to initialize popups. And these popups are shown using `AGSPopupsViewController`.
+Results of the identify action are displayed using [`PopUp`](https://developers.arcgis.com/documentation/glossary/pop-up/). The geoelements identified are used to initialize popups. And these popups are shown using `AGSPopupsViewController`.
 
 ```swift
 // gather pop-ups
@@ -355,7 +355,7 @@ fileprivate func geocode(for suggestResult:AGSSuggestResult) {
 }
 ```
 
-![Suggestions](/docs/images/iPad-search.png)
+![Suggestions](/docs/images/iPad-Search.png)
 
 ### Check for mobile map package updates
 
