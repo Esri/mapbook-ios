@@ -1,3 +1,7 @@
+# v2.0.4
+
+-
+
 # v2.0.3
 
 - The 100.10.0 release of the ArcGIS Runtime for iOS is now distributed as a binary framework.  This necessitated the following changes in the Mapbook Xcode project file:
