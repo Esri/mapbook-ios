@@ -30,16 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        
-        if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            urlComponents.scheme == AppSettings.appSchema, urlComponents.host == AppSettings.authURLPath {
-            
-            AGSApplicationDelegate.shared().application(app, open: url, options: options)
-        }
-        return true
-    }
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         setLicenseKey()
