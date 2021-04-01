@@ -1,6 +1,7 @@
 # v2.0.4
 
--
+- Certification for the 100.11.0 release of the ArcGIS Runtime SDK for iOS.
+- Removes now-unused app delegate method.
 
 # v2.0.3
 
