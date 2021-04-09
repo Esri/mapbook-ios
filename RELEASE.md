@@ -3,6 +3,7 @@
 - Certification for the 100.11.0 release of the ArcGIS Runtime SDK for iOS.
 - Removes now-unused app delegate method.
 - Introduces `ArcGIS` and `ArcGISToolkit` as Swift Package Manager dependencies.
+- Swaps `PKHUD` for OSA home-baked `ProgressViewController`.
 
 # v2.0.3
 
