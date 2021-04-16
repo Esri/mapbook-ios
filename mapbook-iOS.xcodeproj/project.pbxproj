@@ -86,7 +86,6 @@
 		94C72936242012C500F37D96 /* LocatorSearch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LocatorSearch.storyboard; sourceTree = "<group>"; };
 		94C729392420139800F37D96 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		94C7293D2420175200F37D96 /* MapPackage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapPackage.storyboard; sourceTree = "<group>"; };
-		E4F93A5E255CA3ED00298E30 /* ArcGIS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ArcGIS.xcframework; path = $HOME/Library/SDKs/ArcGIS/Frameworks/ArcGIS.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +106,6 @@
 			children = (
 				3EDC84481F1E8B94002DBCF2 /* mapbook-iOS */,
 				3EDC84471F1E8B94002DBCF2 /* Products */,
-				94D55EC1246C93940055BEFE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -265,14 +263,6 @@
 				94A53EC82420366B006B0A27 /* MapPackageViewController.swift */,
 			);
 			path = "Map Package";
-			sourceTree = "<group>";
-		};
-		94D55EC1246C93940055BEFE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E4F93A5E255CA3ED00298E30 /* ArcGIS.xcframework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
