@@ -1,3 +1,10 @@
+# v2.0.4
+
+- Certification for the 100.11.0 release of the ArcGIS Runtime SDK for iOS.
+- Removes now-unused app delegate method.
+- Introduces `ArcGIS` and `ArcGISToolkit` as Swift Package Manager dependencies.
+- Swaps `PKHUD` for OSA home-baked `ProgressViewController`.
+
 # v2.0.3
 
 - The 100.10.0 release of the ArcGIS Runtime for iOS is now distributed as a binary framework.  This necessitated the following changes in the Mapbook Xcode project file:
