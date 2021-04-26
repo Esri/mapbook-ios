@@ -595,7 +595,7 @@
 			repositoryURL = "https://github.com/Esri/arcgis-runtime-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 100.10.0;
+				minimumVersion = 100.11.0;
 			};
 		};
 		94F66B6826321F620001D252 /* XCRemoteSwiftPackageReference "arcgis-runtime-toolkit-ios" */ = {
